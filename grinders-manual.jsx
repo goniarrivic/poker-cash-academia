@@ -337,20 +337,22 @@ const content = {
               },
               {
                 type: "rangeBlock",
-                label: "Rango de apertura MP (~20%)",
+                label: "Rango de apertura MP (~28%)",
                 hands: [
-                  { group: "Pares", cards: "AA-66" },
-                  { group: "Ases suited", cards: "AKs, AQs, AJs, ATs, A9s, A8s" },
+                  { group: "Pares", cards: "AA-55" },
+                  { group: "Ases suited", cards: "AKs-A2s (todos)" },
                   { group: "Ases offsuit", cards: "AKo, AQo, AJo" },
-                  { group: "Broadways suited", cards: "KQs, KJs, KTs, QJs, QTs, JTs" },
-                  { group: "Broadways offsuit", cards: "KQo, KJo" },
-                  { group: "Suited connectors", cards: "T9s" },
+                  { group: "Kings suited", cards: "KQs-K9s" },
+                  { group: "Kings offsuit", cards: "KQo" },
+                  { group: "Queens suited", cards: "QJs-Q9s" },
+                  { group: "Jacks suited", cards: "JTs, J9s" },
+                  { group: "Suited connectors", cards: "T9s, T8s, 98s, 97s, 87s, 86s, 76s, 75s, 65s" },
                 ],
               },
               {
                 type: "text",
                 content:
-                  "La diferencia principal respecto a UTG es que añadimos 66 y 77 (ya teníamos 77 en UTG en algunas variantes, pero aquí lo consolidamos), y ampliamos los broadway suited como KTs, QTs y JTs. También empezamos a abrir AJo, que desde UTG solíamos evitar por su dificultad de navegación multiway.",
+                  "Desde MP ampliamos el rango considerablemente: todos los ases suited (A2s-AKs), pares hasta 55, reyes suited hasta K9s, damas suited hasta Q9s, jacks suited hasta J9s, y suited connectors hasta 65s. El rango crece respecto a UTG porque hay un jugador menos por detrás y las manos especulativas tienen más implied odds.",
               },
               {
                 type: "callout",
@@ -377,20 +379,23 @@ const content = {
               },
               {
                 type: "rangeBlock",
-                label: "Rango de apertura CO (~27%)",
+                label: "Rango de apertura CO (~33%)",
                 hands: [
-                  { group: "Pares", cards: "AA-55" },
-                  { group: "Ases suited", cards: "AKs-A5s" },
-                  { group: "Ases offsuit", cards: "AKo, AQo, AJo, ATo" },
-                  { group: "Broadways suited", cards: "KQs, KJs, KTs, K9s, QJs, QTs, Q9s, JTs, J9s, T9s" },
-                  { group: "Broadways offsuit", cards: "KQo, KJo, QJo" },
-                  { group: "Suited connectors", cards: "98s, 87s, 76s" },
+                  { group: "Pares", cards: "AA-44" },
+                  { group: "Ases suited", cards: "AKs-A2s (todos)" },
+                  { group: "Ases offsuit", cards: "AKo, AQo, AJo, A9o" },
+                  { group: "Kings suited", cards: "KQs-K8s" },
+                  { group: "Kings offsuit", cards: "KQo, KJo" },
+                  { group: "Queens suited", cards: "QJs-Q9s" },
+                  { group: "Jacks suited", cards: "JTs, J9s" },
+                  { group: "Broadway offsuit", cards: "QTo, JTo" },
+                  { group: "Suited connectors", cards: "T9s, T8s, 98s, 97s, 87s, 86s, 76s, 75s, 65s" },
                 ],
               },
               {
                 type: "text",
                 content:
-                  "Desde CO empezamos a abrir suited connectors medios como 98s, 87s y 76s. Estas manos tienen excelente jugabilidad en botes en posición y con blinds por detrás que pueden pagar calles. También ampliamos los ases suited hasta A5s — los bajos (A5s-A2s) tienen valor adicional como manos de 3-bet bluff con blockers.",
+                  "Desde CO heredamos todo el rango de MP y añadimos: 44, K8s, A9o, KJo, QTo y JTo. Con solo BTN y blinds por detrás, las manos con potencial de valor y posición son muy rentables. A9o, QTo y JTo son abribles desde CO porque el contexto posicional lo justifica.",
               },
               {
                 type: "callout",
@@ -417,22 +422,25 @@ const content = {
               },
               {
                 type: "rangeBlock",
-                label: "Rango de apertura BTN (~42%)",
+                label: "Rango de apertura BTN (~52%)",
                 hands: [
-                  { group: "Pares", cards: "AA-22" },
-                  { group: "Ases suited", cards: "AKs-A2s" },
-                  { group: "Ases offsuit", cards: "AKo-A8o" },
-                  { group: "Kings suited", cards: "KQs-K6s" },
-                  { group: "Kings offsuit", cards: "KQo, KJo, KTo" },
-                  { group: "Broadways suited", cards: "QJs-Q8s, JTs-J8s, T9s-T7s" },
-                  { group: "Broadways offsuit", cards: "QJo, QTo, JTo" },
-                  { group: "Suited connectors/gappers", cards: "98s-96s, 87s-85s, 76s-74s, 65s, 64s, 54s, 53s" },
+                  { group: "Pares", cards: "AA-22 (todos)" },
+                  { group: "Ases suited", cards: "AKs-A2s (todos)" },
+                  { group: "Ases offsuit", cards: "AKo-A2o (todos)" },
+                  { group: "Kings suited", cards: "KQs-K2s (todos)" },
+                  { group: "Kings offsuit", cards: "KQo-K8o" },
+                  { group: "Queens suited", cards: "QJs-Q7s" },
+                  { group: "Queens offsuit", cards: "QJo-Q9o" },
+                  { group: "Jacks suited", cards: "JTs-J7s" },
+                  { group: "Jacks offsuit", cards: "JTo" },
+                  { group: "Tens suited", cards: "T9s-T7s" },
+                  { group: "Suited connectors/gappers", cards: "98s-96s, 87s-85s, 76s-74s, 65s-63s, 54s, 53s" },
                 ],
               },
               {
                 type: "text",
                 content:
-                  "Desde BTN abrimos todos los pares (incluyendo 22), todos los ases suited (A2s-AKs) y prácticamente todo el espectro de broadways. Los suited connectors y gappers con cierta conectividad también entran. Manos como 74s o 64s parecen débiles, pero en posición con implied odds y solo los blinds detrás, son aperturas rentables.",
+                  "Desde BTN abrimos absolutamente todos los pares, todos los ases suited y offsuit, todos los kings suited, kings offsuit hasta K8o, queens suited hasta Q7s, jacks suited hasta J7s, tens suited hasta T7s, y una amplia gama de suited gappers. Con solo los blinds detrás actuando OOP, incluso manos como Q7s o 74s son rentables a largo plazo.",
               },
               {
                 type: "callout",
@@ -460,20 +468,25 @@ const content = {
               {
                 type: "text",
                 content:
-                  "Sin embargo, cuando los jugadores anteriores han foldeado y solo tienes al BB detrás, la situación es diferente: estás jugando heads-up, y el BB tampoco tiene posición preflop (ya puso la ciega entera). Esto te permite abrir relativamente amplio, pero debes hacerlo con un tamaño mayor para compensar la desventaja posicional postflop.",
+                  "Sin embargo, cuando los jugadores anteriores han foldeado y solo tienes al BB detrás, la situación cambia radicalmente: estás jugando heads-up. Dado que es un enfrentamiento de dos jugadores donde el BB actúa OOP postflop, se puede abrir un rango muy amplio — prácticamente el 62% de las manos. La clave es usar un tamaño de 3x para compensar la desventaja posicional.",
               },
               {
                 type: "rangeBlock",
-                label: "Rango de apertura SB vs BB (~35%)",
+                label: "Rango de apertura SB vs BB (~62%)",
                 hands: [
-                  { group: "Pares", cards: "AA-22" },
-                  { group: "Ases suited", cards: "AKs-A2s" },
-                  { group: "Ases offsuit", cards: "AKo-A7o" },
-                  { group: "Kings suited", cards: "KQs-K7s" },
-                  { group: "Kings offsuit", cards: "KQo, KJo, KTo, K9o" },
-                  { group: "Broadways suited", cards: "QJs-Q8s, JTs-J8s, T9s-T8s" },
-                  { group: "Broadways offsuit", cards: "QJo, QTo, JTo" },
-                  { group: "Suited connectors/gappers", cards: "98s-96s, 87s-85s, 76s-74s, 65s-63s, 54s, 53s" },
+                  { group: "Pares", cards: "AA-22 (todos)" },
+                  { group: "Ases suited", cards: "AKs-A2s (todos)" },
+                  { group: "Ases offsuit", cards: "AKo-A2o (todos)" },
+                  { group: "Kings suited", cards: "KQs-K2s (todos)" },
+                  { group: "Kings offsuit", cards: "KQo-K2o (todos)" },
+                  { group: "Queens suited", cards: "QJs-Q2s (todos)" },
+                  { group: "Queens offsuit", cards: "QJo-Q6o" },
+                  { group: "Jacks suited", cards: "JTs-J4s (excl. J3s-J2s)" },
+                  { group: "Jacks offsuit", cards: "JTo-J6o" },
+                  { group: "Tens suited", cards: "T9s-T5s (excl. T4s-T2s)" },
+                  { group: "Tens offsuit", cards: "T9o-T6o" },
+                  { group: "Nines y menores suited", cards: "98s-95s, 87s-85s, 76s-74s, 65s-64s, 54s-53s, 43s (excl. los más débiles)" },
+                  { group: "Nines y menores offsuit", cards: "98o-96o, 87o-86o, 76o, 65o" },
                 ],
               },
               {
@@ -486,49 +499,6 @@ const content = {
                 type: "text",
                 content:
                   "Una estrategia alternativa moderna es usar un rango de 3-bet desde SB en lugar de abrir muchas manos. Si hay un raise de BTN o CO, a menudo es mejor 3-bettear con las mejores manos y foldear el resto, en lugar de hacer cold call (que te deja OOP sin iniciativa).",
-              },
-            ],
-          },
-          {
-            title: "BB — Big Blind",
-            body: [
-              {
-                type: "positionHeader",
-                name: "BB",
-                range: "Defensa amplia",
-                size: "No aplica",
-                color: "#06b6d4",
-              },
-              {
-                type: "text",
-                content:
-                  "El Big Blind es una posición única: ya has puesto 1 BB de forma obligatoria, lo que te da un descuento en cualquier call. Si hay un open de 3x y tú estás en BB, solo te cuesta 2 BB adicionales para ver el flop con pot odds de 3:2. Esto significa que debes defender mucho más amplio de lo que parecería intuitivo.",
-              },
-              {
-                type: "text",
-                content:
-                  "El BB no 'abre' el bote en el sentido tradicional — en lugar de eso, defiende (call o 3-bet) frente a las aperturas de los demás. Si todos foldean y solo queda el SB, el BB puede levantar (squeeze) con un rango amplio, pero esa es una situación especial.",
-              },
-              {
-                type: "callout",
-                label: "Minimum Defense Frequency (MDF)",
-                content:
-                  "La MDF es la frecuencia mínima con la que debes defender para que el rival no pueda abrir con cualquier mano y ganar. Con un open de 3x (el rival arrisga 2 BB para ganar 1.5 BB de blinds), la MDF aproximada es del 50%. Defender menos del 50% regala EV al abridor.",
-              },
-              {
-                type: "rangeBlock",
-                label: "Defensa BB vs open de BTN (3x) — ~50%",
-                hands: [
-                  { group: "3-bet para valor", cards: "AA, KK, QQ, JJ, AKs, AKo" },
-                  { group: "3-bet bluff / mixto", cards: "A5s-A2s, K4s-K2s, Q4s, J4s, T4s" },
-                  { group: "Call (valor)", cards: "TT-22, AQs-A6s, KQs-K7s, QJs-Q8s, JTs-J8s, T9s-T7s, 98s-96s, 87s-85s, 76s-74s, 65s-63s" },
-                  { group: "Call (broadway offsuit)", cards: "AQo, AJo, ATo, A9o, KQo, KJo, KTo, QJo, QTo, JTo" },
-                ],
-              },
-              {
-                type: "text",
-                content:
-                  "La defensa del BB es el spot más estudiado del poker moderno. Debes balancear entre calls y 3-bets, incluir algunos 3-bet bluffs (con manos tipo A3s que tienen blocker a los ases del rival y no juegan bien como call), y nunca defender tan estrecho que el rival pueda abrir con cualquier dos cartas de forma rentable.",
               },
             ],
           },
@@ -607,7 +577,7 @@ const content = {
                     context: "UTG, MP y CO han foldeado. El SB es un nit que folda a los opens el 80% de las veces. El BB también es un jugador ajustado que defiende poco.",
                     question: "¿Qué haces con K5s en BTN?",
                     options: [
-                      { label: "Foldear — K5s es demasiado débil", correct: false, explanation: "K5s entra perfectamente en el rango del BTN (~42%). No es una mano premium, pero tiene flush draw potencial y contra nits que foldean mucho, robar los blinds es directamente rentable." },
+                      { label: "Foldear — K5s es demasiado débil", correct: false, explanation: "K5s entra perfectamente en el rango del BTN (~52%). No es una mano premium, pero tiene flush draw potencial y contra nits que foldean mucho, robar los blinds es directamente rentable." },
                       { label: "Abrir a 2.5x BB", correct: true, explanation: "¡Correcto! K5s es una apertura estándar desde BTN, y con dos nits por detrás que foldean muy a menudo, incluso amplías un poco el rango respecto al estándar. Abrir a 2.5x con tamaño consistente es la jugada perfecta." },
                       { label: "Pagar la ciega (limp)", correct: false, explanation: "El limp es una jugada débil. Pierdes la iniciativa, no construyes el bote y regalas información de debilidad. Desde BTN siempre o abres o foldeas." },
                       { label: "Abrir a 5x para protegerte", correct: false, explanation: "Abrir grande no 'protege' las manos débiles — solo aumenta lo que arriesgas sin mejorar tu equidad. Además, variar el tamaño según la fuerza de la mano es una fuga explotable." },
@@ -1310,7 +1280,7 @@ const content = {
           {
             title: "MP — Middle Position",
             body: [
-              { type: "positionHeader", name: "MP", range: "~20%", size: "2.5–3x BB", color: "#f97316" },
+              { type: "positionHeader", name: "MP", range: "~28%", size: "2.5–3x BB", color: "#f97316" },
               {
                 type: "text",
                 content:
@@ -1318,14 +1288,16 @@ const content = {
               },
               {
                 type: "rangeBlock",
-                label: "MP opening range (~20%)",
+                label: "MP opening range (~28%)",
                 hands: [
-                  { group: "Pairs", cards: "AA-66" },
-                  { group: "Suited aces", cards: "AKs, AQs, AJs, ATs, A9s, A8s" },
+                  { group: "Pairs", cards: "AA-55" },
+                  { group: "Suited aces", cards: "AKs-A2s (all)" },
                   { group: "Offsuit aces", cards: "AKo, AQo, AJo" },
-                  { group: "Broadway suited", cards: "KQs, KJs, KTs, QJs, QTs, JTs" },
-                  { group: "Broadway offsuit", cards: "KQo, KJo" },
-                  { group: "Suited connectors", cards: "T9s" },
+                  { group: "Kings suited", cards: "KQs-K9s" },
+                  { group: "Kings offsuit", cards: "KQo" },
+                  { group: "Queens suited", cards: "QJs-Q9s" },
+                  { group: "Jacks suited", cards: "JTs, J9s" },
+                  { group: "Suited connectors", cards: "T9s, T8s, 98s, 97s, 87s, 86s, 76s, 75s, 65s" },
                 ],
               },
               {
@@ -1339,7 +1311,7 @@ const content = {
           {
             title: "CO — Cutoff",
             body: [
-              { type: "positionHeader", name: "CO", range: "~27%", size: "2.5x BB", color: "#eab308" },
+              { type: "positionHeader", name: "CO", range: "~33%", size: "2.5x BB", color: "#eab308" },
               {
                 type: "text",
                 content:
@@ -1347,14 +1319,17 @@ const content = {
               },
               {
                 type: "rangeBlock",
-                label: "CO opening range (~27%)",
+                label: "CO opening range (~33%)",
                 hands: [
-                  { group: "Pairs", cards: "AA-55" },
-                  { group: "Suited aces", cards: "AKs-A5s" },
-                  { group: "Offsuit aces", cards: "AKo, AQo, AJo, ATo" },
-                  { group: "Broadway suited", cards: "KQs, KJs, KTs, K9s, QJs, QTs, Q9s, JTs, J9s, T9s" },
-                  { group: "Broadway offsuit", cards: "KQo, KJo, QJo" },
-                  { group: "Suited connectors", cards: "98s, 87s, 76s" },
+                  { group: "Pairs", cards: "AA-44" },
+                  { group: "Suited aces", cards: "AKs-A2s (all)" },
+                  { group: "Offsuit aces", cards: "AKo, AQo, AJo, A9o" },
+                  { group: "Kings suited", cards: "KQs-K8s" },
+                  { group: "Kings offsuit", cards: "KQo, KJo" },
+                  { group: "Queens suited", cards: "QJs-Q9s" },
+                  { group: "Jacks suited", cards: "JTs, J9s" },
+                  { group: "Broadway offsuit", cards: "QTo, JTo" },
+                  { group: "Suited connectors", cards: "T9s, T8s, 98s, 97s, 87s, 86s, 76s, 75s, 65s" },
                 ],
               },
               {
@@ -1368,7 +1343,7 @@ const content = {
           {
             title: "BTN — Button",
             body: [
-              { type: "positionHeader", name: "BTN", range: "~42%", size: "2.5x BB", color: "#10b981" },
+              { type: "positionHeader", name: "BTN", range: "~52%", size: "2.5x BB", color: "#10b981" },
               {
                 type: "text",
                 content:
@@ -1376,16 +1351,19 @@ const content = {
               },
               {
                 type: "rangeBlock",
-                label: "BTN opening range (~42%)",
+                label: "BTN opening range (~52%)",
                 hands: [
-                  { group: "Pairs", cards: "AA-22" },
-                  { group: "Suited aces", cards: "AKs-A2s" },
-                  { group: "Offsuit aces", cards: "AKo-A8o" },
-                  { group: "Kings suited", cards: "KQs-K6s" },
-                  { group: "Kings offsuit", cards: "KQo, KJo, KTo" },
-                  { group: "Broadway suited", cards: "QJs-Q8s, JTs-J8s, T9s-T7s" },
-                  { group: "Broadway offsuit", cards: "QJo, QTo, JTo" },
-                  { group: "Suited connectors/gappers", cards: "98s-96s, 87s-85s, 76s-74s, 65s, 64s, 54s, 53s" },
+                  { group: "Pairs", cards: "AA-22 (all)" },
+                  { group: "Suited aces", cards: "AKs-A2s (all)" },
+                  { group: "Offsuit aces", cards: "AKo-A2o (all)" },
+                  { group: "Kings suited", cards: "KQs-K2s (all)" },
+                  { group: "Kings offsuit", cards: "KQo-K8o" },
+                  { group: "Queens suited", cards: "QJs-Q7s" },
+                  { group: "Queens offsuit", cards: "QJo-Q9o" },
+                  { group: "Jacks suited", cards: "JTs-J7s" },
+                  { group: "Jacks offsuit", cards: "JTo" },
+                  { group: "Tens suited", cards: "T9s-T7s" },
+                  { group: "Suited connectors/gappers", cards: "98s-96s, 87s-85s, 76s-74s, 65s-63s, 54s, 53s" },
                 ],
               },
               {
@@ -1399,7 +1377,7 @@ const content = {
           {
             title: "SB — Small Blind",
             body: [
-              { type: "positionHeader", name: "SB", range: "~35%", size: "3x BB", color: "#8b5cf6" },
+              { type: "positionHeader", name: "SB", range: "~62%", size: "3x BB", color: "#8b5cf6" },
               {
                 type: "text",
                 content:
@@ -1407,16 +1385,21 @@ const content = {
               },
               {
                 type: "rangeBlock",
-                label: "SB opening range vs BB (~35%)",
+                label: "SB opening range vs BB (~62%)",
                 hands: [
-                  { group: "Pairs", cards: "AA-22" },
-                  { group: "Suited aces", cards: "AKs-A2s" },
-                  { group: "Offsuit aces", cards: "AKo-A7o" },
-                  { group: "Kings suited", cards: "KQs-K7s" },
-                  { group: "Kings offsuit", cards: "KQo, KJo, KTo, K9o" },
-                  { group: "Broadway suited", cards: "QJs-Q8s, JTs-J8s, T9s-T8s" },
-                  { group: "Broadway offsuit", cards: "QJo, QTo, JTo" },
-                  { group: "Suited connectors/gappers", cards: "98s-96s, 87s-85s, 76s-74s, 65s-63s, 54s, 53s" },
+                  { group: "Pairs", cards: "AA-22 (all)" },
+                  { group: "Suited aces", cards: "AKs-A2s (all)" },
+                  { group: "Offsuit aces", cards: "AKo-A2o (all)" },
+                  { group: "Kings suited", cards: "KQs-K2s (all)" },
+                  { group: "Kings offsuit", cards: "KQo-K2o (all)" },
+                  { group: "Queens suited", cards: "QJs-Q2s (all)" },
+                  { group: "Queens offsuit", cards: "QJo-Q6o" },
+                  { group: "Jacks suited", cards: "JTs-J4s (excl. J3s-J2s)" },
+                  { group: "Jacks offsuit", cards: "JTo-J6o" },
+                  { group: "Tens suited", cards: "T9s-T5s (excl. T4s-T2s)" },
+                  { group: "Tens offsuit", cards: "T9o-T6o" },
+                  { group: "Nines and below suited", cards: "98s-95s, 87s-85s, 76s-74s, 65s-64s, 54s-53s, 43s (excl. weakest)" },
+                  { group: "Nines and below offsuit", cards: "98o-96o, 87o-86o, 76o, 65o" },
                 ],
               },
               {
@@ -1424,38 +1407,6 @@ const content = {
                 label: "Size: 3x BB from SB",
                 content:
                   "We open to 3x from SB to compensate for the positional disadvantage by reducing callers, and because the BB already has 1 BB in — a 2.5x open gives them too good odds to defend an extremely wide range.",
-              },
-            ],
-          },
-          {
-            title: "BB — Big Blind",
-            body: [
-              { type: "positionHeader", name: "BB", range: "Wide defense", size: "N/A", color: "#06b6d4" },
-              {
-                type: "text",
-                content:
-                  "The Big Blind is a unique position: you've already posted 1 BB, giving you a discount on any call. If there's a 3x open and you're in the BB, it only costs you 2 additional BB to see the flop at 3:2 pot odds. This means you must defend much wider than would seem intuitive.",
-              },
-              {
-                type: "callout",
-                label: "Minimum Defense Frequency (MDF)",
-                content:
-                  "MDF is the minimum frequency you must defend so the villain can't profitably open with any two cards. With a 3x open (risking 2 BB to win 1.5 BB in blinds), the approximate MDF is 50%. Defending less than 50% gives the opener free EV.",
-              },
-              {
-                type: "rangeBlock",
-                label: "BB defense vs BTN open (3x) — ~50%",
-                hands: [
-                  { group: "3-bet for value", cards: "AA, KK, QQ, JJ, AKs, AKo" },
-                  { group: "3-bet bluff / mixed", cards: "A5s-A2s, K4s-K2s, Q4s, J4s, T4s" },
-                  { group: "Call (value)", cards: "TT-22, AQs-A6s, KQs-K7s, QJs-Q8s, JTs-J8s, T9s-T7s, 98s-96s, 87s-85s, 76s-74s, 65s-63s" },
-                  { group: "Call (broadway offsuit)", cards: "AQo, AJo, ATo, A9o, KQo, KJo, KTo, QJo, QTo, JTo" },
-                ],
-              },
-              {
-                type: "text",
-                content:
-                  "BB defense is the most studied spot in modern poker. You must balance between calls and 3-bets, include some 3-bet bluffs (with hands like A3s that block villain's aces and don't play well as calls), and never defend so tight that the opener can profitably open any two cards.",
               },
             ],
           },
@@ -2619,14 +2570,14 @@ const SITUATIONS = [
   { id:39, pos:"MP",  hand:"7♠ 7♣", code:"77",  open:true,  size:"3x", ctx:"neutral", es:"77 entra tanto en UTG como en MP. Par medio con buen potencial de set.", en:"77 is in both UTG and MP ranges. Medium pair with good set potential." },
   { id:40, pos:"MP",  hand:"A♦ 9♦", code:"A9s", open:true,  size:"3x", ctx:"neutral", es:"A9s entra en UTG y MP. Suited ace con buen potencial.", en:"A9s is in both UTG and MP ranges. Suited ace with good potential." },
   // ── MP folds ─────────────────────────────────────────────────
-  { id:41, pos:"MP",  hand:"5♣ 5♦", code:"55",  open:false, size:"3x", ctx:"neutral", es:"55 no está en el rango MP. Necesitas CO o BTN para jugar estos pares pequeños.", en:"55 is not in the MP range. You need CO or BTN to play these small pairs." },
-  { id:42, pos:"MP",  hand:"A♦ 6♦", code:"A6s", open:false, size:"3x", ctx:"neutral", es:"A6s no está en el rango MP. Los ases bajos suited entran desde CO.", en:"A6s is not in the MP range. Low suited aces enter from CO." },
+  { id:41, pos:"MP",  hand:"5♣ 5♦", code:"55",  open:true, size:"3x", ctx:"neutral", es:"55 entra en el rango MP (~28%). Con el rango ampliado, 55 tiene set potential suficiente desde MP.", en:"55 is in the MP range (~28%). With the wider range, 55 has sufficient set potential from MP." },
+  { id:42, pos:"MP",  hand:"A♦ 6♦", code:"A6s", open:true, size:"3x", ctx:"neutral", es:"A6s entra en el rango MP. Todos los ases suited se abren desde MP.", en:"A6s is in the MP range. All suited aces are opened from MP." },
   { id:43, pos:"MP",  hand:"K♥ 8♥", code:"K8s", open:false, size:"3x", ctx:"neutral", es:"K8s no está en el rango MP. Desde MP solo K9s y superiores suited.", en:"K8s is not in the MP range. From MP only K9s and higher suited." },
-  { id:44, pos:"MP",  hand:"9♠ 8♠", code:"98s", open:false, size:"3x", ctx:"neutral", es:"98s no está en el rango MP. Suited connectors medios entran desde CO.", en:"98s is not in the MP range. Medium suited connectors enter from CO." },
-  { id:45, pos:"MP",  hand:"8♦ 7♦", code:"87s", open:false, size:"3x", ctx:"neutral", es:"87s no está en el rango MP. Demasiado especulativo desde posición media.", en:"87s is not in the MP range. Too speculative from middle position." },
+  { id:44, pos:"MP",  hand:"9♠ 8♠", code:"98s", open:true, size:"3x", ctx:"neutral", es:"98s entra en el rango MP. Los suited connectors hasta 65s se abren desde MP.", en:"98s is in the MP range. Suited connectors down to 65s are opened from MP." },
+  { id:45, pos:"MP",  hand:"8♦ 7♦", code:"87s", open:true, size:"3x", ctx:"neutral", es:"87s entra en el rango MP. Suited connectors y gappers hasta 65s se abren desde MP.", en:"87s is in the MP range. Suited connectors and gappers down to 65s are opened from MP." },
   { id:46, pos:"MP",  hand:"A♣ T♥", code:"ATo", open:false, size:"3x", ctx:"neutral", es:"ATo no está en el rango MP. Offsuit ace con kicker media — mejor esperar CO.", en:"ATo is not in the MP range. Offsuit ace with medium kicker — better to wait for CO." },
   { id:47, pos:"MP",  hand:"J♠ 9♥", code:"J9o", open:false, size:"3x", ctx:"neutral", es:"J9o no está en ningún rango de apertura. Offsuit gapper demasiado débil.", en:"J9o is not in any opening range. Offsuit gapper too weak to open." },
-  { id:48, pos:"MP",  hand:"7♣ 6♣", code:"76s", open:false, size:"3x", ctx:"neutral", es:"76s no está en el rango MP. Suited connector bajo que necesita posición tardía.", en:"76s is not in the MP range. Low suited connector that needs late position." },
+  { id:48, pos:"MP",  hand:"7♣ 6♣", code:"76s", open:true, size:"3x", ctx:"neutral", es:"76s entra en el rango MP. Los suited connectors hasta 65s se abren desde MP.", en:"76s is in the MP range. Suited connectors down to 65s are opened from MP." },
   // ── CO opens ─────────────────────────────────────────────────
   { id:49, pos:"CO",  hand:"5♠ 5♦", code:"55",  open:true,  size:"2.5x", ctx:"neutral", es:"55 entra en el rango CO. Con solo BTN y blinds, el potencial de set vale la pena.", en:"55 is in the CO range. With only BTN and blinds behind, set potential is worth it." },
   { id:50, pos:"CO",  hand:"A♣ 7♣", code:"A7s", open:true,  size:"2.5x", ctx:"neutral", es:"A7s entra en el rango CO. Desde UTG/MP es fold pero CO tiene más flexibilidad.", en:"A7s is in the CO range. From UTG/MP it's a fold but CO has more flexibility." },
@@ -2641,8 +2592,8 @@ const SITUATIONS = [
   { id:59, pos:"CO",  hand:"Q♠ J♥", code:"QJo", open:true,  size:"2.5x", ctx:"neutral", es:"QJo entra en el rango CO. Broadway offsuit con buenos outs.", en:"QJo is in the CO range. Broadway offsuit with good outs." },
   { id:60, pos:"CO",  hand:"A♦ 4♦", code:"A4s", open:true,  size:"2.5x", ctx:"nit_btn",  es:"A4s normalmente es fold desde CO, pero con un BTN nit el rango se amplía y A4s suited es apertura rentable.", en:"A4s is normally a fold from CO, but with a nit BTN the range widens and A4s suited becomes a profitable open." },
   // ── CO folds ─────────────────────────────────────────────────
-  { id:61, pos:"CO",  hand:"4♥ 4♣", code:"44",  open:false, size:"2.5x", ctx:"neutral", es:"44 no está en el rango CO. Los pares muy pequeños necesitan BTN para abrirse.", en:"44 is not in the CO range. Very small pairs need the BTN to be opened." },
-  { id:62, pos:"CO",  hand:"A♠ 3♠", code:"A3s", open:false, size:"2.5x", ctx:"neutral", es:"A3s no está en el rango CO. Los ases muy bajos suited entran desde BTN y SB.", en:"A3s is not in the CO range. Very low suited aces enter from BTN and SB." },
+  { id:61, pos:"CO",  hand:"4♥ 4♣", code:"44",  open:true, size:"2.5x", ctx:"neutral", es:"44 entra en el rango CO (~33%). Set mining es rentable desde CO.", en:"44 is in the CO range (~33%). Set mining is profitable from CO." },
+  { id:62, pos:"CO",  hand:"A♠ 3♠", code:"A3s", open:true, size:"2.5x", ctx:"neutral", es:"A3s entra en el rango CO. Todos los ases suited se abren desde CO.", en:"A3s is in the CO range. All suited aces are opened from CO." },
   { id:63, pos:"CO",  hand:"K♣ 5♣", code:"K5s", open:false, size:"2.5x", ctx:"neutral", es:"K5s no está en el rango CO. Desde CO solo abrimos K9s y superiores.", en:"K5s is not in the CO range. From CO we only open K9s and above." },
   { id:64, pos:"CO",  hand:"Q♥ 7♥", code:"Q7s", open:false, size:"2.5x", ctx:"neutral", es:"Q7s no está en el rango CO. Demasiado débil para abrir incluso desde CO.", en:"Q7s is not in the CO range. Too weak to open even from CO." },
   { id:65, pos:"CO",  hand:"J♦ 7♦", code:"J7s", open:false, size:"2.5x", ctx:"neutral", es:"J7s no está en el rango CO. Suited gapper demasiado débil.", en:"J7s is not in the CO range. Suited gapper too weak." },
@@ -2688,9 +2639,9 @@ const SITUATIONS = [
   { id:102, pos:"SB", hand:"K♣ 9♥", code:"K9o", open:true,  size:"3x", ctx:"neutral",    es:"K9o entra en el rango SB vs BB. Offsuit con buena kicker para jugar heads-up.", en:"K9o is in the SB range vs BB. Offsuit with a good kicker for heads-up play." },
   { id:103, pos:"SB", hand:"Q♠ T♠", code:"QTs", open:true,  size:"3x", ctx:"passive_bb", es:"QTs entra en el rango SB. Con un BB pasivo que raramente 3-betea, ampliar el rango ofensivo es correcto.", en:"QTs is in the SB range. With a passive BB who rarely 3-bets, widening the offensive range is correct." },
   // ── SB folds ─────────────────────────────────────────────────
-  { id:104, pos:"SB", hand:"K♦ 3♦", code:"K3s", open:false, size:"3x", ctx:"agg_bb",    es:"K3s no está en el rango SB estándar (mínimo K7s suited). Con BB agresivo la situación empeora aún más — ni siquiera en mesa neutral abrirías K3s desde SB.", en:"K3s is not in the standard SB range (minimum K7s suited). With an aggressive BB the situation gets even worse — you wouldn't open K3s from SB even at a neutral table." },
-  { id:105, pos:"SB", hand:"Q♣ 4♣", code:"Q4s", open:false, size:"3x", ctx:"agg_bb",    es:"Q4s no está en el rango SB vs un BB agresivo. Demasiado débil para pagar un 3-bet OOP.", en:"Q4s is not in the SB range vs an aggressive BB. Too weak to call a 3-bet OOP." },
-  { id:106, pos:"SB", hand:"J♥ 4♥", code:"J4s", open:false, size:"3x", ctx:"neutral",   es:"J4s no está en el rango SB. El gapper es demasiado grande para ser jugable.", en:"J4s is not in the SB range. The gap is too large to be playable." },
+  { id:104, pos:"SB", hand:"T♥ 3♥", code:"T3s", open:false, size:"3x", ctx:"agg_bb",    es:"T3s no está en el rango SB. Está en la lista de exclusiones (T4s-T2s excluidos desde SB).", en:"T3s is not in the SB range. It is in the exclusion list (T4s-T2s excluded from SB)." },
+  { id:105, pos:"SB", hand:"4♠ 3♠", code:"43s", open:false, size:"3x", ctx:"agg_bb",    es:"43s no está en el rango SB. Está explícitamente excluido (43s-42s fuera del rango SB).", en:"43s is not in the SB range. It is explicitly excluded (43s-42s outside SB range)." },
+  { id:106, pos:"SB", hand:"J♦ 2♦", code:"J2s", open:false, size:"3x", ctx:"neutral",   es:"J2s no está en el rango SB. Los jacks con kicker 3 o inferior se excluyen (J3s-J2s fuera del rango SB).", en:"J2s is not in the SB range. Jacks with kicker 3 or lower are excluded (J3s-J2s outside SB range)." },
   { id:107, pos:"SB", hand:"T♦ 3♦", code:"T3s", open:false, size:"3x", ctx:"neutral",   es:"T3s no está en el rango SB. Demasiado débil incluso heads-up.", en:"T3s is not in the SB range. Too weak even heads-up." },
   { id:108, pos:"SB", hand:"K♠ 2♣", code:"K2o", open:false, size:"3x", ctx:"neutral",   es:"K2o no está en el rango SB. King offsuit necesita al menos K9o para abrir.", en:"K2o is not in the SB range. Offsuit king needs at least K9o to open." },
   { id:109, pos:"SB", hand:"Q♥ 3♠", code:"Q3o", open:false, size:"3x", ctx:"neutral",   es:"Q3o no está en el rango SB. Queen offsuit con kicker muy baja es fold.", en:"Q3o is not in the SB range. Queen offsuit with very low kicker is a fold." },
