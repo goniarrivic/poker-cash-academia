@@ -29,6 +29,58 @@ const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 
+
+// ─── RANGE GRID DATA ──────────────────────────────────────────────────────────
+const CO_OPEN    = new Set(["43o","43s","44","52s","53o","53s","54o","54s","55","63s","64o","64s","65o","65s","66","74o","74s","75o","75s","76o","76s","77","85o","85s","86o","86s","87o","87s","88","95s","96o","96s","97o","97s","98o","98s","99","A2o","A3o","A4o","A5o","A6o","A7o","A7s","A8o","A8s","A9o","A9s","AA","AJo","AJs","AKo","AKs","AQo","AQs","ATo","ATs","J7s","J8o","J8s","J9o","J9s","JJ","JTo","JTs","K7o","K7s","K8o","K8s","K9o","K9s","KJo","KJs","KK","KQo","KQs","KTo","KTs","Q8o","Q8s","Q9o","Q9s","QJo","QJs","QQ","QTo","QTs","T6s","T7o","T7s","T8o","T8s","T9o","T9s","TT"]);
+const CO_EXPLOIT = new Set(["22","32o","32s","33","42o","42s","52o","62o","62s","63o","72o","72s","73o","73s","83o","83s","84o","84s","93s","94o","94s","95o","A2s","A3s","A4s","A5s","A6s","J4o","J4s","J5o","J5s","J6o","J6s","J7o","K2o","K3o","K3s","K4o","K4s","K5o","K5s","K6o","K6s","Q3o","Q4o","Q4s","Q5o","Q5s","Q6o","Q6s","Q7o","Q7s","T4s","T5o","T5s","T6o"]);
+const BTN_OPEN    = new Set(["22","32s","33","42s","43s","44","52s","53s","54s","55","62s","63s","64s","65o","65s","66","73s","74s","75s","76o","76s","77","84s","85s","86o","86s","87o","87s","88","94s","95s","96s","97o","97s","98o","98s","99","A2o","A2s","A3o","A3s","A4o","A4s","A5o","A5s","A6o","A6s","A7o","A7s","A8o","A8s","A9o","A9s","AA","AJo","AJs","AKo","AKs","AQo","AQs","ATo","ATs","J5s","J6s","J7s","J8s","J9o","J9s","JJ","JTo","JTs","K2s","K3s","K4s","K5s","K6s","K7s","K8o","K8s","K9o","K9s","KJo","KJs","KK","KQo","KQs","KTo","KTs","Q5s","Q6s","Q7s","Q8s","Q9o","Q9s","QJo","QJs","QQ","QTo","QTs","T5s","T6s","T7s","T8o","T8s","T9o","T9s","TT"]);
+const BTN_EXPLOIT = new Set(["32o","42o","43o","52o","53o","62o","63o","64o","72o","72s","73o","74o","75o","82o","82s","83o","83s","84o","85o","92o","92s","93o","93s","94o","95o","96o","J2o","J2s","J3o","J3s","J4o","J4s","J5o","J6o","J7o","J8o","K2o","K3o","K4o","K5o","K6o","K7o","Q2o","Q2s","Q3o","Q3s","Q4o","Q4s","Q5o","Q6o","Q7o","Q8o","T2o","T2s","T3o","T3s","T4o","T4s","T5o","T6o","T7o"]);
+const SB_OPEN    = new Set(["22","33","44","53s","54o","54s","55","64s","65o","65s","66","74s","75o","75s","76o","76s","77","85s","86o","86s","87o","87s","88","92s","93s","94s","95s","96o","96s","97o","97s","98o","98s","99","A2o","A2s","A3o","A3s","A4o","A4s","A5o","A5s","A6o","A6s","A7o","A7s","A8o","A8s","A9o","A9s","AA","AJo","AJs","AKo","AKs","AQo","AQs","ATo","ATs","J4s","J5s","J6o","J6s","J7o","J7s","J8o","J8s","J9o","J9s","JJ","JTo","JTs","K2o","K2s","K3o","K3s","K4o","K4s","K5o","K5s","K6o","K6s","K7o","K7s","K8o","K8s","K9o","K9s","KJo","KJs","KK","KQo","KQs","KTo","KTs","Q2s","Q3s","Q4s","Q5s","Q6o","Q6s","Q7o","Q7s","Q8o","Q8s","Q9o","Q9s","QJo","QJs","QQ","QTo","QTs","T5s","T6o","T6s","T7o","T7s","T8o","T8s","T9o","T9s","TT"]);
+
+function RangeGridBlock({ data, lang }) {
+  const RANKS = ['A','K','Q','J','T','9','8','7','6','5','4','3','2'];
+  const openSet    = data.open    || new Set();
+  const exploitSet = data.exploit || new Set();
+
+  const getHand = (i, j) => {
+    const r1 = RANKS[i], r2 = RANKS[j];
+    if (i === j) return r1 + r1;
+    if (i < j)  return r1 + r2 + 's';
+    return r2 + r1 + 'o';
+  };
+
+  const cellStyle = (hand) => {
+    if (openSet.has(hand))    return { bg:'#9b1c1c', text:'#fecaca', fw:700 };
+    if (exploitSet.has(hand)) return { bg:'#fca5a5', text:'#7f1d1d', fw:600 };
+    return { bg:'#111320', text:'#3a3f5a', fw:400 };
+  };
+
+  return (
+    <div style={{ marginBottom:16 }}>
+      <div style={{ fontSize:12, color:'#8b8fa8', marginBottom:6, fontWeight:600 }}>
+        {lang==='es' ? data.labelEs : data.labelEn}
+      </div>
+      <div style={{ overflowX:'auto' }}>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(13,1fr)', gap:2, minWidth:364 }}>
+          {RANKS.map((_,i) => RANKS.map((_,j) => {
+            const hand = getHand(i,j);
+            const {bg,text,fw} = cellStyle(hand);
+            return (
+              <div key={hand} style={{ background:bg, color:text, fontSize:'7px', padding:'3px 1px', textAlign:'center', borderRadius:2, fontWeight:fw, letterSpacing:'-0.3px' }}>
+                {hand}
+              </div>
+            );
+          }))}</div>
+      </div>
+      <div style={{ display:'flex', gap:14, marginTop:6, fontSize:11, color:'#8b8fa8', flexWrap:'wrap' }}>
+        <span><span style={{color:'#ef4444'}}>■</span> {lang==='es'?'Siempre abre':'Always open'}</span>
+        <span><span style={{color:'#fca5a5'}}>■</span> {lang==='es'?'Abre vs rivales débiles':'Open vs weak opponents'}</span>
+        <span><span style={{color:'#3a3f5a'}}>■</span> Fold</span>
+      </div>
+    </div>
+  );
+}
+
 // ─── CONTENT ─────────────────────────────────────────────────────────────────
 
 const content = {
@@ -379,17 +431,28 @@ const content = {
               },
               {
                 type: "rangeBlock",
-                label: "Rango de apertura CO (~33%)",
+                label: "Rango de apertura CO (~35%)",
+                legend: { core: "Siempre abrir", exploit: "Abrir vs nit/pasivo", fold: "Fold" },
                 hands: [
-                  { group: "Pares", cards: "AA-44" },
-                  { group: "Ases suited", cards: "AKs-A2s (todos)" },
-                  { group: "Ases offsuit", cards: "AKo, AQo, AJo, A9o" },
-                  { group: "Kings suited", cards: "KQs-K8s" },
-                  { group: "Kings offsuit", cards: "KQo, KJo" },
-                  { group: "Queens suited", cards: "QJs-Q9s" },
-                  { group: "Jacks suited", cards: "JTs, J9s" },
-                  { group: "Broadway offsuit", cards: "QTo, JTo" },
-                  { group: "Suited connectors", cards: "T9s, T8s, 98s, 97s, 87s, 86s, 76s, 75s, 65s" },
+                  { tier:"core",    group: "Pares", cards: "AA-44" },
+                  { tier:"exploit", group: "Pares (vs nit)", cards: "33, 22" },
+                  { tier:"core",    group: "Ases suited", cards: "AKs-A2s (todos)" },
+                  { tier:"core",    group: "Ases offsuit", cards: "AKo-A9o" },
+                  { tier:"exploit", group: "Ases offsuit (vs nit)", cards: "A8o, A7o" },
+                  { tier:"core",    group: "Kings suited", cards: "KQs-K8s" },
+                  { tier:"exploit", group: "Kings suited (vs nit)", cards: "K7s-K5s" },
+                  { tier:"core",    group: "Kings offsuit", cards: "KQo-KTo" },
+                  { tier:"exploit", group: "Kings offsuit (vs nit)", cards: "K9o, K8o" },
+                  { tier:"core",    group: "Queens suited", cards: "QJs-Q9s" },
+                  { tier:"exploit", group: "Queens suited (vs nit)", cards: "Q8s-Q7s" },
+                  { tier:"core",    group: "Queens offsuit", cards: "QJo, QTo" },
+                  { tier:"core",    group: "Jacks suited", cards: "JTs-J9s" },
+                  { tier:"exploit", group: "Jacks suited (vs nit)", cards: "J8s-J7s" },
+                  { tier:"core",    group: "Jacks offsuit", cards: "JTo" },
+                  { tier:"core",    group: "Tens suited", cards: "T9s-T8s" },
+                  { tier:"exploit", group: "Tens suited (vs nit)", cards: "T7s-T6s" },
+                  { tier:"core",    group: "Suited connectors", cards: "98s-97s, 87s-86s, 76s-75s, 65s-64s, 54s-53s" },
+                  { tier:"exploit", group: "Gappers (vs nit)", cards: "96s-95s, 85s-84s, 74s-73s, 63s-62s" },
                 ],
               },
               {
@@ -422,19 +485,28 @@ const content = {
               },
               {
                 type: "rangeBlock",
-                label: "Rango de apertura BTN (~52%)",
+                label: "Rango de apertura BTN (~55%)",
+                legend: { core: "Siempre abrir", exploit: "Abrir vs nit/pasivo", fold: "Fold" },
                 hands: [
-                  { group: "Pares", cards: "AA-22 (todos)" },
-                  { group: "Ases suited", cards: "AKs-A2s (todos)" },
-                  { group: "Ases offsuit", cards: "AKo-A2o (todos)" },
-                  { group: "Kings suited", cards: "KQs-K2s (todos)" },
-                  { group: "Kings offsuit", cards: "KQo-K8o" },
-                  { group: "Queens suited", cards: "QJs-Q7s" },
-                  { group: "Queens offsuit", cards: "QJo-Q9o" },
-                  { group: "Jacks suited", cards: "JTs-J7s" },
-                  { group: "Jacks offsuit", cards: "JTo" },
-                  { group: "Tens suited", cards: "T9s-T7s" },
-                  { group: "Suited connectors/gappers", cards: "98s-96s, 87s-85s, 76s-74s, 65s-63s, 54s, 53s" },
+                  { tier:"core",    group: "Pares", cards: "AA-22 (todos)" },
+                  { tier:"core",    group: "Ases suited", cards: "AKs-A2s (todos)" },
+                  { tier:"core",    group: "Ases offsuit", cards: "AKo-A2o (todos)" },
+                  { tier:"core",    group: "Kings suited", cards: "KQs-K5s" },
+                  { tier:"exploit", group: "Kings suited (vs nit)", cards: "K4s-K2s" },
+                  { tier:"core",    group: "Kings offsuit", cards: "KQo-K8o" },
+                  { tier:"exploit", group: "Kings offsuit (vs nit)", cards: "K7o-K6o" },
+                  { tier:"core",    group: "Queens suited", cards: "QJs-Q7s" },
+                  { tier:"exploit", group: "Queens suited (vs nit)", cards: "Q6s-Q5s" },
+                  { tier:"core",    group: "Queens offsuit", cards: "QJo-Q9o" },
+                  { tier:"exploit", group: "Queens offsuit (vs nit)", cards: "Q8o" },
+                  { tier:"core",    group: "Jacks suited", cards: "JTs-J7s" },
+                  { tier:"exploit", group: "Jacks suited (vs nit)", cards: "J6s-J5s" },
+                  { tier:"core",    group: "Jacks offsuit", cards: "JTo-J9o" },
+                  { tier:"core",    group: "Tens suited", cards: "T9s-T6s" },
+                  { tier:"exploit", group: "Tens suited (vs nit)", cards: "T5s-T4s" },
+                  { tier:"core",    group: "Tens offsuit", cards: "T9o-T8o" },
+                  { tier:"core",    group: "Suited connectors/gappers", cards: "98s-95s, 87s-84s, 76s-74s, 65s-63s, 54s-53s, 43s" },
+                  { tier:"exploit", group: "Gappers bajos (vs nit)", cards: "94s-93s, 83s-82s, 73s-72s" },
                 ],
               },
               {
@@ -472,21 +544,27 @@ const content = {
               },
               {
                 type: "rangeBlock",
-                label: "Rango de apertura SB vs BB (~62%)",
+                label: "Rango de apertura SB vs BB (~65%)",
+                legend: { core: "Siempre abrir", exploit: "Abrir vs nit/pasivo", fold: "Fold" },
                 hands: [
-                  { group: "Pares", cards: "AA-22 (todos)" },
-                  { group: "Ases suited", cards: "AKs-A2s (todos)" },
-                  { group: "Ases offsuit", cards: "AKo-A2o (todos)" },
-                  { group: "Kings suited", cards: "KQs-K2s (todos)" },
-                  { group: "Kings offsuit", cards: "KQo-K2o (todos)" },
-                  { group: "Queens suited", cards: "QJs-Q2s (todos)" },
-                  { group: "Queens offsuit", cards: "QJo-Q6o" },
-                  { group: "Jacks suited", cards: "JTs-J4s (excl. J3s-J2s)" },
-                  { group: "Jacks offsuit", cards: "JTo-J6o" },
-                  { group: "Tens suited", cards: "T9s-T5s (excl. T4s-T2s)" },
-                  { group: "Tens offsuit", cards: "T9o-T6o" },
-                  { group: "Nines y menores suited", cards: "98s-95s, 87s-85s, 76s-74s, 65s-64s, 54s-53s, 43s (excl. los más débiles)" },
-                  { group: "Nines y menores offsuit", cards: "98o-96o, 87o-86o, 76o, 65o" },
+                  { tier:"core",    group: "Pares", cards: "AA-22 (todos)" },
+                  { tier:"core",    group: "Ases", cards: "AKs-A2s, AKo-A2o (todos)" },
+                  { tier:"core",    group: "Kings suited", cards: "KQs-K2s (todos)" },
+                  { tier:"core",    group: "Kings offsuit", cards: "KQo-K2o (todos)" },
+                  { tier:"core",    group: "Queens suited", cards: "QJs-Q2s (todos)" },
+                  { tier:"core",    group: "Queens offsuit", cards: "QJo-Q6o" },
+                  { tier:"fold",    group: "Queens offsuit (fold)", cards: "Q5o-Q2o" },
+                  { tier:"core",    group: "Jacks suited", cards: "JTs-J4s" },
+                  { tier:"fold",    group: "Jacks suited (fold)", cards: "J3s-J2s" },
+                  { tier:"core",    group: "Jacks offsuit", cards: "JTo-J6o" },
+                  { tier:"fold",    group: "Jacks offsuit (fold)", cards: "J5o-J2o" },
+                  { tier:"core",    group: "Tens suited", cards: "T9s-T5s" },
+                  { tier:"fold",    group: "Tens suited (fold)", cards: "T4s-T2s" },
+                  { tier:"core",    group: "Tens offsuit", cards: "T9o-T6o" },
+                  { tier:"core",    group: "Nines suited y menores", cards: "98s-95s, 87s-85s, 76s-74s, 65s-64s, 54s-53s, 43s" },
+                  { tier:"fold",    group: "Suited débiles (fold)", cards: "84s-82s, 73s-72s, 63s-62s, 52s, 42s, 32s" },
+                  { tier:"core",    group: "Nines offsuit y menores", cards: "98o-96o, 87o-86o, 76o, 65o" },
+                  { tier:"fold",    group: "Offsuit débiles (fold)", cards: "85o y menos, 74o y menos, 53o y menos" },
                 ],
               },
               {
@@ -577,7 +655,7 @@ const content = {
                     context: "UTG, MP y CO han foldeado. El SB es un nit que folda a los opens el 80% de las veces. El BB también es un jugador ajustado que defiende poco.",
                     question: "¿Qué haces con K5s en BTN?",
                     options: [
-                      { label: "Foldear — K5s es demasiado débil", correct: false, explanation: "K5s entra perfectamente en el rango del BTN (~52%). No es una mano premium, pero tiene flush draw potencial y contra nits que foldean mucho, robar los blinds es directamente rentable." },
+                      { label: "Foldear — K5s es demasiado débil", correct: false, explanation: "K5s entra perfectamente en el rango del BTN (~55%). No es una mano premium, pero tiene flush draw potencial y contra nits que foldean mucho, robar los blinds es directamente rentable." },
                       { label: "Abrir a 2.5x BB", correct: true, explanation: "¡Correcto! K5s es una apertura estándar desde BTN, y con dos nits por detrás que foldean muy a menudo, incluso amplías un poco el rango respecto al estándar. Abrir a 2.5x con tamaño consistente es la jugada perfecta." },
                       { label: "Pagar la ciega (limp)", correct: false, explanation: "El limp es una jugada débil. Pierdes la iniciativa, no construyes el bote y regalas información de debilidad. Desde BTN siempre o abres o foldeas." },
                       { label: "Abrir a 5x para protegerte", correct: false, explanation: "Abrir grande no 'protege' las manos débiles — solo aumenta lo que arriesgas sin mejorar tu equidad. Además, variar el tamaño según la fuerza de la mano es una fuga explotable." },
@@ -1319,17 +1397,28 @@ const content = {
               },
               {
                 type: "rangeBlock",
-                label: "CO opening range (~33%)",
+                label: "CO opening range (~35%)",
+                legend: { core: "Always open", exploit: "Open vs nit/passive", fold: "Fold" },
                 hands: [
-                  { group: "Pairs", cards: "AA-44" },
-                  { group: "Suited aces", cards: "AKs-A2s (all)" },
-                  { group: "Offsuit aces", cards: "AKo, AQo, AJo, A9o" },
-                  { group: "Kings suited", cards: "KQs-K8s" },
-                  { group: "Kings offsuit", cards: "KQo, KJo" },
-                  { group: "Queens suited", cards: "QJs-Q9s" },
-                  { group: "Jacks suited", cards: "JTs, J9s" },
-                  { group: "Broadway offsuit", cards: "QTo, JTo" },
-                  { group: "Suited connectors", cards: "T9s, T8s, 98s, 97s, 87s, 86s, 76s, 75s, 65s" },
+                  { tier:"core",    group: "Pairs", cards: "AA-44" },
+                  { tier:"exploit", group: "Pairs (vs nit)", cards: "33, 22" },
+                  { tier:"core",    group: "Suited aces", cards: "AKs-A2s (all)" },
+                  { tier:"core",    group: "Offsuit aces", cards: "AKo-A9o" },
+                  { tier:"exploit", group: "Offsuit aces (vs nit)", cards: "A8o, A7o" },
+                  { tier:"core",    group: "Kings suited", cards: "KQs-K8s" },
+                  { tier:"exploit", group: "Kings suited (vs nit)", cards: "K7s-K5s" },
+                  { tier:"core",    group: "Kings offsuit", cards: "KQo-KTo" },
+                  { tier:"exploit", group: "Kings offsuit (vs nit)", cards: "K9o, K8o" },
+                  { tier:"core",    group: "Queens suited", cards: "QJs-Q9s" },
+                  { tier:"exploit", group: "Queens suited (vs nit)", cards: "Q8s-Q7s" },
+                  { tier:"core",    group: "Queens offsuit", cards: "QJo, QTo" },
+                  { tier:"core",    group: "Jacks suited", cards: "JTs-J9s" },
+                  { tier:"exploit", group: "Jacks suited (vs nit)", cards: "J8s-J7s" },
+                  { tier:"core",    group: "Jacks offsuit", cards: "JTo" },
+                  { tier:"core",    group: "Tens suited", cards: "T9s-T8s" },
+                  { tier:"exploit", group: "Tens suited (vs nit)", cards: "T7s-T6s" },
+                  { tier:"core",    group: "Suited connectors", cards: "98s-97s, 87s-86s, 76s-75s, 65s-64s, 54s-53s" },
+                  { tier:"exploit", group: "Gappers (vs nit)", cards: "96s-95s, 85s-84s, 74s-73s, 63s-62s" },
                 ],
               },
               {
@@ -1351,19 +1440,28 @@ const content = {
               },
               {
                 type: "rangeBlock",
-                label: "BTN opening range (~52%)",
+                label: "BTN opening range (~55%)",
+                legend: { core: "Always open", exploit: "Open vs nit/passive", fold: "Fold" },
                 hands: [
-                  { group: "Pairs", cards: "AA-22 (all)" },
-                  { group: "Suited aces", cards: "AKs-A2s (all)" },
-                  { group: "Offsuit aces", cards: "AKo-A2o (all)" },
-                  { group: "Kings suited", cards: "KQs-K2s (all)" },
-                  { group: "Kings offsuit", cards: "KQo-K8o" },
-                  { group: "Queens suited", cards: "QJs-Q7s" },
-                  { group: "Queens offsuit", cards: "QJo-Q9o" },
-                  { group: "Jacks suited", cards: "JTs-J7s" },
-                  { group: "Jacks offsuit", cards: "JTo" },
-                  { group: "Tens suited", cards: "T9s-T7s" },
-                  { group: "Suited connectors/gappers", cards: "98s-96s, 87s-85s, 76s-74s, 65s-63s, 54s, 53s" },
+                  { tier:"core",    group: "Pairs", cards: "AA-22 (all)" },
+                  { tier:"core",    group: "Suited aces", cards: "AKs-A2s (all)" },
+                  { tier:"core",    group: "Offsuit aces", cards: "AKo-A2o (all)" },
+                  { tier:"core",    group: "Kings suited", cards: "KQs-K5s" },
+                  { tier:"exploit", group: "Kings suited (vs nit)", cards: "K4s-K2s" },
+                  { tier:"core",    group: "Kings offsuit", cards: "KQo-K8o" },
+                  { tier:"exploit", group: "Kings offsuit (vs nit)", cards: "K7o-K6o" },
+                  { tier:"core",    group: "Queens suited", cards: "QJs-Q7s" },
+                  { tier:"exploit", group: "Queens suited (vs nit)", cards: "Q6s-Q5s" },
+                  { tier:"core",    group: "Queens offsuit", cards: "QJo-Q9o" },
+                  { tier:"exploit", group: "Queens offsuit (vs nit)", cards: "Q8o" },
+                  { tier:"core",    group: "Jacks suited", cards: "JTs-J7s" },
+                  { tier:"exploit", group: "Jacks suited (vs nit)", cards: "J6s-J5s" },
+                  { tier:"core",    group: "Jacks offsuit", cards: "JTo-J9o" },
+                  { tier:"core",    group: "Tens suited", cards: "T9s-T6s" },
+                  { tier:"exploit", group: "Tens suited (vs nit)", cards: "T5s-T4s" },
+                  { tier:"core",    group: "Tens offsuit", cards: "T9o-T8o" },
+                  { tier:"core",    group: "Suited connectors/gappers", cards: "98s-95s, 87s-84s, 76s-74s, 65s-63s, 54s-53s, 43s" },
+                  { tier:"exploit", group: "Low gappers (vs nit)", cards: "94s-93s, 83s-82s, 73s-72s" },
                 ],
               },
               {
@@ -1385,21 +1483,27 @@ const content = {
               },
               {
                 type: "rangeBlock",
-                label: "SB opening range vs BB (~62%)",
+                label: "SB opening range vs BB (~65%)",
+                legend: { core: "Always open", exploit: "Open vs nit/passive", fold: "Fold" },
                 hands: [
-                  { group: "Pairs", cards: "AA-22 (all)" },
-                  { group: "Suited aces", cards: "AKs-A2s (all)" },
-                  { group: "Offsuit aces", cards: "AKo-A2o (all)" },
-                  { group: "Kings suited", cards: "KQs-K2s (all)" },
-                  { group: "Kings offsuit", cards: "KQo-K2o (all)" },
-                  { group: "Queens suited", cards: "QJs-Q2s (all)" },
-                  { group: "Queens offsuit", cards: "QJo-Q6o" },
-                  { group: "Jacks suited", cards: "JTs-J4s (excl. J3s-J2s)" },
-                  { group: "Jacks offsuit", cards: "JTo-J6o" },
-                  { group: "Tens suited", cards: "T9s-T5s (excl. T4s-T2s)" },
-                  { group: "Tens offsuit", cards: "T9o-T6o" },
-                  { group: "Nines and below suited", cards: "98s-95s, 87s-85s, 76s-74s, 65s-64s, 54s-53s, 43s (excl. weakest)" },
-                  { group: "Nines and below offsuit", cards: "98o-96o, 87o-86o, 76o, 65o" },
+                  { tier:"core",    group: "Pairs", cards: "AA-22 (all)" },
+                  { tier:"core",    group: "Aces", cards: "AKs-A2s, AKo-A2o (all)" },
+                  { tier:"core",    group: "Kings suited", cards: "KQs-K2s (all)" },
+                  { tier:"core",    group: "Kings offsuit", cards: "KQo-K2o (all)" },
+                  { tier:"core",    group: "Queens suited", cards: "QJs-Q2s (all)" },
+                  { tier:"core",    group: "Queens offsuit", cards: "QJo-Q6o" },
+                  { tier:"fold",    group: "Queens offsuit (fold)", cards: "Q5o-Q2o" },
+                  { tier:"core",    group: "Jacks suited", cards: "JTs-J4s" },
+                  { tier:"fold",    group: "Jacks suited (fold)", cards: "J3s-J2s" },
+                  { tier:"core",    group: "Jacks offsuit", cards: "JTo-J6o" },
+                  { tier:"fold",    group: "Jacks offsuit (fold)", cards: "J5o-J2o" },
+                  { tier:"core",    group: "Tens suited", cards: "T9s-T5s" },
+                  { tier:"fold",    group: "Tens suited (fold)", cards: "T4s-T2s" },
+                  { tier:"core",    group: "Tens offsuit", cards: "T9o-T6o" },
+                  { tier:"core",    group: "Nines and below suited", cards: "98s-95s, 87s-85s, 76s-74s, 65s-64s, 54s-53s, 43s" },
+                  { tier:"fold",    group: "Weak suited (fold)", cards: "84s-82s, 73s-72s, 63s-62s, 52s, 42s, 32s" },
+                  { tier:"core",    group: "Nines and below offsuit", cards: "98o-96o, 87o-86o, 76o, 65o" },
+                  { tier:"fold",    group: "Weak offsuit (fold)", cards: "85o and below, 74o and below, 53o and below" },
                 ],
               },
               {
@@ -2188,13 +2292,25 @@ function RenderBody({ blocks, lang = "es" }) {
         if (block.type === "rangeBlock") return (
           <div key={i} style={{ background: "#111320", border: "1px solid #1e2235", borderRadius: 10, overflow: "hidden" }}>
             <div style={{ padding: "10px 16px", background: "#1e2030", fontSize: 12, fontWeight: 700, color: "#e8c96a", textTransform: "uppercase", letterSpacing: 0.8 }}>{block.label}</div>
+            {block.legend && (
+              <div style={{ padding: "6px 16px 0", display: "flex", gap: 16, flexWrap: "wrap" }}>
+                <span style={{ fontSize: 11, display: "flex", alignItems: "center", gap: 5 }}><span style={{ width: 10, height: 10, borderRadius: 2, background: "#c0392b", display: "inline-block" }} /><span style={{ color: "#8b8fa8" }}>{block.legend.core}</span></span>
+                <span style={{ fontSize: 11, display: "flex", alignItems: "center", gap: 5 }}><span style={{ width: 10, height: 10, borderRadius: 2, background: "#c9a84c", display: "inline-block" }} /><span style={{ color: "#8b8fa8" }}>{block.legend.exploit}</span></span>
+                <span style={{ fontSize: 11, display: "flex", alignItems: "center", gap: 5 }}><span style={{ width: 10, height: 10, borderRadius: 2, background: "#1e2235", border: "1px solid #333", display: "inline-block" }} /><span style={{ color: "#8b8fa8" }}>{block.legend.fold}</span></span>
+              </div>
+            )}
             <div style={{ padding: "12px 16px", display: "flex", flexDirection: "column", gap: 8 }}>
-              {block.hands.map((row, j) => (
-                <div key={j} style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "baseline" }}>
-                  <span style={{ fontSize: 12, color: "#8b8fa8", minWidth: 120 }}>{row.group}</span>
-                  <span style={{ fontSize: 13, color: "#dde1f5", fontFamily: "monospace", fontWeight: 600 }}>{row.cards}</span>
-                </div>
-              ))}
+              {block.hands.map((row, j) => {
+                const tierColor = row.tier === "exploit" ? "#c9a84c" : row.tier === "fold" ? "#3a3d4a" : "#e85555";
+                const textColor = row.tier === "exploit" ? "#e8c96a" : row.tier === "fold" ? "#5a5e70" : "#ffc0b0";
+                return (
+                  <div key={j} style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "baseline" }}>
+                    <span style={{ fontSize: 11, color: tierColor, minWidth: 14, fontWeight: 800 }}>{row.tier === "exploit" ? "◆" : row.tier === "fold" ? "✕" : "●"}</span>
+                    <span style={{ fontSize: 12, color: "#8b8fa8", minWidth: 110 }}>{row.group}</span>
+                    <span style={{ fontSize: 13, color: textColor, fontFamily: "monospace", fontWeight: 600 }}>{row.cards}</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         );
@@ -2292,6 +2408,9 @@ function RenderBody({ blocks, lang = "es" }) {
           </div>
         );
 
+        if (block.type === "rangeGrid") return (
+          <RangeGridBlock key={i} data={block} lang={lang} />
+        );
         if (block.type === "quiz") return (
           <QuizBlock key={i} questions={block.questions} lang={lang} />
         );
@@ -2572,10 +2691,10 @@ const SITUATIONS = [
   // ── MP folds ─────────────────────────────────────────────────
   { id:41, pos:"MP",  hand:"5♣ 5♦", code:"55",  open:true, size:"3x", ctx:"neutral", es:"55 entra en el rango MP (~28%). Con el rango ampliado, 55 tiene set potential suficiente desde MP.", en:"55 is in the MP range (~28%). With the wider range, 55 has sufficient set potential from MP." },
   { id:42, pos:"MP",  hand:"A♦ 6♦", code:"A6s", open:true, size:"3x", ctx:"neutral", es:"A6s entra en el rango MP. Todos los ases suited se abren desde MP.", en:"A6s is in the MP range. All suited aces are opened from MP." },
-  { id:43, pos:"MP",  hand:"K♥ 8♥", code:"K8s", open:false, size:"3x", ctx:"neutral", es:"K8s no está en el rango MP. Desde MP solo K9s y superiores suited.", en:"K8s is not in the MP range. From MP only K9s and higher suited." },
+  { id:43, pos:"MP",  hand:"K♥ 8♥", code:"K8s", open:false, size:"3x", ctx:"neutral", es:"K8s no está en el rango MP (mínimo K9s). Desde MP se abren K9s y superiores.", en:"K8s is not in the MP range (minimum K9s). From MP we open K9s and above." },
   { id:44, pos:"MP",  hand:"9♠ 8♠", code:"98s", open:true, size:"3x", ctx:"neutral", es:"98s entra en el rango MP. Los suited connectors hasta 65s se abren desde MP.", en:"98s is in the MP range. Suited connectors down to 65s are opened from MP." },
   { id:45, pos:"MP",  hand:"8♦ 7♦", code:"87s", open:true, size:"3x", ctx:"neutral", es:"87s entra en el rango MP. Suited connectors y gappers hasta 65s se abren desde MP.", en:"87s is in the MP range. Suited connectors and gappers down to 65s are opened from MP." },
-  { id:46, pos:"MP",  hand:"A♣ T♥", code:"ATo", open:false, size:"3x", ctx:"neutral", es:"ATo no está en el rango MP. Offsuit ace con kicker media — mejor esperar CO.", en:"ATo is not in the MP range. Offsuit ace with medium kicker — better to wait for CO." },
+  { id:46, pos:"MP",  hand:"A♣ T♥", code:"ATo", open:false, size:"3x", ctx:"neutral", es:"ATo no está en el rango MP. Los ases offsuit se abren desde MP hasta AJo. ATo entra desde CO.", en:"ATo is not in the MP range. Offsuit aces from MP go down to AJo. ATo enters from CO." },
   { id:47, pos:"MP",  hand:"J♠ 9♥", code:"J9o", open:false, size:"3x", ctx:"neutral", es:"J9o no está en ningún rango de apertura. Offsuit gapper demasiado débil.", en:"J9o is not in any opening range. Offsuit gapper too weak to open." },
   { id:48, pos:"MP",  hand:"7♣ 6♣", code:"76s", open:true, size:"3x", ctx:"neutral", es:"76s entra en el rango MP. Los suited connectors hasta 65s se abren desde MP.", en:"76s is in the MP range. Suited connectors down to 65s are opened from MP." },
   // ── CO opens ─────────────────────────────────────────────────
@@ -2594,10 +2713,10 @@ const SITUATIONS = [
   // ── CO folds ─────────────────────────────────────────────────
   { id:61, pos:"CO",  hand:"4♥ 4♣", code:"44",  open:true, size:"2.5x", ctx:"neutral", es:"44 entra en el rango CO (~33%). Set mining es rentable desde CO.", en:"44 is in the CO range (~33%). Set mining is profitable from CO." },
   { id:62, pos:"CO",  hand:"A♠ 3♠", code:"A3s", open:true, size:"2.5x", ctx:"neutral", es:"A3s entra en el rango CO. Todos los ases suited se abren desde CO.", en:"A3s is in the CO range. All suited aces are opened from CO." },
-  { id:63, pos:"CO",  hand:"K♣ 5♣", code:"K5s", open:false, size:"2.5x", ctx:"neutral", es:"K5s no está en el rango CO. Desde CO solo abrimos K9s y superiores.", en:"K5s is not in the CO range. From CO we only open K9s and above." },
-  { id:64, pos:"CO",  hand:"Q♥ 7♥", code:"Q7s", open:false, size:"2.5x", ctx:"neutral", es:"Q7s no está en el rango CO. Demasiado débil para abrir incluso desde CO.", en:"Q7s is not in the CO range. Too weak to open even from CO." },
-  { id:65, pos:"CO",  hand:"J♦ 7♦", code:"J7s", open:false, size:"2.5x", ctx:"neutral", es:"J7s no está en el rango CO. Suited gapper demasiado débil.", en:"J7s is not in the CO range. Suited gapper too weak." },
-  { id:66, pos:"CO",  hand:"Q♠ 9♥", code:"Q9o", open:false, size:"2.5x", ctx:"neutral", es:"Q9o no está en el rango CO. Offsuit y kicker débil.", en:"Q9o is not in the CO range. Offsuit with a weak kicker." },
+  { id:63, pos:"CO",  hand:"K♣ 5♣", code:"K5s", open:false, size:"2.5x", ctx:"neutral", es:"K5s no está en el rango CO siempre. Es explotativo — abre vs rival nit detrás.", en:"K5s is not in the always-open CO range. It's exploitative — open vs a nit behind." },
+  { id:64, pos:"CO",  hand:"Q♥ 7♥", code:"Q7s", open:false, size:"2.5x", ctx:"neutral", es:"Q7s está en el rango explotativo de CO (vs rivales débiles). En situación neutral es fold.", en:"Q7s is in the CO exploitative range (vs weak opponents). In neutral situations it's a fold." },
+  { id:65, pos:"CO",  hand:"J♦ 7♦", code:"J7s", open:false, size:"2.5x", ctx:"neutral", es:"J7s está en el rango explotativo de CO (vs rivales débiles). En mesa neutral es fold.", en:"J7s is in the CO exploitative range (vs weak opponents). In neutral table it's a fold." },
+  { id:66, pos:"CO",  hand:"Q♠ 9♥", code:"Q9o", open:false, size:"2.5x", ctx:"neutral", es:"Q9o no está en el rango CO estándar. Offsuit con kicker media — sigue siendo fold en neutral.", en:"Q9o is not in the standard CO range. Offsuit with medium kicker — still a fold in neutral." },
   { id:67, pos:"CO",  hand:"Q♣ 9♣", code:"Q9s", open:false, size:"2.5x", ctx:"agg_btn",  es:"Q9s normalmente abre desde CO, pero con BTN que 3-betea el 18% es fold: demasiado débil para pagar o 4-betear.", en:"Q9s normally opens from CO, but with BTN 3-betting 18% it's a fold: too weak to call or 4-bet." },
   // ── BTN opens ────────────────────────────────────────────────
   { id:68, pos:"BTN", hand:"4♦ 4♣", code:"44",  open:true,  size:"2.5x", ctx:"neutral", es:"44 entra en el rango BTN. Desde el button todos los pares se abren.", en:"44 is in the BTN range. From the button all pairs are opened." },
@@ -2605,7 +2724,7 @@ const SITUATIONS = [
   { id:70, pos:"BTN", hand:"2♣ 2♦", code:"22",  open:true,  size:"2.5x", ctx:"neutral", es:"22 entra en el rango BTN. El par más bajo es apertura válida desde el button.", en:"22 is in the BTN range. The lowest pair is a valid open from the button." },
   { id:71, pos:"BTN", hand:"A♦ 4♦", code:"A4s", open:true,  size:"2.5x", ctx:"neutral", es:"A4s entra en el rango BTN. Todos los ases suited se abren desde el button.", en:"A4s is in the BTN range. All suited aces are opened from the button." },
   { id:72, pos:"BTN", hand:"A♠ 2♠", code:"A2s", open:true,  size:"2.5x", ctx:"neutral", es:"A2s entra en el rango BTN. Incluso el ace-deuce suited abre desde el button.", en:"A2s is in the BTN range. Even ace-deuce suited opens from the button." },
-  { id:73, pos:"BTN", hand:"K♣ 7♣", code:"K7s", open:true,  size:"2.5x", ctx:"neutral", es:"K7s entra en el rango BTN. Desde el button abrimos K6s y superiores suited.", en:"K7s is in the BTN range. From the button we open K6s and above suited." },
+  { id:73, pos:"BTN", hand:"K♣ 7♣", code:"K7s", open:true,  size:"2.5x", ctx:"neutral", es:"K7s entra en el rango BTN. Desde BTN abrimos todos los kings suited (K2s incluido como mínimo K5s siempre).", en:"K7s is in the BTN range. From BTN we open all suited kings (down to K2s, K5s minimum always)." },
   { id:74, pos:"BTN", hand:"Q♠ 8♠", code:"Q8s", open:true,  size:"2.5x", ctx:"neutral", es:"Q8s entra en el rango BTN. Queens suited bajas son apertura desde el button.", en:"Q8s is in the BTN range. Low suited queens are opens from the button." },
   { id:75, pos:"BTN", hand:"J♥ 8♥", code:"J8s", open:true,  size:"2.5x", ctx:"neutral", es:"J8s entra en el rango BTN. Suited connector con buen potencial en posición.", en:"J8s is in the BTN range. Suited connector with good potential in position." },
   { id:76, pos:"BTN", hand:"T♣ 8♣", code:"T8s", open:true,  size:"2.5x", ctx:"neutral", es:"T8s entra en el rango BTN. Suited connector rentable desde el button.", en:"T8s is in the BTN range. Profitable suited connector from the button." },
@@ -2631,21 +2750,21 @@ const SITUATIONS = [
   { id:94,  pos:"SB", hand:"2♠ 2♥", code:"22",  open:true,  size:"3x", ctx:"neutral",    es:"22 entra en el rango SB vs BB. Set mining es rentable incluso heads-up.", en:"22 is in the SB range vs BB. Set mining is profitable even heads-up." },
   { id:95,  pos:"SB", hand:"A♣ 5♣", code:"A5s", open:true,  size:"3x", ctx:"neutral",    es:"A5s entra en el rango SB. Todos los ases suited se abren desde SB vs BB.", en:"A5s is in the SB range. All suited aces are opened from SB vs BB." },
   { id:96,  pos:"SB", hand:"A♦ 3♦", code:"A3s", open:true,  size:"3x", ctx:"neutral",    es:"A3s entra en el rango SB vs BB. Buen blocker y potencial de flush.", en:"A3s is in the SB range vs BB. Good blocker and flush potential." },
-  { id:97,  pos:"SB", hand:"K♠ 8♠", code:"K8s", open:true,  size:"3x", ctx:"neutral",    es:"K8s entra en el rango SB. El rango SB es más amplio que CO al jugar solo contra BB.", en:"K8s is in the SB range. The SB range is wider than CO when playing only against BB." },
-  { id:98,  pos:"SB", hand:"K♥ 7♥", code:"K7s", open:true,  size:"3x", ctx:"neutral",    es:"K7s entra en el rango SB. Kings suited medios son aperturas válidas heads-up.", en:"K7s is in the SB range. Medium suited kings are valid opens heads-up." },
+  { id:97,  pos:"SB", hand:"K♠ 8♠", code:"K8s", open:true,  size:"3x", ctx:"neutral",    es:"K8s entra en el rango SB. Desde SB se abren todos los kings suited.", en:"K8s is in the SB range. From SB all suited kings are opened." },
+  { id:98,  pos:"SB", hand:"K♥ 7♥", code:"K7s", open:true,  size:"3x", ctx:"neutral",    es:"K7s entra en el rango SB. Desde SB abrimos todos los kings suited incluido K2s.", en:"K7s is in the SB range. From SB we open all suited kings including K2s." },
   { id:99,  pos:"SB", hand:"J♣ 8♣", code:"J8s", open:true,  size:"3x", ctx:"neutral",    es:"J8s entra en el rango SB. Suited connector con buen potencial postflop.", en:"J8s is in the SB range. Suited connector with good postflop potential." },
   { id:100, pos:"SB", hand:"T♠ 8♠", code:"T8s", open:true,  size:"3x", ctx:"neutral",    es:"T8s entra en el rango SB. Suited connector rentable desde SB vs BB.", en:"T8s is in the SB range. Profitable suited connector from SB vs BB." },
   { id:101, pos:"SB", hand:"8♥ 6♥", code:"86s", open:true,  size:"3x", ctx:"neutral",    es:"86s entra en el rango SB. Suited connector bajo pero jugable heads-up.", en:"86s is in the SB range. Low suited connector but playable heads-up." },
   { id:102, pos:"SB", hand:"K♣ 9♥", code:"K9o", open:true,  size:"3x", ctx:"neutral",    es:"K9o entra en el rango SB vs BB. Offsuit con buena kicker para jugar heads-up.", en:"K9o is in the SB range vs BB. Offsuit with a good kicker for heads-up play." },
   { id:103, pos:"SB", hand:"Q♠ T♠", code:"QTs", open:true,  size:"3x", ctx:"passive_bb", es:"QTs entra en el rango SB. Con un BB pasivo que raramente 3-betea, ampliar el rango ofensivo es correcto.", en:"QTs is in the SB range. With a passive BB who rarely 3-bets, widening the offensive range is correct." },
   // ── SB folds ─────────────────────────────────────────────────
-  { id:104, pos:"SB", hand:"T♥ 3♥", code:"T3s", open:false, size:"3x", ctx:"agg_bb",    es:"T3s no está en el rango SB. Está en la lista de exclusiones (T4s-T2s excluidos desde SB).", en:"T3s is not in the SB range. It is in the exclusion list (T4s-T2s excluded from SB)." },
-  { id:105, pos:"SB", hand:"4♠ 3♠", code:"43s", open:false, size:"3x", ctx:"agg_bb",    es:"43s no está en el rango SB. Está explícitamente excluido (43s-42s fuera del rango SB).", en:"43s is not in the SB range. It is explicitly excluded (43s-42s outside SB range)." },
-  { id:106, pos:"SB", hand:"J♦ 2♦", code:"J2s", open:false, size:"3x", ctx:"neutral",   es:"J2s no está en el rango SB. Los jacks con kicker 3 o inferior se excluyen (J3s-J2s fuera del rango SB).", en:"J2s is not in the SB range. Jacks with kicker 3 or lower are excluded (J3s-J2s outside SB range)." },
+  { id:104, pos:"SB", hand:"T♥ 3♥", code:"T3s", open:false, size:"3x", ctx:"neutral",    es:"T3s no está en el rango SB (T4s-T2s excluidos explícitamente).", en:"T3s is not in the SB range (T4s-T2s explicitly excluded)." },
+  { id:105, pos:"SB", hand:"4♠ 3♠", code:"43s", open:false, size:"3x", ctx:"neutral",    es:"43s no está en el rango SB (43s-42s excluidos explícitamente).", en:"43s is not in the SB range (43s-42s explicitly excluded)." },
+  { id:106, pos:"SB", hand:"J♦ 2♦", code:"J2s", open:false, size:"3x", ctx:"neutral",   es:"J2s no está en el rango SB (J3s-J2s excluidos explícitamente).", en:"J2s is not in the SB range (J3s-J2s explicitly excluded)." },
   { id:107, pos:"SB", hand:"T♦ 3♦", code:"T3s", open:false, size:"3x", ctx:"neutral",   es:"T3s no está en el rango SB. Demasiado débil incluso heads-up.", en:"T3s is not in the SB range. Too weak even heads-up." },
   { id:108, pos:"SB", hand:"K♠ 2♣", code:"K2o", open:false, size:"3x", ctx:"neutral",   es:"K2o no está en el rango SB. King offsuit necesita al menos K9o para abrir.", en:"K2o is not in the SB range. Offsuit king needs at least K9o to open." },
   { id:109, pos:"SB", hand:"Q♥ 3♠", code:"Q3o", open:false, size:"3x", ctx:"neutral",   es:"Q3o no está en el rango SB. Queen offsuit con kicker muy baja es fold.", en:"Q3o is not in the SB range. Queen offsuit with very low kicker is a fold." },
-  { id:110, pos:"SB", hand:"9♣ 2♣", code:"92s", open:false, size:"3x", ctx:"neutral",   es:"92s no está en el rango SB. El gapper hace esta mano injugable.", en:"92s is not in the SB range. The gap makes this hand unplayable." },
+  { id:110, pos:"SB", hand:"9♣ 2♣", code:"92s", open:false, size:"3x", ctx:"neutral",   es:"92s no está en el rango SB. El gap de 7 cartas hace esta mano muy débil incluso heads-up.", en:"92s is not in the SB range. The 7-card gap makes this hand too weak even heads-up." },
 ];
 
 // ─── ISO SITUATIONS ──────────────────────────────────────────────────────────
