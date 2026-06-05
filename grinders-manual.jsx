@@ -30,17 +30,28 @@ const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 
 
+
 // ─── RANGE GRID DATA ──────────────────────────────────────────────────────────
-const CO_OPEN    = new Set(["43o","43s","44","52s","53o","53s","54o","54s","55","63s","64o","64s","65o","65s","66","74o","74s","75o","75s","76o","76s","77","85o","85s","86o","86s","87o","87s","88","95s","96o","96s","97o","97s","98o","98s","99","A2o","A3o","A4o","A5o","A6o","A7o","A7s","A8o","A8s","A9o","A9s","AA","AJo","AJs","AKo","AKs","AQo","AQs","ATo","ATs","J7s","J8o","J8s","J9o","J9s","JJ","JTo","JTs","K7o","K7s","K8o","K8s","K9o","K9s","KJo","KJs","KK","KQo","KQs","KTo","KTs","Q8o","Q8s","Q9o","Q9s","QJo","QJs","QQ","QTo","QTs","T6s","T7o","T7s","T8o","T8s","T9o","T9s","TT"]);
-const CO_EXPLOIT = new Set(["22","32o","32s","33","42o","42s","52o","62o","62s","63o","72o","72s","73o","73s","83o","83s","84o","84s","93s","94o","94s","95o","A2s","A3s","A4s","A5s","A6s","J4o","J4s","J5o","J5s","J6o","J6s","J7o","K2o","K3o","K3s","K4o","K4s","K5o","K5s","K6o","K6s","Q3o","Q4o","Q4s","Q5o","Q5s","Q6o","Q6s","Q7o","Q7s","T4s","T5o","T5s","T6o"]);
-const BTN_OPEN    = new Set(["22","32s","33","42s","43s","44","52s","53s","54s","55","62s","63s","64s","65o","65s","66","73s","74s","75s","76o","76s","77","84s","85s","86o","86s","87o","87s","88","94s","95s","96s","97o","97s","98o","98s","99","A2o","A2s","A3o","A3s","A4o","A4s","A5o","A5s","A6o","A6s","A7o","A7s","A8o","A8s","A9o","A9s","AA","AJo","AJs","AKo","AKs","AQo","AQs","ATo","ATs","J5s","J6s","J7s","J8s","J9o","J9s","JJ","JTo","JTs","K2s","K3s","K4s","K5s","K6s","K7s","K8o","K8s","K9o","K9s","KJo","KJs","KK","KQo","KQs","KTo","KTs","Q5s","Q6s","Q7s","Q8s","Q9o","Q9s","QJo","QJs","QQ","QTo","QTs","T5s","T6s","T7s","T8o","T8s","T9o","T9s","TT"]);
-const BTN_EXPLOIT = new Set(["32o","42o","43o","52o","53o","62o","63o","64o","72o","72s","73o","74o","75o","82o","82s","83o","83s","84o","85o","92o","92s","93o","93s","94o","95o","96o","J2o","J2s","J3o","J3s","J4o","J4s","J5o","J6o","J7o","J8o","K2o","K3o","K4o","K5o","K6o","K7o","Q2o","Q2s","Q3o","Q3s","Q4o","Q4s","Q5o","Q6o","Q7o","Q8o","T2o","T2s","T3o","T3s","T4o","T4s","T5o","T6o","T7o"]);
-const SB_OPEN    = new Set(["22","33","44","53s","54o","54s","55","64s","65o","65s","66","74s","75o","75s","76o","76s","77","85s","86o","86s","87o","87s","88","92s","93s","94s","95s","96o","96s","97o","97s","98o","98s","99","A2o","A2s","A3o","A3s","A4o","A4s","A5o","A5s","A6o","A6s","A7o","A7s","A8o","A8s","A9o","A9s","AA","AJo","AJs","AKo","AKs","AQo","AQs","ATo","ATs","J4s","J5s","J6o","J6s","J7o","J7s","J8o","J8s","J9o","J9s","JJ","JTo","JTs","K2o","K2s","K3o","K3s","K4o","K4s","K5o","K5s","K6o","K6s","K7o","K7s","K8o","K8s","K9o","K9s","KJo","KJs","KK","KQo","KQs","KTo","KTs","Q2s","Q3s","Q4s","Q5s","Q6o","Q6s","Q7o","Q7s","Q8o","Q8s","Q9o","Q9s","QJo","QJs","QQ","QTo","QTs","T5s","T6o","T6s","T7o","T7s","T8o","T8s","T9o","T9s","TT"]);
+const EP_OPEN    = new Set(["66","77","87s","88","98s","99","A9s","AA","AJo","AJs","AKs","AQs","ATs","J9s","JJ","JTs","KJs","KK","KQs","KTs","QJs","QQ","QTs","T9s"]);
+const EP_EXPLOIT = new Set(["AKo","AQo","KQo","T8s","TT"]);
+const MP_OPEN    = new Set(["55","66","77","86s","87s","88","97s","98s","99","A2s","A3s","A4s","A5s","A6s","A7s","A8s","A9s","AA","AJo","AJs","AKs","AQs","ATs","J9s","JJ","JTs","K9s","KJs","KK","KQs","KTs","Q9s","QJs","QQ","QTs","T9s"]);
+const MP_EXPLOIT = new Set(["65s","76s","AKo","AQo","KQo","T8s","TT"]);
+const CO_OPEN    = new Set(["55","65s","66","76s","77","86s","87s","88","97s","98s","99","A2s","A3s","A4s","A5s","A6s","A7s","A8s","A9o","A9s","AA","AJo","AJs","AKo","AKs","AQo","AQs","ATo","ATs","J9s","JJ","JTo","JTs","K8s","K9s","KJo","KJs","KK","KQo","KQs","KTo","KTs","Q9s","QJo","QJs","QQ","QTo","QTs","T8s","T9s","TT"]);
+const CO_EXPLOIT = new Set([]);
+const BTN_OPEN    = new Set(["22","32s","55","66","77","86s","87s","88","96s","97s","98o","98s","99","A2s","A3s","A4o","A4s","A5s","A6s","A7s","A8o","A8s","A9o","A9s","AA","AJo","AJs","AKs","AQs","ATo","ATs","J7s","J8s","J9o","J9s","JJ","JTo","JTs","K2s","K3s","K4s","K5s","K6s","K7s","K8o","K8s","K9o","K9s","KJo","KJs","KK","KQs","KTo","KTs","Q7s","Q8s","Q9o","Q9s","QJo","QJs","QQ","QTo","QTs","T7s","T9o","T9s"]);
+const BTN_EXPLOIT = new Set(["54s","64s","65s","75s","76s","87o","A2o","A3o","A5o","A6o","A7o","AKo","AQo","KQo","T8s","TT"]);
+const SB_OPEN    = new Set(["22","32s","43s","44","53s","54o","54s","55","64o","64s","65o","65s","66","74s","75o","75s","76o","76s","77","85s","86o","86s","87o","87s","88","95s","96o","96s","97o","97s","98o","98s","99","A2o","A2s","A3o","A3s","A4o","A4s","A5o","A5s","A6o","A6s","A7o","A7s","A8o","A8s","A9o","A9s","AA","AJo","AJs","AKo","AKs","AQo","AQs","ATo","ATs","J4s","J5s","J6o","J6s","J7o","J7s","J8o","J8s","J9o","J9s","JJ","JTo","JTs","K2o","K2s","K3o","K3s","K4o","K4s","K5o","K5s","K6o","K6s","K7o","K7s","K8o","K8s","K9o","K9s","KJo","KJs","KK","KQo","KQs","KTo","KTs","Q2s","Q3s","Q4s","Q5s","Q6o","Q6s","Q7o","Q7s","Q8o","Q8s","Q9o","Q9s","QJo","QJs","QQ","QTo","QTs","T5s","T6o","T6s","T7o","T7s","T8o","T8s","T9o","T9s","TT"]);
+const SB_EXPLOIT  = new Set([]);
+const ROL_MP_OPEN    = new Set(["88","99","AA","AJs","AKs","AQs","JJ","JTs","KK","KQs","QJs","QQ"]);
+const ROL_MP_EXPLOIT = new Set(["AKo","AQo","TT"]);
+const ROL_CO_OPEN    = new Set(["66","77","88","98s","99","A9s","AA","AJo","AJs","AKo","AKs","AQo","AQs","ATs","J9s","JJ","JTs","KJs","KK","KQo","KQs","KTs","QJs","QQ","QTs","T9s","TT"]);
+const ROL_BTN_OPEN   = new Set(["55","66","77","88","98s","99","A9s","AA","AJo","AJs","AKo","AKs","AQo","AQs","ATo","ATs","J9s","JJ","JTo","JTs","KJo","KJs","KK","KQo","KQs","KTs","QJo","QJs","QQ","QTs","T9s","TT"]);
+const ROL_SB_OPEN    = new Set(["55","66","76s","77","87s","88","97s","98s","99","A8s","A9s","AA","AJo","AJs","AKo","AKs","AQo","AQs","ATo","ATs","J9s","JJ","JTo","JTs","K9s","KJo","KJs","KK","KQo","KQs","KTs","QJo","QJs","QQ","QTs","T8s","T9s","TT"]);
 
 function RangeGridBlock({ data, lang }) {
   const RANKS = ['A','K','Q','J','T','9','8','7','6','5','4','3','2'];
-  const openSet    = data.open    || new Set();
-  const exploitSet = data.exploit || new Set();
+  const openSet    = data.open    instanceof Set ? data.open    : new Set(data.open    || []);
+  const exploitSet = data.exploit instanceof Set ? data.exploit : new Set(data.exploit || []);
 
   const getHand = (i, j) => {
     const r1 = RANKS[i], r2 = RANKS[j];
@@ -72,11 +83,13 @@ function RangeGridBlock({ data, lang }) {
             );
           }))}</div>
       </div>
-      <div style={{ display:'flex', gap:14, marginTop:6, fontSize:11, color:'#8b8fa8', flexWrap:'wrap' }}>
-        <span><span style={{color:'#ef4444'}}>■</span> {lang==='es'?'Siempre abre':'Always open'}</span>
-        <span><span style={{color:'#fca5a5'}}>■</span> {lang==='es'?'Abre vs rivales débiles':'Open vs weak opponents'}</span>
-        <span><span style={{color:'#3a3f5a'}}>■</span> Fold</span>
-      </div>
+      {(openSet.size > 0 || exploitSet.size > 0) && (
+        <div style={{ display:'flex', gap:14, marginTop:6, fontSize:11, color:'#8b8fa8', flexWrap:'wrap' }}>
+          <span><span style={{color:'#ef4444'}}>■</span> {lang==='es'?'Siempre abre':'Always open'}</span>
+          {exploitSet.size > 0 && <span><span style={{color:'#fca5a5'}}>■</span> {lang==='es'?'Abre vs rivales débiles':'Open vs weak opponents'}</span>}
+          <span><span style={{color:'#3a3f5a'}}>■</span> Fold</span>
+        </div>
+      )}
     </div>
   );
 }
@@ -348,17 +361,7 @@ const content = {
                 content:
                   "UTG es la posición más difícil. Actúas el primero de los 6 jugadores y tienes a todos por detrás con la posibilidad de 3-bettear o hacer cold call. Esto significa que tu rango debe ser el más ajustado de la mesa: solo abres manos que soporten mucha presión.",
               },
-              {
-                type: "rangeBlock",
-                label: "Rango de apertura UTG (~14%)",
-                hands: [
-                  { group: "Pares", cards: "AA, KK, QQ, JJ, TT, 99, 88, 77" },
-                  { group: "Ases suited", cards: "AKs, AQs, AJs, ATs, A9s" },
-                  { group: "Ases offsuit", cards: "AKo, AQo" },
-                  { group: "Broadways suited", cards: "KQs, KJs, QJs, JTs" },
-                  { group: "Broadways offsuit", cards: "KQo" },
-                ],
-              },
+              { type:"rangeGrid", labelEs:"Rango apertura EP/UTG (~14%)", labelEn:"EP/UTG opening range (~14%)", open:EP_OPEN, exploit:EP_EXPLOIT },
               {
                 type: "text",
                 content:
@@ -387,20 +390,7 @@ const content = {
                 content:
                   "Desde MP tienes una posición ligeramente mejor que UTG: ya ha actuado un jugador antes que tú, y si ese jugador ha foldeado, solo quedan CO, BTN, SB y BB detrás. Esto te permite ampliar el rango moderadamente.",
               },
-              {
-                type: "rangeBlock",
-                label: "Rango de apertura MP (~28%)",
-                hands: [
-                  { group: "Pares", cards: "AA-55" },
-                  { group: "Ases suited", cards: "AKs-A2s (todos)" },
-                  { group: "Ases offsuit", cards: "AKo, AQo, AJo" },
-                  { group: "Kings suited", cards: "KQs-K9s" },
-                  { group: "Kings offsuit", cards: "KQo" },
-                  { group: "Queens suited", cards: "QJs-Q9s" },
-                  { group: "Jacks suited", cards: "JTs, J9s" },
-                  { group: "Suited connectors", cards: "T9s, T8s, 98s, 97s, 87s, 86s, 76s, 75s, 65s" },
-                ],
-              },
+              { type:"rangeGrid", labelEs:"Rango apertura MP (~21%)", labelEn:"MP opening range (~21%)", open:MP_OPEN, exploit:MP_EXPLOIT },
               {
                 type: "text",
                 content:
@@ -1325,23 +1315,13 @@ const content = {
           {
             title: "UTG — Under the Gun",
             body: [
-              { type: "positionHeader", name: "UTG", range: "~14%", size: "3x BB", color: "#ef4444" },
+              { type: "positionHeader", name: "UTG", range: "~11%", size: "3x BB", color: "#ef4444" },
               {
                 type: "text",
                 content:
                   "UTG is the hardest position. You act first out of 6 players and have everyone behind you with the ability to 3-bet or cold call. This means your range must be the tightest at the table: only open hands that can withstand heavy pressure.",
               },
-              {
-                type: "rangeBlock",
-                label: "UTG opening range (~14%)",
-                hands: [
-                  { group: "Pairs", cards: "AA, KK, QQ, JJ, TT, 99, 88, 77" },
-                  { group: "Suited aces", cards: "AKs, AQs, AJs, ATs, A9s" },
-                  { group: "Offsuit aces", cards: "AKo, AQo" },
-                  { group: "Broadway suited", cards: "KQs, KJs, QJs, JTs" },
-                  { group: "Broadway offsuit", cards: "KQo" },
-                ],
-              },
+              { type:"rangeGrid", labelEs:"Rango apertura EP/UTG (~14%)", labelEn:"EP/UTG opening range (~14%)", open:EP_OPEN, exploit:EP_EXPLOIT },
               {
                 type: "text",
                 content:
@@ -1358,26 +1338,13 @@ const content = {
           {
             title: "MP — Middle Position",
             body: [
-              { type: "positionHeader", name: "MP", range: "~28%", size: "2.5–3x BB", color: "#f97316" },
+              { type: "positionHeader", name: "MP", range: "~15%", size: "2.5–3x BB", color: "#f97316" },
               {
                 type: "text",
                 content:
                   "From MP you have a slightly better position than UTG: one player has already acted before you, and if that player folded, only CO, BTN, SB, and BB remain. This lets you expand the range moderately.",
               },
-              {
-                type: "rangeBlock",
-                label: "MP opening range (~28%)",
-                hands: [
-                  { group: "Pairs", cards: "AA-55" },
-                  { group: "Suited aces", cards: "AKs-A2s (all)" },
-                  { group: "Offsuit aces", cards: "AKo, AQo, AJo" },
-                  { group: "Kings suited", cards: "KQs-K9s" },
-                  { group: "Kings offsuit", cards: "KQo" },
-                  { group: "Queens suited", cards: "QJs-Q9s" },
-                  { group: "Jacks suited", cards: "JTs, J9s" },
-                  { group: "Suited connectors", cards: "T9s, T8s, 98s, 97s, 87s, 86s, 76s, 75s, 65s" },
-                ],
-              },
+              { type:"rangeGrid", labelEs:"Rango apertura MP (~21%)", labelEn:"MP opening range (~21%)", open:MP_OPEN, exploit:MP_EXPLOIT },
               {
                 type: "callout",
                 label: "Watch out with AJo and KQo from MP",
@@ -1389,7 +1356,7 @@ const content = {
           {
             title: "CO — Cutoff",
             body: [
-              { type: "positionHeader", name: "CO", range: "~33%", size: "2.5x BB", color: "#eab308" },
+              { type: "positionHeader", name: "CO", range: "~26%", size: "2.5x BB", color: "#eab308" },
               {
                 type: "text",
                 content:
@@ -1432,7 +1399,7 @@ const content = {
           {
             title: "BTN — Button",
             body: [
-              { type: "positionHeader", name: "BTN", range: "~52%", size: "2.5x BB", color: "#10b981" },
+              { type: "positionHeader", name: "BTN", range: "~45%", size: "2.5x BB", color: "#10b981" },
               {
                 type: "text",
                 content:
@@ -1475,7 +1442,7 @@ const content = {
           {
             title: "SB — Small Blind",
             body: [
-              { type: "positionHeader", name: "SB", range: "~62%", size: "3x BB", color: "#8b5cf6" },
+              { type: "positionHeader", name: "SB", range: "~36%", size: "3x BB", color: "#8b5cf6" },
               {
                 type: "text",
                 content:
@@ -2717,7 +2684,7 @@ const SITUATIONS = [
   { id:64, pos:"CO",  hand:"Q♥ 7♥", code:"Q7s", open:false, size:"2.5x", ctx:"neutral", es:"Q7s está en el rango explotativo de CO (vs rivales débiles). En situación neutral es fold.", en:"Q7s is in the CO exploitative range (vs weak opponents). In neutral situations it's a fold." },
   { id:65, pos:"CO",  hand:"J♦ 7♦", code:"J7s", open:false, size:"2.5x", ctx:"neutral", es:"J7s está en el rango explotativo de CO (vs rivales débiles). En mesa neutral es fold.", en:"J7s is in the CO exploitative range (vs weak opponents). In neutral table it's a fold." },
   { id:66, pos:"CO",  hand:"Q♠ 9♥", code:"Q9o", open:false, size:"2.5x", ctx:"neutral", es:"Q9o no está en el rango CO estándar. Offsuit con kicker media — sigue siendo fold en neutral.", en:"Q9o is not in the standard CO range. Offsuit with medium kicker — still a fold in neutral." },
-  { id:67, pos:"CO",  hand:"Q♣ 9♣", code:"Q9s", open:false, size:"2.5x", ctx:"agg_btn",  es:"Q9s normalmente abre desde CO, pero con BTN que 3-betea el 18% es fold: demasiado débil para pagar o 4-betear.", en:"Q9s normally opens from CO, but with BTN 3-betting 18% it's a fold: too weak to call or 4-bet." },
+  { id:67, pos:"CO",  hand:"J♠ 7♠", code:"J7s", open:false, size:"2.5x", ctx:"agg_btn",  es:"J7s no está en el rango CO. Con BTN agresivo que 3-betea el 18%, manos que no están en el rango estándar son fold directo.", en:"J7s is not in the CO range. With an aggressive BTN 3-betting 18%, hands outside the standard range are a direct fold." },
   // ── BTN opens ────────────────────────────────────────────────
   { id:68, pos:"BTN", hand:"4♦ 4♣", code:"44",  open:true,  size:"2.5x", ctx:"neutral", es:"44 entra en el rango BTN. Desde el button todos los pares se abren.", en:"44 is in the BTN range. From the button all pairs are opened." },
   { id:69, pos:"BTN", hand:"3♠ 3♥", code:"33",  open:true,  size:"2.5x", ctx:"neutral", es:"33 entra en el rango BTN. Set mining es rentable en posición.", en:"33 is in the BTN range. Set mining is profitable in position." },
