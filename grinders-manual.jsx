@@ -35,7 +35,7 @@ const content = {
   es: {
     nav: { title: "Poker Cash Academy", back: "Inicio" },
     home: { welcome: "Poker Cash Academy", subtitle: "Domina el cash game. Un concepto a la vez." },
-    menu: { academia: "Academy" },
+    menu: { academia: "Academy", academiaSubtitle: "Lecciones estructuradas paso a paso" },
     academia: {
       title: "Academia",
       subtitle: "Aprende paso a paso",
@@ -51,7 +51,7 @@ const content = {
     },
     practice: {
       title: "Test",
-      subtitle: "10 situaciones aleatorias de apertura preflop",
+      subtitle: "Mide tu progreso con situaciones reales de toma de decisiones",
       start: "Comenzar sesión",
       situation: "Situación",
       of: "de",
@@ -141,6 +141,18 @@ const content = {
               { type: "text", content: "El antídoto al tilt no es intentar no sentir emociones — eso es imposible. Es tener un sistema que aísle tus emociones de tus decisiones. Esto incluye establecer reglas claras antes de sentarte a jugar: un stop-loss de 3 buy-ins, un límite de horas, reconocer las señales de alerta personales y actuar en consecuencia." },
               { type: "callout", label: "Proceso vs. resultado: la distinción clave", content: "Una buena decisión que pierde sigue siendo una buena decisión. Una mala decisión que gana sigue siendo una mala decisión. Si internalizas esto de verdad, el poker cambia por completo: dejas de frustrarte por los malos resultados inevitables y te centras en lo único que puedes controlar — la calidad de tus decisiones." },
               { type: "text", content: "El poker de alto nivel es un juego de información incompleta repetido miles de veces. En cualquier mano individual, el factor suerte es enorme. En el largo plazo, la suerte se cancela y solo queda la habilidad. Tu trabajo es jugar suficientes manos con suficiente calidad para que el largo plazo trabaje a tu favor." },
+            ],
+          },
+          {
+            title: "Stack depth: jugar con 100 BB",
+            body: [
+              { type: "text", content: "Toda la estrategia de este curso está calibrada para jugar con 100 big blinds efectivos. Esto no es un detalle menor: el stack depth (profundidad de stack) cambia completamente el valor de las manos, el tamaño óptimo de las apuestas y los rangos que son rentables de jugar." },
+              { type: "callout", label: "¿Por qué 100 BB como referencia?", content: "Con 100 BB tienes suficiente dinero para extraer el máximo valor con manos fuertes a lo largo de múltiples calles, para que las manos especulativas tengan los implied odds necesarios para ser rentables, y para que los bluffs y semi-bluffs tengan presión real. Por debajo de 100 BB, la estrategia empieza a cambiar: el juego se simplifica, los draws pierden valor y las decisiones preflop se vuelven más polarizadas." },
+              { type: "callout", label: "Recarga si bajas de 80-90 BB", content: "La regla práctica es clara: si tu stack cae por debajo de 80-90 BB, recarga hasta 100 BB antes de seguir jugando. Jugar con 75, 60 o 50 BB no es simplemente 'tener menos fichas' — es un juego diferente con una geometría de botes distinta. La estrategia que estás aprendiendo aquí no funciona igual con stacks cortos." },
+              { type: "text", content: "La razón más importante para recargar tiene que ver con las manos especulativas. Pares pequeños (22-66) y suited connectors bajos (65s, 76s, 87s) son rentables con 100 BB porque cuando aciertan una mano muy fuerte (set, straight, flush), pueden extraer suficiente valor a lo largo del bote para compensar las muchas veces que fallan el flop y tienen que foldear." },
+              { type: "callout", label: "Por qué los pares pequeños necesitan stack profundo", content: "22-66 hacen set aproximadamente 1 de cada 8 veces que ves el flop. Cuando aciertas, necesitas ganar suficientes fichas para compensar las 7 veces que fallaste. Con 100 BB efectivos, un set en el flop puede ganar 80-100 BB en un bote de varias calles. Con 40 BB, el máximo que puedes ganar es 40 BB — lo que a menudo no compensa los blinds pagados para ver el flop repetidamente." },
+              { type: "callout", label: "Por qué los suited connectors necesitan stack profundo", content: "65s, 76s, 87s, 98s son manos que buscan flushes y straights. Cuando aciertan un flush draw en el flop pueden necesitar 2 calles para completar — lo que requiere botes grandes que solo son posibles con stacks profundos. Con stack corto, la equidad de estas manos se reduce drásticamente porque el bote máximo posible no justifica el riesgo de jugarlas." },
+              { type: "text", content: "En resumen: las manos especulativas son rentables con implied odds, y los implied odds existen solo cuando hay suficientes fichas en la mesa. 100 BB es el punto donde estas manos pasan de ser marginales a ser claramente rentables con la estrategia correcta." },
             ],
           },
           {
@@ -657,7 +669,7 @@ const content = {
       },
       {
         id: 2,
-        title: "2. Cuando Alguien Limpa",
+        title: "2. Cuando Alguien Limpea",
         summary: "Por qué el limp es malo, cómo explotarlo con el ISO raise y rangos por posición.",
         chapters: [
           {
@@ -1006,7 +1018,7 @@ const content = {
   en: {
     nav: { title: "Poker Cash Academy", back: "Home" },
     home: { welcome: "Poker Cash Academy", subtitle: "Master cash game. One concept at a time." },
-    menu: { academia: "Academy" },
+    menu: { academia: "Academy", academiaSubtitle: "Structured lessons step by step" },
     academia: {
       title: "Academia",
       subtitle: "Learn step by step",
@@ -1022,7 +1034,7 @@ const content = {
     },
     practice: {
       title: "Test",
-      subtitle: "10 random preflop opening situations",
+      subtitle: "Track your progress with real decision-making situations",
       start: "Start session",
       situation: "Situation",
       of: "of",
@@ -1112,6 +1124,18 @@ const content = {
               { type: "text", content: "The antidote to tilt is not trying not to feel emotions — that's impossible. It's having a system that isolates your emotions from your decisions. This includes setting clear rules before you sit down: a 3 buy-in stop-loss, a time limit, recognizing your personal warning signs and acting accordingly." },
               { type: "callout", label: "Process vs. result: the key distinction", content: "A good decision that loses is still a good decision. A bad decision that wins is still a bad decision. If you truly internalize this, poker changes completely: you stop getting frustrated by inevitable bad results and focus on the only thing you can control — the quality of your decisions." },
               { type: "text", content: "High-level poker is a game of incomplete information repeated thousands of times. In any individual hand, the luck factor is enormous. In the long run, luck cancels out and only skill remains. Your job is to play enough hands with enough quality for the long run to work in your favor." },
+            ],
+          },
+          {
+            title: "Stack depth: playing with 100 BB",
+            body: [
+              { type: "text", content: "All the strategy in this course is calibrated for playing with 100 effective big blinds. This is not a minor detail: stack depth completely changes the value of hands, the optimal bet sizing, and which ranges are profitable to play." },
+              { type: "callout", label: "Why 100 BB as the reference point?", content: "With 100 BB you have enough money to extract maximum value with strong hands across multiple streets, for speculative hands to have the implied odds needed to be profitable, and for bluffs and semi-bluffs to carry real pressure. Below 100 BB the strategy starts to change: the game simplifies, draws lose value, and preflop decisions become more polarized." },
+              { type: "callout", label: "Rebuy if you drop below 80-90 BB", content: "The practical rule is clear: if your stack falls below 80-90 BB, top up to 100 BB before continuing. Playing with 75, 60 or 50 BB is not simply 'having fewer chips' — it's a different game with a different pot geometry. The strategy you're learning here doesn't work the same way with short stacks." },
+              { type: "text", content: "The most important reason to rebuy has to do with speculative hands. Small pairs (22-66) and low suited connectors (65s, 76s, 87s) are profitable with 100 BB because when they hit a very strong hand (set, straight, flush), they can extract enough value across the pot to compensate for the many times they miss the flop and have to fold." },
+              { type: "callout", label: "Why small pairs need deep stacks", content: "22-66 make a set roughly 1 in 8 times they see the flop. When you hit, you need to win enough chips to compensate for the 7 times you missed. With 100 BB effective, a flopped set can win 80-100 BB in a multi-street pot. With 40 BB, the maximum you can win is 40 BB — which often doesn't cover the blinds paid to repeatedly see the flop." },
+              { type: "callout", label: "Why suited connectors need deep stacks", content: "65s, 76s, 87s, 98s are hands that aim for flushes and straights. When they hit a flush draw on the flop they may need 2 streets to complete — which requires large pots only possible with deep stacks. With a short stack, the equity of these hands drops dramatically because the maximum possible pot doesn't justify the risk of playing them." },
+              { type: "text", content: "In summary: speculative hands are profitable with implied odds, and implied odds only exist when there are enough chips on the table. 100 BB is the point where these hands go from marginal to clearly profitable with the right strategy." },
             ],
           },
           {
@@ -2476,7 +2500,7 @@ function HomePage({ t, onNavigate }) {
           <div style={{ width: 44, height: 44, borderRadius: 12, background: "linear-gradient(135deg, #c9a84c22, #c9a84c11)", border: "1px solid #c9a84c44", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>♠</div>
           <div style={{ textAlign: "left" }}>
             <div style={{ fontSize: 16, fontWeight: 700, color: "#f0f0f5" }}>{t.menu.academia}</div>
-            <div style={{ fontSize: 12, color: "#8b8fa8", marginTop: 2 }}>{t.lang === "es" ? "Lecciones paso a paso" : "Step-by-step lessons"}</div>
+            <div style={{ fontSize: 12, color: "#8b8fa8", marginTop: 2 }}>{t.menu.academiaSubtitle}</div>
           </div>
           <span style={{ marginLeft: "auto", color: "#c9a84c", fontSize: 20 }}>→</span>
         </button>
@@ -2507,12 +2531,12 @@ function HomePage({ t, onNavigate }) {
 // ─── PRACTICE DATA ───────────────────────────────────────────────────────────
 
 const CTX = {
-  neutral:    { es: "Mesa regular. Jugadores sin tendencias extremas.", en: "Regular table. No extreme tendencies." },
-  nit_btn:    { es: "El BTN es un nit que foldea mucho preflop.", en: "BTN is a nit who folds a lot preflop." },
-  nit_blind:  { es: "SB y BB son jugadores muy ajustados.", en: "SB and BB are very tight players." },
-  agg_btn:    { es: "El BTN 3-betea el 18% de tus aperturas.", en: "BTN 3-bets 18% of your opens." },
-  agg_bb:     { es: "El BB es agresivo y 3-betea con frecuencia.", en: "BB is aggressive and 3-bets often." },
-  passive_bb:       { es: "El BB es pasivo y casi nunca 3-betea.", en: "BB is passive and rarely 3-bets." },
+  neutral:    { es: "Situación de open raise. Todos los jugadores delante de ti han foldeado. Mesa regular, sin tendencias extremas.", en: "Open raise situation. All players before you have folded. Regular table, no extreme tendencies." },
+  nit_btn:    { es: "Situación de open raise. Todos los jugadores delante de ti han foldeado. El BTN es un nit que foldea mucho preflop.", en: "Open raise situation. All players before you have folded. BTN is a nit who folds a lot preflop." },
+  nit_blind:  { es: "Situación de open raise. Todos los jugadores delante de ti han foldeado. SB y BB son jugadores muy ajustados.", en: "Open raise situation. All players before you have folded. SB and BB are very tight players." },
+  agg_btn:    { es: "Situación de open raise. Todos los jugadores delante de ti han foldeado. El BTN 3-betea el 18% de tus aperturas.", en: "Open raise situation. All players before you have folded. BTN 3-bets 18% of your opens." },
+  agg_bb:     { es: "Situación de open raise. Todos los jugadores delante de ti han foldeado. El BB es agresivo y 3-betea con frecuencia.", en: "Open raise situation. All players before you have folded. BB is aggressive and 3-bets often." },
+  passive_bb: { es: "Situación de open raise. Todos los jugadores delante de ti han foldeado. El BB es pasivo y casi nunca 3-betea.", en: "Open raise situation. All players before you have folded. BB is passive and rarely 3-bets." },
   limper_utg_fish:  { es: "UTG ha limpeado (jugador recreativo).", en: "UTG has limped (recreational player)." },
   limper_mp_fish:   { es: "MP ha limpeado (jugador recreativo).", en: "MP has limped (recreational player)." },
   limper_co_fish:   { es: "CO ha limpeado (jugador recreativo).", en: "CO has limped (recreational player)." },
@@ -2644,7 +2668,7 @@ const SITUATIONS = [
   { id:102, pos:"SB", hand:"K♣ 9♥", code:"K9o", open:true,  size:"3x", ctx:"neutral",    es:"K9o entra en el rango SB vs BB. Offsuit con buena kicker para jugar heads-up.", en:"K9o is in the SB range vs BB. Offsuit with a good kicker for heads-up play." },
   { id:103, pos:"SB", hand:"Q♠ T♠", code:"QTs", open:true,  size:"3x", ctx:"passive_bb", es:"QTs entra en el rango SB. Con un BB pasivo que raramente 3-betea, ampliar el rango ofensivo es correcto.", en:"QTs is in the SB range. With a passive BB who rarely 3-bets, widening the offensive range is correct." },
   // ── SB folds ─────────────────────────────────────────────────
-  { id:104, pos:"SB", hand:"K♦ 3♦", code:"K3s", open:false, size:"3x", ctx:"agg_bb",    es:"K3s normalmente abre desde SB, pero con BB muy agresivo no tiene suficiente fuerza para responder bien al 3-bet.", en:"K3s normally opens from SB, but with a very aggressive BB it lacks the strength to respond well to a 3-bet." },
+  { id:104, pos:"SB", hand:"K♦ 3♦", code:"K3s", open:false, size:"3x", ctx:"agg_bb",    es:"K3s no está en el rango SB estándar (mínimo K7s suited). Con BB agresivo la situación empeora aún más — ni siquiera en mesa neutral abrirías K3s desde SB.", en:"K3s is not in the standard SB range (minimum K7s suited). With an aggressive BB the situation gets even worse — you wouldn't open K3s from SB even at a neutral table." },
   { id:105, pos:"SB", hand:"Q♣ 4♣", code:"Q4s", open:false, size:"3x", ctx:"agg_bb",    es:"Q4s no está en el rango SB vs un BB agresivo. Demasiado débil para pagar un 3-bet OOP.", en:"Q4s is not in the SB range vs an aggressive BB. Too weak to call a 3-bet OOP." },
   { id:106, pos:"SB", hand:"J♥ 4♥", code:"J4s", open:false, size:"3x", ctx:"neutral",   es:"J4s no está en el rango SB. El gapper es demasiado grande para ser jugable.", en:"J4s is not in the SB range. The gap is too large to be playable." },
   { id:107, pos:"SB", hand:"T♦ 3♦", code:"T3s", open:false, size:"3x", ctx:"neutral",   es:"T3s no está en el rango SB. Demasiado débil incluso heads-up.", en:"T3s is not in the SB range. Too weak even heads-up." },

@@ -1,0 +1,4 @@
+cd C:\Users\gonia\OneDrive\Desktop\AppPoker
+git add .
+git commit -m "descripcion del cambio"
+git push
