@@ -467,6 +467,7 @@ const content = {
                   "Desde CO heredamos todo el rango de MP y añadimos: 44, K8s, A9o, KJo, QTo y JTo. Con solo BTN y blinds por detrás, las manos con potencial de valor y posición son muy rentables. A9o, QTo y JTo son abribles desde CO porque el contexto posicional lo justifica.",
               },
               { type:"rangeImage", src:orCO, alt:"Rango apertura CO" },
+              { type:"callout", label:"🟥 Rojo oscuro vs 🩷 Rosa claro — dos colores, dos situaciones", content:"Las manos en rojo oscuro (desfavorable) las abres siempre, incluso cuando los rivales por detrás son activos o agresivos. Las manos en rosa claro (favorable) son aperturas explotativas: solo son EV+ cuando los jugadores que actúan después de ti foldean con frecuencia — ya sea al open raise, o en caso de que paguen, foldean mucho a la c-bet en el flop. Si el BTN y los blinds son jugadores ajustados que foldean sus blinds más del 70% de las veces, las manos rosas se vuelven directamente rentables. Si son estaciones de pago o jugadores muy activos, descarta las manos rosas." },
               {
                 type: "callout",
                 label: "ATo desde CO",
@@ -491,6 +492,7 @@ const content = {
                   "El Button es la posición más poderosa del poker. Actúas último en todas las calles postflop, lo que te da control total sobre el tamaño del bote, la posibilidad de blufear con más eficacia y la ventaja de ver todas las acciones antes de decidir. Esto justifica abrir casi el doble de manos que UTG.",
               },
               { type:"rangeImage", src:orBTN, alt:"Rango apertura BTN" },
+              { type:"callout", label:"🟥 Rojo oscuro vs 🩷 Rosa claro — ajuste explotativo BTN", content:"Las manos en rojo oscuro las abres siempre desde BTN. Las manos en rosa claro son aperturas explotativas: son EV+ cuando los blinds foldean con frecuencia al open (SB y BB con Fold to Steal >70%) o cuando pagan pero foldean mucho a tu c-bet en el flop. Desde BTN la ventaja posicional es tan grande que el umbral de apertura explotativa es muy bajo — si los blinds son ajustados o pasivos postflop, casi toda la tabla de color rosa pasa a ser apertura estándar." },
               {
                 type: "text",
                 content:
@@ -525,6 +527,7 @@ const content = {
                   "Sin embargo, cuando los jugadores anteriores han foldeado y solo tienes al BB detrás, la situación cambia radicalmente: estás jugando heads-up. Dado que es un enfrentamiento de dos jugadores donde el BB actúa OOP postflop, se puede abrir un rango muy amplio — prácticamente el 62% de las manos. La clave es usar un tamaño de 3x para compensar la desventaja posicional.",
               },
               { type:"rangeImage", src:orSB, alt:"Rango apertura SB" },
+              { type:"callout", label:"🟥 Rojo oscuro vs 🩷 Rosa claro — ajuste explotativo SB", content:"Desde SB las manos en rojo oscuro las abres siempre contra el BB. Las manos en rosa claro son explotativas: solo abres estas manos cuando el BB foldea con frecuencia — tanto al open (Fold to SB Steal >60%) como a la c-bet en el flop. Si el BB es un calling station que defiende muy amplio y nunca foldea postflop, descarta las manos rosas: no tienen suficiente equity para ser rentables sin fold equity." },
               {
                 type: "callout",
                 label: "Tamaño: 3x BB desde SB",
@@ -713,6 +716,7 @@ const content = {
             body: [
               { type: "positionHeader", name: "ISO_MP", range: "~24%", size: "4x BB", color: "#f97316" },
               { type:"rangeImage", src:rolMP, alt:"ROL / MP" },
+              { type:"callout", label:"🟥 Rojo oscuro vs 🩷 Rosa claro — ISO explotativo desde MP", content:"Las manos en rojo oscuro son el core del rango: las usas para ISO siempre, independientemente del tipo de jugadores por detrás. Las manos en rosa claro son ISOs explotativos: solo son EV+ cuando los jugadores que actúan después de ti (CO, BTN, blinds) foldean con frecuencia — ya sea al raise de ISO, o si pagan, foldean mucho a tu c-bet. Desde MP, dado que tienes 4 jugadores por detrás, el umbral es más alto: solo añades las manos rosas cuando la mesa es muy pasiva o cuando los jugadores específicos a tu izquierda son muy ajustados." },
               { type: "text", content: "Desde MP el ISO es considerablemente más ajustado. Tienes a CO, BTN y los blinds por detrás — cuatro jugadores que pueden entrar al bote o hacerte 3-bet. Solo deberías ISO desde MP con manos que aguanten presión y que tengan clara ventaja sobre el rango del limper." },
                             { type: "callout", label: "La regla práctica desde MP", content: "Si dudarías en abrir la mano desde MP en un spot normal, probablemente tampoco deberías hacer ISO. El hecho de que haya un limper no cambia dramáticamente el rango desde MP — sí amplía ligeramente, pero la presión de los jugadores por detrás sigue siendo la misma." },
             ],
@@ -722,6 +726,7 @@ const content = {
             body: [
               { type: "positionHeader", name: "ISO_CO", range: "~32%", size: "4x BB", color: "#eab308" },
               { type:"rangeImage", src:rolCO, alt:"ROL / CO" },
+              { type:"callout", label:"🟥 Rojo oscuro vs 🩷 Rosa claro — ISO explotativo desde CO", content:"Las manos en rojo oscuro las usas para ISO siempre desde CO. Las manos en rosa claro son explotativas: son EV+ cuando el BTN y los blinds foldean frecuentemente al raise (Fold to ISO >65%) o cuando pagan el ISO pero foldean mucho a tu c-bet en el flop. Con solo 3 jugadores por detrás desde CO, el umbral de ISO explotativo es más accesible que desde MP." },
               { type: "text", content: "Desde CO con un limper delante, el rango es más ajustado que desde BTN porque tienes al BTN y los blinds por detrás — cualquiera puede cold-callear o 3-betear. Aun así, el ISO desde CO sigue siendo más amplio que el open estándar de CO." },
                             { type: "callout", label: "Ajuste con BTN agresivo", content: "Si el BTN es un jugador que 3-betea mucho, ajusta el rango de ISO desde CO hacia arriba: elimina las manos más débiles (A4s, K8s, 64s) que no aguantan bien un 3-bet y conserva las que tienen respuesta clara (AA-77, AJs+, KQs)." },
             ],
@@ -731,6 +736,7 @@ const content = {
             body: [
               { type: "positionHeader", name: "ISO_BTN", range: "~50%", size: "4x BB", color: "#10b981" },
               { type:"rangeImage", src:rolBTN, alt:"ROL / BTN" },
+              { type:"callout", label:"🟥 Rojo oscuro vs 🩷 Rosa claro — ISO explotativo desde BTN", content:"Las manos en rojo oscuro son el core del rango de ISO desde BTN — siempre rentables con posición perfecta. Las manos en rosa claro son explotativas: son EV+ cuando los blinds foldean frecuentemente al ISO (Fold to ISO >60%) o cuando pagan pero ceden postflop a la c-bet. Desde BTN el umbral es muy bajo porque ya tienes la posición más favorable — en la práctica, casi toda la tabla rosa se convierte en ISO estándar contra blinds ajustados." },
               { type: "text", content: "Desde el BTN con un solo limper delante, tu rango de ISO es enorme: aproximadamente el 50% de las manos. La combinación de posición perfecta (actúas último en todas las calles), el rango débil del limper y el hecho de que solo hay dos jugadores detrás (SB y BB, que suelen foldear) lo justifica." },
                             { type: "callout", label: "¿Por qué tan amplio?", content: "Porque incluso manos mediocres tienen +EV en esta situación: el limper tiene un rango capped y débil, tú tienes posición, y la iniciativa hace que seas tú quien dicta el ritmo de la mano postflop. Manos como Q7s o 73s que no abrirías normalmente se vuelven ISOs rentables desde BTN." },
             ],
@@ -740,6 +746,7 @@ const content = {
             body: [
               { type: "positionHeader", name: "ISO_SB", range: "~30%", size: "4x BB", color: "#8b5cf6" },
               { type:"rangeImage", src:rolSB, alt:"ROL / SB" },
+              { type:"callout", label:"🟥 Rojo oscuro vs 🩷 Rosa claro — ISO explotativo desde SB", content:"Las manos en rojo oscuro las usas para ISO siempre desde SB. Las manos en rosa claro son explotativas: son EV+ cuando el BB foldea con frecuencia al ISO o a tu c-bet postflop. Ten en cuenta que desde SB juegas OOP contra el limper — las manos rosas requieren más fold equity para ser rentables precisamente porque no tienes la ventaja posicional que sí tienes desde CO o BTN." },
               { type: "text", content: "Desde SB con un limper delante la situación es especial: solo tienes al BB por detrás, pero jugarás postflop fuera de posición contra el limper. Esto ajusta el rango hacia manos con más equidad y menos dependencia de la posición." },
               { type: "callout", label: "ISO desde SB vs limp", content: "El ISO desde SB es rentable pero exige más cuidado: el limper puede tener manos trampa y vas OOP. Prioriza manos con valor directo (pares medianos-altos, broadways) y suited connectors con buen potencial de equity. Las manos muy especulativas pierden valor fuera de posición." },
             ],
@@ -1125,15 +1132,15 @@ const content = {
                   ],
                 },
                 {
-                  situation: "NL25 · SB vs BB · River A♦K♦Q♠J♥T♠",
-                  hand: "9♣8♣",
-                  context: "Hero tiene el straight del 8 al Q (8-9-T-J-Q). El tablero es A-K-Q-J-T: hay un royal straight en el tablero. BB es un fish pasivo.",
+                  situation: "NL25 · BTN vs BB · River 7♠8♦9♣T♥J♠",
+                  hand: "6♠5♠",
+                  context: "Hero tiene el straight del 6 al T (6-7-8-9-T) con 6♠5♠ en tablero 7-8-9-T-J. BB es un fish pasivo que pagó el flop y el turn.",
                   question: "¿Tienes suficiente fuerza relativa para value bet en este river?",
                   options: [
-                    { label: "Check — fuerza relativa insuficiente", correct: true, explanation: "¡Correcto! El tablero A♦K♦Q♠J♥T♠ tiene el straight A-K-Q-J-T de forma comunitaria. Cualquier A en la mano del rival hace el straight del as (el mejor posible). K hace K-high straight. Solo las Js y manos con 9 o 8 son peores. La fuerza relativa es horrible — la mayoría de manos que te pagan te ganan. Check/fold." },
-                    { label: "Value bet pequeña (33%)", correct: false, explanation: "Aunque tienes un straight, en este tablero el straight es mínimo. Cualquier A, K, o dos cartas al straight superior te ganan. No tienes fuerza relativa suficiente para value bet." },
-                    { label: "Value bet grande (75%)", correct: false, explanation: "Error grave. En un tablero A-K-Q-J-T completo, el rango que paga tu bet está compuesto principalmente de manos que te ganan. Apostar aquí es value-ownarte." },
-                    { label: "Bluff all-in", correct: false, explanation: "Bluffear aquí tampoco tiene sentido — el rival que pagó en este board probablemente tiene algo que conectó bien (al menos un par de broadway). Sin fold equity real." },
+                    { label: "Check — fuerza relativa insuficiente", correct: true, explanation: "¡Correcto! Aunque Hero tiene un straight (6-7-8-9-T), es el straight MÁS BAJO posible en este tablero. Cualquier rival con J en la mano tiene mejor straight (7-8-9-T-J). Cualquier rival con QJ tiene straight Q-high. El rango del fish que pagó dos calles incluye muchos Jx, QJ, y connected hands que hacen straights mejores. La fuerza relativa es muy baja — la mayoría de manos que pagan te ganan. Check/fold." },
+                    { label: "Value bet pequeña (33%)", correct: false, explanation: "Aunque tienes un straight, es el straight mínimo del tablero. Cualquier J en la mano del rival hace un straight superior al tuyo. Con un fish que ha pagado dos calles en un tablero conectado, su rango de call está lleno de manos que te ganan. No tienes fuerza relativa para value bet." },
+                    { label: "Value bet grande (75%)", correct: false, explanation: "Error grave. Tu straight es el más débil posible en 7-8-9-T-J. El rango del fish que pagó flop y turn en este tablero tan conectado contiene muchos Jx, QJ y straight draws que llegaron. Apostar grande aquí es value-ownarte." },
+                    { label: "Bluff all-in", correct: false, explanation: "Bluffear tampoco funciona — el fish que pagó dos calles en un tablero 7-8-9-T-J tiene demasiado equity realizado (pares, straights, draws completados) para foldear a un all-in. Sin fold equity real." },
                   ],
                 },
                 {
@@ -1493,6 +1500,7 @@ const content = {
                   "The Cutoff is one of the most profitable positions at the table. You only have BTN, SB, and BB behind you. BTN can call or 3-bet you, but the blinds will play postflop out of position. This allows you to open a considerably wider range.",
               },
               { type:"rangeImage", src:orCO, alt:"CO opening range" },
+              { type:"callout", label:"🟥 Dark red vs 🩷 Light pink — two colors, two situations", content:"Dark red hands (unfavorable) are always opens, even when players behind are active or aggressive. Light pink hands are exploitative opens: they are only EV+ when the players acting after you fold frequently — either to the open raise itself, or if they call, they fold a lot to your c-bet on the flop. If BTN and the blinds are tight players who fold their blinds more than 70% of the time, the pink hands become directly profitable. If they are calling stations or very active players, skip the pink hands." },
               {
                 type: "callout",
                 label: "ATo from CO",
@@ -1511,6 +1519,7 @@ const content = {
                   "The Button is the most powerful position in poker. You act last on all postflop streets, giving you full control over pot size, the ability to bluff more effectively, and the advantage of seeing all actions before deciding. This justifies opening almost twice as many hands as UTG.",
               },
               { type:"rangeImage", src:orBTN, alt:"BTN opening range" },
+              { type:"callout", label:"🟥 Dark red vs 🩷 Light pink — exploitative adjustment BTN", content:"Dark red hands are always opens from BTN. Light pink hands are exploitative: they are EV+ when the blinds fold frequently to the open (SB and BB with Fold to Steal >70%) or when they call but fold a lot to your c-bet. From BTN, the positional edge is so large that the threshold for exploitative opens is very low — if the blinds are tight or passive postflop, virtually the entire pink portion becomes a standard open." },
               {
                 type: "callout",
                 label: "Why so wide?",
@@ -1529,6 +1538,7 @@ const content = {
                   "The Small Blind is the most complex position in the game. You must post half a blind and, if you open, you will always play postflop out of position against the BB. This makes SB structurally the hardest seat to open and play hands from.",
               },
               { type:"rangeImage", src:orSB, alt:"SB opening range" },
+              { type:"callout", label:"🟥 Dark red vs 🩷 Light pink — exploitative adjustment SB", content:"Dark red hands are always opens from SB vs BB. Light pink hands are exploitative: only open these when BB folds frequently — either to the open (Fold to SB Steal >60%) or to your c-bet on the flop. If BB is a calling station who defends very wide and never folds postflop, skip the pink hands: they don't have enough equity to be profitable without fold equity." },
               {
                 type: "callout",
                 label: "Size: 3x BB from SB",
@@ -1704,6 +1714,7 @@ const content = {
             body: [
               { type: "positionHeader", name: "ISO_MP", range: "~24%", size: "4x BB", color: "#f97316" },
               { type:"rangeImage", src:rolMP, alt:"ROL / MP" },
+              { type:"callout", label:"🟥 Dark red vs 🩷 Light pink — exploitative ISO from MP", content:"Dark red hands are the core ISO range: use them always regardless of player types behind. Light pink hands are exploitative ISOs: they are EV+ only when the players after you (CO, BTN, blinds) fold frequently — either to the ISO raise, or if they call, fold a lot to your c-bet. From MP, with 4 players behind, the threshold is higher: only add the pink hands when the table is very passive or the specific players to your left are very tight." },
               { type: "text", content: "From MP the ISO is considerably tighter. You have CO, BTN and the blinds behind — four players who can enter the pot or 3-bet you. Only ISO from MP with hands that can withstand pressure and have a clear edge over the limper's range." },
                             { type: "callout", label: "The practical rule from MP", content: "If you'd hesitate to open the hand from MP in a standard spot, you probably shouldn't ISO either. The presence of a limper doesn't dramatically change the range from MP — it does widen it slightly, but the pressure from players behind remains the same." },
             ],
@@ -1713,6 +1724,7 @@ const content = {
             body: [
               { type: "positionHeader", name: "ISO_CO", range: "~32%", size: "4x BB", color: "#eab308" },
               { type:"rangeImage", src:rolCO, alt:"ROL / CO" },
+              { type:"callout", label:"🟥 Dark red vs 🩷 Light pink — exploitative ISO from CO", content:"Dark red hands are always ISO raises from CO. Light pink hands are exploitative: EV+ when BTN and the blinds fold frequently to the raise (Fold to ISO >65%) or call but fold to your flop c-bet. With only 3 players behind from CO, the exploitative ISO threshold is more accessible than from MP." },
               { type: "text", content: "From CO with a limper in front, the range is tighter than BTN because you have BTN and the blinds behind — any of whom can cold-call or 3-bet. Even so, the CO ISO range is still wider than the standard CO open." },
                             { type: "callout", label: "Adjustment with aggressive BTN", content: "If BTN is a player who 3-bets a lot, tighten your CO ISO range upward: remove weaker hands (A4s, K8s, 64s) that don't handle a 3-bet well and keep those with a clear response (AA-77, AJs+, KQs)." },
             ],
@@ -1722,6 +1734,7 @@ const content = {
             body: [
               { type: "positionHeader", name: "ISO_BTN", range: "~50%", size: "4x BB", color: "#10b981" },
               { type:"rangeImage", src:rolBTN, alt:"ROL / BTN" },
+              { type:"callout", label:"🟥 Dark red vs 🩷 Light pink — exploitative ISO from BTN", content:"Dark red hands are the core BTN ISO range — always profitable with perfect position. Light pink hands are exploitative: EV+ when the blinds fold frequently to the ISO (Fold to ISO >60%) or call but give up postflop to your c-bet. From BTN the threshold is very low — in practice, almost the entire pink range becomes a standard ISO against tight blinds." },
               { type: "text", content: "From the BTN with a single limper in front, your ISO range is huge: approximately 50% of hands. The combination of perfect position (you act last on all postflop streets), the limper's weak range, and the fact that only two players are behind (SB and BB, who usually fold) all justify this." },
                             { type: "callout", label: "Why so wide?", content: "Because even mediocre hands are +EV here: the limper has a capped, weak range, you have position, and initiative means you dictate the pace of the hand postflop. Hands like Q7s or 73s that you wouldn't normally open become profitable ISOs from BTN." },
             ],
@@ -1731,6 +1744,7 @@ const content = {
             body: [
               { type: "positionHeader", name: "ISO_SB", range: "~30%", size: "4x BB", color: "#8b5cf6" },
               { type:"rangeImage", src:rolSB, alt:"ROL / SB" },
+              { type:"callout", label:"🟥 Dark red vs 🩷 Light pink — exploitative ISO from SB", content:"Dark red hands are always ISO raises from SB. Light pink hands are exploitative: EV+ when BB folds frequently to the ISO or to your postflop c-bet. Note that from SB you play OOP against the limper — the pink hands require more fold equity to be profitable precisely because you lack the positional advantage you'd have from CO or BTN." },
               { type: "text", content: "From SB with a limper in front the situation is special: you only have BB behind, but you'll play postflop out of position against the limper. This shifts the range toward hands with more equity and less positional dependency." },
               { type: "callout", label: "ISO from SB vs limp", content: "ISO from SB is profitable but requires more care: the limper may have trap hands and you're OOP. Prioritize hands with direct value (medium-high pairs, broadways) and suited connectors with good equity potential. Very speculative hands lose value out of position." },
             ],
@@ -2116,15 +2130,15 @@ const content = {
                   ],
                 },
                 {
-                  situation: "NL25 · SB vs BB · River A♦K♦Q♠J♥T♠",
-                  hand: "9♣8♣",
-                  context: "Hero has the 8-high straight (8-9-T-J-Q). The board is A-K-Q-J-T: there's a royal straight on the board. BB is a passive fish.",
+                  situation: "NL25 · BTN vs BB · River 7♠8♦9♣T♥J♠",
+                  hand: "6♠5♠",
+                  context: "Hero has the 6-high straight (6-7-8-9-T) with 6♠5♠ on a 7-8-9-T-J board. BB is a passive fish who called flop and turn.",
                   question: "Do you have sufficient relative strength to value bet on this river?",
                   options: [
-                    { label: "Check — insufficient relative strength", correct: true, explanation: "Correct! The board A♦K♦Q♠J♥T♠ has the A-K-Q-J-T straight as community cards. Any A in the opponent's hand makes the ace-high straight (the best possible). K makes a king-high straight. Only hands with J, 9 or 8 are worse. Relative strength is terrible — most hands that pay you beat you. Check/fold." },
-                    { label: "Small value bet (33%)", correct: false, explanation: "Even though you have a straight, on this board it's the minimum possible straight. Any A, K, or two cards to a superior straight beat you. Insufficient relative strength to value bet." },
-                    { label: "Large value bet (75%)", correct: false, explanation: "Serious mistake. On a complete A-K-Q-J-T board, the range that pays your bet consists mainly of hands that beat you. Betting here is value-owning yourself." },
-                    { label: "All-in bluff", correct: false, explanation: "Bluffing here doesn't work either — the opponent who called on this board likely has something that connected (at least a broadway pair). No real fold equity." },
+                    { label: "Check — insufficient relative strength", correct: true, explanation: "Correct! Even though Hero has a straight (6-7-8-9-T), it's the LOWEST possible straight on this board. Any opponent with a J in their hand has a better straight (7-8-9-T-J). Any opponent with QJ has a Q-high straight. The fish's range after calling two streets includes many Jx, QJ, and connected hands that make better straights. Relative strength is very low — most hands that pay you beat you. Check/fold." },
+                    { label: "Small value bet (33%)", correct: false, explanation: "Even though you have a straight, it's the minimum straight on this board. Any J in the opponent's hand makes a straight that beats yours. With a fish who called two streets on a connected board, their calling range is full of hands that beat you. No relative strength to value bet." },
+                    { label: "Large value bet (75%)", correct: false, explanation: "Serious mistake. Your straight is the weakest possible on 7-8-9-T-J. The fish's range after calling flop and turn on such a connected board contains many Jx, QJ, and completed straight draws. Betting big here is value-owning yourself." },
+                    { label: "All-in bluff", correct: false, explanation: "Bluffing doesn't work either — the fish who called two streets on a 7-8-9-T-J board has too much realized equity (pairs, straights, completed draws) to fold to an all-in. No real fold equity." },
                   ],
                 },
                 {
