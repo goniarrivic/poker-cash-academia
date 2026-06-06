@@ -13,6 +13,16 @@ import {
   getDoc,
   setDoc,
 } from "firebase/firestore";
+import orEP  from './or_p1_0.png';
+import orMP  from './or_p1_1.png';
+import orCO  from './or_p2_2.png';
+import orBTN from './or_p2_3.png';
+import orSB  from './or_p3_4.png';
+import orLegend from './or_p3_5.png';
+import rolMP  from './rol_p1_0.png';
+import rolCO  from './rol_p1_1.png';
+import rolBTN from './rol_p2_2.png';
+import rolSB  from './rol_p2_3.png';
 
 // ─── FIREBASE ────────────────────────────────────────────────────────────────
 
@@ -230,6 +240,38 @@ const content = {
               { type: "text", content: "En este curso iremos construyendo el conocimiento capa a capa. Cada lección añade conceptos que se apoyan en los anteriores. No tengas prisa: interiorizar bien los fundamentos vale mucho más que conocer superficialmente conceptos avanzados." },
             ],
           },
+          {
+            title: "Diccionario del poker — términos esenciales",
+            body: [
+              { type: "text", content: "El poker tiene su propio lenguaje. Aprender estos términos no es opcional: aparecen constantemente en el estudio, en vídeos, en foros y en las propias situaciones de juego. Esta referencia cubre los más importantes." },
+              { type: "callout", label: "Hero y Villain", content: "Hero siempre se refiere al jugador activo en cuya perspectiva estamos analizando la mano — somos nosotros. Villain es su oponente. Estos términos permiten describir situaciones sin revelar el resultado: 'Hero tiene KK, Villain apuesta el bote en el river' es un formato neutro que separa la decisión del resultado. Se usan indistintamente con 'nosotros' y 'el rival'." },
+              { type: "callout", label: "Fish y Reg", content: "Fish (pez) o recreativo: jugador que pierde dinero de forma crónica porque comete errores sistemáticos — paga demasiado, no foldea, juega demasiadas manos. Regular o Reg: jugador ganador o competente que estudia y aplica estrategia consistente. En stakes bajos la mayoría de la mesa son fish, lo que es una gran ventaja para el reg." },
+              { type: "callout", label: "Las Nuts", content: "Las nuts es la mano más fuerte posible dado el tablero. En un tablero A♠K♠Q♠J♠T♠, las nuts sería cualquier flush de picas por encima del T, o específicamente el Royal Flush. El concepto de 'nuts' es relativo al tablero: en K♥8♦3♣ las nuts son las tres K. Una mano puede ser 'los nuts' o simplemente 'cerca de las nuts'. Saber cuáles son las nuts en cada tablero es fundamental para evaluar la fuerza relativa de tu mano." },
+              { type: "callout", label: "Draw — Proyecto de mano", content: "Un draw (proyecto) es una mano incompleta que necesita mejorar con cartas futuras para ganar. Los más comunes: Flush draw (FD): 4 cartas del mismo palo, necesita una quinta. Open-ended straight draw (OESD): 4 cartas consecutivas con dos formas de completar el straight (ej. 6789 completa con 5 o T). Gutshot (GS): 4 cartas al straight con solo una forma de completar (ej. 6 8 9 T completa solo con 7). Backdoor draw: necesitas las dos cartas siguientes para completar." },
+              { type: "callout", label: "IP / OOP — Posición en la mano", content: "IP (In Position) significa que actúas después que tu rival en las calles postflop. Es una ventaja enorme: ves su acción antes de decidir, puedes controlar el tamaño del bote y blufear con más eficacia. OOP (Out of Position) es lo contrario: actúas antes, sin información sobre lo que hará el rival. En general, quieres jugar IP siempre que puedas y ser selectivo con las manos que juegas OOP." },
+              { type: "callout", label: "Open / Open raise", content: "Abrir el bote (open) significa hacer la primera apuesta voluntaria preflop cuando nadie más ha entrado aún. Específicamente es un raise (subida), no un limp (pagar la ciega). Un open desde UTG a 3x BB significa apostar 3 veces la big blind siendo el primero en actuar. La filosofía básica es: o abres con raise o foldeas. El limp (llamar la ciega sin subir) cede la iniciativa y casi siempre es un error." },
+              { type: "callout", label: "Rango — Range", content: "El rango de un jugador es el conjunto de todas las manos con las que tomaría una acción determinada. No piensas 'el rival tiene AK' sino 'el rival tiene un rango de aperturas desde UTG que incluye AA-TT, AKs-AJs, KQs, etc.'. Pensar en rangos en lugar de manos específicas es el salto conceptual más importante del poker moderno." },
+              { type: "callout", label: "Equidad / Equity", content: "La equidad de una mano es su porcentaje de probabilidad de ganar el bote si la mano llega a showdown con todas las cartas comunitarias. AK tiene ~67% de equidad frente a QQ antes del flop. La equidad cambia con cada carta que cae. Tener equidad no significa apostar siempre — a veces la equidad se realiza mejor checkando." },
+              { type: "callout", label: "SDV — Showdown Value", content: "El Showdown Value (valor en showdown) de una mano es su capacidad de ganar si llega al showdown sin mejorar. Una mano con SDV alto (ej. top pair buena kicker) conviene a veces no apostar para llegar al showdown. Una mano sin SDV (aire, draws fallidos) no tiene valor en showdown y solo gana si fuerza un fold o mejora." },
+              { type: "callout", label: "Bluff / Value bet / Semi-bluff", content: "Value bet: apostar esperando ser llamado por manos peores. Bluff: apostar sin mano fuerte para forzar un fold. Semi-bluff: apostar con un draw — si folda el rival, bien; si llama, aún puedes mejorar a la mejor mano. La diferencia entre value y bluff no es lo que tienes, sino la equidad de tu mano frente al rango que te llama." },
+              { type: "callout", label: "C-bet — Continuation Bet", content: "La c-bet (continuation bet) es la apuesta del agresor preflop en el flop. Si abriste el bote preflop y pagas el flop, la c-bet es 'continuar la historia': seguiste siendo el agresor. Una value c-bet la haces con una mano fuerte esperando llamadas de manos peores. Una light c-bet la haces sin mano, esperando que el rival foldee." },
+              { type: "callout", label: "Effective stack — Stack efectivo", content: "El stack efectivo es el stack más pequeño de los que están en juego en una mano. Si Hero tiene 100BB y Villain tiene 60BB, el stack efectivo es 60BB — eso es todo lo que puede apostarse entre ellos. El stack efectivo determina cuánto se puede ganar o perder en la mano y afecta completamente la estrategia." },
+              { type: "callout", label: "Pot odds / Implied odds", content: "Pot odds: la relación entre el tamaño del bote y lo que tienes que pagar para continuar. Si el bote es 10BB y debes pagar 2BB, tienes pot odds de 5:1 (necesitas ganar 1 de cada 6 veces para ser rentable). Implied odds: el crédito adicional que recibes considerando lo que puedes ganar en calles futuras si mejoras tu mano. Los implied odds justifican calls que los pot odds no." },
+            ],
+          },
+          {
+            title: "Rake y Rakeback — el coste real de jugar",
+            body: [
+              { type: "text", content: "El rake es la comisión que cobra la sala de poker por organizar las partidas. No juegas contra la sala — la sala solo cobra por el servicio. Pero ese coste existe y es importante entender exactamente cómo funciona, cuánto te cuesta y cómo minimizarlo." },
+              { type: "callout", label: "¿Cómo funciona el rake?", content: "En cash games, la sala cobra un porcentaje del bote — normalmente entre el 4% y el 6% — con un tope máximo por mano (el 'cap'). Ejemplo típico: rake del 5% con cap de 3BB. Si el bote llega a 20BB, la sala se lleva 1BB (el 5%). Si el bote es de 200BB, la sala sigue cobrando solo 3BB (el cap). El rake se descuenta del bote ganado, no se cobra al jugador directamente." },
+              { type: "callout", label: "Rake por stakes: cuánto paga cada nivel", content: "En NL2 (ciegas $0.01/$0.02): rake 5%, cap $0.30 → prácticamente el 100% de los botes pequeños va al rake. Es el stake más difícil de batir por rake. NL10 ($0.05/$0.10): rake 5%, cap $1 → más manejable. NL25 ($0.10/$0.25): rake 5%, cap $1.25 → el punto donde el juego ganador se vuelve más viable. A medida que subes de stakes, el rake como porcentaje del dinero en juego disminuye, lo que es una de las razones por las que los stakes altos son más beateables." },
+              { type: "text", content: "En la práctica, el rake tiene un impacto enorme en el win rate. Un jugador break-even antes de rake (que toma las mismas decisiones correctas que sus rivales en promedio) pierde dinero porque el rake lo convierte en perdedor neto. Para ganar dinero tienes que ser suficientemente mejor que tus rivales para compensar el rake Y sacar profit." },
+              { type: "callout", label: "Rakeback — recuperar parte del rake", content: "El rakeback es un programa de fidelización por el cual la sala devuelve al jugador un porcentaje del rake que ha generado. Si pagas 100$ de rake en un mes y tienes un 30% de rakeback, recibes 30$ de vuelta. En stakes bajos el rakeback puede representar la diferencia entre perder y ganar — o entre un win rate mediocre y uno sólido." },
+              { type: "callout", label: "Tipos de programas de rakeback", content: "Rakeback directo: la sala acredita un % fijo del rake a tu cuenta. Puntos VPP/FPP: sistemas de puntos que se canjean por cash, entradas a torneos o bonos. Bonos de bienvenida: muchas salas ofrecen un bono del 100% del primer depósito hasta cierto límite, que se libera gradualmente a medida que generas rake. Programas de lealtad: niveles VIP con beneficios crecientes. Las mejores plataformas en términos de rake+rakeback para stakes bajos varían — investiga comparativas actualizadas antes de elegir sala." },
+              { type: "callout", label: "¿Qué sala elegir?", content: "La elección de sala impacta enormemente la rentabilidad. Considera: (1) Tasa de rake y estructura del cap. (2) Programa de rakeback o puntos. (3) Calidad del juego — mesas más blandas compensan un rake más alto. (4) Sofware y usabilidad. (5) Seguridad y historial de la sala. Salas reconocidas: PokerStars, GGPoker, Winamax, 888poker, PartyPoker. Las condiciones cambian — consulta foros especializados como r/poker o 2+2 para reviews actualizadas." },
+              { type: "text", content: "La conclusión práctica es esta: el rake no es el enemigo al que hay que temer si juegas bien, pero sí es un factor real que hay que gestionar inteligentemente. Maximiza el rakeback, elige tu sala con cuidado, y asegúrate de que tu win rate es suficientemente positivo para cubrir el rake y aun así terminar en verde." },
+            ],
+          },
         ],
       },
       {
@@ -361,7 +403,7 @@ const content = {
                 content:
                   "UTG es la posición más difícil. Actúas el primero de los 6 jugadores y tienes a todos por detrás con la posibilidad de 3-bettear o hacer cold call. Esto significa que tu rango debe ser el más ajustado de la mesa: solo abres manos que soporten mucha presión.",
               },
-              { type:"rangeGrid", labelEs:"Rango apertura EP/UTG (~14%)", labelEn:"EP/UTG opening range (~14%)", open:EP_OPEN, exploit:EP_EXPLOIT },
+              { type:"rangeImage", src:orEP, alt:"Rango apertura EP/UTG" },
               {
                 type: "text",
                 content:
@@ -390,7 +432,7 @@ const content = {
                 content:
                   "Desde MP tienes una posición ligeramente mejor que UTG: ya ha actuado un jugador antes que tú, y si ese jugador ha foldeado, solo quedan CO, BTN, SB y BB detrás. Esto te permite ampliar el rango moderadamente.",
               },
-              { type:"rangeGrid", labelEs:"Rango apertura MP (~21%)", labelEn:"MP opening range (~21%)", open:MP_OPEN, exploit:MP_EXPLOIT },
+              { type:"rangeImage", src:orMP, alt:"Rango apertura MP" },
               {
                 type: "text",
                 content:
@@ -420,36 +462,11 @@ const content = {
                   "El Cutoff es una de las posiciones más lucrativas de la mesa. Solo tienes al BTN, SB y BB detrás. El BTN puede pagarte o 3-bettear, pero los blinds jugarán postflop fuera de posición. Esto te permite abrir un rango considerablemente más amplio.",
               },
               {
-                type: "rangeBlock",
-                label: "Rango de apertura CO (~35%)",
-                legend: { core: "Siempre abrir", exploit: "Abrir vs nit/pasivo", fold: "Fold" },
-                hands: [
-                  { tier:"core",    group: "Pares", cards: "AA-44" },
-                  { tier:"exploit", group: "Pares (vs nit)", cards: "33, 22" },
-                  { tier:"core",    group: "Ases suited", cards: "AKs-A2s (todos)" },
-                  { tier:"core",    group: "Ases offsuit", cards: "AKo-A9o" },
-                  { tier:"exploit", group: "Ases offsuit (vs nit)", cards: "A8o, A7o" },
-                  { tier:"core",    group: "Kings suited", cards: "KQs-K8s" },
-                  { tier:"exploit", group: "Kings suited (vs nit)", cards: "K7s-K5s" },
-                  { tier:"core",    group: "Kings offsuit", cards: "KQo-KTo" },
-                  { tier:"exploit", group: "Kings offsuit (vs nit)", cards: "K9o, K8o" },
-                  { tier:"core",    group: "Queens suited", cards: "QJs-Q9s" },
-                  { tier:"exploit", group: "Queens suited (vs nit)", cards: "Q8s-Q7s" },
-                  { tier:"core",    group: "Queens offsuit", cards: "QJo, QTo" },
-                  { tier:"core",    group: "Jacks suited", cards: "JTs-J9s" },
-                  { tier:"exploit", group: "Jacks suited (vs nit)", cards: "J8s-J7s" },
-                  { tier:"core",    group: "Jacks offsuit", cards: "JTo" },
-                  { tier:"core",    group: "Tens suited", cards: "T9s-T8s" },
-                  { tier:"exploit", group: "Tens suited (vs nit)", cards: "T7s-T6s" },
-                  { tier:"core",    group: "Suited connectors", cards: "98s-97s, 87s-86s, 76s-75s, 65s-64s, 54s-53s" },
-                  { tier:"exploit", group: "Gappers (vs nit)", cards: "96s-95s, 85s-84s, 74s-73s, 63s-62s" },
-                ],
-              },
-              {
                 type: "text",
                 content:
                   "Desde CO heredamos todo el rango de MP y añadimos: 44, K8s, A9o, KJo, QTo y JTo. Con solo BTN y blinds por detrás, las manos con potencial de valor y posición son muy rentables. A9o, QTo y JTo son abribles desde CO porque el contexto posicional lo justifica.",
               },
+              { type:"rangeImage", src:orCO, alt:"Rango apertura CO" },
               {
                 type: "callout",
                 label: "ATo desde CO",
@@ -473,32 +490,7 @@ const content = {
                 content:
                   "El Button es la posición más poderosa del poker. Actúas último en todas las calles postflop, lo que te da control total sobre el tamaño del bote, la posibilidad de blufear con más eficacia y la ventaja de ver todas las acciones antes de decidir. Esto justifica abrir casi el doble de manos que UTG.",
               },
-              {
-                type: "rangeBlock",
-                label: "Rango de apertura BTN (~55%)",
-                legend: { core: "Siempre abrir", exploit: "Abrir vs nit/pasivo", fold: "Fold" },
-                hands: [
-                  { tier:"core",    group: "Pares", cards: "AA-22 (todos)" },
-                  { tier:"core",    group: "Ases suited", cards: "AKs-A2s (todos)" },
-                  { tier:"core",    group: "Ases offsuit", cards: "AKo-A2o (todos)" },
-                  { tier:"core",    group: "Kings suited", cards: "KQs-K5s" },
-                  { tier:"exploit", group: "Kings suited (vs nit)", cards: "K4s-K2s" },
-                  { tier:"core",    group: "Kings offsuit", cards: "KQo-K8o" },
-                  { tier:"exploit", group: "Kings offsuit (vs nit)", cards: "K7o-K6o" },
-                  { tier:"core",    group: "Queens suited", cards: "QJs-Q7s" },
-                  { tier:"exploit", group: "Queens suited (vs nit)", cards: "Q6s-Q5s" },
-                  { tier:"core",    group: "Queens offsuit", cards: "QJo-Q9o" },
-                  { tier:"exploit", group: "Queens offsuit (vs nit)", cards: "Q8o" },
-                  { tier:"core",    group: "Jacks suited", cards: "JTs-J7s" },
-                  { tier:"exploit", group: "Jacks suited (vs nit)", cards: "J6s-J5s" },
-                  { tier:"core",    group: "Jacks offsuit", cards: "JTo-J9o" },
-                  { tier:"core",    group: "Tens suited", cards: "T9s-T6s" },
-                  { tier:"exploit", group: "Tens suited (vs nit)", cards: "T5s-T4s" },
-                  { tier:"core",    group: "Tens offsuit", cards: "T9o-T8o" },
-                  { tier:"core",    group: "Suited connectors/gappers", cards: "98s-95s, 87s-84s, 76s-74s, 65s-63s, 54s-53s, 43s" },
-                  { tier:"exploit", group: "Gappers bajos (vs nit)", cards: "94s-93s, 83s-82s, 73s-72s" },
-                ],
-              },
+              { type:"rangeImage", src:orBTN, alt:"Rango apertura BTN" },
               {
                 type: "text",
                 content:
@@ -532,31 +524,7 @@ const content = {
                 content:
                   "Sin embargo, cuando los jugadores anteriores han foldeado y solo tienes al BB detrás, la situación cambia radicalmente: estás jugando heads-up. Dado que es un enfrentamiento de dos jugadores donde el BB actúa OOP postflop, se puede abrir un rango muy amplio — prácticamente el 62% de las manos. La clave es usar un tamaño de 3x para compensar la desventaja posicional.",
               },
-              {
-                type: "rangeBlock",
-                label: "Rango de apertura SB vs BB (~65%)",
-                legend: { core: "Siempre abrir", exploit: "Abrir vs nit/pasivo", fold: "Fold" },
-                hands: [
-                  { tier:"core",    group: "Pares", cards: "AA-22 (todos)" },
-                  { tier:"core",    group: "Ases", cards: "AKs-A2s, AKo-A2o (todos)" },
-                  { tier:"core",    group: "Kings suited", cards: "KQs-K2s (todos)" },
-                  { tier:"core",    group: "Kings offsuit", cards: "KQo-K2o (todos)" },
-                  { tier:"core",    group: "Queens suited", cards: "QJs-Q2s (todos)" },
-                  { tier:"core",    group: "Queens offsuit", cards: "QJo-Q6o" },
-                  { tier:"fold",    group: "Queens offsuit (fold)", cards: "Q5o-Q2o" },
-                  { tier:"core",    group: "Jacks suited", cards: "JTs-J4s" },
-                  { tier:"fold",    group: "Jacks suited (fold)", cards: "J3s-J2s" },
-                  { tier:"core",    group: "Jacks offsuit", cards: "JTo-J6o" },
-                  { tier:"fold",    group: "Jacks offsuit (fold)", cards: "J5o-J2o" },
-                  { tier:"core",    group: "Tens suited", cards: "T9s-T5s" },
-                  { tier:"fold",    group: "Tens suited (fold)", cards: "T4s-T2s" },
-                  { tier:"core",    group: "Tens offsuit", cards: "T9o-T6o" },
-                  { tier:"core",    group: "Nines suited y menores", cards: "98s-95s, 87s-85s, 76s-74s, 65s-64s, 54s-53s, 43s" },
-                  { tier:"fold",    group: "Suited débiles (fold)", cards: "84s-82s, 73s-72s, 63s-62s, 52s, 42s, 32s" },
-                  { tier:"core",    group: "Nines offsuit y menores", cards: "98o-96o, 87o-86o, 76o, 65o" },
-                  { tier:"fold",    group: "Offsuit débiles (fold)", cards: "85o y menos, 74o y menos, 53o y menos" },
-                ],
-              },
+              { type:"rangeImage", src:orSB, alt:"Rango apertura SB" },
               {
                 type: "callout",
                 label: "Tamaño: 3x BB desde SB",
@@ -741,59 +709,39 @@ const content = {
             ],
           },
           {
-            title: "Rangos de ISO — BTN vs 1 limper",
+            title: "Rangos de ISO — MP vs 1 limper",
             body: [
-              { type: "positionHeader", name: "ISO_BTN", range: "~50%", size: "4x BB", color: "#10b981" },
-              { type: "text", content: "Desde el BTN con un solo limper delante, tu rango de ISO es enorme: aproximadamente el 50% de las manos. La combinación de posición perfecta (actúas último en todas las calles), el rango débil del limper y el hecho de que solo hay dos jugadores detrás (SB y BB, que suelen foldear) lo justifica." },
-              { type: "rangeBlock", label: "ISO BTN vs 1 limper (~50%)", hands: [
-                { group: "Pares", cards: "AA-22 (todos)" },
-                { group: "Ases suited", cards: "AKs-A2s (todos)" },
-                { group: "Ases offsuit", cards: "AKo-A6o" },
-                { group: "Kings suited", cards: "KQs-K5s" },
-                { group: "Kings offsuit", cards: "KQo, KJo, KTo, K9o" },
-                { group: "Queens suited", cards: "QJs-Q7s" },
-                { group: "Queens offsuit", cards: "QJo, QTo" },
-                { group: "Jacks suited", cards: "JTs-J7s" },
-                { group: "Jacks offsuit", cards: "JTo" },
-                { group: "Suited connectors/gappers", cards: "T9s-T6s, 98s-95s, 87s-84s, 76s-73s, 65s-63s, 54s, 53s" },
-              ]},
-              { type: "callout", label: "¿Por qué tan amplio?", content: "Porque incluso manos mediocres tienen +EV en esta situación: el limper tiene un rango capped y débil, tú tienes posición, y la iniciativa hace que seas tú quien dicta el ritmo de la mano postflop. Manos como Q7s o 73s que no abrirías normalmente se vuelven ISOs rentables desde BTN." },
+              { type: "positionHeader", name: "ISO_MP", range: "~24%", size: "4x BB", color: "#f97316" },
+              { type:"rangeImage", src:rolMP, alt:"ROL / MP" },
+              { type: "text", content: "Desde MP el ISO es considerablemente más ajustado. Tienes a CO, BTN y los blinds por detrás — cuatro jugadores que pueden entrar al bote o hacerte 3-bet. Solo deberías ISO desde MP con manos que aguanten presión y que tengan clara ventaja sobre el rango del limper." },
+                            { type: "callout", label: "La regla práctica desde MP", content: "Si dudarías en abrir la mano desde MP en un spot normal, probablemente tampoco deberías hacer ISO. El hecho de que haya un limper no cambia dramáticamente el rango desde MP — sí amplía ligeramente, pero la presión de los jugadores por detrás sigue siendo la misma." },
             ],
           },
           {
             title: "Rangos de ISO — CO vs 1 limper",
             body: [
               { type: "positionHeader", name: "ISO_CO", range: "~32%", size: "4x BB", color: "#eab308" },
+              { type:"rangeImage", src:rolCO, alt:"ROL / CO" },
               { type: "text", content: "Desde CO con un limper delante, el rango es más ajustado que desde BTN porque tienes al BTN y los blinds por detrás — cualquiera puede cold-callear o 3-betear. Aun así, el ISO desde CO sigue siendo más amplio que el open estándar de CO." },
-              { type: "rangeBlock", label: "ISO CO vs 1 limper (~32%)", hands: [
-                { group: "Pares", cards: "AA-44" },
-                { group: "Ases suited", cards: "AKs-A4s" },
-                { group: "Ases offsuit", cards: "AKo-A9o" },
-                { group: "Kings suited", cards: "KQs-K8s" },
-                { group: "Kings offsuit", cards: "KQo, KJo, KTo" },
-                { group: "Broadway suited", cards: "QJs-Q8s, JTs-J8s, T9s-T7s" },
-                { group: "Broadway offsuit", cards: "QJo, JTo" },
-                { group: "Suited connectors", cards: "98s-96s, 87s-85s, 76s-74s, 65s, 64s" },
-              ]},
-              { type: "callout", label: "Ajuste con BTN agresivo", content: "Si el BTN es un jugador que 3-betea mucho, ajusta el rango de ISO desde CO hacia arriba: elimina las manos más débiles (A4s, K8s, 64s) que no aguantan bien un 3-bet y conserva las que tienen respuesta clara (AA-77, AJs+, KQs)." },
+                            { type: "callout", label: "Ajuste con BTN agresivo", content: "Si el BTN es un jugador que 3-betea mucho, ajusta el rango de ISO desde CO hacia arriba: elimina las manos más débiles (A4s, K8s, 64s) que no aguantan bien un 3-bet y conserva las que tienen respuesta clara (AA-77, AJs+, KQs)." },
             ],
           },
           {
-            title: "Rangos de ISO — MP vs 1 limper",
+            title: "Rangos de ISO — BTN vs 1 limper",
             body: [
-              { type: "positionHeader", name: "ISO_MP", range: "~24%", size: "4x BB", color: "#f97316" },
-              { type: "text", content: "Desde MP el ISO es considerablemente más ajustado. Tienes a CO, BTN y los blinds por detrás — cuatro jugadores que pueden entrar al bote o hacerte 3-bet. Solo deberías ISO desde MP con manos que aguanten presión y que tengan clara ventaja sobre el rango del limper." },
-              { type: "rangeBlock", label: "ISO MP vs 1 limper (~24%)", hands: [
-                { group: "Pares", cards: "AA-55" },
-                { group: "Ases suited", cards: "AKs-A7s" },
-                { group: "Ases offsuit", cards: "AKo-AJo" },
-                { group: "Kings suited", cards: "KQs-K9s" },
-                { group: "Kings offsuit", cards: "KQo, KJo" },
-                { group: "Broadway suited", cards: "QJs-Q9s, JTs-J9s, T9s-T8s" },
-                { group: "Broadway offsuit", cards: "QJo" },
-                { group: "Suited connectors", cards: "98s, 97s, 87s" },
-              ]},
-              { type: "callout", label: "La regla práctica desde MP", content: "Si dudarías en abrir la mano desde MP en un spot normal, probablemente tampoco deberías hacer ISO. El hecho de que haya un limper no cambia dramáticamente el rango desde MP — sí amplía ligeramente, pero la presión de los jugadores por detrás sigue siendo la misma." },
+              { type: "positionHeader", name: "ISO_BTN", range: "~50%", size: "4x BB", color: "#10b981" },
+              { type:"rangeImage", src:rolBTN, alt:"ROL / BTN" },
+              { type: "text", content: "Desde el BTN con un solo limper delante, tu rango de ISO es enorme: aproximadamente el 50% de las manos. La combinación de posición perfecta (actúas último en todas las calles), el rango débil del limper y el hecho de que solo hay dos jugadores detrás (SB y BB, que suelen foldear) lo justifica." },
+                            { type: "callout", label: "¿Por qué tan amplio?", content: "Porque incluso manos mediocres tienen +EV en esta situación: el limper tiene un rango capped y débil, tú tienes posición, y la iniciativa hace que seas tú quien dicta el ritmo de la mano postflop. Manos como Q7s o 73s que no abrirías normalmente se vuelven ISOs rentables desde BTN." },
+            ],
+          },
+          {
+            title: "Rangos de ISO — SB vs 1 limper",
+            body: [
+              { type: "positionHeader", name: "ISO_SB", range: "~30%", size: "4x BB", color: "#8b5cf6" },
+              { type:"rangeImage", src:rolSB, alt:"ROL / SB" },
+              { type: "text", content: "Desde SB con un limper delante la situación es especial: solo tienes al BB por detrás, pero jugarás postflop fuera de posición contra el limper. Esto ajusta el rango hacia manos con más equidad y menos dependencia de la posición." },
+              { type: "callout", label: "ISO desde SB vs limp", content: "El ISO desde SB es rentable pero exige más cuidado: el limper puede tener manos trampa y vas OOP. Prioriza manos con valor directo (pares medianos-altos, broadways) y suited connectors con buen potencial de equity. Las manos muy especulativas pierden valor fuera de posición." },
             ],
           },
           {
@@ -801,17 +749,7 @@ const content = {
             body: [
               { type: "text", content: "Con dos o más limpers, el bote crece pero también crecen los problemas: más jugadores = más probabilidades de que alguien tenga una mano fuerte o floppe algo. El ISO con múltiples limpers requiere manos con más potencial de equidad en botes multiway." },
               { type: "callout", label: "Tamaño con 2 limpers", content: "2 limpers → ISO a 5BB mínimo. 3 limpers → ISO a 6BB. El objetivo es el mismo: hacer que el bote sea caro para jugadores que entrarían barato." },
-              { type: "rangeBlock", label: "ISO BTN vs 2 limpers (~40%)", hands: [
-                { group: "Pares", cards: "AA-22 (todos)" },
-                { group: "Ases suited", cards: "AKs-A3s" },
-                { group: "Ases offsuit", cards: "AKo-A8o" },
-                { group: "Kings suited", cards: "KQs-K6s" },
-                { group: "Kings offsuit", cards: "KQo, KJo, KTo" },
-                { group: "Broadway suited", cards: "QJs-Q8s, JTs-J8s, T9s-T7s" },
-                { group: "Broadway offsuit", cards: "QJo, QTo" },
-                { group: "Suited connectors", cards: "98s-96s, 87s-85s, 76s-74s, 65s, 64s, 54s" },
-              ]},
-              { type: "callout", label: "Con 3+ limpers", content: "Con 3 o más limpers el bote se vuelve muy multiway y el ISO pierde eficacia a menos que tengas una mano muy fuerte (AA-QQ, AKs, AKo) o manos con mucho potencial de equidad en multiway (AXs, suited connectors altos, pares medianos para set mining). Las manos tipo K7s o Q6s directamente foldean con 3+ limpers." },
+                            { type: "callout", label: "Con 3+ limpers", content: "Con 3 o más limpers el bote se vuelve muy multiway y el ISO pierde eficacia a menos que tengas una mano muy fuerte (AA-QQ, AKs, AKo) o manos con mucho potencial de equidad en multiway (AXs, suited connectors altos, pares medianos para set mining). Las manos tipo K7s o Q6s directamente foldean con 3+ limpers." },
             ],
           },
           {
@@ -1051,9 +989,101 @@ const content = {
       },
       {
         id: 4,
-        title: "4. Juego Explotativo",
-        summary: "Leer al rival y ajustar tu estrategia para maximizar el profit.",
-        comingSoon: true,
+        title: "4. Value Betting",
+        summary: "Cuándo apostar para valor, cómo construir el bote y el concepto de elasticidad.",
+        chapters: [
+          {
+            title: "Introducción al value bet",
+            body: [
+              { type: "text", content: "La mayoría del dinero que ganas al poker no viene de los regulars — viene de los fish. Y el error más común de los fish no es blufear demasiado: es llamar demasiado. Pagan con manos marginales y no encuentran el botón de fold cuando deberían. Tu trabajo contra estos jugadores no es blufearlos, sino extraer el máximo valor cuando tienes la mejor mano. Ese es el arte del value betting." },
+              { type: "callout", label: "Definición exacta de value bet", content: "Una value bet no es simplemente apostar cuando crees que estás por delante. Para hacer una value bet, debes tener más del 50% de equidad frente al SUBRANGO que el rival no foldea a esa apuesta. La distinción crítica: no importa si estás por delante de su rango total — importa si estás por delante cuando te llama. Muchas veces estás por delante del rango total pero por detrás cuando pagas." },
+              { type: "text", content: "Para tomar la decisión de si hacer value bet, el Grinder's Manual introduce un flowchart de tres preguntas que debes responder en orden. Este proceso no es mecánico — con experiencia se vuelve automático — pero al principio es esencial tenerlo explícito." },
+              { type: "callout", label: "El flowchart del value bet", content: "Pregunta 1: ¿Tengo suficiente fuerza relativa de mano para apostar por valor? (¿Estoy por delante del rango que me llama más del 50%?) Si NO → Check. Si SÍ → Pregunta 2. Pregunta 2: ¿Necesito construir el bote? Si SÍ → Value bet. Si NO → Pregunta 3. Pregunta 3: ¿El slowplay tiene sentido aquí? Si NO → Value bet. Si SÍ → Check (slowplay)." },
+              { type: "callout", label: "Fuerza absoluta vs fuerza relativa", content: "La fuerza absoluta de una mano es su rango objetivo (straight, flush, set...). La fuerza relativa es su valor en el contexto de ese tablero específico frente a ese rival específico. Un straight puede ser las nuts en un tablero (Q♠J♥T♦9♣2♠) o ser casi un bluff catcher en otro (Q♠J♥T♦9♣8♠ donde cualquier K o 8 te supera). El principiante mira la fuerza absoluta; el jugador ganador piensa siempre en fuerza relativa." },
+              { type: "text", content: "Recuerda también el concepto de 'procedural check': cuando actúas primero en una calle y el agresor de la calle anterior no ha actuado aún, normalmente debes checkear con todo tu rango antes de que el agresor actúe. En estos spots, el flowchart del value bet no aplica — simplemente checks." },
+            ],
+          },
+          {
+            title: "Pregunta 1 — Fuerza relativa de la mano",
+            body: [
+              { type: "text", content: "La primera pregunta del flowchart es la más fundamental: ¿cuando el rival llama mi apuesta, tengo la mejor mano más del 50% de las veces? Responder esta pregunta correctamente requiere pensar en el rango del rival, no en su mano específica." },
+              { type: "callout", label: "Ejemplo claro: Sí a Q1", content: "Tablero: K♥J♦T♣2♠. Hero tiene A♠Q♠ (straight al As). Es las nuts — nada puede ganarle. ¿Tiene suficiente fuerza relativa para apostar? ¡Aplastante! Cuando el rival llama, sigue siendo las nuts. Respuesta: SÍ a Q1. Pasa a Q2." },
+              { type: "callout", label: "Ejemplo claro: No a Q1", content: "Mismo straight (A♠Q♠ en K♥J♦T♣), pero el tablero es K♥J♦T♦9♦2♦ — cuatro diamantes en el tablero. Ahora cualquier diamante en la mano del rival hace flush. Cualquier Q hace mejor straight. La fuerza relativa es pésima. Aunque en términos absolutos tenemos un straight, cuando el rival llama es muy probable que tenga algo mejor. Respuesta: NO a Q1 → Check." },
+              { type: "text", content: "El caso intermedio — y el más habitual — es evaluar overpairs, top pair buena kicker, o dos pares contra rangos de fish que incluyen muchos draws y pares inferiores. La clave es: ¿cuántas manos del rango probable del rival te ganan cuando llaman? Si la respuesta es 'pocas', tienes suficiente fuerza relativa. Si la respuesta es 'muchas', quizás no." },
+              { type: "callout", label: "El tipo de rival importa enormemente", content: "La fuerza relativa no depende solo del tablero — depende del rival. El mismo AA en el mismo flop puede ser value bet contra un fish con WTSD alto (va al showdown con muchas manos débiles) y puede ser check contra un reg sólido que solo continúa con manos muy fuertes. Contra el fish, estás por delante de su rango de call. Contra el reg en ciertos tableros, quizás no. Los stats de tus rivales — VTSD, VPIP, Fold to C-bet — son información crítica para responder Q1." },
+              { type: "quiz", questions: [
+                {
+                  situation: "NL25 · BTN vs BB · Flop K♠7♥2♣",
+                  hand: "K♦Q♦",
+                  context: "Hero abrió desde BTN, BB (fish con VPIP 55%) pagó. Flop K♠7♥2♣, BB checkea. ¿Qué fuerza relativa tiene top pair + buena kicker?",
+                  question: "¿Tienes suficiente fuerza relativa para c-bet por valor en este flop?",
+                  options: [
+                    { label: "Sí — value c-bet", correct: true, explanation: "¡Correcto! KQ tiene top pair buena kicker en tablero seco. El fish llama con K weak, 7x, draws escasos... estás por delante de la mayoría de su rango. Value c-bet clara." },
+                    { label: "No — muy vulnerable", correct: false, explanation: "En un tablero seco K72 rainbow, tu overpair/top pair tiene muy buena fuerza relativa vs un fish. Las manos que te ganan (K+kicker mejor, sets) son minoría en su rango amplio." },
+                    { label: "Depende del tamaño", correct: false, explanation: "El tamaño afecta al sizing del value, no a la decisión de si tienes fuerza relativa. Aquí la fuerza relativa es clara — el tamaño lo ajustas después." },
+                    { label: "Check para pot control", correct: false, explanation: "Pot control es válido con manos de fuerza media, pero KQ en K72r contra fish es value clara. No necesitas pot control aquí — necesitas construir el bote." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Pregunta 2 — ¿Necesitas construir el bote?",
+            body: [
+              { type: "text", content: "Si has respondido SÍ a la Q1 (tienes fuerza relativa suficiente), la siguiente pregunta es si necesitas hacer crecer el bote activamente. La respuesta es casi siempre SÍ en cash games con 100BB efectivos — los botes son pequeños relativos a los stacks y hay mucho dinero que extraer." },
+              { type: "callout", label: "El error exponencial", content: "Un fallo en construir el bote en el flop tiene consecuencias que se multiplican. Si el bote en el flop es 10BB y no apuestas, en el turn el bote sigue siendo 10BB y tu apuesta máxima razonable es 7BB. Si hubieras apostado 7BB en el flop, el turn tendría 24BB y podrías apostar 16BB. En el river la diferencia es enorme. Este efecto de cascada se llama el 'exponential mistake': fallar en construir el bote temprano multiplica la pérdida de EV en todas las calles siguientes." },
+              { type: "callout", label: "WTSD — Went To ShowDown", content: "El stat WTSD (porcentaje de veces que el jugador va al showdown) es clave para entender cuándo necesitas construir el bote. Un fish con WTSD del 35%+ va a showdown con muchas manos débiles — no puedes confiar en que él construya el bote por ti. Debes apostar cada calle de valor. Un jugador con WTSD bajo y muy agresivo a veces construye el bote por ti — y en ese caso podrías checkear para induciarlo a apostar." },
+              { type: "text", content: "La situación en la que Q2 = NO es principalmente cuando el stack efectivo es pequeño en relación al bote. En botes de 3-bet o en situaciones con stacks más cortos, a veces no necesitas apostar el flop porque con dos apuestas futuras ya entra todo el dinero. En ese caso, tienes un 'spare street' — una calle que puedes no apostar sin perder valor." },
+              { type: "callout", label: "Ejemplo: construir bote vs. fish pasivo con AA", content: "Hero tiene AA en BTN vs fish pasivo en BB. Flop: K♥7♦3♣. Hero hace overpair. El fish es estacionario (WTSD alto, fold to c-bet bajo). ¿Checkeamos para 'inducir'? Error. Los fish pasivos llaman bets pero no hacen bets cuando se checkea a ellos. Necesitas apostar el flop, el turn y el river. Cada calle que no apuestas es valor perdido permanentemente. La geometría del bote importa: apuesta el 60-70% del bote en cada calle para llegar al river con un bote grande." },
+              { type: "quiz", questions: [
+                {
+                  situation: "NL25 · CO vs BB · Flop A♦J♣5♥",
+                  hand: "A♠K♠",
+                  context: "Hero tiene top pair buena kicker. BB es fish pasivo con WTSD 38%, fold to c-bet 42%. Bote preflop 5BB.",
+                  question: "¿Debes apostar en el flop?",
+                  options: [
+                    { label: "Sí — value c-bet 60% del bote", correct: true, explanation: "¡Correcto! AK tiene top pair top kicker. El fish pasivo llama bets con Ax débil, Jx, draws... Necesitas construir el bote ahora. Con un WTSD alto no construirá el bote por ti — apuesta y construye cada calle." },
+                    { label: "Check para inducir — es fish agresivo", correct: false, explanation: "El fish tiene WTSD 38% (pasivo) y fold to cbet 42% (llama bastante). No es agresivo — no apostará si checkeas. Necesitas apostar tú para construir el bote." },
+                    { label: "Check — el tablero es muy bueno para el BB", correct: false, explanation: "A♦J♣5♥ rainbow no es un tablero especialmente bueno para el BB. AK tiene gran ventaja de rango aquí. Checkear en esta situación es el exponential mistake clásico." },
+                    { label: "All-in — maximiza el valor", correct: false, explanation: "All-in en el flop con top pair en un bote de 5BB desperdicia el potencial de extraer 3 calles. Apuesta calibrado para que entren 3 bets (flop-turn-river) con las fichas disponibles." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Pregunta 3 — ¿Slowplay?",
+            body: [
+              { type: "text", content: "El slowplay (jugar pasivamente una mano muy fuerte) es una de las jugadas más mal entendidas en el poker. Los principiantes lo hacen demasiado — creen que ser 'tricky' siempre es mejor. El Grinder's Manual es claro: el slowplay casi siempre cuesta dinero. Solo es correcto en circunstancias muy específicas." },
+              { type: "callout", label: "¿Cuándo aplica el slowplay?", content: "El slowplay solo tiene sentido cuando se cumplen TODAS estas condiciones: (1) Q1 = SÍ (tienes mano muy fuerte). (2) Q2 = NO (no necesitas construir el bote urgentemente — ya sea porque el stack efectivo es corto o el bote ya es grande en relación al stack). (3) Hay una alternativa de mayor EV que apostar — típicamente porque el rival apostará si checkeas (es agresivo) y además incluirá en su rango de apuesta manos con las que no habría llamado tu bet." },
+              { type: "callout", label: "Slowplay 1: OOP contra rival muy agresivo", content: "Ejemplo: Hero OOP con QQ en un flop Q♦7♣2♥. Si el rival es altamente agresivo (Float Flop alto), probablemente apostará si Hero checkea — con draws, con overcards, con aire. Aquí checkear sirve para: (a) que el rival ponga dinero con manos que habría foldeado a un bet, (b) inducir bluffs que puedes check/raise. Condición clave: necesitas alta confianza en que el rival apostará — no sirve si es pasivo." },
+              { type: "callout", label: "Slowplay 2: stack corto + tablero seco", content: "Ejemplo: En un 3-bet pot con 30BB efectivos y Hero tiene top set en flop seco. Con 30BB efectivos en un bote ya grande, solo necesitas 2 bets más para meter todo el dinero. Tienes una 'calle de cortesía' — puedes checkear el flop sin perder la capacidad de ir al all-in. Además, si el rival es activo, él puede apostar el turn y facilitar que entres todo el dinero. Slowplay válido aquí." },
+              { type: "callout", label: "Slowplay 3: 'crushando' el tablero", content: "Ejemplo: Hero tiene QQ en flop Q♠Q♥7♦ — quads. Hay tan pocos rivales que puedan tener una mano buena para pagar que la c-bet tendrá fold equity enorme. Aquí checkear induce al rival a apostar con aire y da tiempo para que mejore una mano mediana en el turn. El riesgo de dar carta gratis es mínimo cuando ya tienes quads." },
+              { type: "text", content: "La conclusión del Grinder's Manual sobre el slowplay: hazlo rara vez, solo con manos muy fuertes, y solo cuando tienes evidencia sólida de que el rival apostará si checkeas O cuando el stack ya garantiza el all-in sin necesidad de bet en cada calle. En todos los demás casos — value bet." },
+            ],
+          },
+          {
+            title: "Valor grueso y valor fino",
+            body: [
+              { type: "text", content: "Hasta ahora hemos visto situaciones de 'thick value' — casos claros donde tu mano está cómodamente por delante del rango de call del rival. Pero hay situaciones más complejas donde el value es 'thin' (fino) — donde tu equidad cuando te llaman es real pero ajustada. Saber encontrar estas situaciones finas añade EV significativo." },
+              { type: "callout", label: "Valor grueso (Thick value)", content: "Thick value: estás cómodamente por delante del rango de call — no hay duda. Ej: AA en un flop 7♦4♣2♠ vs fish. Tu overpair domina absolutamente lo que el fish puede llamar (pares menores, draws escasos, aspiraciones). Apuestas las 3 calles sin dudar." },
+              { type: "callout", label: "Valor fino (Thin value)", content: "Thin value: tienes más del 50% de equidad vs el rango de call, pero no por mucho. Requiere un análisis más cuidadoso. Ej: top pair kicker media en un tablero húmedo en el river. ¿Llama el rival con peores manos? ¿Hay suficientes manos en su rango que son peores y llaman? Si la respuesta es sí (aunque ajustada), apostar es +EV." },
+              { type: "callout", label: "Rango capped vs uncapped", content: "Un rango capped (limitado) es uno que no puede contener las manos más fuertes posibles dado las acciones tomadas. Si el rival ha checkeado dos veces (incluyendo el turn como agresor potencial), su rango está probablemente capped — pocas manos muy fuertes. Esto facilita el thin value: si su rango no puede tener muchas manos que te ganen, tu valor fino es más seguro. Un rango uncapped (ilimitado) puede contener manos muy fuertes — thin value es más arriesgado." },
+              { type: "callout", label: "Las tres líneas OOP en el river", content: "Fuera de posición en el river tienes tres opciones: (1) Bet/fold — hacer una thin value bet y foldear a un raise. Bueno cuando el rango de call del rival es más débil que su rango de bet. Funciona bien contra fish pasivos. (2) Check/call — checkear para capturar bluffs. Bueno cuando el rival apostará con muchas manos peores que las que llamarían tu bet. (3) Check/fold — resignarte a que no puedes extraer valor ni capturar bluffs. Válido cuando el rival tiene rango de bet muy fuerte y rango de call reducido a manos mejores que la tuya." },
+            ],
+          },
+          {
+            title: "Sizing y Elasticidad",
+            body: [
+              { type: "text", content: "El sizing del value bet es tan importante como la decisión de apostar. Apostar demasiado pequeño contra un fish es el error de 'exponential mistake' silencioso — perder valor que era tuyo. Apostar demasiado grande puede 'volar' del bote a un jugador que habría pagado un tamaño razonable." },
+              { type: "callout", label: "Elasticidad del rango", content: "La elasticidad describe cómo varía el rango de call de un rival al cambiar el sizing. Un rango ELÁSTICO se contrae mucho con tamaños grandes: si subes el bet de 50% a 100% del bote, muchas manos que habrían llamado al 50% ya no llaman al 100%. Un rango INELÁSTICO apenas cambia: el rival llama prácticamente igual haya un bet del 50% o del 80% del bote. Los fish suelen tener rangos inelásticos — les gusta llamar y no ajustan mucho según el tamaño." },
+              { type: "callout", label: "Implicación práctica: apuesta grande vs fish", content: "Si el rival tiene rango inelástico (fish con WTSD alto), la estrategia correcta es apostar grande para maximizar el valor. La objeción clásica del principiante: 'no quiero asustarlo del bote'. Respuesta: si tiene rango inelástico, no se asusta — llama igual. Y si se va una vez de X, ganarás mucho más en todas las demás. Evita el error exponencial: no subapostes contra fish que llaman de todas formas." },
+              { type: "callout", label: "Sizing vs Regs: balance es clave", content: "Contra regulars atentos, la estrategia cambia. Variar el tamaño según la fuerza de tu mano (grande con valor, pequeño sin valor) es un leak explotable. Los regs notarán el patrón y se ajustarán. Contra regulars, usa el mismo tamaño con todo tu rango en la misma situación (balanced sizing). La excepción: cuando tienes una lectura clara de que el reg tiene rango inelástico en ese spot específico." },
+              { type: "callout", label: "El error exponencial: un ejemplo", content: "Mano 1 (correcto): Hero tiene AA en BTN, fish en BB. Flop K♦7♣2♥, bote 5BB. Hero apuesta 4BB → Turn bote 13BB, Hero apuesta 10BB → River bote 33BB, Hero apuesta 25BB. Total extraído: ~39BB. Mano 2 (error): misma situación pero Hero checkea el flop 'para inducir'. Turn bote 5BB, Hero apuesta 4BB → River bote 13BB, Hero apuesta 10BB. Total extraído: ~14BB. Diferencia: 25BB de EV perdido en una sola mano por no construir el bote en el flop." },
+              { type: "text", content: "El valor betting es, en última instancia, el corazón del poker ganador. Los bluffs son importantes, la defensa importa, la posición importa — pero la mayor fuente de beneficio contra fish es simplemente apostar grande con tus buenas manos en cada calle y no dar descuentos. Domina el value betting y tendrás la habilidad más rentable del cash game." },
+            ],
+          },
+        ],
       },
       {
         id: 5,
@@ -1196,6 +1226,38 @@ const content = {
               { type: "text", content: "In this course we'll build knowledge layer by layer. Each lesson adds concepts that build on the previous ones. Don't rush: thoroughly understanding the fundamentals is worth far more than superficially knowing advanced concepts." },
             ],
           },
+          {
+            title: "Poker Dictionary — essential terms",
+            body: [
+              { type: "text", content: "Poker has its own language. Learning these terms is not optional: they appear constantly in study, videos, forums and the game situations themselves. This reference covers the most important ones." },
+              { type: "callout", label: "Hero and Villain", content: "Hero always refers to the active player whose perspective we analyze the hand from — that's us. Villain is the opponent. These terms allow describing situations without revealing the result: 'Hero has KK, Villain bets pot on the river' is a neutral format that separates the decision from the outcome. They're used interchangeably with 'we' and 'the opponent'." },
+              { type: "callout", label: "Fish and Reg", content: "Fish (or recreational player): a player who chronically loses money by making systematic mistakes — paying off too much, not folding, playing too many hands. Regular (Reg): a winning or competent player who studies and applies consistent strategy. At low stakes most of the table are fish, which is a huge advantage for the reg." },
+              { type: "callout", label: "The Nuts", content: "The nuts is the strongest possible hand given the board. On a board of A♠K♠Q♠J♠T♠, the nuts would be any flush above the T, or specifically the Royal Flush. 'Nuts' is relative to the board: on K♥8♦3♣ the nuts is trip Kings. A hand can be 'the nuts' or simply 'near-nuts'. Knowing what the nuts is on each board is essential to evaluating relative hand strength." },
+              { type: "callout", label: "Draw — Drawing hand", content: "A draw is an incomplete hand that needs improvement from future cards to win. Most common types: Flush draw (FD): 4 cards of the same suit, needs a fifth. Open-ended straight draw (OESD): 4 consecutive cards with two ways to complete (e.g. 6789 completes with 5 or T). Gutshot (GS): 4 cards to a straight with only one way to complete (e.g. 6 8 9 T only fills with 7). Backdoor draw: needs both next cards to complete." },
+              { type: "callout", label: "IP / OOP — Position in the hand", content: "IP (In Position) means you act after your opponent on postflop streets. This is a huge advantage: you see their action before deciding, can control pot size and bluff more effectively. OOP (Out of Position) is the opposite: you act first, without information on what the opponent will do. Generally you want to play IP whenever possible and be selective about hands you play OOP." },
+              { type: "callout", label: "Open / Open raise", content: "Opening the pot means making the first voluntary preflop bet when nobody else has entered yet. Specifically it's a raise, not a limp (just calling the blind). An open from UTG to 3x BB means betting 3 times the big blind as the first to act. The basic philosophy: either open with a raise or fold. Limping (calling the blind without raising) gives up initiative and is almost always a mistake." },
+              { type: "callout", label: "Range", content: "A player's range is the set of all hands they would take a given action with. You don't think 'the opponent has AK' but 'the opponent has a UTG opening range that includes AA-TT, AKs-AJs, KQs, etc.' Thinking in ranges rather than specific hands is the most important conceptual leap in modern poker." },
+              { type: "callout", label: "Equity", content: "A hand's equity is its percentage chance of winning the pot if the hand goes to showdown with all community cards out. AK has ~67% equity against QQ before the flop. Equity changes with each card that falls. Having equity doesn't mean always betting — sometimes equity is best realized by checking." },
+              { type: "callout", label: "SDV — Showdown Value", content: "Showdown Value of a hand is its ability to win if it reaches showdown without improving. A hand with high SDV (e.g. top pair good kicker) is sometimes best not bet, to reach showdown. A hand without SDV (air, missed draws) has no showdown value and only wins if it forces a fold or improves." },
+              { type: "callout", label: "Bluff / Value bet / Semi-bluff", content: "Value bet: betting expecting to be called by worse hands. Bluff: betting without a strong hand to force a fold. Semi-bluff: betting with a draw — if opponent folds, great; if they call, you can still improve to the best hand. The difference between value and bluff isn't what you hold, but your hand's equity against the range that calls you." },
+              { type: "callout", label: "C-bet — Continuation Bet", content: "The c-bet is a bet made by the preflop aggressor on the flop. If you opened the pot preflop and the flop is reached, the c-bet 'continues the story' — you remain the aggressor. A value c-bet is made with a strong hand expecting calls from worse hands. A light c-bet is made without a hand, expecting the opponent to fold." },
+              { type: "callout", label: "Effective Stack", content: "The effective stack is the smallest stack among the players in a hand. If Hero has 100BB and Villain has 60BB, the effective stack is 60BB — that's all that can be wagered between them. The effective stack determines how much can be won or lost in the hand and completely affects strategy." },
+              { type: "callout", label: "Pot odds / Implied odds", content: "Pot odds: the ratio of the current pot size to what you have to pay to continue. If the pot is 10BB and you must pay 2BB, you have pot odds of 5:1 (need to win 1 in 6 times to break even). Implied odds: the additional credit you receive considering what you can win on future streets if you improve. Implied odds justify calls that pot odds alone don't." },
+            ],
+          },
+          {
+            title: "Rake and Rakeback — the real cost of playing",
+            body: [
+              { type: "text", content: "Rake is the commission the poker room charges to run the games. You don't play against the house — the house just charges for the service. But that cost exists and it's important to understand exactly how it works, how much it costs you, and how to minimize it." },
+              { type: "callout", label: "How does rake work?", content: "In cash games, the room takes a percentage of the pot — typically between 4% and 6% — with a maximum cap per hand. Typical example: 5% rake with a 3BB cap. If the pot reaches 20BB, the room takes 1BB (5%). If the pot is 200BB, the room still only takes 3BB (the cap). Rake is deducted from the winning pot, not charged directly to the player." },
+              { type: "callout", label: "Rake by stakes: how much each level pays", content: "At NL2 ($0.01/$0.02): rake 5%, cap $0.30 → practically 100% of small pots goes to rake. The hardest stake to beat due to rake. NL10 ($0.05/$0.10): rake 5%, cap $1 → more manageable. NL25 ($0.10/$0.25): rake 5%, cap $1.25 → the point where winning play becomes more viable. As stakes increase, rake as a percentage of money in play decreases — one reason higher stakes are more beatable." },
+              { type: "text", content: "In practice, rake has a huge impact on win rate. A break-even player before rake (who makes the same correct decisions as opponents on average) loses money because rake makes them a net loser. To make money you need to be good enough to cover the rake AND generate profit on top." },
+              { type: "callout", label: "Rakeback — recovering part of the rake", content: "Rakeback is a loyalty program where the room returns a percentage of the rake you generated. If you pay $100 in rake in a month and have 30% rakeback, you get $30 back. At low stakes, rakeback can represent the difference between losing and winning — or between a mediocre win rate and a solid one." },
+              { type: "callout", label: "Types of rakeback programs", content: "Direct rakeback: the room credits a fixed % of rake to your account. VPP/FPP points: points systems redeemable for cash, tournament entries or bonuses. Welcome bonuses: many rooms offer a 100% match on your first deposit up to a limit, released gradually as you generate rake. Loyalty programs: VIP tiers with increasing benefits. The best platforms in terms of rake+rakeback for low stakes vary — research up-to-date comparisons before choosing a room." },
+              { type: "callout", label: "Which room to choose?", content: "Room choice hugely impacts profitability. Consider: (1) Rake rate and cap structure. (2) Rakeback or points program. (3) Game quality — softer tables compensate for higher rake. (4) Software and usability. (5) Security and track record. Established rooms: PokerStars, GGPoker, Winamax, 888poker, PartyPoker. Conditions change — check specialized forums like r/poker or 2+2 for updated reviews." },
+              { type: "text", content: "The practical conclusion: rake isn't an enemy to fear if you play well, but it is a real factor to manage intelligently. Maximize rakeback, choose your room carefully, and ensure your win rate is positive enough to cover rake and still finish in the green." },
+            ],
+          },
         ],
       },
       {
@@ -1321,7 +1383,7 @@ const content = {
                 content:
                   "UTG is the hardest position. You act first out of 6 players and have everyone behind you with the ability to 3-bet or cold call. This means your range must be the tightest at the table: only open hands that can withstand heavy pressure.",
               },
-              { type:"rangeGrid", labelEs:"Rango apertura EP/UTG (~14%)", labelEn:"EP/UTG opening range (~14%)", open:EP_OPEN, exploit:EP_EXPLOIT },
+              { type:"rangeImage", src:orEP, alt:"EP/UTG opening range" },
               {
                 type: "text",
                 content:
@@ -1344,7 +1406,7 @@ const content = {
                 content:
                   "From MP you have a slightly better position than UTG: one player has already acted before you, and if that player folded, only CO, BTN, SB, and BB remain. This lets you expand the range moderately.",
               },
-              { type:"rangeGrid", labelEs:"Rango apertura MP (~21%)", labelEn:"MP opening range (~21%)", open:MP_OPEN, exploit:MP_EXPLOIT },
+              { type:"rangeImage", src:orMP, alt:"MP opening range" },
               {
                 type: "callout",
                 label: "Watch out with AJo and KQo from MP",
@@ -1362,32 +1424,7 @@ const content = {
                 content:
                   "The Cutoff is one of the most profitable positions at the table. You only have BTN, SB, and BB behind you. BTN can call or 3-bet you, but the blinds will play postflop out of position. This allows you to open a considerably wider range.",
               },
-              {
-                type: "rangeBlock",
-                label: "CO opening range (~35%)",
-                legend: { core: "Always open", exploit: "Open vs nit/passive", fold: "Fold" },
-                hands: [
-                  { tier:"core",    group: "Pairs", cards: "AA-44" },
-                  { tier:"exploit", group: "Pairs (vs nit)", cards: "33, 22" },
-                  { tier:"core",    group: "Suited aces", cards: "AKs-A2s (all)" },
-                  { tier:"core",    group: "Offsuit aces", cards: "AKo-A9o" },
-                  { tier:"exploit", group: "Offsuit aces (vs nit)", cards: "A8o, A7o" },
-                  { tier:"core",    group: "Kings suited", cards: "KQs-K8s" },
-                  { tier:"exploit", group: "Kings suited (vs nit)", cards: "K7s-K5s" },
-                  { tier:"core",    group: "Kings offsuit", cards: "KQo-KTo" },
-                  { tier:"exploit", group: "Kings offsuit (vs nit)", cards: "K9o, K8o" },
-                  { tier:"core",    group: "Queens suited", cards: "QJs-Q9s" },
-                  { tier:"exploit", group: "Queens suited (vs nit)", cards: "Q8s-Q7s" },
-                  { tier:"core",    group: "Queens offsuit", cards: "QJo, QTo" },
-                  { tier:"core",    group: "Jacks suited", cards: "JTs-J9s" },
-                  { tier:"exploit", group: "Jacks suited (vs nit)", cards: "J8s-J7s" },
-                  { tier:"core",    group: "Jacks offsuit", cards: "JTo" },
-                  { tier:"core",    group: "Tens suited", cards: "T9s-T8s" },
-                  { tier:"exploit", group: "Tens suited (vs nit)", cards: "T7s-T6s" },
-                  { tier:"core",    group: "Suited connectors", cards: "98s-97s, 87s-86s, 76s-75s, 65s-64s, 54s-53s" },
-                  { tier:"exploit", group: "Gappers (vs nit)", cards: "96s-95s, 85s-84s, 74s-73s, 63s-62s" },
-                ],
-              },
+              { type:"rangeImage", src:orCO, alt:"CO opening range" },
               {
                 type: "callout",
                 label: "ATo from CO",
@@ -1405,32 +1442,7 @@ const content = {
                 content:
                   "The Button is the most powerful position in poker. You act last on all postflop streets, giving you full control over pot size, the ability to bluff more effectively, and the advantage of seeing all actions before deciding. This justifies opening almost twice as many hands as UTG.",
               },
-              {
-                type: "rangeBlock",
-                label: "BTN opening range (~55%)",
-                legend: { core: "Always open", exploit: "Open vs nit/passive", fold: "Fold" },
-                hands: [
-                  { tier:"core",    group: "Pairs", cards: "AA-22 (all)" },
-                  { tier:"core",    group: "Suited aces", cards: "AKs-A2s (all)" },
-                  { tier:"core",    group: "Offsuit aces", cards: "AKo-A2o (all)" },
-                  { tier:"core",    group: "Kings suited", cards: "KQs-K5s" },
-                  { tier:"exploit", group: "Kings suited (vs nit)", cards: "K4s-K2s" },
-                  { tier:"core",    group: "Kings offsuit", cards: "KQo-K8o" },
-                  { tier:"exploit", group: "Kings offsuit (vs nit)", cards: "K7o-K6o" },
-                  { tier:"core",    group: "Queens suited", cards: "QJs-Q7s" },
-                  { tier:"exploit", group: "Queens suited (vs nit)", cards: "Q6s-Q5s" },
-                  { tier:"core",    group: "Queens offsuit", cards: "QJo-Q9o" },
-                  { tier:"exploit", group: "Queens offsuit (vs nit)", cards: "Q8o" },
-                  { tier:"core",    group: "Jacks suited", cards: "JTs-J7s" },
-                  { tier:"exploit", group: "Jacks suited (vs nit)", cards: "J6s-J5s" },
-                  { tier:"core",    group: "Jacks offsuit", cards: "JTo-J9o" },
-                  { tier:"core",    group: "Tens suited", cards: "T9s-T6s" },
-                  { tier:"exploit", group: "Tens suited (vs nit)", cards: "T5s-T4s" },
-                  { tier:"core",    group: "Tens offsuit", cards: "T9o-T8o" },
-                  { tier:"core",    group: "Suited connectors/gappers", cards: "98s-95s, 87s-84s, 76s-74s, 65s-63s, 54s-53s, 43s" },
-                  { tier:"exploit", group: "Low gappers (vs nit)", cards: "94s-93s, 83s-82s, 73s-72s" },
-                ],
-              },
+              { type:"rangeImage", src:orBTN, alt:"BTN opening range" },
               {
                 type: "callout",
                 label: "Why so wide?",
@@ -1448,31 +1460,7 @@ const content = {
                 content:
                   "The Small Blind is the most complex position in the game. You must post half a blind and, if you open, you will always play postflop out of position against the BB. This makes SB structurally the hardest seat to open and play hands from.",
               },
-              {
-                type: "rangeBlock",
-                label: "SB opening range vs BB (~65%)",
-                legend: { core: "Always open", exploit: "Open vs nit/passive", fold: "Fold" },
-                hands: [
-                  { tier:"core",    group: "Pairs", cards: "AA-22 (all)" },
-                  { tier:"core",    group: "Aces", cards: "AKs-A2s, AKo-A2o (all)" },
-                  { tier:"core",    group: "Kings suited", cards: "KQs-K2s (all)" },
-                  { tier:"core",    group: "Kings offsuit", cards: "KQo-K2o (all)" },
-                  { tier:"core",    group: "Queens suited", cards: "QJs-Q2s (all)" },
-                  { tier:"core",    group: "Queens offsuit", cards: "QJo-Q6o" },
-                  { tier:"fold",    group: "Queens offsuit (fold)", cards: "Q5o-Q2o" },
-                  { tier:"core",    group: "Jacks suited", cards: "JTs-J4s" },
-                  { tier:"fold",    group: "Jacks suited (fold)", cards: "J3s-J2s" },
-                  { tier:"core",    group: "Jacks offsuit", cards: "JTo-J6o" },
-                  { tier:"fold",    group: "Jacks offsuit (fold)", cards: "J5o-J2o" },
-                  { tier:"core",    group: "Tens suited", cards: "T9s-T5s" },
-                  { tier:"fold",    group: "Tens suited (fold)", cards: "T4s-T2s" },
-                  { tier:"core",    group: "Tens offsuit", cards: "T9o-T6o" },
-                  { tier:"core",    group: "Nines and below suited", cards: "98s-95s, 87s-85s, 76s-74s, 65s-64s, 54s-53s, 43s" },
-                  { tier:"fold",    group: "Weak suited (fold)", cards: "84s-82s, 73s-72s, 63s-62s, 52s, 42s, 32s" },
-                  { tier:"core",    group: "Nines and below offsuit", cards: "98o-96o, 87o-86o, 76o, 65o" },
-                  { tier:"fold",    group: "Weak offsuit (fold)", cards: "85o and below, 74o and below, 53o and below" },
-                ],
-              },
+              { type:"rangeImage", src:orSB, alt:"SB opening range" },
               {
                 type: "callout",
                 label: "Size: 3x BB from SB",
@@ -1644,59 +1632,39 @@ const content = {
             ],
           },
           {
-            title: "ISO ranges — BTN vs 1 limper",
+            title: "ISO ranges — MP vs 1 limper",
             body: [
-              { type: "positionHeader", name: "ISO_BTN", range: "~50%", size: "4x BB", color: "#10b981" },
-              { type: "text", content: "From the BTN with a single limper in front, your ISO range is huge: approximately 50% of hands. The combination of perfect position (you act last on all postflop streets), the limper's weak range, and the fact that only two players are behind (SB and BB, who usually fold) all justify this." },
-              { type: "rangeBlock", label: "ISO BTN vs 1 limper (~50%)", hands: [
-                { group: "Pairs", cards: "AA-22 (all)" },
-                { group: "Suited aces", cards: "AKs-A2s (all)" },
-                { group: "Offsuit aces", cards: "AKo-A6o" },
-                { group: "Kings suited", cards: "KQs-K5s" },
-                { group: "Kings offsuit", cards: "KQo, KJo, KTo, K9o" },
-                { group: "Queens suited", cards: "QJs-Q7s" },
-                { group: "Queens offsuit", cards: "QJo, QTo" },
-                { group: "Jacks suited", cards: "JTs-J7s" },
-                { group: "Jacks offsuit", cards: "JTo" },
-                { group: "Suited connectors/gappers", cards: "T9s-T6s, 98s-95s, 87s-84s, 76s-73s, 65s-63s, 54s, 53s" },
-              ]},
-              { type: "callout", label: "Why so wide?", content: "Because even mediocre hands are +EV here: the limper has a capped, weak range, you have position, and initiative means you dictate the pace of the hand postflop. Hands like Q7s or 73s that you wouldn't normally open become profitable ISOs from BTN." },
+              { type: "positionHeader", name: "ISO_MP", range: "~24%", size: "4x BB", color: "#f97316" },
+              { type:"rangeImage", src:rolMP, alt:"ROL / MP" },
+              { type: "text", content: "From MP the ISO is considerably tighter. You have CO, BTN and the blinds behind — four players who can enter the pot or 3-bet you. Only ISO from MP with hands that can withstand pressure and have a clear edge over the limper's range." },
+                            { type: "callout", label: "The practical rule from MP", content: "If you'd hesitate to open the hand from MP in a standard spot, you probably shouldn't ISO either. The presence of a limper doesn't dramatically change the range from MP — it does widen it slightly, but the pressure from players behind remains the same." },
             ],
           },
           {
             title: "ISO ranges — CO vs 1 limper",
             body: [
               { type: "positionHeader", name: "ISO_CO", range: "~32%", size: "4x BB", color: "#eab308" },
+              { type:"rangeImage", src:rolCO, alt:"ROL / CO" },
               { type: "text", content: "From CO with a limper in front, the range is tighter than BTN because you have BTN and the blinds behind — any of whom can cold-call or 3-bet. Even so, the CO ISO range is still wider than the standard CO open." },
-              { type: "rangeBlock", label: "ISO CO vs 1 limper (~32%)", hands: [
-                { group: "Pairs", cards: "AA-44" },
-                { group: "Suited aces", cards: "AKs-A4s" },
-                { group: "Offsuit aces", cards: "AKo-A9o" },
-                { group: "Kings suited", cards: "KQs-K8s" },
-                { group: "Kings offsuit", cards: "KQo, KJo, KTo" },
-                { group: "Broadway suited", cards: "QJs-Q8s, JTs-J8s, T9s-T7s" },
-                { group: "Broadway offsuit", cards: "QJo, JTo" },
-                { group: "Suited connectors", cards: "98s-96s, 87s-85s, 76s-74s, 65s, 64s" },
-              ]},
-              { type: "callout", label: "Adjustment with aggressive BTN", content: "If BTN is a player who 3-bets a lot, tighten your CO ISO range upward: remove weaker hands (A4s, K8s, 64s) that don't handle a 3-bet well and keep those with a clear response (AA-77, AJs+, KQs)." },
+                            { type: "callout", label: "Adjustment with aggressive BTN", content: "If BTN is a player who 3-bets a lot, tighten your CO ISO range upward: remove weaker hands (A4s, K8s, 64s) that don't handle a 3-bet well and keep those with a clear response (AA-77, AJs+, KQs)." },
             ],
           },
           {
-            title: "ISO ranges — MP vs 1 limper",
+            title: "ISO ranges — BTN vs 1 limper",
             body: [
-              { type: "positionHeader", name: "ISO_MP", range: "~24%", size: "4x BB", color: "#f97316" },
-              { type: "text", content: "From MP the ISO is considerably tighter. You have CO, BTN and the blinds behind — four players who can enter the pot or 3-bet you. Only ISO from MP with hands that can withstand pressure and have a clear edge over the limper's range." },
-              { type: "rangeBlock", label: "ISO MP vs 1 limper (~24%)", hands: [
-                { group: "Pairs", cards: "AA-55" },
-                { group: "Suited aces", cards: "AKs-A7s" },
-                { group: "Offsuit aces", cards: "AKo-AJo" },
-                { group: "Kings suited", cards: "KQs-K9s" },
-                { group: "Kings offsuit", cards: "KQo, KJo" },
-                { group: "Broadway suited", cards: "QJs-Q9s, JTs-J9s, T9s-T8s" },
-                { group: "Broadway offsuit", cards: "QJo" },
-                { group: "Suited connectors", cards: "98s, 97s, 87s" },
-              ]},
-              { type: "callout", label: "The practical rule from MP", content: "If you'd hesitate to open the hand from MP in a standard spot, you probably shouldn't ISO either. The presence of a limper doesn't dramatically change the range from MP — it does widen it slightly, but the pressure from players behind remains the same." },
+              { type: "positionHeader", name: "ISO_BTN", range: "~50%", size: "4x BB", color: "#10b981" },
+              { type:"rangeImage", src:rolBTN, alt:"ROL / BTN" },
+              { type: "text", content: "From the BTN with a single limper in front, your ISO range is huge: approximately 50% of hands. The combination of perfect position (you act last on all postflop streets), the limper's weak range, and the fact that only two players are behind (SB and BB, who usually fold) all justify this." },
+                            { type: "callout", label: "Why so wide?", content: "Because even mediocre hands are +EV here: the limper has a capped, weak range, you have position, and initiative means you dictate the pace of the hand postflop. Hands like Q7s or 73s that you wouldn't normally open become profitable ISOs from BTN." },
+            ],
+          },
+          {
+            title: "ISO ranges — SB vs 1 limper",
+            body: [
+              { type: "positionHeader", name: "ISO_SB", range: "~30%", size: "4x BB", color: "#8b5cf6" },
+              { type:"rangeImage", src:rolSB, alt:"ROL / SB" },
+              { type: "text", content: "From SB with a limper in front the situation is special: you only have BB behind, but you'll play postflop out of position against the limper. This shifts the range toward hands with more equity and less positional dependency." },
+              { type: "callout", label: "ISO from SB vs limp", content: "ISO from SB is profitable but requires more care: the limper may have trap hands and you're OOP. Prioritize hands with direct value (medium-high pairs, broadways) and suited connectors with good equity potential. Very speculative hands lose value out of position." },
             ],
           },
           {
@@ -1704,17 +1672,7 @@ const content = {
             body: [
               { type: "text", content: "With two or more limpers, the pot grows but so do the problems: more players means higher probability that someone has a strong hand or flops something. ISO with multiple limpers requires hands with more equity potential in multiway pots." },
               { type: "callout", label: "Sizing with 2 limpers", content: "2 limpers → ISO to at least 5BB. 3 limpers → ISO to 6BB. The goal is the same: make the pot expensive for players who would enter cheaply." },
-              { type: "rangeBlock", label: "ISO BTN vs 2 limpers (~40%)", hands: [
-                { group: "Pairs", cards: "AA-22 (all)" },
-                { group: "Suited aces", cards: "AKs-A3s" },
-                { group: "Offsuit aces", cards: "AKo-A8o" },
-                { group: "Kings suited", cards: "KQs-K6s" },
-                { group: "Kings offsuit", cards: "KQo, KJo, KTo" },
-                { group: "Broadway suited", cards: "QJs-Q8s, JTs-J8s, T9s-T7s" },
-                { group: "Broadway offsuit", cards: "QJo, QTo" },
-                { group: "Suited connectors", cards: "98s-96s, 87s-85s, 76s-74s, 65s, 64s, 54s" },
-              ]},
-              { type: "callout", label: "With 3+ limpers", content: "With 3 or more limpers the pot becomes very multiway and ISO loses effectiveness unless you have a very strong hand (AA-QQ, AKs, AKo) or hands with great multiway equity potential (AXs, high suited connectors, medium pairs for set mining). Hands like K7s or Q6s should simply fold against 3+ limpers." },
+                            { type: "callout", label: "With 3+ limpers", content: "With 3 or more limpers the pot becomes very multiway and ISO loses effectiveness unless you have a very strong hand (AA-QQ, AKs, AKo) or hands with great multiway equity potential (AXs, high suited connectors, medium pairs for set mining). Hands like K7s or Q6s should simply fold against 3+ limpers." },
             ],
           },
           {
@@ -1954,9 +1912,101 @@ const content = {
       },
       {
         id: 4,
-        title: "4. Exploitative Play",
-        summary: "Reading your opponent and adjusting strategy to maximize profit.",
-        comingSoon: true,
+        title: "4. Value Betting",
+        summary: "When to bet for value, how to build the pot, and the elasticity concept.",
+        chapters: [
+          {
+            title: "Introducing the Value Bet",
+            body: [
+              { type: "text", content: "Most of the money you make at poker doesn't come from regulars — it comes from fish. And the most common fish leak isn't bluffing too much: it's calling too much. They put money in with marginal hands and can't find the fold button when they should. Your job against these players is not to bluff them, but to extract maximum value when you have the best hand. That's the art of value betting." },
+              { type: "callout", label: "Exact definition of a value bet", content: "A value bet isn't simply betting when you think you're ahead. To value bet, you must have over 50% equity against the SUBRANGE that Villain doesn't fold to that bet. The critical distinction: it doesn't matter if you're ahead of their total range — what matters is whether you're ahead when called. Often you're ahead of the full range but behind when called." },
+              { type: "text", content: "To decide whether to value bet, The Grinder's Manual introduces a three-question flowchart you must answer in order. This process isn't mechanical — with experience it becomes automatic — but at first it's essential to make it explicit." },
+              { type: "callout", label: "The value bet flowchart", content: "Question 1: Do I have sufficient relative hand strength to bet for value? (Am I ahead of the calling range more than 50%?) If NO → Check. If YES → Question 2. Question 2: Do I need to build the pot? If YES → Value bet. If NO → Question 3. Question 3: Does slowplaying make sense here? If NO → Value bet. If YES → Check (slowplay)." },
+              { type: "callout", label: "Absolute vs relative hand strength", content: "Absolute hand strength is the objective rank (straight, flush, set...). Relative hand strength is its value in the specific context of that board against that specific opponent. A straight can be the nuts on one board (Q♠J♥T♦9♣2♠) or near a bluff-catcher on another (Q♠J♥T♦9♣8♠ where any K or 8 beats you). Beginners look at absolute strength; winning players always think in relative hand strength." },
+              { type: "text", content: "Remember the 'procedural check' concept: when you act first on a street and the aggressor of the previous street hasn't acted yet, you should normally check your whole range before the aggressor acts. In these spots the value bet flowchart doesn't apply — just check." },
+            ],
+          },
+          {
+            title: "Question 1 — Relative Hand Strength",
+            body: [
+              { type: "text", content: "The first flowchart question is the most fundamental: when the opponent calls my bet, do I have the best hand more than 50% of the time? Answering this correctly requires thinking about the opponent's range, not their specific hand." },
+              { type: "callout", label: "Clear example: Yes to Q1", content: "Board: K♥J♦T♣2♠. Hero has A♠Q♠ (Ace-high straight). It's the nuts — nothing beats it. Does Hero have sufficient relative strength to bet for value? Overwhelming yes! When the opponent calls, it's still the nuts. Answer: YES to Q1. Move to Q2." },
+              { type: "callout", label: "Clear example: No to Q1", content: "Same straight (A♠Q♠ on K♥J♦T♣), but the board is K♥J♦T♦9♦2♦ — four diamonds on board. Now any diamond in the opponent's hand makes a flush. Any Q makes a better straight. Relative strength is terrible. Even though we have a straight in absolute terms, when the opponent calls they very likely have something better. Answer: NO to Q1 → Check." },
+              { type: "text", content: "The intermediate case — and the most common — is evaluating overpairs, top pair good kicker, or two pair against fish ranges that include many draws and inferior pairs. The key question: how many hands in the opponent's likely range beat you when they call? If the answer is 'few', you have sufficient relative strength. If 'many', perhaps not." },
+              { type: "callout", label: "Opponent type matters enormously", content: "Relative strength depends not just on the board — it depends on the opponent. The same AA on the same flop can be a value bet against a fish with high WTSD (goes to showdown with many weak hands) but should be checked against a solid reg who only continues with very strong hands. Against the fish you're ahead of their calling range. Against the reg on certain boards, maybe not. Opponent stats — WTSD, VPIP, Fold to C-bet — are critical information for answering Q1." },
+              { type: "quiz", questions: [
+                {
+                  situation: "NL25 · BTN vs BB · Flop K♠7♥2♣",
+                  hand: "K♦Q♦",
+                  context: "Hero opened from BTN, BB (fish with VPIP 55%) called. Flop K♠7♥2♣, BB checks. What relative strength does top pair + good kicker have?",
+                  question: "Do you have sufficient relative strength to c-bet for value on this flop?",
+                  options: [
+                    { label: "Yes — value c-bet", correct: true, explanation: "Correct! KQ has top pair good kicker on a dry board. The fish calls with weak K, 7x, scarce draws... you're ahead of most of their range. Clear value c-bet." },
+                    { label: "No — too vulnerable", correct: false, explanation: "On a dry K72 rainbow board, your top pair has very good relative strength vs a fish. The hands that beat you (better kicker, sets) are a minority of their wide range." },
+                    { label: "Depends on the size", correct: false, explanation: "Sizing affects the value bet amount, not whether you have relative strength. Here the relative strength is clear — you adjust sizing afterward." },
+                    { label: "Check for pot control", correct: false, explanation: "Pot control is valid with medium-strength hands, but KQ on K72r against a fish is a clear value situation. You don't need pot control here — you need to build the pot." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Question 2 — Do You Need to Build the Pot?",
+            body: [
+              { type: "text", content: "If you've answered YES to Q1, the next question is whether you need to actively grow the pot. The answer is almost always YES in cash games with 100BB effective stacks — pots are small relative to stacks and there's a lot of money to extract." },
+              { type: "callout", label: "The Exponential Mistake", content: "Failing to build the pot on the flop has cascading consequences. If the flop pot is 10BB and you don't bet, on the turn it's still 10BB and your reasonable max bet is 7BB. If you had bet 7BB on the flop, the turn would have 24BB and you could bet 16BB. By the river the difference is enormous. This cascade effect is called the 'exponential mistake': failing to build the pot early multiplies the EV loss on all subsequent streets." },
+              { type: "callout", label: "WTSD — Went To ShowDown", content: "The WTSD stat (percentage of times a player goes to showdown) is key for understanding when you need to build the pot. A fish with WTSD of 35%+ goes to showdown with many weak hands — you can't count on them to build the pot for you. You must bet every value street. A player with low WTSD and high aggression sometimes builds the pot for you — and in that case you might check to induce them to bet." },
+              { type: "text", content: "The situation where Q2 = NO is mainly when the effective stack is small relative to the pot. In 3-bet pots or shorter stack situations, sometimes you don't need to bet the flop because two future bets are enough to get all the money in. In that case you have a 'spare street' — one street you can skip betting without losing value." },
+              { type: "callout", label: "Example: building pot vs passive fish with AA", content: "Hero has AA on BTN vs passive fish in BB. Flop: K♥7♦3♣. Hero has an overpair. The fish is stationary (high WTSD, low fold to c-bet). Should you check 'to induce'? Mistake. Passive fish call bets but don't bet when checked to. You need to bet flop, turn and river. Every street you don't bet is permanently lost value. Pot geometry matters: bet 60-70% of the pot each street to arrive at the river with a large pot." },
+              { type: "quiz", questions: [
+                {
+                  situation: "NL25 · CO vs BB · Flop A♦J♣5♥",
+                  hand: "A♠K♠",
+                  context: "Hero has top pair good kicker. BB is a passive fish with WTSD 38%, fold to c-bet 42%. Preflop pot 5BB.",
+                  question: "Should you bet on the flop?",
+                  options: [
+                    { label: "Yes — value c-bet 60% of pot", correct: true, explanation: "Correct! AK has top pair top kicker. The passive fish calls bets with weak Ax, Jx, draws... You need to build the pot now. With high WTSD he won't build it for you — bet and build every street." },
+                    { label: "Check to induce — fish is aggressive", correct: false, explanation: "The fish has WTSD 38% (passive) and fold to c-bet 42% (calls a lot). He's not aggressive — he won't bet if you check. You need to bet to build the pot." },
+                    { label: "Check — board is good for BB", correct: false, explanation: "A♦J♣5♥ rainbow isn't especially good for BB. AK has a big range advantage here. Checking in this situation is the classic exponential mistake." },
+                    { label: "All-in — maximize value", correct: false, explanation: "All-in on the flop in a 5BB pot wastes the potential of extracting 3 streets. Bet calibrated for 3 streets (flop-turn-river) to get all the chips in." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Question 3 — Slowplay?",
+            body: [
+              { type: "text", content: "Slowplay (playing a very strong hand passively) is one of the most misunderstood plays in poker. Beginners do it too much — they think being 'tricky' is always better. The Grinder's Manual is clear: slowplay almost always costs money. It's only correct in very specific circumstances." },
+              { type: "callout", label: "When does slowplay apply?", content: "Slowplay only makes sense when ALL of these conditions are met: (1) Q1 = YES (you have a very strong hand). (2) Q2 = NO (you don't urgently need to build the pot — either because the effective stack is short or the pot is already large relative to the stack). (3) There's a higher-EV alternative to betting — typically because the opponent will bet if you check (they're aggressive) and will include in their betting range hands they wouldn't have called your bet with." },
+              { type: "callout", label: "Slowplay 1: OOP vs very aggressive opponent", content: "Example: Hero OOP with QQ on a Q♦7♣2♥ flop. If the opponent is highly aggressive (high Float Flop), they'll likely bet if Hero checks — with draws, overcards, air. Checking here serves to: (a) get the opponent to put money in with hands they'd have folded to a bet, (b) induce bluffs you can check/raise. Key condition: you need high confidence the opponent will bet — doesn't work if they're passive." },
+              { type: "callout", label: "Slowplay 2: short stack + dry board", content: "Example: In a 3-bet pot with 30BB effective and Hero has top set on a dry flop. With 30BB effective in an already large pot, you only need 2 more bets to get all the money in. You have a 'courtesy street' — you can check the flop without losing the ability to go all-in. Plus, if the opponent is active, they may bet the turn and make it easy to get all the money in. Valid slowplay here." },
+              { type: "callout", label: "Slowplay 3: 'Crushing the deck'", content: "Example: Hero has QQ on a Q♠Q♥7♦ flop — quads. So few opponents can have a good hand to call that a c-bet will have enormous fold equity. Checking here induces the opponent to bet with air and gives time for them to improve a medium hand on the turn. The risk of giving a free card is minimal when you already have quads." },
+              { type: "text", content: "The Grinder's Manual conclusion on slowplay: do it rarely, only with very strong hands, and only when you have solid evidence the opponent will bet if you check OR when stack size already guarantees all-in without needing to bet every street. In all other cases — value bet." },
+            ],
+          },
+          {
+            title: "Thick and Thin Value",
+            body: [
+              { type: "text", content: "So far we've looked at 'thick value' situations — clear cases where your hand is comfortably ahead of the opponent's calling range. But there are more complex situations where value is 'thin' — where your equity when called is real but tight. Finding these thin spots adds significant EV." },
+              { type: "callout", label: "Thick value", content: "Thick value: you're comfortably ahead of the calling range — no doubt. E.g.: AA on a 7♦4♣2♠ flop vs a fish. Your overpair absolutely dominates what the fish can call (lower pairs, scarce draws). Bet all three streets without hesitation." },
+              { type: "callout", label: "Thin value", content: "Thin value: you have over 50% equity vs the calling range, but not by much. Requires more careful analysis. E.g.: top pair medium kicker on a wet board on the river. Does the opponent call with worse hands? Are there enough hands in their range that are worse and still call? If the answer is yes (even tightly), betting is +EV." },
+              { type: "callout", label: "Capped vs uncapped range", content: "A capped range is one that can't contain the strongest possible hands given the actions taken. If the opponent has checked twice (including the turn as a potential aggressor), their range is probably capped — few very strong hands. This enables thin value: if their range can't contain many hands that beat you, your thin value is safer. An uncapped range can contain very strong hands — thin value is riskier." },
+              { type: "callout", label: "The three OOP river lines", content: "Out of position on the river you have three options: (1) Bet/fold — make a thin value bet and fold to a raise. Good when the opponent's calling range is weaker than their betting range. Works well against passive fish. (2) Check/call — check to catch bluffs. Good when the opponent will bet with many hands worse than those that would call your bet. (3) Check/fold — resign yourself to not being able to extract value or catch bluffs. Valid when the opponent has a strong betting range and only calls with hands that beat you." },
+            ],
+          },
+          {
+            title: "Sizing and Elasticity",
+            body: [
+              { type: "text", content: "Value bet sizing is as important as the decision to bet. Betting too small against a fish is the silent 'exponential mistake' — losing value that was rightfully yours. Betting too large can 'blow' a player out of the pot who would have called a reasonable size." },
+              { type: "callout", label: "Range elasticity", content: "Elasticity describes how a player's calling range changes with different bet sizes. An ELASTIC range contracts a lot with larger sizes: going from 50% to 100% pot bet, many hands that would have called 50% no longer call 100%. An INELASTIC range barely changes: the opponent calls roughly the same whether you bet 50% or 80% of the pot. Fish tend to have inelastic ranges — they like calling and don't adjust much by bet size." },
+              { type: "callout", label: "Practical implication: bet big vs fish", content: "If the opponent has an inelastic range (fish with high WTSD), the correct strategy is to bet large to maximize value. The classic beginner objection: 'I don't want to scare them out of the pot.' Response: if their range is inelastic, they don't scare — they call anyway. And even if they fold once from bet X, you'll win much more on all other occasions. Avoid the exponential mistake: don't underbet against fish who call regardless." },
+              { type: "callout", label: "Sizing vs Regs: balance is key", content: "Against attentive regulars the strategy changes. Varying size based on hand strength (large for value, small without value) is an exploitable leak. Regs will notice the pattern and adjust. Against regulars, use the same size across your whole range in the same situation (balanced sizing). The exception: when you have a clear read that the reg has an inelastic range in that specific spot." },
+              { type: "callout", label: "The exponential mistake: an example", content: "Hand 1 (correct): Hero has AA on BTN, fish in BB. Flop K♦7♣2♥, pot 5BB. Hero bets 4BB → Turn pot 13BB, Hero bets 10BB → River pot 33BB, Hero bets 25BB. Total extracted: ~39BB. Hand 2 (mistake): same situation but Hero checks the flop 'to induce'. Turn pot 5BB, Hero bets 4BB → River pot 13BB, Hero bets 10BB. Total extracted: ~14BB. Difference: 25BB of EV lost in a single hand by not building the pot on the flop." },
+              { type: "text", content: "Value betting is, ultimately, the heart of winning poker. Bluffs matter, defense matters, position matters — but the biggest source of profit against fish is simply betting large with your good hands every street and not giving discounts. Master value betting and you'll have the most profitable skill in cash games." },
+            ],
+          },
+        ],
       },
       {
         id: 5,
@@ -2377,6 +2427,11 @@ function RenderBody({ blocks, lang = "es" }) {
 
         if (block.type === "rangeGrid") return (
           <RangeGridBlock key={i} data={block} lang={lang} />
+        );
+        if (block.type === "rangeImage") return (
+          <div key={i} style={{ display:"flex", justifyContent:"center", margin:"16px 0" }}>
+            <img src={block.src} alt={block.alt||"Range table"} style={{ maxWidth:"100%", borderRadius:8 }} />
+          </div>
         );
         if (block.type === "quiz") return (
           <QuizBlock key={i} questions={block.questions} lang={lang} />
