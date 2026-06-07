@@ -3558,8 +3558,15 @@ function PracticePage({ t, lang }) {
   const ALL_SITUATIONS = [...SITUATIONS, ...ISO_SITUATIONS, ...CBET_SITUATIONS, ...VBET_SITUATIONS];
 
   const startSession = () => {
-    const shuffled = [...ALL_SITUATIONS].sort(() => Math.random() - 0.5);
-    const hands = shuffled.slice(0, 10);
+    // Stratified sampling: guaranteed mix of all 4 types per session
+    // 3 OR · 2 ROL · 3 CBET · 2 VBET = 10 hands
+    const pick = (arr, n) => [...arr].sort(() => Math.random() - 0.5).slice(0, n);
+    const hands = [
+      ...pick(SITUATIONS,       3),
+      ...pick(ISO_SITUATIONS,   2),
+      ...pick(CBET_SITUATIONS,  3),
+      ...pick(VBET_SITUATIONS,  2),
+    ].sort(() => Math.random() - 0.5);
     setSession(hands);
     setIdx(0); setPicked(null); setScore(0); setDone(false);
     setCurrentOpts(buildOptions(hands[0], t.practice, lang));
