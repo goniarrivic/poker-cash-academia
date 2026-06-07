@@ -3546,7 +3546,7 @@ const VBET_SITUATIONS = [
 ];
 
 
-function PracticePage({ t, lang }) {
+function PracticePage({ t, lang, onSessionComplete }) {
   const p = t.practice;
   const [session, setSession] = useState(null);
   const [idx, setIdx] = useState(0);
@@ -3554,6 +3554,8 @@ function PracticePage({ t, lang }) {
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
   const [currentOpts, setCurrentOpts] = useState([]);
+  const [byType, setByType] = useState({});
+  const [xpEarned, setXpEarned] = useState(0);
 
   const ALL_SITUATIONS = [...SITUATIONS, ...ISO_SITUATIONS, ...CBET_SITUATIONS, ...VBET_SITUATIONS];
 
@@ -3568,13 +3570,19 @@ function PracticePage({ t, lang }) {
       ...pick(VBET_SITUATIONS,  2),
     ].sort(() => Math.random() - 0.5);
     setSession(hands);
-    setIdx(0); setPicked(null); setScore(0); setDone(false);
+    setIdx(0); setPicked(null); setScore(0); setDone(false); setByType({}); setXpEarned(0);
     setCurrentOpts(buildOptions(hands[0], t.practice, lang));
   };
 
   const handlePick = (opt) => {
     if (picked !== null) return;
     setPicked(opt);
+    const sit = session[idx];
+    const typ = sit.type || "open";
+    setByType(prev => {
+      const e = prev[typ] || { correct:0, total:0 };
+      return { ...prev, [typ]: { correct: e.correct + (opt.correct?1:0), total: e.total+1 } };
+    });
     if (opt.correct) setScore(s => s + 1);
   };
 
@@ -3585,6 +3593,14 @@ function PracticePage({ t, lang }) {
       setPicked(null);
       setCurrentOpts(buildOptions(session[nextIdx], t.practice, lang));
     } else {
+      const finalScore = (picked && picked.correct ? score + 1 : score);
+      if (onSessionComplete) {
+        onSessionComplete(finalScore, byType)
+          .then(earned => setXpEarned(earned || calcXP(finalScore)))
+          .catch(() => setXpEarned(calcXP(finalScore)));
+      } else {
+        setXpEarned(calcXP(finalScore));
+      }
       setDone(true);
     }
   };
@@ -3604,21 +3620,70 @@ function PracticePage({ t, lang }) {
   );
 
   // ── Results screen ────────────────────────────────────────────
-  if (done) return (
-    <div style={{ maxWidth: 720, margin: "0 auto", padding: "48px 16px", textAlign: "center" }}>
-      <div style={{ fontSize: 40, marginBottom: 16 }}>{score === 10 ? "🏆" : score >= 7 ? "👍" : "📚"}</div>
-      <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{p.scoreTitle}</div>
-      <div style={{ fontSize: 48, fontWeight: 800, color: score >= 8 ? "#10b981" : score >= 5 ? "#c9a84c" : "#f97316", margin: "16px 0" }}>
-        {score} / 10
+  if (done) {
+    const typeLabels = {
+      open: { es:"Apertura (OR)", en:"Opening (OR)" },
+      iso:  { es:"ROL / ISO",     en:"ROL / ISO"    },
+      cbet: { es:"C-Bet",         en:"C-Bet"        },
+      vbet: { es:"Value Bet",     en:"Value Bet"    },
+    };
+    const typeOrder = ["open","iso","cbet","vbet"];
+    const scoreColor = score>=8?"#10b981":score>=5?"#c9a84c":"#f97316";
+    const xp = xpEarned || calcXP(score);
+    const worstType = typeOrder
+      .filter(t => byType[t] && byType[t].total > 0)
+      .sort((a,b) => (byType[a].correct/byType[a].total) - (byType[b].correct/byType[b].total))[0];
+    return (
+      <div style={{ maxWidth:540, margin:"0 auto", padding:"32px 16px" }}>
+        <div style={{ textAlign:"center", marginBottom:24 }}>
+          <div style={{ fontSize:44, marginBottom:8 }}>{score===10?"🏆":score>=7?"👍":"📚"}</div>
+          <div style={{ fontSize:20, fontWeight:700, color:"#fff", marginBottom:4 }}>{p.scoreTitle}</div>
+          <div style={{ fontSize:52, fontWeight:800, color:scoreColor, lineHeight:1 }}>
+            {score}<span style={{ fontSize:26, color:"#8b8fa8", fontWeight:400 }}>/10</span>
+          </div>
+          <div style={{ fontSize:13, color:"#b0b4cc", marginTop:6 }}>{score===10?p.perfect:score>=7?p.good:p.review}</div>
+        </div>
+        <div style={{ background:"#120f04", border:"1px solid #c9a84c44", borderRadius:12, padding:"14px 20px", marginBottom:12, display:"flex", alignItems:"center", gap:12 }}>
+          <div style={{ fontSize:26 }}>⭐</div>
+          <div>
+            <div style={{ fontSize:10, color:"#8b8fa8", textTransform:"uppercase", letterSpacing:1 }}>{lang==="es"?"XP ganado":"XP earned"}</div>
+            <div style={{ fontSize:22, fontWeight:800, color:"#e8c96a" }}>+{xp} XP</div>
+          </div>
+          <div style={{ marginLeft:"auto", fontSize:12, color:"#8b8fa8", textAlign:"right" }}>
+            <div>Base: +{score*10} XP</div>
+            {xp-score*10>0 && <div style={{ color:"#10b981" }}>Bonus: +{xp-score*10} XP</div>}
+          </div>
+        </div>
+        <div style={{ background:"#0d0f1a", border:"1px solid #1e2235", borderRadius:12, padding:"14px 20px", marginBottom:16 }}>
+          <div style={{ fontSize:11, color:"#8b8fa8", textTransform:"uppercase", letterSpacing:1, marginBottom:12 }}>
+            {lang==="es"?"Por categoría":"By category"}
+          </div>
+          {typeOrder.filter(t => byType[t]).map(t => {
+            const { correct, total } = byType[t];
+            const pct = Math.round((correct/total)*100);
+            const col = pct===100?"#10b981":pct>=67?"#c9a84c":"#ef4444";
+            return (
+              <div key={t} style={{ marginBottom:10 }}>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:4 }}>
+                  <div style={{ display:"flex", alignItems:"center", gap:6 }}>
+                    <span style={{ fontSize:13, color:"#e8e8e8" }}>{lang==="es"?typeLabels[t].es:typeLabels[t].en}</span>
+                    {t===worstType && total>1 && <span style={{ fontSize:10, background:"#2a1008", color:"#f97316", padding:"1px 6px", borderRadius:4 }}>{lang==="es"?"Repasar":"Review"}</span>}
+                  </div>
+                  <span style={{ fontSize:13, fontWeight:700, color:col }}>{correct}/{total}</span>
+                </div>
+                <div style={{ height:4, background:"#1e2235", borderRadius:4 }}>
+                  <div style={{ width:`${pct}%`, height:"100%", background:col, borderRadius:4 }}/>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <button onClick={startSession} style={{ background:"linear-gradient(135deg,#e8c96a 0%,#c9a84c 100%)", border:"none", borderRadius:12, padding:"14px 0", color:"#0a0c14", fontSize:16, fontWeight:800, cursor:"pointer", letterSpacing:0.3, width:"100%" }}>
+          {p.playAgain}
+        </button>
       </div>
-      <div style={{ fontSize: 15, color: "#b0b4cc", marginBottom: 36 }}>
-        {score === 10 ? p.perfect : score >= 7 ? p.good : p.review}
-      </div>
-      <button onClick={startSession} style={{ background: "linear-gradient(135deg, #e8c96a 0%, #c9a84c 100%)", border: "none", borderRadius: 12, padding: "14px 36px", color: "#0a0c14", fontSize: 16, fontWeight: 800, cursor: "pointer", letterSpacing: 0.3 }}>
-        {p.playAgain}
-      </button>
-    </div>
-  );
+    );
+  }
 
   // ── Question screen ───────────────────────────────────────────
   const sit = session[idx];
@@ -3857,13 +3922,47 @@ function LoginScreen({ lang }) {
   );
 }
 
+
+// ─── GAMIFICATION ─────────────────────────────────────────────────────────────
+const XP_LEVELS = [
+  { level:1, name:"Fish",            nameEn:"Fish",            min:0    },
+  { level:2, name:"Calling Station", nameEn:"Calling Station", min:200  },
+  { level:3, name:"TAG",             nameEn:"TAG",             min:500  },
+  { level:4, name:"LAG",             nameEn:"LAG",             min:1000 },
+  { level:5, name:"Regular",         nameEn:"Regular",         min:2000 },
+  { level:6, name:"Grinder",         nameEn:"Grinder",         min:4000 },
+];
+function getLevelInfo(xp) {
+  let lvl = XP_LEVELS[0];
+  for (const l of XP_LEVELS) { if (xp >= l.min) lvl = l; }
+  const next = XP_LEVELS.find(l => l.min > xp);
+  const pct  = next ? Math.round(((xp - lvl.min)/(next.min - lvl.min))*100) : 100;
+  return { ...lvl, next, pct };
+}
+function calcXP(score) {
+  const base  = score * 10;
+  const bonus = score === 10 ? 60 : score >= 9 ? 40 : score >= 7 ? 25 : score >= 5 ? 10 : 0;
+  return base + bonus;
+}
+function todayStr() { return new Date().toISOString().split('T')[0]; }
+function calcStreak(lastDate, cur) {
+  const today = todayStr();
+  if (!lastDate) return { streak:1, newDay:true };
+  if (lastDate === today) return { streak:cur, newDay:false };
+  const yd = new Date(); yd.setDate(yd.getDate()-1);
+  return lastDate === yd.toISOString().split('T')[0]
+    ? { streak:cur+1, newDay:true }
+    : { streak:1,     newDay:true };
+}
+
 // ─── APP SHELL ────────────────────────────────────────────────────────────────
 
 export default function App() {
   const [lang, setLang] = useState("es");
   const [page, setPage] = useState("home");
   const [completed, setCompleted] = useState(new Set());
-  const [user, setUser] = useState(undefined); // undefined = loading, null = not logged in
+  const [user, setUser] = useState(undefined);
+  const [xpData, setXpData] = useState({ xp:0, level:1, streak:0, longestStreak:0, lastStudiedDate:null, totalCorrect:0, totalSessions:0 });
 
   const t = content[lang];
 
@@ -3877,6 +3976,15 @@ export default function App() {
           if (snap.exists()) {
             const data = snap.data();
             setCompleted(new Set(data.completedLessons || []));
+            setXpData({
+              xp:             data.xp             || 0,
+              level:          data.level           || 1,
+              streak:         data.streak          || 0,
+              longestStreak:  data.longestStreak   || 0,
+              lastStudiedDate:data.lastStudiedDate  || null,
+              totalCorrect:   data.totalCorrect    || 0,
+              totalSessions:  data.totalSessions   || 0,
+            });
           }
         } catch (_) {}
         setUser(firebaseUser);
@@ -3889,21 +3997,48 @@ export default function App() {
   }, []);
 
   const handleComplete = async (lessonId) => {
+    const isFirst = !completed.has(lessonId);
     const next = new Set([...completed, lessonId]);
     setCompleted(next);
-    // Save to Firestore
+    const newXp  = xpData.xp + (isFirst ? 75 : 0);
+    const lvInfo = getLevelInfo(newXp);
+    if (isFirst) setXpData(prev => ({ ...prev, xp: newXp, level: lvInfo.level }));
     if (user) {
       try {
         await setDoc(doc(db, "users", user.uid), {
           completedLessons: Array.from(next),
+          ...(isFirst ? { xp: newXp, level: lvInfo.level } : {}),
         }, { merge: true });
       } catch (_) {}
     }
   };
 
+  const handleSessionComplete = async (score, byType) => {
+    const earned     = calcXP(score);
+    const { streak: newStreak, newDay } = calcStreak(xpData.lastStudiedDate, xpData.streak);
+    const newXp      = xpData.xp + earned;
+    const lvInfo     = getLevelInfo(newXp);
+    const newLongest = Math.max(xpData.longestStreak, newStreak);
+    const updated = {
+      xp:             newXp,
+      level:          lvInfo.level,
+      streak:         newDay ? newStreak : xpData.streak,
+      longestStreak:  newLongest,
+      lastStudiedDate: newDay ? todayStr() : xpData.lastStudiedDate,
+      totalCorrect:   xpData.totalCorrect + score,
+      totalSessions:  xpData.totalSessions + 1,
+    };
+    setXpData(updated);
+    if (user) {
+      try { await setDoc(doc(db, "users", user.uid), updated, { merge: true }); } catch(_) {}
+    }
+    return earned;
+  };
+
   const handleLogout = () => {
     signOut(auth);
     setPage("home");
+    setXpData({ xp:0, level:1, streak:0, longestStreak:0, lastStudiedDate:null, totalCorrect:0, totalSessions:0 });
   };
 
   // Loading state while Firebase checks auth
@@ -3935,6 +4070,23 @@ export default function App() {
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          {xpData.streak > 0 && (
+            <div style={{ display:"flex", alignItems:"center", gap:4, background:"#1e1208", border:"1px solid #f9730055", borderRadius:8, padding:"4px 10px" }}>
+              <span style={{ fontSize:14 }}>🔥</span>
+              <span style={{ fontSize:13, fontWeight:700, color:"#f97316" }}>{xpData.streak}</span>
+            </div>
+          )}
+          {(() => { const lv = getLevelInfo(xpData.xp); return (
+            <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-end", gap:2 }} title={`${xpData.xp} XP`}>
+              <div style={{ display:"flex", alignItems:"center", gap:5 }}>
+                <span style={{ fontSize:11, color:"#c9a84c", fontWeight:700 }}>Nv.{lv.level}</span>
+                <span style={{ fontSize:10, color:"#8b8fa8" }}>{lang==="es"?lv.name:lv.nameEn}</span>
+              </div>
+              <div style={{ width:72, height:3, background:"#1e2235", borderRadius:4 }}>
+                <div style={{ width:`${lv.pct}%`, height:"100%", background:"linear-gradient(90deg,#c9a84c,#e8c96a)", borderRadius:4 }}/>
+              </div>
+            </div>
+          ); })()}
           <button
             onClick={() => setLang(lang === "en" ? "es" : "en")}
             style={{ background: "#111320", border: "1px solid #c9a84c55", borderRadius: 8, padding: "5px 12px", color: "#c9a84c", cursor: "pointer", fontSize: 12, fontWeight: 700, letterSpacing: 0.5 }}
@@ -3953,7 +4105,7 @@ export default function App() {
 
       {page === "home" && <HomePage t={t} onNavigate={setPage} />}
       {page === "academia" && <AcademiaPage t={t} completed={completed} onComplete={handleComplete} lang={lang} />}
-      {page === "practice" && <PracticePage t={t} lang={lang} />}
+      {page === "practice" && <PracticePage t={t} lang={lang} onSessionComplete={handleSessionComplete} />}
     </div>
   );
 }
