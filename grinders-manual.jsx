@@ -110,7 +110,7 @@ const content = {
   es: {
     nav: { title: "Poker Cash Academy", back: "Inicio" },
     home: { welcome: "Poker Cash Academy", subtitle: "Domina el cash game. Un concepto a la vez." },
-    menu: { academia: "Academy", academiaSubtitle: "Lecciones estructuradas paso a paso" },
+    menu: { academia: "Academy", academiaSubtitle: "Lecciones estructuradas paso a paso", stats: "Estadísticas", statsSubtitle: "Tu progreso, nivel y precisión por categoría" },
     academia: {
       title: "Academia",
       subtitle: "Aprende paso a paso",
@@ -1162,16 +1162,178 @@ const content = {
       },
       {
         id: 5,
-        title: "5. Bankroll y Mentalidad",
-        summary: "Gestión de bankroll, tilt y hábitos de estudio.",
-        comingSoon: true,
+        title: "5. Pagar Aperturas",
+        summary: "Cuándo y cómo pagar una apertura preflop: implied odds, set mining, pagar IP y OOP.",
+        chapters: [
+          {
+            title: "¿Por qué pagar una apertura?",
+            body: [
+              { type:"text", content:"Hasta ahora hemos hablado de abrir el bote y de apostar postflop. Pero una parte fundamental del poker es decidir cuándo pagar la apertura de otro jugador en lugar de subir o foldear. Pagar no es la jugada pasiva y débil que muchos principiantes creen — con la lógica correcta es una herramienta poderosa y rentable." },
+              { type:"callout", label:"Las 4 razones para pagar una apertura", content:"1. Implied odds: tienes una mano especulativa que puede ganar un bote enorme si conecta (pares pequeños para set mining, suited connectors). 2. Buena forma vs el rango del abridor: tienes una mano como KQo que conecta frecuentemente y está bien posicionada contra lo que el rival abre. 3. Jugadores débiles en el bote: hay un fish en el bote que justifica entrar aunque la mano no sea ideal. 4. Pot odds: la relación bote/inversión hace rentable pagar aunque la mano no sea muy fuerte (principalmente desde BB)." },
+              { type:"text", content:"El error clásico del principiante es pagar demasiado — entrar al bote con manos mediocres sin tener clara ninguna de estas 4 razones. El error opuesto, menos común pero también costoso, es foldear manos rentables por miedo a estar OOP o por no calcular correctamente los pot odds. La clave es tener una razón específica antes de pagar." },
+              { type:"callout", label:"El Gap Concept", content:"El Gap Concept establece que necesitas una mano más fuerte para pagar una apertura que para hacer esa apertura tú mismo desde esa posición. Si abres KJo desde CO, eso no significa que debas pagar KJo cuando alguien abre desde UTG — contra un rango UTG ajustado, KJo tiene muchos problemas de dominación. El rango de apertura y el rango de pago son distintos." },
+            ],
+          },
+          {
+            title: "Razón 1 — Implied Odds y Set Mining",
+            body: [
+              { type:"text", content:"Los implied odds son la razón más importante para pagar con pares pequeños y suited connectors. La lógica: aunque pagas una cantidad modesta ahora, cuando conectas una mano muy fuerte (set, flush, straight) puedes ganar un bote mucho más grande. La inversión preflop se justifica por lo que puedes ganar postflop." },
+              { type:"callout", label:"La regla del set mining", content:"Con un par pequeño/medio, flopeás un set aproximadamente 1 de cada 8 veces (11.8%). Como necesitas ganar suficiente para compensar las 8 veces que fallás, necesitas ganar aproximadamente 10 veces tu inversión preflop. Si pagas 3BB preflop, necesitas poder ganar ~30BB cuando aciertas el set. Si el stack efectivo y el tipo de rival lo permiten, el set mining es rentable. Si el stack es corto o el rival no pagará postflop, no lo es." },
+              { type:"text", content:"Los 7 factores que determinan si los implied odds son suficientes: (1) Tamaño de la inversión — cuanto más pequeño, mejor. (2) Frecuencia de mano fuerte — sets se hacen 1/8 veces. (3) Fuerza del rango del rival — rangos más fuertes pagan más postflop. (4) Stack depth — más fichas = más valor potencial. (5) Tendencia a foldear del rival — si foldea mucho postflop, los implied odds bajan. (6) Potencial multiway — más jugadores en el bote = más implied odds. (7) Posición — IP extrae más valor con manos fuertes." },
+              { type:"callout", label:"Qué pares son mineable y cuáles no", content:"Pares 66-88: buenos set mines en la mayoría de situaciones. Tienen algo de valor de overpair si no hay cartas altas en el flop. Pares 22-55: set mines puros — si no flopeás el set, la mano no vale casi nada. Necesitan condiciones más favorables. Pares 99-JJ: son híbridos — tienen valor de overpair frecuente, no solo valor de set. JJ puede ser overpair en muchos flops y 99 en flops bajos. No son puramente set mines." },
+              { type:"callout", label:"Suited connectors: implied odds distintos a los pares", content:"JTs flopeará dos pares o mejor solo el 5.6% de las veces (vs 11.8% de sets para pares). Sin embargo, flopeará draws potentes (12 outs+) el 6.9% y flush draws u OESDs el 13.2%. En total, conecta de forma fuerte el 25% de las veces. Los suited connectors son menos poderosos que los pares para set mining puro, pero más versátiles — conectan de más formas y juegan mejor multiway." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · HJ vs UTG open 3BB",
+                  hand:"7♥ 7♣",
+                  context:"UTG es un regular sólido (VPIP 14%, rango ajustado). Eres el único en el bote además de los blinds. Stacks 100BB.",
+                  question:"¿Pagas con 77 vs apertura UTG de 3BB en HJ?",
+                  options:[
+                    { label:"Sí — set mining rentable", correct:true, explanation:"¡Correcto! 77 tiene buenos implied odds vs UTG: el rango es fuerte (paga sets postflop), stacks son 100BB (necesitas ganar ~30BB cuando flopeás set, muy alcanzable), estás IP. La regla: inversión 3BB × 10 = 30BB objetivo. Rentable." },
+                    { label:"No — demasiado riesgo OOP", correct:false, explanation:"HJ está IP contra UTG (BTN y blinds actúan después, pero tú actúas después de UTG postflop). Además 77 tiene buenos implied odds vs rango UTG ajustado. Set mining correcto aquí." },
+                    { label:"Subir a 9BB (3-bet)", correct:false, explanation:"3-bet con 77 vs UTG es arriesgado — el rango UTG es muy fuerte y 77 no tiene la equity necesaria para valor. Pagar y buscar el set es la mejor línea." },
+                    { label:"Foldear — rango UTG muy fuerte", correct:false, explanation:"Precisamente porque el rango UTG es fuerte, los implied odds son buenos — el rival tiene manos con las que pagará postflop. 77 tiene justamente suficientes implied odds para pagar aquí." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Razón 2 — Buena forma vs el rango del abridor",
+            body: [
+              { type:"text", content:"No todas las manos que pagamos dependen de implied odds. Las manos tipo broadway (KQo, AJo, QJs) tienen lo que se llama Good Pair Potential — flopeán top pair frecuentemente y cuando lo hacen suelen estar bien posicionadas contra el rango del rival. Estas manos tienen buena 'fuerza frecuente' (Frequent Strength)." },
+              { type:"callout", label:"Frequent Strength: cuándo las broadways brillan", content:"Vs rangos de apertura más amplios (CO, BTN), manos como KQo, AJo o QJs flopeán top pair frecuente con kicker buena, lo que les da ventaja contra muchas manos del rival. Cuanto más amplio el rango del abridor, más manos como estas superan el rango al conectar con el flop. Vs rangos ajustados (UTG), estas manos sufren más de dominación (AJo pierde a AK, AQ) y son menos atractivas como pagos." },
+              { type:"callout", label:"Problema de dominación en rangos ajustados", content:"AJo parece una mano fuerte, pero vs un abridor UTG con rango que incluye AK, AQ frecuentemente, AJo está dominado: si flopeás la J y el rival tiene AJ+, pierdes. Si flopeás la A, el rival puede tener AK/AQ y te destroza. Por eso, AJo es pago cómodo vs CO/BTN pero problemático vs UTG donde hay más manos que lo dominan." },
+              { type:"text", content:"La regla práctica: las manos de valor frecuente (KQ, AJ, QJ) van subiendo en valor a medida que la apertura del rival es desde posiciones más tardías. Vs BTN y CO, flopeán top pair que domina muchas de las manos del abridor. Vs UTG y MP, el riesgo de dominación sube y estas manos valen menos." },
+            ],
+          },
+          {
+            title: "Razón 3 — Jugadores débiles en el bote",
+            body: [
+              { type:"text", content:"La presencia de un fish en el bote puede convertir un pago que normalmente no harías en uno claramente rentable. Un fish cambia la ecuación completamente: sus errores postflop (pagar demasiado, no foldear, apostar de forma irracional) amplían los implied odds de cualquier mano especulativa." },
+              { type:"callout", label:"Cómo el fish cambia la ecuación", content:"Ejemplo: 87s normalmente es fold vs apertura UTG en HJ sin ningún incentivo. Pero si los dos blinds son fish que casi nunca foldean preflop y juegan muy pasivamente postflop: (a) el bote será multiway frecuentemente, (b) los fish pagarán tus top pairs débiles cuando conectes, (c) pagarán draws incluso cuando ya no tienen equity. El fish convierte manos especulativas marginalse en pagos claramente rentables." },
+              { type:"callout", label:"Factores que reducen el valor del fish en el bote", content:"(1) Si el fish va corto de stack, los implied odds bajan aunque esté en el bote. (2) Si el fish está en posición a ti (actúa después postflop), es más difícil extraer valor. (3) Si hay un squeezers agresivo en el bote que puede 3-bettear, el fish no ayuda porque igual tienes que foldear antes del flop. Siempre evalúa si podrás llegar al flop para aprovechar al fish." },
+              { type:"text", content:"La conclusión práctica: cuando hay un fish en el bote, especialmente sentado OOP y con stack profundo, el umbral de manos con las que es rentable entrar baja significativamente. Manos como 87s, 65s, pares pequeños que normalmente foldearías pasan a ser pagos claros cuando el fish está presente y las condiciones son favorables." },
+            ],
+          },
+          {
+            title: "Razón 4 — Pot Odds: pagar desde la BB",
+            body: [
+              { type:"text", content:"Desde la BB tienes una ventaja única: ya tienes 1BB invertida obligatoriamente, lo que mejora significativamente tus pot odds para pagar aperturas. Tu coste para ver el flop es menor que desde cualquier otra posición, lo que convierte pagos que serían -EV en IP en +EV desde la BB." },
+              { type:"callout", label:"Cálculo de pot odds en la BB", content:"Si UTG abre a 3BB y foldan todos hasta la BB: bote = 3BB (apertura) + 0.5BB (SB) + 1BB (tu BB) = 4.5BB ya en el bote. Tu coste para pagar: 2BB (3BB de la apertura menos tu 1BB ya invertida). Pot odds: 4.5:2 = 2.25:1. Vs el mismo open pero desde CO (sin BB invertida): bote = 4.5BB, coste = 3BB, pot odds = 4.5:3 = 1.5:1. La BB tiene mejores odds y puede pagar más manos." },
+              { type:"callout", label:"Equidad de equilibrio y pagos de BB", content:"La 'equidad de equilibrio' (RE) es el mínimo de veces que necesitas ganar para que el pago sea +EV. Con pot odds 2.25:1 desde BB, RE = 2/(2+4.5) = 30.8%. Esto significa que solo necesitas ganar el bote el 31% de las veces para igualar. Manos como K4s tienen 44% de equidad vs rango BTN del 45% — claramente rentable pagar aunque no seas el abridor." },
+              { type:"callout", label:"Rangos de defensa de la BB vs diferentes tamaños", content:"El principio es simple: cuanto más pequeña la apertura, más manos son rentables de pagar. Vs apertura de 3x BTN: pagas broadway hands (KQo, AJo), pares medianos, suited connectors medios-altos. Vs apertura de 2.5x BTN: añades más hands de top pair como KTo, Q9s. Vs apertura de 2x BTN (min-raise): puedes pagar casi toda mano jugable porque los pot odds son excelentes. La BB nunca debe foldear demasiado." },
+              { type:"text", content:"Un error muy común en stakes bajos es jugar desde BB con una estrategia de 'sub o foldea' — 3-bettear o foldear sin pagar nunca. Este enfoque pierde todos los pagos rentables que existen con manos medianas. La BB es la posición donde más dinero se pierde estructuralmente, pero pagar correctamente minimiza esas pérdidas significativamente." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · BB vs BTN open 2.5BB",
+                  hand:"K♠ 4♠",
+                  context:"BTN es un regular activo (RFI BTN 45%). Todos han foldeado hasta BTN. SB también foldea. Estás en BB.",
+                  question:"¿Pagas K4s desde BB vs apertura BTN de 2.5BB?",
+                  options:[
+                    { label:"Sí — pot odds + equity suficiente", correct:true, explanation:"¡Correcto! Pot odds desde BB: bote 4BB (2.5+1+0.5), tu coste 1.5BB → odds 2.67:1. K4s tiene ~44% equity vs rango BTN del 45%. Flop rey el 17% de las veces con kicker K alta. Con estos pot odds excelentes y el BTN teniendo rango muy amplio, pagar es claramente +EV." },
+                    { label:"No — K4s es demasiado débil", correct:false, explanation:"K4s es pago perfectamente válido desde BB vs min/2.5x BTN. Los pot odds compensan la debilidad de la mano. Con rango BTN tan amplio, tu K4s está en buena forma un porcentaje suficiente de las veces." },
+                    { label:"3-bet a 7.5BB", correct:false, explanation:"3-bet con K4s desde BB vs BTN puede ser válido como bluff en algunas estrategias, pero aquí pagar tiene muy buen EV y es la línea más simple y sólida. El 3-bet expose más dinero con una mano que funciona mejor con pot odds." },
+                    { label:"Foldear — vas OOP", correct:false, explanation:"Ir OOP es una desventaja, pero los pot odds desde BB son tan buenos que compensan. Con pot odds de 2.67:1 solo necesitas ganar el 27% de las veces para igualar — K4s claramente supera ese umbral vs rango BTN del 45%." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Pagar aperturas en posición (IP)",
+            body: [
+              { type:"text", content:"Cuando pagas en posición (IP), tienes la ventaja de actuar último postflop, pero también tienes el riesgo de que alguien 3-bettee desde atrás. La posición que ocupas importa mucho: cuanto más cerca del BTN, menos jugadores hay por detrás para 3-bettear y mejor posición postflop tendrás." },
+              { type:"callout", label:"Reglas generales para pagar IP", content:"(1) Cuanto más cerca del BTN, mejor — menos squeezers y posición postflop más fuerte. (2) Vs rangos ajustados (UTG/MP), sube el valor de las manos de implied odds (sets). Vs rangos amplios (CO/BTN), sube el valor de manos de top pair (KQo, AJo). (3) Aperturas más pequeñas son más fáciles de pagar — tu inversión es menor y los pot odds son mejores. (4) Pares pequeños 22-55 vs aperturas IP son muy dependientes de contexto: si hay squeezers activos, su valor baja enormemente porque nunca llegas al flop." },
+              { type:"callout", label:"Pagar vs apertura UTG en IP (HJ/CO/BTN)", content:"Vs UTG (rango ~14%): pagas pares 66+ para set mining, suited connectors altos (JTs, QJs, T9s) como híbridos y broadways premium (AQs, AJs, KQs). Vs HJ (rango ~20%): añades pares medianos 55+, más suited connectors y broadways como AJo, KQo, QJs. Vs CO/BTN (rangos 25-40%): el rango del rival es tan amplio que manos como KTo, A9s, QTo pasan a ser pagos razonables desde BTN." },
+              { type:"callout", label:"El escenario más complicado: CO vs BTN", content:"CO vs BTN es el duelo entre las dos posiciones más agresivas. El BTN abre muy amplio (40%+), lo que significa que muchas manos de broadway dominan su rango. CO puede pagar más manos de top pair frecuente (KJo, QJo) y suited connectors medianos. Los pares pequeños 22-55 ya no son buenos pagos aquí: el BTN no tendrá manos premium que paguen sets, y los squeezers en los blinds son más probables con aperturas tardías." },
+              { type:"text", content:"La clave al construir tu rango de pagos IP es tener claridad sobre qué tipo de mano estás jugando: implied odds o frequent strength. Las primeras necesitan rivales con rangos ajustados y buenos stacks. Las segundas funcionan mejor contra rangos amplios donde conectas bien. Mezclar ambas categorías sin pensar en qué condiciones cada una es buena es el error más habitual." },
+            ],
+          },
+          {
+            title: "Pagar desde la BB — defensa correcta",
+            body: [
+              { type:"text", content:"La BB es la posición donde más dinero pierdes a largo plazo, pero no porque sea imposible jugarla bien — es porque ya invertiste 1BB con cualquier mano antes de saber qué cartas tienes. Tu objetivo en la BB no es ganar dinero desde esa posición, sino minimizar las pérdidas pagando las manos correctas y foldeando las incorrectas." },
+              { type:"callout", label:"BB vs aperturas UTG-CO (3BB)", content:"Pagas: pares 66+, suited connectors medios-altos (T9s, JTs, QJs), broadways como KQo, AJo, QJo, y ases suited (A9s+). Foleas: pares 22-55 (el set mining OOP sin implied odds suficientes), suited connectors bajos (54s, 65s), manos offsuit débiles (K7o, Q8o). El criterio: ¿tiene la mano suficientes implied odds o frequent strength para compensar jugar OOP?" },
+              { type:"callout", label:"BB vs apertura BTN — depende del tamaño", content:"Vs 3x BTN: pagas broadways, pares 66+, suited connectors medianos+. Vs 2.5x BTN: añades KTo, Q9s, A8s, más suited one-gappers. Vs 2x BTN (min-raise): casi todas las manos jugables son pagos porque los pot odds son excelentes. Incluso manos como J8s, K5s, Q6s pasan a ser pagos razonables. El principio: cuanto más pequeña la apertura, más manos son rentables de pagar desde BB." },
+              { type:"callout", label:"El error más común en BB: jugar solo 3-bet o fold", content:"Muchos jugadores de stakes bajos juegan un 3-bet or fold desde BB, pensando que es 'más GTO'. Error: pierden todos los pagos rentables con manos medianas. Pagar KTo vs BTN 2.5x es claramente +EV con buenos pot odds. Pagar 66 vs CO 3x es +EV con implied odds. Foldear estas manos porque no quieres 'complicarte' es perder EV directamente." },
+            ],
+          },
+          {
+            title: "Pagar desde la SB — cuándo y cómo",
+            body: [
+              { type:"text", content:"La SB es la posición más difícil para pagar aperturas. Tienes dos desventajas que se combinan brutalmente: (1) peores pot odds que la BB porque solo tienes media BB invertida, y (2) no cierras la acción — la BB puede 3-bettear y si lo hace, tienes que foldear perdiendo tu pago. Generalmente la estrategia más sólida desde SB es 3-bet o fold." },
+              { type:"callout", label:"Cuándo SÍ puedes tener rango de pagos en SB", content:"1. Vs aperturas UTG/HJ: el rango es ajustado (menos probable el squeeze), y los implied odds son buenos. Pagas: JJ, QQ, AQs+, KQs y poco más. 2. Vs aperturas CO/BTN cuando la BB es un fish: el fish en el bote cambia la ecuación — pagas más manos especulativas para explotar al fish. 3. Vs aperturas CO/BTN cuando la BB es un nit o pasivo que nunca squeezea: sabes que verás el flop, así que puedes pagar más manos." },
+              { type:"callout", label:"Por qué el squeeze arruina los pagos de SB", content:"Si pagas desde SB y la BB squeezea, tienes que foldear casi siempre con tu rango de pago capped. Eso significa que la mitad de tus pagos los pierdes antes del flop. Si calculas que pagás 2.5BB con 87s y luego foldeás el 30% de las veces al squeeze de la BB, tu EV real se hunde. Por eso en SB, si la BB es un jugador desconocido o agresivo, la estrategia es 3-bet o fold." },
+              { type:"text", content:"La regla práctica: en la SB, antes de pagar cualquier apertura, pregúntate qué hará la BB. Si es un jugador desconocido, pasivo o nit → puedes pagar algunas manos selectas. Si es un jugador activo, agresivo o desconocido → 3-bet o fold. El pago en SB solo es rentable cuando puedes asegurar (con buena probabilidad) que verás el flop sin que la BB te saque del bote." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · SB vs BTN open 2.5BB",
+                  hand:"Q♣ J♣",
+                  context:"BTN es un regular activo. BB es un jugador desconocido que acabas de sentar. Stacks 100BB.",
+                  question:"¿Pagas QJs desde SB vs BTN 2.5BB con BB desconocido?",
+                  options:[
+                    { label:"No — 3-bet o fold con BB desconocido", correct:true, explanation:"¡Correcto! Con BB desconocido, no puedes asumir que no squeezea. Si squeezea el 15% de las veces y tienes que foldear, tu pago con QJs se convierte en -EV. La estrategia correcta es 3-bet (si quieres jugar QJs) o fold para evitar el riesgo del squeeze." },
+                    { label:"Sí — QJs tiene buenos implied odds", correct:false, explanation:"QJs tiene implied odds, pero el riesgo de squeeze con BB desconocido es real y destruye el EV del pago. Con BB desconocido desde SB, la estrategia correcta es 3-bet o fold." },
+                    { label:"Sí — pot odds suficientes", correct:false, explanation:"Los pot odds en SB (2.5BB apertura, ya tienes 0.5BB) son peores que en BB. Además, con BB desconocido, el riesgo de squeeze es alto. No es situación de pagar solo por pot odds." },
+                    { label:"Foldear — QJs no vale vs BTN", correct:false, explanation:"QJs es mano perfectamente jugable, pero la acción correcta no es necesariamente pagar. Con BB desconocido en SB, 3-bet o fold es la estrategia. Si quieres jugar QJs, la opción es 3-bettear." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Ejercicios: Pagar Aperturas",
+            body: [
+              { type:"text", content:"Pon a prueba lo aprendido. En cada situación decide si pagar la apertura o foldear, y con qué lógica." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · CO vs UTG open 3BB",
+                  hand:"5♠ 5♦",
+                  context:"UTG es un regular sólido (VPIP 14%). BTN y blinds son regulars estándar. Stacks 100BB.",
+                  question:"¿Pagas 55 desde CO vs apertura UTG de 3BB?",
+                  options:[
+                    { label:"No — 55 vs UTG sin fish es fold", correct:true, explanation:"¡Correcto! 55 necesita ganar 30BB cuando flopeá set (inversión 3BB × 10). Vs rango UTG ajustado, el regular pagará postflop, pero sin fish en el bote y con BTN por detrás (potencial squeeze), los implied odds no son suficientes para 22-55. Foleas 55, pagas 66+ en esta situación." },
+                    { label:"Sí — set mining siempre rentable con 100BB", correct:false, explanation:"Set mining no es automáticamente rentable. 22-55 son set mines puros que necesitan condiciones favorables. Vs UTG sin fish y con squeezers potenciales, los implied odds no justifican el riesgo." },
+                    { label:"Sí — estás en posición", correct:false, explanation:"La posición ayuda pero no es suficiente para justificar set mining con 22-55 vs UTG ajustado sin fish. Los implied odds de pares tan pequeños no llegan al umbral necesario en esta situación." },
+                    { label:"3-bet a 9BB", correct:false, explanation:"3-bet con 55 vs UTG sólido es un error grave — el rango UTG te domina y 55 no tiene ni la equity de valor ni las características de 3-bet bluff ideal (no bloquea 3-bet folds del rival)." },
+                  ],
+                },
+                {
+                  situation:"NL25 · BTN vs CO open 2.5BB",
+                  hand:"K♥ Q♣",
+                  context:"CO es un regular activo (VPIP 28%, RFI CO 27%). SB y BB son regulars estándar. Stacks 100BB.",
+                  question:"¿Pagas KQo desde BTN vs apertura CO de 2.5BB?",
+                  options:[
+                    { label:"Sí — KQo tiene frequent strength vs rango CO", correct:true, explanation:"¡Correcto! KQo flopeá top pair con buena kicker frecuentemente contra el rango del 27% del CO, y esas manos están en buena forma. Estás en BTN (posición perfecta), inversión pequeña (2.5BB), sin squeezers reales por detrás. KQo es pago claro IP vs CO." },
+                    { label:"No — KQo puede estar dominado", correct:false, explanation:"KQo puede estar dominado vs UTG (AK, AQ están en ese rango), pero vs CO con rango del 27%, hay mucho menos dominación y muchas más manos que KQo supera cuando conecta. Es pago correcto IP vs CO." },
+                    { label:"3-bet a 7.5BB", correct:true, explanation:"También correcto — 3-bet con KQo vs CO desde BTN es perfectamente válido como 3-bet de valor/semi-valor. Tanto pagar como 3-bet son líneas razonables con KQo desde BTN." },
+                    { label:"Foldear — riesgo de dominación", correct:false, explanation:"Con rango CO del 27%, la dominación de KQo es mínima. El rival tiene muchas manos que KQo supera cuando conecta el flop. Foldear KQo en BTN vs CO sería demasiado pasivo." },
+                  ],
+                },
+                {
+                  situation:"NL25 · BB vs BTN open 2BB (min-raise)",
+                  hand:"J♦ 8♦",
+                  context:"BTN es regular activo (RFI BTN 45%). SB ha foldeado. Stacks 100BB.",
+                  question:"¿Pagas J8s desde BB vs min-raise del BTN?",
+                  options:[
+                    { label:"Sí — pot odds excelentes vs min-raise", correct:true, explanation:"¡Correcto! Bote 3.5BB (2BB apertura + 0.5BB SB + 1BB tu BB), tu coste 1BB. Pot odds 3.5:1. Solo necesitas ganar 1 de 4.5 veces = 22%. J8s tiene implied odds, potencial de flush/straight, y el rango BTN del 45% es muy amplio. Pagar es claramente +EV con estos pot odds." },
+                    { label:"No — J8s es demasiado débil OOP", correct:false, explanation:"Vs min-raise, los pot odds son tan buenos que compensan jugar OOP. J8s tiene suficiente potencial (draws, top pair occasional) para que pagar sea +EV. No foldees manos playables vs min-raise desde BB." },
+                    { label:"3-bet a 6BB", correct:false, explanation:"3-bet con J8s vs BTN min-raise puede ser válido como bluff en algunas estrategias, pero pagar es la línea más sólida y simple aquí. Los pot odds son tan buenos que pagar maximiza EV con J8s." },
+                    { label:"Foldear — vas OOP todo el juego", correct:false, explanation:"Ir OOP es desventaja, pero con pot odds 3.5:1 solo necesitas ganar el 22% de las veces para igualar. J8s vs rango BTN del 45% claramente supera ese umbral. Foldear aquí pierde EV directamente." },
+                  ],
+                },
+              ]},
+            ],
+          },
+        ],
       },
     ],
   },
   en: {
     nav: { title: "Poker Cash Academy", back: "Home" },
     home: { welcome: "Poker Cash Academy", subtitle: "Master cash game. One concept at a time." },
-    menu: { academia: "Academy", academiaSubtitle: "Structured lessons step by step" },
+    menu: { academia: "Academy", academiaSubtitle: "Structured lessons step by step", stats: "Statistics", statsSubtitle: "Your progress, level and accuracy by category" },
     academia: {
       title: "Academia",
       subtitle: "Learn step by step",
@@ -2160,9 +2322,171 @@ const content = {
       },
       {
         id: 5,
-        title: "5. Bankroll & Mindset",
-        summary: "Bankroll management, tilt control, and study habits.",
-        comingSoon: true,
+        title: "5. Calling Opens",
+        summary: "When and how to call a preflop open: implied odds, set mining, calling IP and OOP.",
+        chapters: [
+          {
+            title: "Why call an open?",
+            body: [
+              { type:"text", content:"Until now we've talked about opening the pot and betting postflop. But a fundamental part of poker is deciding when to call another player's open rather than raise or fold. Calling is not the passive, weak play many beginners think — with the right logic it's a powerful and profitable tool." },
+              { type:"callout", label:"The 4 reasons to call an open", content:"1. Implied odds: you have a speculative hand that can win a huge pot if it connects (small pairs for set mining, suited connectors). 2. Being in good shape vs the opener's range: you have a hand like KQo that connects frequently and is well positioned against what the opponent opens. 3. Weaker players in the pot: there's a fish in the pot that justifies entering even though the hand isn't ideal. 4. Pot odds: the pot/investment ratio makes calling profitable even when the hand isn't very strong (mainly from the BB)." },
+              { type:"text", content:"The classic beginner mistake is calling too much — entering the pot with mediocre hands without having a clear reason from these 4. The opposite error, less common but also costly, is folding profitable hands out of fear of being OOP or from miscalculating pot odds. The key is having a specific reason before calling." },
+              { type:"callout", label:"The Gap Concept", content:"The Gap Concept states that you need a stronger hand to call an open than to make that open yourself from that position. If you open KJo from CO, that doesn't mean you should call KJo when someone opens from UTG — against a tight UTG range, KJo has many domination problems. The opening range and calling range are different things." },
+            ],
+          },
+          {
+            title: "Reason 1 — Implied Odds and Set Mining",
+            body: [
+              { type:"text", content:"Implied odds are the most important reason to call with small pairs and suited connectors. The logic: even though you're investing a modest amount now, when you connect a very strong hand (set, flush, straight) you can win a much bigger pot. The preflop investment is justified by what you can win postflop." },
+              { type:"callout", label:"The set mining rule", content:"With a small/medium pair, you flop a set approximately 1 in 8 times (11.8%). Since you need to win enough to compensate for the 8 times you miss, you need to win approximately 10 times your preflop investment. If you call 3BB preflop, you need to be able to win ~30BB when you hit the set. If effective stacks and opponent type allow this, set mining is profitable. If stacks are short or the opponent won't pay postflop, it isn't." },
+              { type:"text", content:"The 7 factors that determine if implied odds are sufficient: (1) Investment size — the smaller, the better. (2) Frequency of big hand — sets come in 1/8 times. (3) Strength of opponent's range — stronger ranges pay more postflop. (4) Stack depth — more chips = more potential value. (5) Opponent's tendency to fold — if they fold a lot postflop, implied odds drop. (6) Multiway potential — more players in the pot = more implied odds. (7) Position — IP extracts more value with strong hands." },
+              { type:"callout", label:"Which pairs are minable and which aren't", content:"Pairs 66-88: good set mines in most situations. They have some overpair value when no high cards appear on the flop. Pairs 22-55: pure set mines — if you don't flop the set, the hand is nearly worthless. Need more favorable conditions. Pairs 99-JJ: these are hybrids — they have frequent overpair value, not just set value. JJ can be an overpair on many flops and 99 on low flops. They're not purely set mines." },
+              { type:"callout", label:"Suited connectors: different implied odds from pairs", content:"JTs will flop two pair or better only 5.6% of the time (vs 11.8% set frequency for pairs). However, it flops powerful draws (12 outs+) 6.9% and flush draws or OESDs 13.2%. In total, it connects strongly 25% of the time. Suited connectors are less powerful than pairs for pure set mining, but more versatile — they connect in more ways and play better multiway." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · HJ vs UTG open 3BB",
+                  hand:"7♥ 7♣",
+                  context:"UTG is a solid regular (VPIP 14%, tight range). You're the only player in the pot besides the blinds. Stacks 100BB.",
+                  question:"Do you call with 77 vs UTG 3BB open from HJ?",
+                  options:[
+                    { label:"Yes — profitable set mining", correct:true, explanation:"Correct! 77 has good implied odds vs UTG: the range is strong (pays off sets postflop), stacks are 100BB (you need to win ~30BB when you flop a set, very achievable), you're IP. The rule: 3BB investment × 10 = 30BB target. Profitable." },
+                    { label:"No — too much risk OOP", correct:false, explanation:"HJ is IP vs UTG (BTN and blinds act after, but you act after UTG postflop). Also 77 has good implied odds vs a tight UTG range. Correct set mining here." },
+                    { label:"3-bet to 9BB", correct:false, explanation:"3-betting with 77 vs UTG is risky — the UTG range is very strong and 77 doesn't have enough equity for value. Calling and looking for the set is the best line." },
+                    { label:"Fold — UTG range too strong", correct:false, explanation:"Precisely because the UTG range is strong, implied odds are good — the opponent has hands they'll pay off with postflop. 77 has just enough implied odds to call here." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Reason 2 — Being in good shape vs opener's range",
+            body: [
+              { type:"text", content:"Not all hands we call depend on implied odds. Broadway-type hands (KQo, AJo, QJs) have what's called Good Pair Potential — they flop top pair frequently and when they do, they're usually well positioned against the opponent's range. These hands have good Frequent Strength." },
+              { type:"callout", label:"Frequent Strength: when broadways shine", content:"Vs wider opening ranges (CO, BTN), hands like KQo, AJo or QJs flop top pair frequently with a good kicker, which gives them an edge against many of the opponent's hands. The wider the opener's range, the more hands like these beat the range when connecting with the flop. Vs tight ranges (UTG), these hands suffer more from domination (AJo loses to AK, AQ) and are less attractive as calls." },
+              { type:"callout", label:"Domination problem in tight ranges", content:"AJo looks like a strong hand, but vs a UTG opener whose range frequently includes AK, AQ, AJo is dominated: if you flop the J and the opponent has AJ+, you lose big. If you flop the A, the opponent may have AK/AQ and crushes you. That's why AJo is a comfortable call vs CO/BTN but problematic vs UTG where there are more hands that dominate it." },
+              { type:"text", content:"Practical rule: frequent value hands (KQ, AJ, QJ) go up in value as the opponent's open comes from later positions. Vs BTN and CO, they flop top pair that dominates many of the opener's hands. Vs UTG and MP, domination risk goes up and these hands are worth less." },
+            ],
+          },
+          {
+            title: "Reason 3 — Weaker players in the pot",
+            body: [
+              { type:"text", content:"The presence of a fish in the pot can turn a call you normally wouldn't make into a clearly profitable one. A fish changes the equation completely: their postflop mistakes (calling too much, not folding, betting irrationally) increase the implied odds of any speculative hand." },
+              { type:"callout", label:"How the fish changes the equation", content:"Example: 87s is normally a fold vs UTG open from HJ with no incentive. But if both blinds are fish who almost never fold preflop and play very passively postflop: (a) the pot will frequently be multiway, (b) the fish will pay your weak top pairs when you connect, (c) they'll pay draws even when they have no more equity. The fish turns marginal speculative hands into clearly profitable calls." },
+              { type:"callout", label:"Factors that reduce the fish's value in the pot", content:"(1) If the fish has a short stack, implied odds drop even with them in the pot. (2) If the fish is in position to you (acts after you postflop), it's harder to extract value. (3) If there's an aggressive squeezer in the pot who might 3-bet, the fish doesn't help because you'll have to fold before the flop anyway. Always evaluate whether you'll be able to reach the flop to exploit the fish." },
+              { type:"text", content:"Practical conclusion: when there's a fish in the pot, especially sitting OOP with a deep stack, the threshold of hands with which it's profitable to enter drops significantly. Hands like 87s, 65s, small pairs that you'd normally fold become clear calls when the fish is present and conditions are favorable." },
+            ],
+          },
+          {
+            title: "Reason 4 — Pot Odds: calling from the BB",
+            body: [
+              { type:"text", content:"From the BB you have a unique advantage: you've already invested 1BB obligatorily, which significantly improves your pot odds to call opens. Your cost to see the flop is lower than from any other position, which makes calls that would be -EV in position become +EV from the BB." },
+              { type:"callout", label:"Pot odds calculation in the BB", content:"If UTG opens to 3BB and everyone folds to the BB: pot = 3BB (open) + 0.5BB (SB) + 1BB (your BB) = 4.5BB already in the pot. Your cost to call: 2BB (3BB open minus your 1BB already invested). Pot odds: 4.5:2 = 2.25:1. Vs the same open from CO (no BB invested): pot = 4.5BB, cost = 3BB, pot odds = 4.5:3 = 1.5:1. The BB has better odds and can call more hands." },
+              { type:"callout", label:"Break-even equity and BB calls", content:"Required equity (RE) is the minimum times you need to win for calling to be +EV. With pot odds 2.25:1 from BB, RE = 2/(2+4.5) = 30.8%. This means you only need to win the pot 31% of the time to break even. Hands like K4s have 44% equity vs BTN range of 45% — clearly profitable to call even though you're not the opener." },
+              { type:"callout", label:"BB defense ranges vs different sizes", content:"The principle is simple: the smaller the open, the more hands are profitable to call. Vs 3x BTN open: call broadway hands (KQo, AJo), medium pairs, mid-high suited connectors. Vs 2.5x BTN: add KTo, Q9s. Vs 2x BTN (min-raise): you can call almost any playable hand because pot odds are excellent. The BB should never fold too much." },
+              { type:"text", content:"A very common mistake at low stakes is to play from the BB with a 3-bet or fold strategy — always 3-betting or folding, never calling. This approach misses all the profitable calls that exist with medium hands. The BB is the position where the most money is structurally lost, but calling correctly minimizes those losses significantly." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · BB vs BTN open 2.5BB",
+                  hand:"K♠ 4♠",
+                  context:"BTN is an active regular (BTN RFI 45%). Everyone folded to BTN. SB also folds. You're in BB.",
+                  question:"Do you call K4s from BB vs BTN 2.5BB open?",
+                  options:[
+                    { label:"Yes — pot odds + sufficient equity", correct:true, explanation:"Correct! Pot odds from BB: pot 4BB (2.5+1+0.5), your cost 1.5BB → odds 2.67:1. K4s has ~44% equity vs BTN 45% range. Flops a king 17% of the time with K-high. With these excellent pot odds and BTN having a very wide range, calling is clearly +EV." },
+                    { label:"No — K4s is too weak", correct:false, explanation:"K4s is a perfectly valid call from BB vs 2.5x BTN. Pot odds compensate for the hand's weakness. With BTN's wide range, your K4s is in good shape often enough." },
+                    { label:"3-bet to 7.5BB", correct:false, explanation:"3-betting with K4s from BB vs BTN can be valid as a bluff in some strategies, but calling has very good EV and is the simplest, most solid line here." },
+                    { label:"Fold — you're OOP the whole hand", correct:false, explanation:"Being OOP is a disadvantage, but BB pot odds are so good they compensate. With pot odds 2.67:1 you only need to win 27% of the time to break even — K4s clearly exceeds that threshold vs BTN's 45% range." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Calling opens in position (IP)",
+            body: [
+              { type:"text", content:"When you call in position (IP), you have the advantage of acting last postflop, but also the risk of someone 3-betting from behind. Your position matters a lot: the closer you are to the BTN, the fewer players behind to 3-bet and the stronger your postflop position." },
+              { type:"callout", label:"General rules for calling IP", content:"(1) The closer to the BTN, the better — fewer squeezers and stronger postflop position. (2) Vs tight ranges (UTG/MP), implied odds hands go up in value (sets). Vs wide ranges (CO/BTN), top pair hands go up in value (KQo, AJo). (3) Smaller opens are easier to call — your investment is lower and pot odds are better. (4) Small pairs 22-55 vs opens in position are very context-dependent: if there are active squeezers, their value drops enormously because you never reach the flop." },
+              { type:"callout", label:"Calling vs UTG open IP (HJ/CO/BTN)", content:"Vs UTG (~14% range): call 66+ for set mining, high suited connectors (JTs, QJs, T9s) as hybrids and premium broadways (AQs, AJs, KQs). Vs HJ (~20% range): add medium pairs 55+, more suited connectors and broadways like AJo, KQo, QJs. Vs CO/BTN (25-40% ranges): the opponent's range is so wide that hands like KTo, A9s, QTo become reasonable calls from BTN." },
+              { type:"callout", label:"The most complex scenario: CO vs BTN", content:"CO vs BTN is the duel between the two most aggressive positions. BTN opens very wide (40%+), meaning many broadway hands beat their range. CO can call more frequent top pair hands (KJo, QJo) and medium suited connectors. Small pairs 22-55 are no longer good calls here: BTN won't have premium hands to pay off sets, and squeezers in the blinds are more likely with late position opens." },
+              { type:"text", content:"The key when building your IP calling range is clarity about what type of hand you're playing: implied odds or frequent strength. The former needs opponents with tight ranges and good stacks. The latter works better against wide ranges where you connect well. Mixing both categories without thinking about which conditions each is good in is the most common mistake." },
+            ],
+          },
+          {
+            title: "Calling from the BB — correct defense",
+            body: [
+              { type:"text", content:"The BB is the position where you lose the most money long-term, but not because it's impossible to play well — it's because you've already invested 1BB with any hand before knowing your cards. Your goal in the BB is not to profit from that position, but to minimize losses by calling the right hands and folding the wrong ones." },
+              { type:"callout", label:"BB vs UTG-CO opens (3BB)", content:"Call: pairs 66+, mid-high suited connectors (T9s, JTs, QJs), broadways like KQo, AJo, QJo, and suited aces (A9s+). Fold: pairs 22-55 (set mining OOP without sufficient implied odds), low suited connectors (54s, 65s), weak offsuit hands (K7o, Q8o). The criterion: does the hand have enough implied odds or frequent strength to compensate for playing OOP?" },
+              { type:"callout", label:"BB vs BTN open — depends on size", content:"Vs 3x BTN: call broadways, pairs 66+, medium+ suited connectors. Vs 2.5x BTN: add KTo, Q9s, A8s, more suited one-gappers. Vs 2x BTN (min-raise): almost all playable hands are calls because pot odds are excellent. Even hands like J8s, K5s, Q6s become reasonable calls. The principle: the smaller the open, the more hands are profitable to call from BB." },
+              { type:"callout", label:"Most common BB mistake: playing only 3-bet or fold", content:"Many low-stakes players play 3-bet or fold from BB, thinking it's 'more GTO'. Mistake: they miss all profitable calls with medium hands. Calling KTo vs BTN 2.5x is clearly +EV with good pot odds. Calling 66 vs CO 3x is +EV with implied odds. Folding these hands because you don't want to 'complicate things' is directly losing EV." },
+            ],
+          },
+          {
+            title: "Calling from the SB — when and how",
+            body: [
+              { type:"text", content:"The SB is the hardest position to call opens from. You have two disadvantages that combine brutally: (1) worse pot odds than the BB because you only have half a BB invested, and (2) you don't close the action — the BB can 3-bet and if they do, you have to fold losing your call. Generally the most solid strategy from the SB is 3-bet or fold." },
+              { type:"callout", label:"When you CAN have a calling range from SB", content:"1. Vs UTG/HJ opens: the range is tight (less likely to be squeezed), and implied odds are good. Call: JJ, QQ, AQs+, KQs and little else. 2. Vs CO/BTN opens when the BB is a fish: the fish in the pot changes the equation — call more speculative hands to exploit the fish. 3. Vs CO/BTN opens when the BB is a nit or passive player who never squeezes: you know you'll see the flop, so you can call more hands." },
+              { type:"callout", label:"Why the squeeze ruins SB calls", content:"If you call from SB and the BB squeezes, you have to fold almost always with your capped wide calling range. That means half your calls are lost before the flop. If you calculate that you're calling 2.5BB with 87s and then fold 30% of the time to the BB's squeeze, your real EV collapses. That's why in the SB, if the BB is an unknown or aggressive player, the strategy is 3-bet or fold." },
+              { type:"text", content:"Practical rule: in the SB, before calling any open, ask what the BB will do. If they're a passive, tight or unknown player → you can call some selective hands. If they're an active, aggressive or unknown player → 3-bet or fold. Calling from SB is only profitable when you can reasonably expect to see the flop without the BB knocking you out of the pot." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · SB vs BTN open 2.5BB",
+                  hand:"Q♣ J♣",
+                  context:"BTN is an active regular. BB is a player who just sat down — unknown. Stacks 100BB.",
+                  question:"Do you call QJs from SB vs BTN 2.5BB with unknown BB?",
+                  options:[
+                    { label:"No — 3-bet or fold with unknown BB", correct:true, explanation:"Correct! With an unknown BB, you can't assume they won't squeeze. If they squeeze 15% of the time and you have to fold, your call with QJs becomes -EV. The correct strategy is 3-bet (if you want to play QJs) or fold to avoid the squeeze risk." },
+                    { label:"Yes — QJs has good implied odds", correct:false, explanation:"QJs has implied odds, but the squeeze risk with an unknown BB is real and destroys call EV. With an unknown BB from SB, the correct strategy is 3-bet or fold." },
+                    { label:"Yes — pot odds are sufficient", correct:false, explanation:"Pot odds in SB (2.5BB open, you have 0.5BB) are worse than in BB. Plus with an unknown BB, squeeze risk is high. Not a situation to call just for pot odds." },
+                    { label:"Fold — QJs isn't worth it vs BTN", correct:false, explanation:"QJs is a perfectly playable hand, but the correct action isn't necessarily to call. With an unknown BB from SB, 3-bet or fold is the strategy. If you want to play QJs, the option is to 3-bet." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Exercises: Calling Opens",
+            body: [
+              { type:"text", content:"Test what you've learned. In each situation, decide whether to call the open or fold, and with what logic." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · CO vs UTG open 3BB",
+                  hand:"5♠ 5♦",
+                  context:"UTG is a solid regular (VPIP 14%). BTN and blinds are standard regulars. Stacks 100BB.",
+                  question:"Do you call 55 from CO vs UTG 3BB open?",
+                  options:[
+                    { label:"No — 55 vs UTG without fish is a fold", correct:true, explanation:"Correct! 55 needs to win 30BB when flopping a set (3BB investment × 10). Vs tight UTG range, the regular will pay postflop, but without fish in the pot and with BTN behind (potential squeeze), implied odds aren't sufficient for 22-55. Fold 55, call 66+ in this situation." },
+                    { label:"Yes — set mining always profitable with 100BB", correct:false, explanation:"Set mining isn't automatically profitable. 22-55 are pure set mines that need favorable conditions. Vs UTG without fish and with potential squeezers, implied odds don't justify the risk." },
+                    { label:"Yes — you're in position", correct:false, explanation:"Position helps but isn't enough to justify set mining with 22-55 vs tight UTG without fish. Implied odds for such small pairs don't reach the necessary threshold in this situation." },
+                    { label:"3-bet to 9BB", correct:false, explanation:"3-betting with 55 vs solid UTG is a serious mistake — the UTG range dominates you and 55 has neither the value equity nor the ideal 3-bet bluff characteristics." },
+                  ],
+                },
+                {
+                  situation:"NL25 · BTN vs CO open 2.5BB",
+                  hand:"K♥ Q♣",
+                  context:"CO is an active regular (VPIP 28%, CO RFI 27%). SB and BB are standard regulars. Stacks 100BB.",
+                  question:"Do you call KQo from BTN vs CO 2.5BB open?",
+                  options:[
+                    { label:"Yes — KQo has frequent strength vs CO range", correct:true, explanation:"Correct! KQo flops top pair with a good kicker frequently against CO's 27% range, and those hands are in good shape. You're on the BTN (perfect position), small investment (2.5BB), no real squeezers behind. KQo is a clear call IP vs CO." },
+                    { label:"No — KQo can be dominated", correct:false, explanation:"KQo can be dominated vs UTG (AK, AQ are in that range), but vs CO with 27% range, there's much less domination and many more hands that KQo beats when connecting. Correct call IP vs CO." },
+                    { label:"3-bet to 7.5BB", correct:true, explanation:"Also correct — 3-betting with KQo vs CO from BTN is perfectly valid as a value/semi-value 3-bet. Both calling and 3-betting are reasonable lines with KQo from BTN." },
+                    { label:"Fold — domination risk", correct:false, explanation:"With CO range of 27%, domination of KQo is minimal. The opponent has many hands that KQo beats when connecting on the flop. Folding KQo on the BTN vs CO would be overly passive." },
+                  ],
+                },
+                {
+                  situation:"NL25 · BB vs BTN open 2BB (min-raise)",
+                  hand:"J♦ 8♦",
+                  context:"BTN is active regular (BTN RFI 45%). SB has folded. Stacks 100BB.",
+                  question:"Do you call J8s from BB vs BTN min-raise?",
+                  options:[
+                    { label:"Yes — excellent pot odds vs min-raise", correct:true, explanation:"Correct! Pot 3.5BB (2BB open + 0.5BB SB + 1BB your BB), your cost 1BB. Pot odds 3.5:1. You only need to win 1 in 4.5 times = 22%. J8s has implied odds, flush/straight potential, and BTN's 45% range is very wide. Calling is clearly +EV with these pot odds." },
+                    { label:"No — J8s is too weak OOP", correct:false, explanation:"Vs a min-raise, pot odds are so good they compensate for playing OOP. J8s has enough potential (draws, occasional top pair) for calling to be +EV. Don't fold playable hands vs min-raise from BB." },
+                    { label:"3-bet to 6BB", correct:false, explanation:"3-betting with J8s vs BTN min-raise can be valid as a bluff in some strategies, but calling is the most solid and simple line here. Pot odds are so good that calling maximizes EV with J8s." },
+                    { label:"Fold — you're OOP the whole hand", correct:false, explanation:"Being OOP is a disadvantage, but with pot odds 3.5:1 you only need to win 22% of the time to break even. J8s vs BTN's 45% range clearly exceeds that threshold. Folding here directly loses EV." },
+                  ],
+                },
+              ]},
+            ],
+          },
+        ],
       },
     ],
   },
@@ -2781,6 +3105,20 @@ function HomePage({ t, onNavigate }) {
         </button>
       </div>
 
+        <button
+          onClick={() => onNavigate("stats")}
+          style={{ display: "flex", alignItems: "center", gap: 16, background: "linear-gradient(135deg, #111320 0%, #0d0f1a 100%)", border: "1px solid #8b5cf644", borderRadius: 16, padding: "20px 24px", color: "#f0f0f5", cursor: "pointer", fontSize: 16, fontWeight: 700, width: "100%", transition: "border-color 0.2s, box-shadow 0.2s", boxShadow: "0 4px 24px #00000066" }}
+          onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#8b5cf6"; e.currentTarget.style.boxShadow = "0 4px 32px #8b5cf622"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#8b5cf644"; e.currentTarget.style.boxShadow = "0 4px 24px #00000066"; }}
+        >
+          <div style={{ width: 44, height: 44, borderRadius: 12, background: "linear-gradient(135deg, #8b5cf622, #8b5cf611)", border: "1px solid #8b5cf644", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>♦</div>
+          <div style={{ textAlign: "left" }}>
+            <div style={{ fontSize: 16, fontWeight: 700, color: "#f0f0f5" }}>{t.menu.stats}</div>
+            <div style={{ fontSize: 12, color: "#8b8fa8", marginTop: 2 }}>{t.menu.statsSubtitle}</div>
+          </div>
+          <span style={{ marginLeft: "auto", color: "#8b5cf6", fontSize: 20 }}>→</span>
+        </button>
+
       {/* Bottom suits strip */}
       <div style={{ marginTop: 52, display: "flex", justifyContent: "center", gap: 20, opacity: 0.15 }}>
         {["♠","♥","♦","♣"].map(s => <span key={s} style={{ fontSize: 20, color: s === "♥" || s === "♦" ? "#ef4444" : "#c9a84c" }}>{s}</span>)}
@@ -2815,6 +3153,10 @@ const CTX = {
   vbet_reg_ip:      { es: "Rival es un regular sólido. Actúas tú último (IP). Usa sizing balanceado.", en: "Villain is a solid regular. You act last (IP). Use balanced sizing." },
   vbet_reg_oop:     { es: "Rival es un regular sólido. Actúas tú primero (OOP). Cuidado con el tamaño.", en: "Villain is a solid regular. You act first (OOP). Be careful with sizing." },
   vbet_check:       { es: "Situación donde check tiene más EV que apostar (slowplay o fuerza relativa insuficiente).", en: "Situation where checking has more EV than betting (slowplay or insufficient relative strength)." },
+  call_ip_fish:     { es: "Hay un fish recreativo en el bote. Decides si pagar la apertura en posición.", en: "There's a recreational fish in the pot. You decide whether to call the open in position." },
+  call_ip_reg:      { es: "Mesa de regulars. Decides si pagar la apertura en posición.", en: "Regular table. You decide whether to call the open in position." },
+  call_bb_reg:      { es: "Estás en la BB. Decides si pagar la apertura.", en: "You're in the BB. You decide whether to call the open." },
+  call_sb_reg:      { es: "Estás en la SB. Decides si pagar, 3-betear o foldear.", en: "You're in the SB. You decide whether to call, 3-bet or fold." },
 };
 
 // { id, pos, hand, code, open, size, ctx, es, en }
@@ -3211,6 +3553,24 @@ function buildOptions(sit, p, lang) {
     }
   }
 
+  if (sit.type === "call") {
+    if (sit.open) {
+      return [
+        { id:"correct", label: lang==="es" ? "Pagar" : "Call",   correct:true,  explanation:correctExp },
+        { id:"fold",    label: p.optFold,                        correct:false, explanation: lang==="es" ? "Esta mano sí es pago rentable en esta situación." : "This hand is a profitable call in this situation." },
+        { id:"wsize",   label: lang==="es" ? "3-bet" : "3-bet",  correct:false, explanation: lang==="es" ? "Pagar es la línea más correcta aquí, no 3-bet." : "Calling is the most correct line here, not 3-betting." },
+        { id:"limp",    label: p.optLimp,                        correct:false, explanation: lang==="es" ? "No se limpa — o pagas la apertura correctamente o foldeas." : "Don't limp — either call the open correctly or fold." },
+      ].sort(() => Math.random() - 0.5);
+    } else {
+      return [
+        { id:"correct", label: p.optFold,                        correct:true,  explanation:correctExp },
+        { id:"call",    label: lang==="es" ? "Pagar" : "Call",   correct:false, explanation: lang==="es" ? "Esta mano no es pago rentable aquí." : "This hand is not a profitable call here." },
+        { id:"limp",    label: p.optLimp,                        correct:false, explanation: p.wrongLimpExp },
+        { id:"w3bet",   label: lang==="es" ? "3-bet" : "3-bet",  correct:false, explanation: lang==="es" ? "Foldear es la mejor opción aquí." : "Folding is the best option here." },
+      ].sort(() => Math.random() - 0.5);
+    }
+  }
+
   if (sit.type === "vbet") {
     if (sit.open) {
       const allSizes = [
@@ -3546,6 +3906,232 @@ const VBET_SITUATIONS = [
 ];
 
 
+
+// ─── STATS PAGE ───────────────────────────────────────────────────────────────
+function StatsPage({ t, lang, xpData, completed, totalLessons }) {
+  const lv = getLevelInfo(xpData.xp);
+  const es = lang === "es";
+  const accuracy = xpData.totalAnswered > 0
+    ? Math.round((xpData.totalCorrect / xpData.totalAnswered) * 100)
+    : 0;
+
+  const typeLabels = {
+    open: { es:"Apertura (OR)",  en:"Opening (OR)",  icon:"♠" },
+    iso:  { es:"ROL / ISO",      en:"ROL / ISO",     icon:"♣" },
+    cbet: { es:"C-Bet",          en:"C-Bet",          icon:"♥" },
+    vbet: { es:"Value Bet",      en:"Value Bet",      icon:"♦" },
+    call: { es:"Pagar apert.",   en:"Calling Opens",  icon:"⟵" },
+  };
+  const typeOrder = ["open","iso","cbet","vbet","call"];
+
+  const StatCard = ({ label, value, sub, color="#c9a84c" }) => (
+    <div style={{ background:"#0d0f1a", border:"1px solid #1e2235", borderRadius:12, padding:"14px 18px" }}>
+      <div style={{ fontSize:11, color:"#8b8fa8", textTransform:"uppercase", letterSpacing:1, marginBottom:4 }}>{label}</div>
+      <div style={{ fontSize:26, fontWeight:800, color }}>{value}</div>
+      {sub && <div style={{ fontSize:11, color:"#8b8fa8", marginTop:2 }}>{sub}</div>}
+    </div>
+  );
+
+  return (
+    <div style={{ maxWidth:640, margin:"0 auto", padding:"28px 16px" }}>
+      <h2 style={{ fontSize:20, fontWeight:700, color:"#fff", margin:"0 0 24px" }}>
+        {es?"Mis Estadísticas":"My Statistics"}
+      </h2>
+
+      {/* Level card */}
+      <div style={{ background:"linear-gradient(135deg,#120f04,#0d0f1a)", border:"1px solid #c9a84c44", borderRadius:14, padding:"20px 24px", marginBottom:16 }}>
+        <div style={{ display:"flex", alignItems:"center", gap:16, marginBottom:16 }}>
+          <div style={{ width:52, height:52, borderRadius:14, background:"#c9a84c22", border:"1px solid #c9a84c44", display:"flex", alignItems:"center", justifyContent:"center", fontSize:26 }}>
+            {xpData.level >= 6 ? "🏆" : xpData.level >= 4 ? "⭐" : xpData.level >= 2 ? "📈" : "🐟"}
+          </div>
+          <div>
+            <div style={{ fontSize:13, color:"#8b8fa8" }}>{es?"Nivel":"Level"} {xpData.level}</div>
+            <div style={{ fontSize:22, fontWeight:800, color:"#e8c96a" }}>{es ? lv.name : lv.nameEn}</div>
+          </div>
+          <div style={{ marginLeft:"auto", textAlign:"right" }}>
+            <div style={{ fontSize:20, fontWeight:800, color:"#c9a84c" }}>{xpData.xp.toLocaleString()} XP</div>
+            {lv.next && <div style={{ fontSize:11, color:"#8b8fa8" }}>{es?"Siguiente":"Next"}: {lv.next.min.toLocaleString()} XP</div>}
+          </div>
+        </div>
+        {lv.next && (
+          <div>
+            <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
+              <span style={{ fontSize:11, color:"#8b8fa8" }}>{es?"Progreso":"Progress"} {lv.pct}%</span>
+              <span style={{ fontSize:11, color:"#8b8fa8" }}>{lv.next.min.toLocaleString()} XP</span>
+            </div>
+            <div style={{ height:6, background:"#1e2235", borderRadius:4 }}>
+              <div style={{ width:`${lv.pct}%`, height:"100%", background:"linear-gradient(90deg,#c9a84c,#e8c96a)", borderRadius:4, transition:"width 0.5s" }}/>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Key stats grid */}
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:10, marginBottom:16 }}>
+        <StatCard label={es?"Racha actual":"Current streak"} value={`🔥 ${xpData.streak}`} sub={es?`Máx: ${xpData.longestStreak} días`:`Best: ${xpData.longestStreak} days`} color="#f97316"/>
+        <StatCard label={es?"Precisión global":"Global accuracy"} value={`${accuracy}%`} sub={`${xpData.totalCorrect}/${xpData.totalAnswered} ${es?"correctas":"correct"}`} color={accuracy>=80?"#10b981":accuracy>=60?"#c9a84c":"#ef4444"}/>
+        <StatCard label={es?"Sesiones jugadas":"Sessions played"} value={xpData.totalSessions} sub={es?"sesiones completadas":"completed sessions"} color="#8b5cf6"/>
+        <StatCard label={es?"Lecciones":"Lessons"} value={`${completed.size}/${totalLessons}`} sub={es?"capítulos completados":"chapters completed"} color="#10b981"/>
+      </div>
+
+      {/* Category breakdown */}
+      <div style={{ background:"#0d0f1a", border:"1px solid #1e2235", borderRadius:14, padding:"18px 20px" }}>
+        <div style={{ fontSize:13, fontWeight:700, color:"#fff", marginBottom:16 }}>
+          {es?"Precisión por categoría":"Accuracy by category"}
+        </div>
+        {typeOrder.map(typ => {
+          const stats = (xpData.categoryStats || {})[typ];
+          const { icon } = typeLabels[typ];
+          const label = es ? typeLabels[typ].es : typeLabels[typ].en;
+          if (!stats || stats.total === 0) {
+            return (
+              <div key={typ} style={{ marginBottom:14 }}>
+                <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
+                  <span style={{ fontSize:13, color:"#8b8fa8" }}>{icon} {label}</span>
+                  <span style={{ fontSize:12, color:"#3a3f5a" }}>{es?"Sin datos":"No data"}</span>
+                </div>
+                <div style={{ height:4, background:"#1e2235", borderRadius:4 }}/>
+              </div>
+            );
+          }
+          const pct = Math.round((stats.correct/stats.total)*100);
+          const col = pct>=80?"#10b981":pct>=60?"#c9a84c":"#ef4444";
+          return (
+            <div key={typ} style={{ marginBottom:14 }}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:6 }}>
+                <span style={{ fontSize:13, color:"#e8e8e8" }}>{icon} {label}</span>
+                <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+                  <span style={{ fontSize:11, color:"#8b8fa8" }}>{stats.correct}/{stats.total}</span>
+                  <span style={{ fontSize:14, fontWeight:700, color:col, minWidth:36, textAlign:"right" }}>{pct}%</span>
+                </div>
+              </div>
+              <div style={{ height:5, background:"#1e2235", borderRadius:4 }}>
+                <div style={{ width:`${pct}%`, height:"100%", background:col, borderRadius:4, transition:"width 0.6s" }}/>
+              </div>
+            </div>
+          );
+        })}
+        {Object.keys(xpData.categoryStats || {}).length === 0 && (
+          <div style={{ textAlign:"center", padding:"24px 0", color:"#8b8fa8", fontSize:13 }}>
+            {es?"Completa sesiones de test para ver tus estadísticas por categoría.":"Complete test sessions to see your stats by category."}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── CALLING OPENS SITUATIONS ──────────────────────────────────────────────────
+// type:"call" — open=true → should call; open=false → should fold/3-bet
+const CALL_SITUATIONS = [
+  // ── SET MINING IP — should call (20) ────────────────────────────────────────
+  {id:501,type:"call",hand:"7♠ 7♦",board:null,open:true,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"77 vs UTG 3BB. Implied odds suficientes: rango UTG ajustado paga sets, stacks 100BB, estás IP. Inversión 3BB × 10 = target 30BB alcanzable. Paga.",en:"77 vs UTG 3BB. Sufficient implied odds: tight UTG range pays sets, 100BB stacks, you're IP. 3BB × 10 = 30BB target achievable. Call."},
+  {id:502,type:"call",hand:"8♥ 8♦",board:null,open:true,ctx:"call_ip_reg",pos:"CO",callPos:"MP",es:"88 vs MP 3BB desde CO. Excelente set mine: rango MP más amplio que UTG pero aún con manos premium que pagan sets postflop. IP con buenos implied odds. Paga.",en:"88 vs MP 3BB from CO. Excellent set mine: MP range wider than UTG but still has premium hands that pay off sets postflop. IP with good implied odds. Call."},
+  {id:503,type:"call",hand:"6♣ 6♦",board:null,open:true,ctx:"call_ip_fish",pos:"BTN",callPos:"CO",es:"66 vs CO con fish en blinds. Fish amplían implied odds enormemente — pagarán tus sets. 66 es set mine claro con fish en el bote. Paga.",en:"66 vs CO with fish in blinds. Fish greatly increase implied odds — they'll pay off your sets. 66 is a clear set mine with fish in the pot. Call."},
+  {id:504,type:"call",hand:"9♣ 9♦",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"99 vs CO BTN. 99 es híbrido: tiene valor de overpair en muchos flops bajos además del set value. Paga cómodamente IP vs CO.",en:"99 vs CO from BTN. 99 is a hybrid: has overpair value on many low boards plus set value. Comfortable call IP vs CO."},
+  {id:505,type:"call",hand:"J♥ T♥",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"JTs vs CO 2.5BB desde BTN. Suited connector de primera clase: implied odds buenos (flush, straight), top pair potencial vs rango amplio CO. Paga.",en:"JTs vs CO 2.5BB from BTN. Top-class suited connector: good implied odds (flush, straight), top pair potential vs wide CO range. Call."},
+  {id:506,type:"call",hand:"T♠ 9♠",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"T9s vs CO. Suited connector con buenos implied odds IP. Flopeá draws y top pair decente vs rango amplio CO. Paga desde BTN.",en:"T9s vs CO. Suited connector with good implied odds IP. Flops draws and decent top pair vs wide CO range. Call from BTN."},
+  {id:507,type:"call",hand:"5♦ 5♣",board:null,open:true,ctx:"call_ip_fish",pos:"CO",callPos:"UTG",es:"55 vs UTG con fish en BB. Normalmente fold 55 vs UTG, pero el fish en el BB añade implied odds extra — sus errores postflop compensan la debilidad de la mano. Paga.",en:"55 vs UTG with fish in BB. Normally fold 55 vs UTG, but the fish in the BB adds extra implied odds — their postflop mistakes compensate for the hand's weakness. Call."},
+  {id:508,type:"call",hand:"Q♠ J♠",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"QJs vs CO desde BTN. Suited connector alto con frequent strength y implied odds. Flopeá top pair bueno, flush draw y straight draws vs rango amplio CO. Paga.",en:"QJs vs CO from BTN. High suited connector with frequent strength and implied odds. Flops good top pair, flush draw and straight draws vs wide CO range. Call."},
+  {id:509,type:"call",hand:"A♥ J♠",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"AJo vs CO 2.5BB desde BTN. Rango CO ~27% incluye muchas manos que AJo domina. Frequent strength, IP, tamaño pequeño. Paga.",en:"AJo vs CO 2.5BB from BTN. CO range ~27% includes many hands AJo dominates. Frequent strength, IP, small sizing. Call."},
+  {id:510,type:"call",hand:"K♣ Q♦",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"KQo vs CO desde BTN. Frequent strength clara vs rango amplio CO — flopeá top pair que domina mucho del rango. Estás IP. Paga.",en:"KQo vs CO from BTN. Clear frequent strength vs wide CO range — flops top pair that dominates much of the range. You're IP. Call."},
+  {id:511,type:"call",hand:"8♦ 7♦",board:null,open:true,ctx:"call_ip_fish",pos:"HJ",callPos:"UTG",es:"87s vs UTG con fish en blinds. Normalmente fold, pero fish en BB o SB añaden implied odds para suited connectors especulativos. Paga.",en:"87s vs UTG with fish in blinds. Normally fold, but fish in BB or SB add implied odds for speculative suited connectors. Call."},
+  {id:512,type:"call",hand:"A♠ K♠",board:null,open:true,ctx:"call_ip_reg",pos:"CO",callPos:"MP",es:"AKs vs MP desde CO. Mano premium. Puedes pagar o 3-betear — ambas líneas son válidas. Si pagas, lo haces IP con la mano más fuerte.",en:"AKs vs MP from CO. Premium hand. You can call or 3-bet — both lines are valid. If you call, you're IP with the strongest hand."},
+  {id:513,type:"call",hand:"9♥ 8♥",board:null,open:true,ctx:"call_ip_fish",pos:"BTN",callPos:"SB",es:"98s vs SB open con fish en BB. Fish en BB asegura bote multiway y implied odds extra. 98s conecta bien multiway. Paga.",en:"98s vs SB open with fish in BB. Fish in BB ensures multiway pot and extra implied odds. 98s connects well multiway. Call."},
+  {id:514,type:"call",hand:"J♦ J♣",board:null,open:true,ctx:"call_ip_reg",pos:"CO",callPos:"MP",es:"JJ vs MP desde CO. JJ es híbrido — puede 3-bet o pagar. Pagar IP es opción válida: mantienes el bote controlado y postflop tienes posición y mano fuerte.",en:"JJ vs MP from CO. JJ is a hybrid — can 3-bet or call. Calling IP is a valid option: keep the pot controlled and postflop you have position and a strong hand."},
+  {id:515,type:"call",hand:"6♠ 5♠",board:null,open:true,ctx:"call_ip_fish",pos:"BTN",callPos:"CO",es:"65s vs CO con fish en blinds. Suited connector bajo con buenos implied odds cuando hay fish. Multiway potencial alto. Paga desde BTN.",en:"65s vs CO with fish in blinds. Low suited connector with good implied odds when fish are present. High multiway potential. Call from BTN."},
+  {id:516,type:"call",hand:"A♦ T♦",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"ATs vs CO desde BTN. Suited ace con frequent strength (flopeá top pair bueno) y implied odds (flush draw). Paga IP.",en:"ATs vs CO from BTN. Suited ace with frequent strength (flops good top pair) and implied odds (flush draw). Call IP."},
+  {id:517,type:"call",hand:"K♥ J♥",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"KJs vs CO. Suited broadway con frecuente strength vs rango CO amplio. IP desde BTN hace este pago cómodo.",en:"KJs vs CO. Suited broadway with frequent strength vs wide CO range. IP from BTN makes this call comfortable."},
+  {id:518,type:"call",hand:"T♦ T♣",board:null,open:true,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"TT vs UTG desde HJ. TT es overpair frecuente en flops bajos y tiene set value. Pagar o 3-bet son válidos vs UTG. Pagar mantiene pot controlado.",en:"TT vs UTG from HJ. TT is a frequent overpair on low boards and has set value. Calling or 3-betting are both valid vs UTG. Calling keeps pot controlled."},
+  {id:519,type:"call",hand:"Q♦ T♦",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"QTs vs CO desde BTN. Suited connector alto con frequent strength y implied odds. Flopeá buenas manos frecuentemente vs rango CO. Paga.",en:"QTs vs CO from BTN. High suited connector with frequent strength and implied odds. Flops good hands frequently vs CO range. Call."},
+  {id:520,type:"call",hand:"A♣ 9♣",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"A9s vs CO desde BTN. Suited ace en posición perfecta. Flopeá top pair decente y tiene flush potential. Paga IP.",en:"A9s vs CO from BTN. Suited ace in perfect position. Flops decent top pair and has flush potential. Call IP."},
+  // ── SHOULD FOLD IP — wrong to call (15) ─────────────────────────────────────
+  {id:521,type:"call",hand:"3♣ 3♦",board:null,open:false,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"33 vs UTG 3BB en HJ. Set mine puro sin fish. 33 necesita ganar 30BB cuando flopeá set — vs rango UTG ajustado es marginal, pero con squeezers potenciales (CO/BTN/blinds por detrás) los implied odds no compensan. Foldea.",en:"33 vs UTG 3BB from HJ. Pure set mine without fish. 33 needs to win 30BB when flopping a set — vs tight UTG range it's marginal, but with potential squeezers (CO/BTN/blinds behind) implied odds don't compensate. Fold."},
+  {id:522,type:"call",hand:"2♥ 2♣",board:null,open:false,ctx:"call_ip_reg",pos:"CO",callPos:"UTG",es:"22 vs UTG desde CO. 22 necesita condiciones perfectas para set mine. Vs UTG ajustado sin fish, con BTN por detrás, los implied odds no justifican 3BB de inversión. Foldea.",en:"22 vs UTG from CO. 22 needs perfect conditions for set mining. Vs tight UTG without fish, with BTN behind, implied odds don't justify 3BB investment. Fold."},
+  {id:523,type:"call",hand:"8♣ 7♣",board:null,open:false,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"87s vs UTG 3BB en HJ sin fish. Sin fish en el bote, 87s no tiene suficientes implied odds vs rango UTG. No es set mine puro y el top pair que flopeá estará dominado frecuentemente. Foldea.",en:"87s vs UTG 3BB from HJ without fish. Without fish in the pot, 87s doesn't have enough implied odds vs UTG range. Not a pure set mine and the top pair it flops will frequently be dominated. Fold."},
+  {id:524,type:"call",hand:"K♠ 4♦",board:null,open:false,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"K4o vs UTG desde HJ. Sin suited, sin implied odds, top pair con kicker mala que sufre de dominación vs rango ajustado. Foldea.",en:"K4o vs UTG from HJ. Not suited, no implied odds, top pair with bad kicker that suffers domination vs tight range. Fold."},
+  {id:525,type:"call",hand:"J♣ 6♣",board:null,open:false,ctx:"call_ip_reg",pos:"CO",callPos:"MP",es:"J6s vs MP desde CO. Demasiado débil como suited connector, demasiado dominado como top pair hand. Sin una razón clara (fish, pot odds extra), foldea.",en:"J6s vs MP from CO. Too weak as a suited connector, too dominated as a top pair hand. Without a clear reason (fish, extra pot odds), fold."},
+  {id:526,type:"call",hand:"9♦ 6♦",board:null,open:false,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"96s vs UTG 3BB. Suited connector bajo vs rango muy ajustado — los implied odds no son suficientes sin fish. Foldea.",en:"96s vs UTG 3BB. Low suited connector vs very tight range — implied odds aren't sufficient without fish. Fold."},
+  {id:527,type:"call",hand:"Q♣ 4♣",board:null,open:false,ctx:"call_ip_reg",pos:"CO",callPos:"MP",es:"Q4s vs MP. Demasiado débil — no tiene neither frequent strength ni implied odds suficientes para justificar el pago IP vs rango MP. Foldea.",en:"Q4s vs MP. Too weak — has neither sufficient frequent strength nor implied odds to justify calling IP vs MP range. Fold."},
+  {id:528,type:"call",hand:"A♠ 2♦",board:null,open:false,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"A2o vs UTG desde HJ. Offsuit, kicker muy débil, sufre dominación (A+mejor kicker). Sin implied odds ni frequent strength. Foldea.",en:"A2o vs UTG from HJ. Offsuit, very weak kicker, suffers domination (A+better kicker). No implied odds or frequent strength. Fold."},
+  {id:529,type:"call",hand:"5♥ 5♣",board:null,open:false,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"55 vs UTG sin fish en HJ. Con squeezers potenciales por detrás (CO/BTN) y sin fish, 55 no tiene implied odds suficientes vs rango ajustado. Foldea.",en:"55 vs UTG without fish from HJ. With potential squeezers behind (CO/BTN) and no fish, 55 doesn't have sufficient implied odds vs tight range. Fold."},
+  {id:530,type:"call",hand:"T♠ 3♠",board:null,open:false,ctx:"call_ip_reg",pos:"CO",callPos:"MP",es:"T3s vs MP. Suited connector muy bajo — flopeá manos fácilmente dominadas y los implied odds no compensan el riesgo. Foldea.",en:"T3s vs MP. Very low suited connector — flops easily dominated hands and implied odds don't compensate the risk. Fold."},
+  {id:531,type:"call",hand:"K♦ 8♣",board:null,open:false,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"K8o vs UTG. Mano sin suit, kicker media que sufre dominación. No tiene implied odds ni buena posición respecto al rango UTG. Foldea.",en:"K8o vs UTG. Unsuited, medium kicker that suffers domination. Has no implied odds and poor shape vs UTG range. Fold."},
+  {id:532,type:"call",hand:"J♥ 4♥",board:null,open:false,ctx:"call_ip_reg",pos:"CO",callPos:"MP",es:"J4s vs MP desde CO. Suited pero demasiado débil — J4 tiene muy poca frequent strength y los implied odds de suited connectors tan bajos no compensan. Foldea.",en:"J4s vs MP from CO. Suited but too weak — J4 has very little frequent strength and implied odds of such low suited connectors don't compensate. Fold."},
+  {id:533,type:"call",hand:"4♠ 3♠",board:null,open:false,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"43s vs UTG. Suited connector muy bajo vs rango muy ajustado sin fish. Los implied odds de 43s son buenos con condiciones perfectas, pero no aquí. Foldea.",en:"43s vs UTG. Very low suited connector vs very tight range without fish. 43s implied odds are good with perfect conditions, but not here. Fold."},
+  {id:534,type:"call",hand:"Q♦ 7♦",board:null,open:false,ctx:"call_ip_reg",pos:"CO",callPos:"MP",es:"Q7s vs MP. Too weak — no es suited connector real, no tiene frequent strength suficiente. Foldea desde CO.",en:"Q7s vs MP. Too weak — not a real suited connector, doesn't have sufficient frequent strength. Fold from CO."},
+  {id:535,type:"call",hand:"A♣ 3♦",board:null,open:false,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"A3o vs UTG. Sin suit, kicker baja, sufre dominación brutal vs rango UTG. Foldea sin dudarlo.",en:"A3o vs UTG. Unsuited, low kicker, suffers brutal domination vs UTG range. Fold without hesitation."},
+  // ── BB DEFENSE — should call (20) ────────────────────────────────────────────
+  {id:536,type:"call",hand:"K♠ T♠",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"KTs desde BB vs BTN 2.5BB. Suited broadway con frequent strength e implied odds. Pot odds BB excelentes. Paga.",en:"KTs from BB vs BTN 2.5BB. Suited broadway with frequent strength and implied odds. Excellent BB pot odds. Call."},
+  {id:537,type:"call",hand:"7♦ 7♣",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"77 desde BB vs BTN 2.5BB. Implied odds + pot odds BB = pago rentable. 77 tiene set value y algo de overpair value en flops bajos. Paga.",en:"77 from BB vs BTN 2.5BB. Implied odds + BB pot odds = profitable call. 77 has set value and some overpair value on low boards. Call."},
+  {id:538,type:"call",hand:"A♥ 8♥",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"A8s desde BB vs BTN 2.5BB. Suited ace con frequent strength. Pot odds BB buenos, rango BTN amplio donde A8s domina frecuentemente. Paga.",en:"A8s from BB vs BTN 2.5BB. Suited ace with frequent strength. Good BB pot odds, wide BTN range where A8s frequently dominates. Call."},
+  {id:539,type:"call",hand:"Q♣ 9♣",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"Q9s desde BB vs BTN 2.5BB. Suited connector con buenos implied odds y pot odds BB. Rango BTN amplio donde Q9s juega bien. Paga.",en:"Q9s from BB vs BTN 2.5BB. Suited connector with good implied odds and BB pot odds. Wide BTN range where Q9s plays well. Call."},
+  {id:540,type:"call",hand:"J♠ 8♠",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"J8s desde BB vs BTN 2BB (min-raise). Pot odds excelentes vs min-raise. J8s tiene draws y potencial de top pair. Con rango BTN del 45%+, pagar es claramente +EV. Paga.",en:"J8s from BB vs BTN 2BB (min-raise). Excellent pot odds vs min-raise. J8s has draws and top pair potential. With BTN range of 45%+, calling is clearly +EV. Call."},
+  {id:541,type:"call",hand:"K♦ 4♦",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"K4s desde BB vs BTN 2.5BB. Suited ace de kicker baja, pero pot odds BB + rango amplio BTN hacen el pago rentable. Flopeá K el 17% de las veces. Paga.",en:"K4s from BB vs BTN 2.5BB. Suited low-kicker ace, but BB pot odds + wide BTN range make the call profitable. Flops a K 17% of the time. Call."},
+  {id:542,type:"call",hand:"T♥ 8♥",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"CO",es:"T8s desde BB vs CO 2.5BB. Suited connector con draws e implied odds. Desde BB con pot odds razonables vs rango CO. Paga.",en:"T8s from BB vs CO 2.5BB. Suited connector with draws and implied odds. From BB with reasonable pot odds vs CO range. Call."},
+  {id:543,type:"call",hand:"A♣ J♦",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"CO",es:"AJo desde BB vs CO 3BB. Frequent strength buena vs rango CO. A pesar de ser OOP, AJo domina mucho del rango CO. Pot odds BB razonables. Paga.",en:"AJo from BB vs CO 3BB. Good frequent strength vs CO range. Despite being OOP, AJo dominates much of CO range. Reasonable BB pot odds. Call."},
+  {id:544,type:"call",hand:"9♠ 8♠",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"98s desde BB vs BTN 2.5BB. Suited connector con buenos draws y pot odds BB. Rango BTN muy amplio donde 98s juega bien multiway. Paga.",en:"98s from BB vs BTN 2.5BB. Suited connector with good draws and BB pot odds. Very wide BTN range where 98s plays well multiway. Call."},
+  {id:545,type:"call",hand:"6♥ 6♣",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"66 desde BB vs BTN 2.5BB. Set mining con buenos pot odds BB. 66 tiene implied odds decentes vs rango amplio BTN. Paga.",en:"66 from BB vs BTN 2.5BB. Set mining with good BB pot odds. 66 has decent implied odds vs wide BTN range. Call."},
+  {id:546,type:"call",hand:"K♠ Q♦",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"CO",es:"KQo desde BB vs CO 3BB. Frequent strength excelente — KQo domina mucho del rango CO. OOP pero mano muy fuerte que justifica el pago. Paga.",en:"KQo from BB vs CO 3BB. Excellent frequent strength — KQo dominates much of CO range. OOP but very strong hand that justifies the call. Call."},
+  {id:547,type:"call",hand:"J♣ T♦",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"JTo desde BB vs BTN 2.5BB. Broadway offsuit con frequent strength vs rango amplio BTN. Pot odds BB hacen este pago rentable. Paga.",en:"JTo from BB vs BTN 2.5BB. Offsuit broadway with frequent strength vs wide BTN range. BB pot odds make this call profitable. Call."},
+  {id:548,type:"call",hand:"A♦ Q♣",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"CO",es:"AQo desde BB vs CO 3BB. Mano muy fuerte. AQo tiene frequent strength excelente vs cualquier rango. OOP pero claramente rentable pagar. Paga.",en:"AQo from BB vs CO 3BB. Very strong hand. AQo has excellent frequent strength vs any range. OOP but clearly profitable to call. Call."},
+  {id:549,type:"call",hand:"5♠ 4♠",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"54s desde BB vs BTN 2BB (min-raise). Pot odds excelentes (casi 3:1). 54s tiene muy buenos implied odds multiway y flopeá draws poderosos. Paga vs min-raise.",en:"54s from BB vs BTN 2BB (min-raise). Excellent pot odds (almost 3:1). 54s has very good multiway implied odds and flops powerful draws. Call vs min-raise."},
+  {id:550,type:"call",hand:"Q♥ 7♥",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"Q7s desde BB vs BTN 2BB (min-raise). Normalmente fold, pero vs min-raise los pot odds son tan buenos que hasta Q7s se convierte en pago. Paga solo vs min-raise.",en:"Q7s from BB vs BTN 2BB (min-raise). Normally fold, but vs min-raise pot odds are so good that even Q7s becomes a call. Call only vs min-raise."},
+  {id:551,type:"call",hand:"8♠ 6♠",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"86s desde BB vs BTN 2.5BB. Suited connector con buenos draws. Pot odds BB razonables, rango BTN muy amplio. Paga.",en:"86s from BB vs BTN 2.5BB. Suited connector with good draws. Reasonable BB pot odds, very wide BTN range. Call."},
+  {id:552,type:"call",hand:"T♣ 9♦",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"CO",es:"T9o desde BB vs CO 2.5BB. Offsuit connector con frequent strength vs rango CO. Pot odds BB hacen este pago marginalmente rentable. Paga.",en:"T9o from BB vs CO 2.5BB. Offsuit connector with frequent strength vs CO range. BB pot odds make this call marginally profitable. Call."},
+  {id:553,type:"call",hand:"A♠ 5♠",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"A5s desde BB vs BTN 2.5BB. Suited ace con wheel straight potential, flush draw y top pair. Muy versátil. Pot odds BB buenos. Paga.",en:"A5s from BB vs BTN 2.5BB. Suited ace with wheel straight potential, flush draw and top pair. Very versatile. Good BB pot odds. Call."},
+  {id:554,type:"call",hand:"J♦ 9♦",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"J9s desde BB vs BTN 2.5BB. Suited connector con buenas draws e implied odds. Rango BTN amplio donde J9s juega bien. Paga.",en:"J9s from BB vs BTN 2.5BB. Suited connector with good draws and implied odds. Wide BTN range where J9s plays well. Call."},
+  {id:555,type:"call",hand:"K♣ J♣",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"CO",es:"KJs desde BB vs CO 3BB. Suited broadway con excelente frequent strength vs CO range. OOP pero mano demasiado buena para foldear. Paga.",en:"KJs from BB vs CO 3BB. Suited broadway with excellent frequent strength vs CO range. OOP but hand too good to fold. Call."},
+  // ── BB — should fold (15) ────────────────────────────────────────────────────
+  {id:556,type:"call",hand:"8♠ 2♣",board:null,open:false,ctx:"call_bb_reg",pos:"BB",callPos:"UTG",es:"82o desde BB vs UTG 3BB. Sin suit, sin conexión, sin equidad. Foldea aunque estés en BB — los pot odds no compensan esta mano vs rango ajustado UTG.",en:"82o from BB vs UTG 3BB. No suit, no connection, no equity. Fold even from BB — pot odds don't compensate this hand vs tight UTG range."},
+  {id:557,type:"call",hand:"7♥ 2♦",board:null,open:false,ctx:"call_bb_reg",pos:"BB",callPos:"UTG",es:"72o desde BB vs UTG 3BB. La peor mano del poker. Sin suit, sin conexión, dominada por casi todo. Foldea aunque estés en BB.",en:"72o from BB vs UTG 3BB. The worst hand in poker. No suit, no connection, dominated by almost everything. Fold even from BB."},
+  {id:558,type:"call",hand:"9♠ 4♦",board:null,open:false,ctx:"call_bb_reg",pos:"BB",callPos:"UTG",es:"94o desde BB vs UTG 3BB. Sin suit, muy débil, sin implied odds ni frequent strength. Con rango UTG ajustado y 3BB de apertura, foldea.",en:"94o from BB vs UTG 3BB. No suit, very weak, no implied odds or frequent strength. With tight UTG range and 3BB open, fold."},
+  {id:559,type:"call",hand:"J♣ 3♦",board:null,open:false,ctx:"call_bb_reg",pos:"BB",callPos:"UTG",es:"J3o desde BB vs UTG 3BB. Sin suit, muy dominada cuando flopeá J. Foldea vs apertura UTG ajustada.",en:"J3o from BB vs UTG 3BB. No suit, heavily dominated when flopping a J. Fold vs tight UTG open."},
+  {id:560,type:"call",hand:"Q♦ 3♣",board:null,open:false,ctx:"call_bb_reg",pos:"BB",callPos:"MP",es:"Q3o desde BB vs MP 3BB. Sin suit, kicker muy débil, dominada por la mayoría del rango MP. Foldea.",en:"Q3o from BB vs MP 3BB. No suit, very weak kicker, dominated by most of MP range. Fold."},
+  {id:561,type:"call",hand:"K♥ 2♣",board:null,open:false,ctx:"call_bb_reg",pos:"BB",callPos:"UTG",es:"K2o desde BB vs UTG 3BB. Sin suit, kicker baja — cuando flopeás K el rival puede tener AK, KQ, KJ. Sufres dominación. Foldea.",en:"K2o from BB vs UTG 3BB. No suit, low kicker — when you flop K the opponent may have AK, KQ, KJ. You suffer domination. Fold."},
+  {id:562,type:"call",hand:"A♠ 2♣",board:null,open:false,ctx:"call_bb_reg",pos:"BB",callPos:"UTG",es:"A2o desde BB vs UTG 3BB. Sin suit, kicker muy baja. A2o sufre dominación vs rango UTG. Con apertura de 3BB, los pot odds no compensan. Foldea.",en:"A2o from BB vs UTG 3BB. No suit, very low kicker. A2o suffers domination vs UTG range. With 3BB open, pot odds don't compensate. Fold."},
+  {id:563,type:"call",hand:"6♦ 2♦",board:null,open:false,ctx:"call_bb_reg",pos:"BB",callPos:"CO",es:"62s desde BB vs CO 3BB. Aunque es suited, demasiado débil — flopeá manos muy fácilmente dominadas. Foldea.",en:"62s from BB vs CO 3BB. Even though it's suited, too weak — flops very easily dominated hands. Fold."},
+  {id:564,type:"call",hand:"8♣ 3♦",board:null,open:false,ctx:"call_bb_reg",pos:"BB",callPos:"MP",es:"83o desde BB vs MP 3BB. Sin suit, sin conexión relevante. Foldea vs apertura de posición media.",en:"83o from BB vs MP 3BB. No suit, no relevant connection. Fold vs middle position open."},
+  {id:565,type:"call",hand:"5♥ 2♣",board:null,open:false,ctx:"call_bb_reg",pos:"BB",callPos:"CO",es:"52o desde BB vs CO 2.5BB. Aunque los pot odds son mejores, 52o sin suit no tiene suficiente equity vs cualquier rango razonable. Foldea.",en:"52o from BB vs CO 2.5BB. Even though pot odds are better, 52o without suit doesn't have enough equity vs any reasonable range. Fold."},
+  {id:566,type:"call",hand:"J♦ 4♣",board:null,open:false,ctx:"call_bb_reg",pos:"BB",callPos:"UTG",es:"J4o desde BB vs UTG 3BB. Sin suit, kicker muy baja. J4o sufre dominación cuando flopeá J. Foldea vs apertura UTG.",en:"J4o from BB vs UTG 3BB. No suit, very low kicker. J4o suffers domination when flopping a J. Fold vs UTG open."},
+  {id:567,type:"call",hand:"T♠ 3♣",board:null,open:false,ctx:"call_bb_reg",pos:"BB",callPos:"MP",es:"T3o desde BB vs MP 3BB. Sin suit, sin conexión fuerte. No tiene ni implied odds ni frequent strength suficiente. Foldea.",en:"T3o from BB vs MP 3BB. No suit, no strong connection. Has neither sufficient implied odds nor frequent strength. Fold."},
+  {id:568,type:"call",hand:"Q♥ 2♦",board:null,open:false,ctx:"call_bb_reg",pos:"BB",callPos:"CO",es:"Q2o desde BB vs CO 2.5BB. Sin suit, kicker baja — cuando flopeás Q el rival puede tener AQ, KQ. Sufres dominación. Foldea.",en:"Q2o from BB vs CO 2.5BB. No suit, low kicker — when you flop Q the opponent may have AQ, KQ. You suffer domination. Fold."},
+  {id:569,type:"call",hand:"9♣ 3♦",board:null,open:false,ctx:"call_bb_reg",pos:"BB",callPos:"MP",es:"93o desde BB vs MP 3BB. Sin suit, sin conexión relevante. No tiene razón para pagar vs apertura MP. Foldea.",en:"93o from BB vs MP 3BB. No suit, no relevant connection. No reason to call vs MP open. Fold."},
+  {id:570,type:"call",hand:"6♠ 2♣",board:null,open:false,ctx:"call_bb_reg",pos:"BB",callPos:"CO",es:"62o desde BB vs CO 2.5BB. Completamente inmanejable postflop. Foldea aunque los pot odds sean razonables.",en:"62o from BB vs CO 2.5BB. Completely unmanageable postflop. Fold even though pot odds are reasonable."},
+  // ── SB SITUATIONS (15) ───────────────────────────────────────────────────────
+  {id:571,type:"call",hand:"A♣ Q♣",board:null,open:true,ctx:"call_sb_reg",pos:"SB",callPos:"UTG",es:"AQs desde SB vs UTG 3BB con BB nit. BB es nit que nunca squeezea — puedes pagar. AQs tiene excelente frequent strength vs UTG ajustado. Paga.",en:"AQs from SB vs UTG 3BB with nit BB. BB is a nit who never squeezes — you can call. AQs has excellent frequent strength vs tight UTG. Call."},
+  {id:572,type:"call",hand:"J♠ J♦",board:null,open:true,ctx:"call_sb_reg",pos:"SB",callPos:"HJ",es:"JJ desde SB vs HJ con BB pasivo. BB es regular pasivo que casi nunca squeezea. JJ es mano demasiado fuerte para foldear. Paga o 3-bet — ambas son válidas.",en:"JJ from SB vs HJ with passive BB. BB is a passive regular who almost never squeezes. JJ is too strong to fold. Call or 3-bet — both are valid."},
+  {id:573,type:"call",hand:"K♥ Q♥",board:null,open:true,ctx:"call_sb_reg",pos:"SB",callPos:"UTG",es:"KQs desde SB vs UTG con BB nit. BB nit no squeezea, rango UTG tiene manos que KQs domina frecuentemente. Paga.",en:"KQs from SB vs UTG with nit BB. Nit BB doesn't squeeze, UTG range has hands that KQs frequently dominates. Call."},
+  {id:574,type:"call",hand:"9♣ 8♣",board:null,open:true,ctx:"call_sb_fish",pos:"SB",callPos:"CO",es:"98s desde SB vs CO con fish en BB. Fish en BB añade implied odds y potencial multiway — justifica pagar 98s desde SB a pesar de la desventaja posicional. Paga.",en:"98s from SB vs CO with fish in BB. Fish in BB adds implied odds and multiway potential — justifies calling 98s from SB despite positional disadvantage. Call."},
+  {id:575,type:"call",hand:"Q♦ J♦",board:null,open:true,ctx:"call_sb_reg",pos:"SB",callPos:"UTG",es:"QJs desde SB vs UTG con BB nit. Mano híbrida fuerte — frequent strength e implied odds. BB nit garantiza ver el flop. Paga.",en:"QJs from SB vs UTG with nit BB. Strong hybrid hand — frequent strength and implied odds. Nit BB guarantees seeing the flop. Call."},
+  {id:576,type:"call",hand:"8♦ 7♦",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"BTN",es:"87s desde SB vs BTN con BB desconocido. Con BB desconocido, el riesgo de squeeze destruye el EV del pago con 87s. 3-bet o fold — no pagas.",en:"87s from SB vs BTN with unknown BB. With unknown BB, squeeze risk destroys call EV with 87s. 3-bet or fold — don't call."},
+  {id:577,type:"call",hand:"5♠ 5♦",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"BTN",es:"55 desde SB vs BTN sin fish y BB desconocido. Sin fish, con BB desconocido — el riesgo de squeeze y las malas pot odds hacen este pago -EV. Foldea o 3-bet.",en:"55 from SB vs BTN without fish and unknown BB. Without fish, with unknown BB — squeeze risk and bad pot odds make this call -EV. Fold or 3-bet."},
+  {id:578,type:"call",hand:"A♠ J♦",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"BTN",es:"AJo desde SB vs BTN con BB agresivo. BB agresivo squeezea frecuentemente — pagar AJo desde SB es -EV con esa amenaza. 3-bet o fold.",en:"AJo from SB vs BTN with aggressive BB. Aggressive BB squeezes frequently — calling AJo from SB is -EV with that threat. 3-bet or fold."},
+  {id:579,type:"call",hand:"K♣ T♣",board:null,open:true,ctx:"call_sb_fish",pos:"SB",callPos:"BTN",es:"KTs desde SB vs BTN con fish en BB. Fish en BB justifica pagar KTs — tiene frequent strength vs rango amplio BTN y el fish añade implied odds. Paga.",en:"KTs from SB vs BTN with fish in BB. Fish in BB justifies calling KTs — has frequent strength vs wide BTN range and fish adds implied odds. Call."},
+  {id:580,type:"call",hand:"T♥ 9♥",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"CO",es:"T9s desde SB vs CO con BB desconocido. Sin certeza de que no squeezea, T9s desde SB es pago arriesgado. 3-bet o fold.",en:"T9s from SB vs CO with unknown BB. Without certainty they won't squeeze, T9s from SB is a risky call. 3-bet or fold."},
+  {id:581,type:"call",hand:"A♦ A♣",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"BTN",es:"AA desde SB vs BTN — siempre 3-bet, nunca pagar. El pago pierde valor con AA: quieres construir el bote preflop y extraer máximo valor con la mejor mano. 3-bet.",en:"AA from SB vs BTN — always 3-bet, never call. Calling loses value with AA: you want to build the pot preflop and extract maximum value with the best hand. 3-bet."},
+  {id:582,type:"call",hand:"K♠ K♦",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"BTN",es:"KK desde SB vs BTN — siempre 3-bet. KK es mano premium que no debe slowplayearse preflop. 3-bet para construir el bote.",en:"KK from SB vs BTN — always 3-bet. KK is a premium hand that shouldn't be slowplayed preflop. 3-bet to build the pot."},
+  {id:583,type:"call",hand:"6♣ 4♣",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"BTN",es:"64s desde SB vs BTN con BB desconocido. Demasiado débil para pagar desde SB con riesgo de squeeze. Foldea.",en:"64s from SB vs BTN with unknown BB. Too weak to call from SB with squeeze risk. Fold."},
+  {id:584,type:"call",hand:"J♥ T♣",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"CO",es:"JTo desde SB vs CO con BB desconocido. Offsuit y con riesgo de squeeze — desde SB 3-bet o fold. JTo no tiene suficiente valor para arriesgarse OOP con amenaza de squeeze.",en:"JTo from SB vs CO with unknown BB. Offsuit and with squeeze risk — from SB 3-bet or fold. JTo doesn't have enough value to risk going OOP with squeeze threat."},
+  {id:585,type:"call",hand:"7♠ 6♠",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"BTN",es:"76s desde SB vs BTN con BB agresivo. Aunque tiene buenos implied odds, el squeeze de BB agresivo destruye el EV del pago. Foldea.",en:"76s from SB vs BTN with aggressive BB. Even though it has good implied odds, aggressive BB squeeze destroys call EV. Fold."},
+  // ── MIXED SPOTS — tricky decisions (15) ──────────────────────────────────────
+  {id:586,type:"call",hand:"A♥ K♣",board:null,open:true,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"AKo vs UTG desde HJ. Mano premium — puedes pagar o 3-bet. Pagar está bien: mantienes el bote controlado y postflop tienes la mejor mano frecuentemente. 3-bet también es válido.",en:"AKo vs UTG from HJ. Premium hand — you can call or 3-bet. Calling is fine: keeps pot controlled and postflop you frequently have the best hand. 3-bet is also valid."},
+  {id:587,type:"call",hand:"3♠ 3♣",board:null,open:true,ctx:"call_ip_fish",pos:"BTN",callPos:"CO",es:"33 vs CO con fish en BB. Fish en BB transforma 33 en pago rentable — sus errores postflop cuando flopeás set compensan el riesgo. Paga.",en:"33 vs CO with fish in BB. Fish in BB transforms 33 into a profitable call — their postflop mistakes when you flop a set compensate the risk. Call."},
+  {id:588,type:"call",hand:"Q♠ Q♣",board:null,open:true,ctx:"call_ip_reg",pos:"CO",callPos:"UTG",es:"QQ vs UTG desde CO. Mano fuerte — pagar o 3-bet son ambas válidas. Pagar mantiene el bote pequeño (ventaja si UTG tiene KK/AA). 3-bet extrae valor. Ambas líneas son correctas.",en:"QQ vs UTG from CO. Strong hand — calling or 3-betting are both valid. Calling keeps the pot small (advantage if UTG has KK/AA). 3-betting extracts value. Both lines are correct."},
+  {id:589,type:"call",hand:"A♠ Q♦",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"AQo vs CO desde BTN. Frequent strength excelente vs rango CO. IP con mano fuerte. Pagar o 3-bet — ambas correctas. Pagar mantiene bote controlado.",en:"AQo vs CO from BTN. Excellent frequent strength vs CO range. IP with strong hand. Call or 3-bet — both correct. Calling keeps pot controlled."},
+  {id:590,type:"call",hand:"2♠ 2♦",board:null,open:true,ctx:"call_ip_fish",pos:"BTN",callPos:"UTG",es:"22 vs UTG con dos fish en blinds. Normalmente fold 22 vs UTG, pero con dos fish en los blinds los implied odds son excelentes. Flopeás set el 12% — fish pagarán generosamente. Paga.",en:"22 vs UTG with two fish in blinds. Normally fold 22 vs UTG, but with two fish in the blinds implied odds are excellent. You flop a set 12% — fish will pay generously. Call."},
+  {id:591,type:"call",hand:"A♦ 4♦",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"A4s desde BB vs BTN 2BB. Min-raise da pot odds excelentes. A4s tiene wheel straight, flush draw y top pair potencial. Con rango BTN amplio y pot odds de casi 3:1, paga.",en:"A4s from BB vs BTN 2BB. Min-raise gives excellent pot odds. A4s has wheel straight, flush draw and top pair potential. With wide BTN range and almost 3:1 pot odds, call."},
+  {id:592,type:"call",hand:"J♣ J♥",board:null,open:true,ctx:"call_sb_fish",pos:"SB",callPos:"BTN",es:"JJ desde SB vs BTN con fish en BB. Fish en BB + JJ (mano muy fuerte) = pagar es razonable. El fish añade implied odds y hace más rentable el pago OOP. Paga.",en:"JJ from SB vs BTN with fish in BB. Fish in BB + JJ (very strong hand) = calling is reasonable. Fish adds implied odds and makes OOP call more profitable. Call."},
+  {id:593,type:"call",hand:"K♦ T♦",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"KTs vs CO desde BTN. Suited broadway con excelente frequent strength e implied odds. BTN es posición perfecta. Paga cómodamente.",en:"KTs vs CO from BTN. Suited broadway with excellent frequent strength and implied odds. BTN is perfect position. Comfortable call."},
+  {id:594,type:"call",hand:"7♣ 7♦",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"CO",es:"77 desde BB vs CO 3BB. Set mining desde BB — pot odds BB razonables y rango CO tiene manos premium que pagan sets. Implied odds decentes. Paga.",en:"77 from BB vs CO 3BB. Set mining from BB — reasonable BB pot odds and CO range has premium hands that pay sets. Decent implied odds. Call."},
+  {id:595,type:"call",hand:"A♥ 7♥",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"A7s desde BB vs BTN 2.5BB. Suited ace con flush draw, top pair potencial. Pot odds BB buenos. Rango BTN amplio donde A7s juega bien. Paga.",en:"A7s from BB vs BTN 2.5BB. Suited ace with flush draw, top pair potential. Good BB pot odds. Wide BTN range where A7s plays well. Call."},
+  {id:596,type:"call",hand:"Q♣ 8♣",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"Q8s desde BB vs BTN 2.5BB. Suited one-gapper con potencial vs rango BTN amplio. Pot odds BB hacen el pago rentable. Paga.",en:"Q8s from BB vs BTN 2.5BB. Suited one-gapper with potential vs wide BTN range. BB pot odds make the call profitable. Call."},
+  {id:597,type:"call",hand:"6♠ 6♦",board:null,open:true,ctx:"call_ip_fish",pos:"HJ",callPos:"UTG",es:"66 vs UTG con fish en BB. Fish en BB transforma 66 en set mine rentable vs rango UTG ajustado. Paga.",en:"66 vs UTG with fish in BB. Fish in BB transforms 66 into profitable set mine vs tight UTG range. Call."},
+  {id:598,type:"call",hand:"T♠ T♦",board:null,open:true,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"TT vs UTG desde HJ. Mano híbrida fuerte — overpair frecuente + set value. Pagar IP o 3-bet son válidos. El pago mantiene el bote controlado vs un rango UTG muy fuerte.",en:"TT vs UTG from HJ. Strong hybrid hand — frequent overpair + set value. Calling IP or 3-betting are both valid. Calling keeps pot controlled vs a very strong UTG range."},
+  {id:599,type:"call",hand:"9♦ 7♦",board:null,open:true,ctx:"call_ip_fish",pos:"BTN",callPos:"CO",es:"97s vs CO con fish en SB. Fish en SB añade implied odds extra para suited connectors especulativos. 97s conecta bien multiway. Paga desde BTN con fish.",en:"97s vs CO with fish in SB. Fish in SB adds extra implied odds for speculative suited connectors. 97s connects well multiway. Call from BTN with fish."},
+  {id:600,type:"call",hand:"A♣ 6♣",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"A6s desde BB vs BTN 2.5BB. Suited ace con wheel potential, flush draw y top pair. Versátil. Pot odds BB buenos vs rango BTN amplio. Paga.",en:"A6s from BB vs BTN 2.5BB. Suited ace with wheel potential, flush draw and top pair. Versatile. Good BB pot odds vs wide BTN range. Call."},
+];
+
 function PracticePage({ t, lang, onSessionComplete }) {
   const p = t.practice;
   const [session, setSession] = useState(null);
@@ -3557,17 +4143,18 @@ function PracticePage({ t, lang, onSessionComplete }) {
   const [byType, setByType] = useState({});
   const [xpEarned, setXpEarned] = useState(0);
 
-  const ALL_SITUATIONS = [...SITUATIONS, ...ISO_SITUATIONS, ...CBET_SITUATIONS, ...VBET_SITUATIONS];
+  const ALL_SITUATIONS = [...SITUATIONS, ...ISO_SITUATIONS, ...CBET_SITUATIONS, ...VBET_SITUATIONS, ...CALL_SITUATIONS];
 
   const startSession = () => {
     // Stratified sampling: guaranteed mix of all 4 types per session
     // 3 OR · 2 ROL · 3 CBET · 2 VBET = 10 hands
     const pick = (arr, n) => [...arr].sort(() => Math.random() - 0.5).slice(0, n);
     const hands = [
-      ...pick(SITUATIONS,       3),
+      ...pick(SITUATIONS,       2),
       ...pick(ISO_SITUATIONS,   2),
-      ...pick(CBET_SITUATIONS,  3),
+      ...pick(CBET_SITUATIONS,  2),
       ...pick(VBET_SITUATIONS,  2),
+      ...pick(CALL_SITUATIONS,  2),
     ].sort(() => Math.random() - 0.5);
     setSession(hands);
     setIdx(0); setPicked(null); setScore(0); setDone(false); setByType({}); setXpEarned(0);
@@ -3626,8 +4213,9 @@ function PracticePage({ t, lang, onSessionComplete }) {
       iso:  { es:"ROL / ISO",     en:"ROL / ISO"    },
       cbet: { es:"C-Bet",         en:"C-Bet"        },
       vbet: { es:"Value Bet",     en:"Value Bet"    },
+      call: { es:"Pagar apert.", en:"Calling Opens" },
     };
-    const typeOrder = ["open","iso","cbet","vbet"];
+    const typeOrder = ["open","iso","cbet","vbet","call"];
     const scoreColor = score>=8?"#10b981":score>=5?"#c9a84c":"#f97316";
     const xp = xpEarned || calcXP(score);
     const worstType = typeOrder
@@ -3925,12 +4513,12 @@ function LoginScreen({ lang }) {
 
 // ─── GAMIFICATION ─────────────────────────────────────────────────────────────
 const XP_LEVELS = [
-  { level:1, name:"Fish",            nameEn:"Fish",            min:0    },
-  { level:2, name:"Calling Station", nameEn:"Calling Station", min:200  },
-  { level:3, name:"TAG",             nameEn:"TAG",             min:500  },
-  { level:4, name:"LAG",             nameEn:"LAG",             min:1000 },
-  { level:5, name:"Regular",         nameEn:"Regular",         min:2000 },
-  { level:6, name:"Grinder",         nameEn:"Grinder",         min:4000 },
+  { level:1, name:"Fish",     nameEn:"Fish",     min:0     },
+  { level:2, name:"Reg NL2",  nameEn:"Reg NL2",  min:500   },
+  { level:3, name:"Reg NL5",  nameEn:"Reg NL5",  min:1000  },
+  { level:4, name:"Reg NL10", nameEn:"Reg NL10", min:3000  },
+  { level:5, name:"Reg NL25", nameEn:"Reg NL25", min:7000  },
+  { level:6, name:"Reg NL50", nameEn:"Reg NL50", min:15000 },
 ];
 function getLevelInfo(xp) {
   let lvl = XP_LEVELS[0];
@@ -3962,7 +4550,7 @@ export default function App() {
   const [page, setPage] = useState("home");
   const [completed, setCompleted] = useState(new Set());
   const [user, setUser] = useState(undefined);
-  const [xpData, setXpData] = useState({ xp:0, level:1, streak:0, longestStreak:0, lastStudiedDate:null, totalCorrect:0, totalSessions:0 });
+  const [xpData, setXpData] = useState({ xp:0, level:1, streak:0, longestStreak:0, lastStudiedDate:null, totalCorrect:0, totalSessions:0, totalAnswered:0, categoryStats:{} });
 
   const t = content[lang];
 
@@ -3975,15 +4563,26 @@ export default function App() {
           const snap = await getDoc(doc(db, "users", firebaseUser.uid));
           if (snap.exists()) {
             const data = snap.data();
-            setCompleted(new Set(data.completedLessons || []));
+            const completedArr = data.completedLessons || [];
+            setCompleted(new Set(completedArr));
+            // Retroactive XP: if xp=0 but lessons already done, grant XP retroactively
+            let xp = data.xp || 0;
+            if (xp === 0 && completedArr.length > 0) {
+              xp = completedArr.length * 75;
+              const lvRetro = getLevelInfo(xp);
+              try { await setDoc(doc(db,"users",firebaseUser.uid),{xp,level:lvRetro.level},{merge:true}); } catch(_){}
+            }
+            const lvInfo = getLevelInfo(xp);
             setXpData({
-              xp:             data.xp             || 0,
-              level:          data.level           || 1,
+              xp,
+              level:          lvInfo.level,
               streak:         data.streak          || 0,
               longestStreak:  data.longestStreak   || 0,
               lastStudiedDate:data.lastStudiedDate  || null,
               totalCorrect:   data.totalCorrect    || 0,
               totalSessions:  data.totalSessions   || 0,
+              totalAnswered:  data.totalAnswered    || 0,
+              categoryStats:  data.categoryStats    || {},
             });
           }
         } catch (_) {}
@@ -4027,6 +4626,15 @@ export default function App() {
       lastStudiedDate: newDay ? todayStr() : xpData.lastStudiedDate,
       totalCorrect:   xpData.totalCorrect + score,
       totalSessions:  xpData.totalSessions + 1,
+      totalAnswered:  (xpData.totalAnswered || 0) + 10,
+      categoryStats:  (() => {
+        const merged = { ...(xpData.categoryStats || {}) };
+        Object.entries(byType).forEach(([typ, vals]) => {
+          const prev = merged[typ] || { correct:0, total:0 };
+          merged[typ] = { correct: prev.correct + vals.correct, total: prev.total + vals.total };
+        });
+        return merged;
+      })(),
     };
     setXpData(updated);
     if (user) {
@@ -4038,7 +4646,7 @@ export default function App() {
   const handleLogout = () => {
     signOut(auth);
     setPage("home");
-    setXpData({ xp:0, level:1, streak:0, longestStreak:0, lastStudiedDate:null, totalCorrect:0, totalSessions:0 });
+    setXpData({ xp:0, level:1, streak:0, longestStreak:0, lastStudiedDate:null, totalCorrect:0, totalSessions:0, totalAnswered:0, categoryStats:{} });
   };
 
   // Loading state while Firebase checks auth
@@ -4104,6 +4712,7 @@ export default function App() {
       </div>
 
       {page === "home" && <HomePage t={t} onNavigate={setPage} />}
+      {page === "stats" && <StatsPage t={t} lang={lang} xpData={xpData} completed={completed} totalLessons={t.lessons.length} />}
       {page === "academia" && <AcademiaPage t={t} completed={completed} onComplete={handleComplete} lang={lang} />}
       {page === "practice" && <PracticePage t={t} lang={lang} onSessionComplete={handleSessionComplete} />}
     </div>
