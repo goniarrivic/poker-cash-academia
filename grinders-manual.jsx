@@ -161,6 +161,7 @@ const content = {
       wrongIsoOpenExp: "Esta mano sí está en el rango de ISO desde esta posición. ISO raise al tamaño correcto.",
       wrongLimpBehindExp: "El overlimp (pagar detrás sin subir) es casi siempre incorrecto: entras sin iniciativa a un bote multiway. O ISO o foldea.",
       optCbetSmall: "C-bet 33% del bote",
+      optVbetMedium:"Apostar 50% del bote",
       optCbetLarge: "C-bet 67% del bote",
       optCbetPot:   "C-bet el bote (100%)",
       optCheck:     "Checkear",
@@ -1328,6 +1329,144 @@ const content = {
           },
         ],
       },
+      {
+        id: 7,
+        title: "7. Facing Bets — Spots de Fin de Acción (Avanzado)",
+        summary: "Overbets, double barrels, all-ins y calibración avanzada del call vs fold en los spots más complejos.",
+        chapters: [
+          {
+            title: "Overbets: cuando el rival apuesta más del bote",
+            body: [
+              { type:"text", content:"Una overbet es cualquier apuesta que supera el 100% del bote. Cuando un rival apuesta 1.5x, 2x o más, cambia radicalmente la dinámica. Las overbets tienen dos usos principales: (1) maximizar valor con manos muy fuertes (nuts o cerca) donde el rival puede tener muchas manos que pagan, y (2) bluffear con alto fold equity forzando folds en rangos que no pueden costear la alta ER." },
+              { type:"callout", label:"ER de las overbets: números críticos", content:"Overbet 1.25x el bote → ER ≈ 38%. Overbet 1.5x el bote → ER ≈ 43%. Overbet 2x el bote → ER ≈ 50%. Overbet 3x el bote → ER ≈ 60%. Con 2x bote necesitas ganar exactamente el 50% del tiempo para ser break-even. Esto hace las overbets decisiones binarias: o tienes suficiente equidad o no tienes ninguna." },
+              { type:"callout", label:"¿Qué rango overbettea por valor?", content:"Un rival que overbettea por valor en el river tiene rango muy polarizado hacia el tope: nuts o cerca. Sets completos, flushes, straights en tableros donde son las nuts. La overbet de valor implica concentración en las manos más fuertes — raramente incluye manos medias que se apuestan mejor con sizing menor." },
+              { type:"callout", label:"Cómo responder a overbets del river", content:"Paso 1: calcula la ER (con 1.5x bote necesitas 43%). Paso 2: ¿Tienes manos que ganan al rango de valor del rival? Si es imposible ganar a su rango de valor, foldea directamente. Paso 3: en NL10-NL25 la población sobreutiliza overbets con valor y las subutiliza como bluff — sesgo hacia fold ante overbets de rivales desconocidos. Paso 4: ante Aggro Regs con CBet River >50%, el sesgo se invierte parcialmente." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · BTN vs BB · River A♦K♣8♠3♥J♠",
+                  hand:"Q♦ Q♥",
+                  context:"Hero abre BTN 2.5BB. BB (regular, VPIP 26%, PFR 19%, CBet River 28%) paga. Flop A♦K♣8♠: BB checkea. Hero apuesta 3.5BB. BB paga. Bote: 12.5BB. Turn 3♥: BB checkea. Hero checkea. River J♠: BB apuesta 25BB (overbet 2x el bote).",
+                  question:"¿Pagas QQ ante la overbet del BB en el river?",
+                  options:[
+                    { label:"No — ER alta y rango de valor aplastante", correct:true, explanation:"¡Correcto! ER = 25/(25+37.5) ≈ 40%. QQ en tablero A-K-8-3-J no supera ningún par del tablero. El BB pagó el flop con A en mesa, checkeó el turn, y overbettea el river. Su rango de valor incluye AX+, KX, JX, sets. QQ no gana a casi nada. P4: regular conservador (CBet River 28%) tiene rango de bet muy sesgado hacia valor cuando apuesta grande. Foldea." },
+                    { label:"Sí — QQ tiene showdown value", correct:false, explanation:"QQ tiene SDV en tableros bajos, pero en A-K-8-3-J el overpair vale muy poco. El rango de la overbet del BB está concentrado en Ax+, sets, dos pares, straights. No puedes ganar en showdown si el rango de valor te aplasta completamente. Foldea." },
+                    { label:"Sí — overbet indica bluff", correct:false, explanation:"Las overbets no siempre son bluffs. Con CBet River 28% este jugador apuesta poco en general — cuando apuesta 2x bote tiende fuertemente al valor. QQ en este tablero está muy por debajo del rango de valor. Foldea." },
+                    { label:"Depende del tamaño exacto", correct:false, explanation:"ER = 40% con esta overbet. Incluso con pot odds matemáticos, QQ en A-K-8-3-J no tiene el 40% de equidad contra el rango de overbet de este regular conservador. Los pot odds solo ayudan si alcanzas la ER. Foldea." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Double barrel: enfrentando apuestas en el turn",
+            body: [
+              { type:"text", content:"El double barrel ocurre cuando el agresor preflop apuesta tanto el flop como el turn. Enfrentar un double barrel no siempre es fin de acción — queda el river — pero el call del turn debe considerar qué ocurre después. La decisión no existe en vacío: en el turn estás decidiendo también cómo llega la mano al river." },
+              { type:"callout", label:"Stack-to-pot ratio (SPR) después de pagar el turn", content:"Antes de pagar el turn, calcula el SPR restante: SPR = stack restante / bote después del call. Si SPR ≤ 1, estás comprometido al all-in del river en casi cualquier spot. Esto convierte el call del turn en 'decisión de llegar al all-in del river'. Si no quieres ir all-in con tu mano en el river, ese es motivo extra para foldear en el turn." },
+              { type:"callout", label:"Cuándo pagar el turn double barrel", content:"Paga cuando: (1) tienes draw fuerte (FD + par, OESD + overcards, combo draw 12+ outs); (2) tienes bluff catcher con SDV y el rival puede tener mucho aire; (3) tienes mano de valor (set, dos pares, straight) que puede extraer value en el river; (4) el rival tiene alto CBet Turn pero rango amplio que incluye mucho aire." },
+              { type:"callout", label:"Cuándo foldear al turn double barrel", content:"Foldea cuando: (1) tienes solo SDV sin draws y el rival tiene rango polarizado hacia valor; (2) la turn card completó flushes/straights que favorecen el rango del rival; (3) el rival rara vez bluffea el turn — sus double barrels tienen mucho valor; (4) el SPR resultante te compromete a un all-in donde no tienes equidad suficiente." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · BB vs BTN · Turn A♣7♦2♥K♠",
+                  hand:"7♣ 7♦",
+                  context:"BTN (reg, VPIP 28%, PFR 22%, CBet Turn 55%) abre 2.5BB. Hero BB paga. Bote: 5.5BB. Flop A♣7♦2♥: Hero checkea. BTN apuesta 3.5BB. Hero paga. Bote: 12.5BB. Turn K♠: Hero checkea. BTN apuesta 9BB.",
+                  question:"¿Pagas tu set de 7s al double barrel del BTN en el turn?",
+                  options:[
+                    { label:"Sí — set de 7s, extraigo value masivo en el river", correct:true, explanation:"¡Correcto! Set de 7s en A-7-2-K es una mano muy fuerte. ER = 9/(9+21.5) ≈ 30%. P1: puede apostar con AK (dos pares), AX, KX que son manos peores que el set. No solo pagas para llegar al river — pagas con una mano que extrae value masivo en el river. Paga sin dudar." },
+                    { label:"No — puede tener AA o AK que me dominan", correct:false, explanation:"AK son dos pares — pierden contra tu set de 7s. AA sería set de ases que batea al set de 7s, pero son pocos combos. El set de 7s es claramente la mano correcta para pagar el turn. Piensa en extraer value en el river." },
+                    { label:"No — el turn K empeora mi posición relativa", correct:false, explanation:"El turn K da al rival más manos que pagan (AK), que es bueno para ti. Tu set de 7s sigue siendo muy fuerte. Paga el turn." },
+                    { label:"Depende — miro el river antes de decidir", correct:false, explanation:"El rival ya apostó el turn. Tu opción es pagar o foldear ahora. Con set de 7s en A-7-2-K, pagas." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "All-in en el flop o el turn",
+            body: [
+              { type:"text", content:"Los all-ins en el flop o el turn son spots de fin de acción: no hay más calles. El proceso es el mismo que en el river: ER primero, equidad real después. La diferencia es que la equidad incluye todas las cartas futuras — se calcula como '% de veces que ganas el showdown en el river dado el rango del rival', teniendo en cuenta las mejoras potenciales de ambas manos." },
+              { type:"callout", label:"All-in en el flop: referencias de equidad", content:"Sets vs dos pares: ~65-70% equity — paga siempre. Sets vs overpairs: ~80% equity — paga siempre. Flush draw + par vs set: ~42-45% — borderline (necesitas ~47%). Combo draw (FD + OESD) vs top pair: ~55% — paga. OESD puro vs top pair: ~35% — no paga. Overpair vs flush draw: ~60% — paga. La ER en all-ins de flop con 100BB efectivos es aproximadamente 47-50%." },
+              { type:"callout", label:"Reads críticos para all-ins de flop/turn", content:"Fish agresivo all-ineando el flop: rango MUY amplio — top pair, pares, draws, premium. Tu equidad mejora enormemente vs este rango. Regular all-ineando el flop: rango ajustado — sets, dos pares, overpairs fuertes. Tu equidad baja. Regular all-ineando el turn: aún más ajustado — casi siempre valor muy fuerte. El tipo de rival define si tienes suficiente equity o no." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · BTN vs BB · Flop 8♣7♦2♥ · All-in",
+                  hand:"9♣ 8♦",
+                  context:"Hero abre BTN 2.5BB. BB (fish recreativo, VPIP 62%, PFR 8%) paga. Bote: 5.5BB. Flop 8♣7♦2♥: BB apuesta 5BB (pot). Hero sube a 14BB. BB va all-in total 97.5BB. Stacks 100BB efectivos.",
+                  question:"¿Pagas el all-in del fish en el flop con top pair + gutshot?",
+                  options:[
+                    { label:"Sí — equidad suficiente vs rango amplio del fish", correct:true, explanation:"¡Correcto! ER ≈ 42%. Fish VPIP 62% que va all-in en el flop tiene rango AMPLIO: 8X (top pair), 77, 22, draws como 65s, J9, pares cualesquiera... Tienes top pair + gutshot al straight. Vs rango amplio del fish tu equidad es ~45-48%. Superas el 42% requerido. Paga." },
+                    { label:"No — puede tener 77 o 22", correct:false, explanation:"Aunque puede tener sets, el fish VPIP 62% también mete el dinero con 8X, 7X, draws mal evaluados. Vs su rango TOTAL tu equidad supera el 42% requerido. Los sets son solo una fracción del rango amplio del fish. Paga." },
+                    { label:"No — solo tengo top pair con gutshot", correct:false, explanation:"Contra un regular esto sería fold. Contra un FISH VPIP 62% que va all-in en el flop, su rango es tan amplio que top pair + gutshot tiene más que suficiente equidad. El tipo de rival lo cambia todo." },
+                    { label:"Fold — flop muy conectado", correct:false, explanation:"8-7-2 es semiconectado pero no extremadamente. El fish con VPIP 62% que va all-in aquí tiene un rango lleno de manos débiles. Tu equidad supera el 42% requerido. Paga." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Tendencias de población: NL10-NL25",
+            body: [
+              { type:"text", content:"Los reads de población son el último recurso cuando no tienes información específica. En NL10-NL25 existen patrones estadísticos claros que guían tus decisiones en spots de fin de acción contra rivales desconocidos." },
+              { type:"callout", label:"Lo que la población de NL10-NL25 hace en el river", content:"Tendencias comprobadas: (1) La mayoría de jugadores NO bluffean el river con suficiente frecuencia. (2) Cuando la población apuesta las 3 calles, casi siempre tiene valor fuerte. (3) Las overbets de rivales desconocidos tienen más valor que bluffs en promedio. (4) Los regs sólidos raramente bluffean con sizings grandes en el river después de 3 calles. (5) Los fish pasivos casi nunca bluffean el river." },
+              { type:"callout", label:"La regla del fold por defecto en NL10-NL25", content:"En spots de fin de acción vs rival desconocido: si no tienes información específica que sugiera que bluffea frecuentemente (alto CBet River, alto WWSF), el sesgo por defecto es hacia el fold con manos no near-nuts. La población simplemente no bluffea suficiente para justificar calls ligeros de forma consistente." },
+              { type:"callout", label:"¿Cuándo desviarte del fold por defecto?", content:"El sesgo se invierte (hacia el call) cuando: (1) CBet River >50% o WWSF >55%; (2) la línea del rival es inconsistente con valor (check-check-overbet; múltiples checks + bet river); (3) tienes un buen bluff catcher y el tablero favorece draws fallidos en el river; (4) el rival mostró un bluff reciente en showdown; (5) es un Aggro Fish conocido que apuesta con cualquier cosa." },
+            ],
+          },
+          {
+            title: "Calls thin: el arte de pagar con lo justo",
+            body: [
+              { type:"text", content:"Un call thin es cuando pagas una apuesta con una mano que apenas supera la equidad requerida. En NL10-NL25 son la excepción, no la regla. Sin embargo, identificar cuándo tienes suficiente equidad para el call thin separa a los jugadores avanzados de los intermedios." },
+              { type:"callout", label:"Tres condiciones para un call thin", content:"(1) SDV suficiente — tu mano gana en showdown al menos al 30-35% del rango de bet del rival. (2) El rival puede tener bluffs — sin bluffs en su rango no hay call thin posible. (3) La ER es alcanzable — la apuesta no es tan grande que necesites 50%+ de equity con una mano mediocre. Calls thin con ER de 25-33% son más justificables que con ER de 40%+." },
+              { type:"callout", label:"Errores comunes en calls thin", content:"Error 1: Pagar 'porque eres el favorito nominal' — tener top pair no te convierte en favorito si el rival nunca bluffea. Error 2: Confundir SDV con equity vs rango — tu mano puede ganar muchos showdowns pero si el rival solo apuesta con valor, no tienes el 33% requerido vs su rango. Error 3: Ignorar el sizing — un call thin con ER del 25% puede ser válido, el mismo call con ER del 45% raramente lo es." },
+              { type:"text", content:"La clave del call thin: en NL10-NL25 el sesgo hacia el fold es más rentable que hacia el call en spots thin. Los errores de 'call incorrecto' son más caros que los 'fold incorrecto' cuando la población no bluffea suficiente para justificar calls ligeros frecuentes." },
+            ],
+          },
+          {
+            title: "Ejercicios: Spots de fin de acción (avanzado)",
+            body: [
+              { type:"text", content:"Aplica el proceso completo: (1) ER, (2) ¿value peor?, (3) ¿puede tener aire?, (4) ¿línea coherente para valor?, (5) read del rival." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · CO vs BB · River K♥Q♦J♠T♣7♠",
+                  hand:"A♦ Q♠",
+                  context:"Hero abre CO 2.5BB. BB (regular sólido, VPIP 24%, PFR 18%, CBet River 30%, WWSF 48%) paga. Flop K♥Q♦J♠: BB checkea. Hero apuesta 3.5BB. BB paga. Bote: 12.5BB. Turn T♣: BB checkea. Hero checkea. River 7♠: BB apuesta 10BB en bote de 12.5BB.",
+                  question:"¿Pagas AQ (dos pares, A+Q) en este river?",
+                  options:[
+                    { label:"No — tablero lleno de straights, rango de BB peligroso", correct:true, explanation:"¡Correcto! En K-Q-J-T-7, cualquier KJ, QT, J9, AK, AJ, AT, KQ... muchas manos hacen straight o tienen dos pares superiores. ER = 10/(10+22.5) ≈ 31%. P1: ¿value peor? Pocas manos en su rango de bet pierden contra AQ aquí. P2: ¿bluffs? Pocos — en K-Q-J-T casi no hay draws fallidos. Regular sólido (CBet River 30%, WWSF 48%) que apuesta el river en este tablero tiene abrumadoramente valor. Foldea." },
+                    { label:"Sí — AQ tiene dos pares fuertes", correct:false, explanation:"Dos pares en K-Q-J-T-7 valen poco. El rango del BB que pagó flop (K en tablero, posibles T, J, Q) incluye muchas manos que ahora tienen straight o mejor. Regular sólido apostando aquí tiene casi siempre valor que te gana. Foldea." },
+                    { label:"Sí — ER de 31% justifica el call", correct:false, explanation:"La ER baja solo importa si tienes el 31% de equidad vs el rango de bet. En K-Q-J-T-7 AQ no tiene esa equidad contra un regular sólido. Los pot odds son irrelevantes sin la equidad necesaria. Foldea." },
+                    { label:"Sí — puede tener draws fallidos", correct:false, explanation:"En K-Q-J-T-7 casi no hay draws que fallen. El tablero completa todo. Regular sólido (WWSF 48%) que apuesta aquí tiene valor. Foldea." },
+                  ],
+                },
+                {
+                  situation:"NL25 · BTN vs BB · River 8♦5♣2♥4♠A♣",
+                  hand:"8♥ 8♣",
+                  context:"Hero abre BTN 2.5BB. BB (aggro reg, VPIP 32%, PFR 26%, CBet River 52%, WWSF 58%) paga. Flop 8♦5♣2♥: BB checkea. Hero apuesta 3.5BB. BB paga. Bote: 12.5BB. Turn 4♠: BB checkea. Hero apuesta 8BB. BB paga. Bote: 28.5BB. River A♣: BB apuesta 28.5BB (pot).",
+                  question:"¿Pagas set de 8s ante la pot-bet del BB aggro reg?",
+                  options:[
+                    { label:"Sí — set con equidad suficiente, rival agresivo con muchos bluffs", correct:true, explanation:"¡Correcto! ER = 28.5/(28.5+57) ≈ 33%. El river A♣ es carta de bluff perfecta — el BB puede llegar con 6-7 (straight), 9-7, 3-6, flush draws fallidos, overcards. P2: Aggro Reg CBet River 52% DEFINITIVAMENTE puede bluffear aquí. P3: check-call-call-pot-river es línea de bluff frecuente para este tipo de jugador. P4: WWSF 58% — este rival apuesta con mucho aire. Paga el set." },
+                    { label:"No — puede tener A8, AA, 55, 22, 44", correct:false, explanation:"A8 requirió pagar toda la mano desde preflop. AA/55/22/44 son pocos combos. El Aggro Reg CBet River 52% tiene muchos más bluffs que sets en su rango de pot-bet. El set paga." },
+                    { label:"No — pot-bet siempre indica valor", correct:false, explanation:"Pot-bet NO siempre indica valor. Jugadores agresivos usan pot-bet como bluff porque fuerza folds del 33% del rango rival. Este aggro reg (WWSF 58%) es exactamente el tipo que usa pot-bets como bluff en el river. Paga." },
+                    { label:"Fold — el river A empeora mi mano relativa", correct:false, explanation:"El river A es una carta de bluff para el BB, no una carta que mejora su valor necesariamente. Tu set de 8s sigue siendo una mano muy fuerte vs el rango de bluffs del aggro reg. Paga." },
+                  ],
+                },
+                {
+                  situation:"NL25 · SB vs BB · River J♦T♠9♥2♣6♦",
+                  hand:"J♣ 9♦",
+                  context:"Hero abre SB 3BB. BB (fish pasivo, VPIP 54%, PFR 6%, CBet River 15%, WTSD 44%) paga. Flop J♦T♠9♥: BB checkea. Hero apuesta 4BB. BB paga. Bote: 14BB. Turn 2♣: BB checkea. Hero apuesta 9BB. BB paga. Bote: 32BB. River 6♦: BB apuesta 25BB.",
+                  question:"¿Pagas J9 (dos pares top) vs fish pasivo que apuesta el river por primera vez?",
+                  options:[
+                    { label:"No — fish pasivo apostando river = valor casi siempre", correct:true, explanation:"¡Correcto! ER = 25/(25+57) ≈ 30%. P4: Fish pasivo con CBet River 15% — cuando apuesta el river su rango es EXTREMADAMENTE sesgado hacia valor fuerte: sets (JJ, TT, 99), straights (KQ, Q8), dos pares superiores. Este fish casi nunca bluffea el river; su WTSD 44% muestra que llega al showdown pasivamente. J9 no tiene el 30% de equity contra ese rango. Foldea." },
+                    { label:"Sí — J9 tiene dos pares fuertes", correct:false, explanation:"Dos pares no son protección cuando el fish pasivo apuesta. CBet River 15% indica que este jugador solo apuesta cuando tiene algo muy fuerte. Tu equidad vs su rango de river bet es insuficiente. Foldea." },
+                    { label:"Sí — pot odds suficientes", correct:false, explanation:"Los pot odds solo importan si tienes la equidad. Con fish pasivo (CBet River 15%), el 70%+ de su rango de river bet te gana. No tienes el 30% de equity requerido. Foldea." },
+                    { label:"Sí — puede value con T9 o JX peor", correct:false, explanation:"Con CBet River 15%, este fish NO apuesta con T9 o JX mediocre — esas manos las lleva al showdown checkando. Solo apuesta cuando tiene algo muy fuerte. Foldea J9 aquí." },
+                  ],
+                },
+              ]},
+            ],
+          },
+        ],
+      },
+
     ],
   },
   en: {
@@ -2488,6 +2627,144 @@ const content = {
           },
         ],
       },
+      {
+        id: 7,
+        title: "7. Facing Bets — End of Action Spots (Advanced)",
+        summary: "Overbets, double barrels, all-ins and advanced calibration of the call vs fold decision in the most complex spots.",
+        chapters: [
+          {
+            title: "Overbets: when the opponent bets more than the pot",
+            body: [
+              { type:"text", content:"An overbet is any bet that exceeds 100% of the pot. When an opponent bets 1.5x, 2x or more, it radically changes the spot's dynamics. Overbets have two main uses: (1) maximizing value with very strong hands (nuts or near-nuts) where the opponent can have many hands that pay, and (2) bluffing with high fold equity by using aggressive sizing to force folds from ranges that can't afford the high RE." },
+              { type:"callout", label:"Overbet RE: critical numbers", content:"Overbet 1.25x pot → RE ≈ 38%. Overbet 1.5x pot → RE ≈ 43%. Overbet 2x pot → RE ≈ 50%. Overbet 3x pot → RE ≈ 60%. With 2x pot you need to win exactly 50% of the time to break even. This makes overbets binary decisions: either you have enough equity or you have none." },
+              { type:"callout", label:"What range overbets for value?", content:"An opponent who overbets for value on the river has a range polarized toward the top: nuts or near. Completed sets, flushes, straights on boards where they're the nuts. The value overbet implies concentration in the strongest hands — it rarely includes medium value hands that are better bet with smaller sizing for more calls." },
+              { type:"callout", label:"How to respond to river overbets", content:"Step 1: calculate the RE (with 1.5x pot you need 43%). Step 2: can your hand beat the opponent's value range? If it's impossible to beat their value range, fold directly. Step 3: in NL10-NL25 the population overuses overbets for value and underuses them as bluffs — default bias toward fold vs overbets from unknown opponents. Step 4: vs Aggro Regs with CBet River >50%, the bias partially reverses." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · BTN vs BB · River A♦K♣8♠3♥J♠",
+                  hand:"Q♦ Q♥",
+                  context:"Hero opens BTN to 2.5BB. BB (regular, VPIP 26%, PFR 19%, CBet River 28%) calls. Pot: 5.5BB. Flop A♦K♣8♠: BB checks. Hero bets 3.5BB. BB calls. Pot: 12.5BB. Turn 3♥: BB checks. Hero checks. River J♠: BB bets 25BB (2x pot overbet).",
+                  question:"Do you call with QQ facing the BB's river overbet?",
+                  options:[
+                    { label:"No — high RE and crushing value range", correct:true, explanation:"Correct! RE = 25/(25+37.5) ≈ 40%. QQ on A-K-8-3-J doesn't beat any board pair. BB called the flop with an A on board, checked the turn, and now overbets the river. Their value range includes AX+, KX, JX, sets. QQ beats almost nothing. P4: conservative regular (CBet River 28%) has a betting range heavily skewed toward value when betting big. Fold." },
+                    { label:"Yes — QQ has showdown value", correct:false, explanation:"QQ has SDV on low boards, but on A-K-8-3-J the overpair is worth very little. The BB's overbet range is concentrated in Ax+, sets, two pairs, straights. You can't win at showdown if the value range completely crushes you. Fold." },
+                    { label:"Yes — overbet means bluff", correct:false, explanation:"Overbets don't always mean bluffs. With CBet River 28% this player rarely bets in general — when they bet 2x pot they lean strongly toward value. QQ on this board is far below the value range. Fold." },
+                    { label:"Depends on exact sizing", correct:false, explanation:"RE = 40% with this overbet. Even with mathematical pot odds, QQ on A-K-8-3-J doesn't have 40% equity against this conservative regular's overbet range. Pot odds only help if you reach the RE. Fold." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Double barrel: facing bets on the turn",
+            body: [
+              { type:"text", content:"A double barrel occurs when the preflop aggressor bets both the flop and the turn. Facing a double barrel isn't always an end-of-action spot — the river remains — but the turn call must consider what happens next. The decision doesn't exist in a vacuum: on the turn you're also deciding how the hand reaches the river." },
+              { type:"callout", label:"Stack-to-pot ratio (SPR) after calling the turn", content:"Before calling the turn, calculate remaining SPR: SPR = remaining stack / pot after calling. If SPR ≤ 1, you're virtually committed to river all-in in most spots. This turns the turn call into 'pay to reach river all-in'. If you don't want to go all-in with your hand on the river, that's extra reason to fold on the turn." },
+              { type:"callout", label:"When to call the turn double barrel", content:"Call when: (1) you have a strong draw (FD + pair, OESD + overcards, combo draw 12+ outs); (2) you have a bluff catcher with SDV and the opponent has a wide range including lots of air; (3) you have a value hand (set, two pair, straight) that can extract value on the river; (4) the opponent has high CBet Turn but a wide range including lots of air." },
+              { type:"callout", label:"When to fold the turn double barrel", content:"Fold when: (1) you only have SDV without draws and the opponent has a polarized value range; (2) the turn card completed flushes/straights that favor the opponent's range; (3) the opponent rarely bluffs the turn — their double barrels are heavily value-weighted; (4) resulting SPR commits you to an all-in where you don't have enough equity." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · BB vs BTN · Turn A♣7♦2♥K♠",
+                  hand:"7♣ 7♦",
+                  context:"BTN (reg, VPIP 28%, PFR 22%, CBet Turn 55%) opens 2.5BB. Hero BB calls. Pot: 5.5BB. Flop A♣7♦2♥: Hero checks. BTN bets 3.5BB. Hero calls. Pot: 12.5BB. Turn K♠: Hero checks. BTN bets 9BB.",
+                  question:"Do you call with your set of sevens facing BTN's double barrel on the turn?",
+                  options:[
+                    { label:"Yes — set of 7s, extract massive value on the river", correct:true, explanation:"Correct! Set of 7s on A-7-2-K is very strong. RE = 9/(9+21.5) ≈ 30%. P1: can he value bet worse? AK (two pair), AX, KX — yes, many hands that lose to the set. You're not just paying to see the river — you're paying with a hand that extracts massive value on the river. Call without hesitation." },
+                    { label:"No — he could have AA or AK that dominate me", correct:false, explanation:"AK is two pair — it loses to your set of 7s. AA would be a set of aces beating your set, but those are few combos. Set of 7s is clearly the right hand to call the turn with. Think about extracting value on the river." },
+                    { label:"No — the K turn worsens my relative position", correct:false, explanation:"The K turn gives the opponent more value hands that will pay you (AK), which is good for you. Your set of 7s is still very strong. Call the turn." },
+                    { label:"I'll wait to see the river before deciding", correct:false, explanation:"The opponent already bet the turn. Your options are call or fold now. With set of 7s on A-7-2-K, you call." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "All-in on the flop or turn",
+            body: [
+              { type:"text", content:"All-ins on the flop or turn are end-of-action spots: no more streets remain. The process is the same as on the river: RE first, real equity second. The difference is that equity includes all future cards — calculated as '% of times you win at showdown on the river given the opponent's range', accounting for potential improvements by both hands." },
+              { type:"callout", label:"Flop all-in equity references", content:"Sets vs two pair: ~65-70% equity — always call. Sets vs overpairs: ~80% equity — always call. Flush draw + pair vs set: ~42-45% — borderline (need ~47%). Combo draw (FD + OESD) vs top pair: ~55% — call. Pure OESD vs top pair: ~35% — don't call. Overpair vs flush draw: ~60% — call. RE on flop all-ins with 100BB effective stacks is approximately 47-50%." },
+              { type:"callout", label:"Critical reads for flop/turn all-ins", content:"Aggressive fish going all-in on flop: VERY wide range — top pair, pairs, draws, premium hands. Your equity improves enormously vs this range. Regular going all-in on flop: tighter range — sets, two pairs, strong overpairs. Your equity drops. Regular going all-in on turn: even tighter — almost always very strong value. The opponent type completely defines whether you have enough equity or not." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · BTN vs BB · Flop 8♣7♦2♥ · All-in",
+                  hand:"9♣ 8♦",
+                  context:"Hero opens BTN to 2.5BB. BB (recreational fish, VPIP 62%, PFR 8%) calls. Pot: 5.5BB. Flop 8♣7♦2♥: BB bets 5BB (pot). Hero raises to 14BB. BB goes all-in for 97.5BB total. Effective stacks 100BB.",
+                  question:"Do you call the fish's all-in on the flop with top pair + gutshot?",
+                  options:[
+                    { label:"Yes — enough equity vs fish's wide range", correct:true, explanation:"Correct! RE ≈ 42%. Fish VPIP 62% going all-in on the flop has a WIDE range: 8X (top pair), 77, 22, draws like 65s, J9, any pair... You have top pair + gutshot straight draw. Vs the fish's wide range your equity is ~45-48%. You exceed the 42% required. Call." },
+                    { label:"No — he could have 77 or 22 (set)", correct:false, explanation:"Although he can have sets, the VPIP 62% fish also puts money in with 8X, 7X, badly evaluated draws. Vs his TOTAL range your equity exceeds the 42% required. Sets are only a fraction of the fish's wide range. Call." },
+                    { label:"No — I only have top pair with gutshot", correct:false, explanation:"Against a regular this would be a fold. Against a FISH with VPIP 62% going all-in on the flop, their range is so wide that top pair + gutshot has more than enough equity. The opponent type changes everything." },
+                    { label:"Fold — flop is too connected", correct:false, explanation:"8-7-2 is semi-connected but not extremely so. The VPIP 62% fish going all-in here has a range full of weak hands. Your equity exceeds the 42% required. Call." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Population tendencies: NL10-NL25",
+            body: [
+              { type:"text", content:"Population reads are the last resort when you have no specific information. In NL10-NL25 there are clear statistical patterns that guide your end-of-action decisions against unknown opponents." },
+              { type:"callout", label:"What the NL10-NL25 population does on the river", content:"Proven tendencies: (1) Most players do NOT bluff the river with sufficient frequency. (2) When the population bets all 3 streets, they almost always have strong value. (3) Overbets from unknown opponents have more value than bluffs on average. (4) Solid regs rarely bluff with large sizings on the river after 3-street betting. (5) Passive fish almost never bluff the river." },
+              { type:"callout", label:"The default fold rule in NL10-NL25", content:"In end-of-action spots vs unknown opponents: if you have no specific information suggesting the opponent bluffs frequently (high CBet River, high WWSF), the default bias is toward folding with non-near-nuts hands. The population simply doesn't bluff enough to consistently justify light calls." },
+              { type:"callout", label:"When to deviate from the default fold?", content:"The bias reverses (toward call) when: (1) CBet River >50% or WWSF >55%; (2) the opponent's line is inconsistent with value (check-check-overbet; multiple checks + river bet); (3) you have a good bluff catcher and the board favors missed draws on the river; (4) the opponent showed a bluff recently at showdown; (5) they're a known Aggro Fish who bets with anything." },
+            ],
+          },
+          {
+            title: "Thin calls: the art of paying with just enough",
+            body: [
+              { type:"text", content:"A thin call is when you call a bet with a hand that barely meets the required equity. In NL10-NL25 they're the exception, not the rule. However, identifying when you have enough equity for the thin call separates advanced players from intermediate ones." },
+              { type:"callout", label:"Three conditions for a thin call", content:"(1) Sufficient SDV — your hand wins at showdown against at least 30-35% of the opponent's betting range. (2) The opponent can have bluffs — without bluffs in their range, no thin call is possible. (3) The RE is achievable — the bet isn't so large that you need 50%+ equity with a mediocre hand. Thin calls with RE of 25-33% are more justifiable than with RE of 40%+." },
+              { type:"callout", label:"Common mistakes in thin calls", content:"Mistake 1: Calling 'because you're the nominal favorite' — having top pair doesn't make you a favorite if the opponent never bluffs. Mistake 2: Confusing SDV with equity vs range — your hand may win many showdowns but if the opponent only bets with strong value, you don't have the 33% required vs their betting range. Mistake 3: Ignoring sizing — a thin call with 25% RE may be valid, the same call with 45% RE rarely is." },
+              { type:"text", content:"The key to thin calls: in NL10-NL25 a fold bias is more profitable than a call bias in thin spots. 'Incorrect call' mistakes are more expensive than 'incorrect fold' mistakes when the population doesn't bluff enough to consistently justify light calls." },
+            ],
+          },
+          {
+            title: "Exercises: End of Action Spots (Advanced)",
+            body: [
+              { type:"text", content:"Apply the full process: (1) RE, (2) can he value worse?, (3) can he have air?, (4) is the line consistent with value?, (5) player read." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · CO vs BB · River K♥Q♦J♠T♣7♠",
+                  hand:"A♦ Q♠",
+                  context:"Hero opens CO to 2.5BB. BB (solid regular, VPIP 24%, PFR 18%, CBet River 30%, WWSF 48%) calls. Pot: 5.5BB. Flop K♥Q♦J♠: BB checks. Hero bets 3.5BB. BB calls. Pot: 12.5BB. Turn T♣: BB checks. Hero checks. River 7♠: BB bets 10BB into pot of 12.5BB.",
+                  question:"Do you call with AQ (two pair A+Q) on this river?",
+                  options:[
+                    { label:"No — board full of straights, BB's range is dangerous", correct:true, explanation:"Correct! On K-Q-J-T-7, KJ, QT, AT, AK, AJ make straight. Many hands in BB's range now have a straight or better two pair. RE = 10/(10+22.5) ≈ 31%. P1: can he value worse? Few hands in his betting range lose to AQ here. P2: bluffs? Few — on K-Q-J-T almost no draws miss. Solid regular (CBet River 30%, WWSF 48%) betting the river here almost always has value. Fold." },
+                    { label:"Yes — AQ has strong two pair", correct:false, explanation:"Two pair on K-Q-J-T-7 is worth little. The BB's range that called flop (K on board, possible T, J, Q) includes many hands now with a straight or better. Solid regular betting here almost always has value that beats you. Fold." },
+                    { label:"Yes — 31% RE justifies the call", correct:false, explanation:"Low RE only matters if you have that 31% equity vs the betting range. On K-Q-J-T-7 AQ doesn't have that equity against a solid regular. Pot odds are irrelevant without the necessary equity. Fold." },
+                    { label:"Yes — he might be bluffing with missed draws", correct:false, explanation:"On K-Q-J-T-7 almost no draws miss. The board completes everything. Solid regular (WWSF 48%) betting here almost always has value. Fold." },
+                  ],
+                },
+                {
+                  situation:"NL25 · BTN vs BB · River 8♦5♣2♥4♠A♣",
+                  hand:"8♥ 8♣",
+                  context:"Hero opens BTN to 2.5BB. BB (aggro reg, VPIP 32%, PFR 26%, CBet River 52%, WWSF 58%) calls. Pot: 5.5BB. Flop 8♦5♣2♥: BB checks. Hero bets 3.5BB. BB calls. Pot: 12.5BB. Turn 4♠: BB checks. Hero bets 8BB. BB calls. Pot: 28.5BB. River A♣: BB bets 28.5BB (pot).",
+                  question:"Do you call with set of 8s facing the aggro reg's pot-bet on the river?",
+                  options:[
+                    { label:"Yes — set with enough equity, aggressive opponent with many bluffs", correct:true, explanation:"Correct! RE = 28.5/(28.5+57) ≈ 33%. The A♣ river is a perfect bluff card — BB can arrive with 6-7 (straight), 9-7, 3-6, missed flush draws, overcards. P2: Aggro Reg CBet River 52% DEFINITELY can bluff here. P3: check-call-call-pot-river is a frequent bluffing line for this type of player. P4: WWSF 58% — this opponent bets with lots of air. Call the set." },
+                    { label:"No — he might have A8, AA, 55, 22, 44", correct:false, explanation:"A8 required calling all the way from preflop. AA/55/22/44 are few combos. The Aggro Reg with CBet River 52% has far more bluffs than sets in their pot-bet range. The set calls." },
+                    { label:"No — pot-bet always means value", correct:false, explanation:"Pot-bet does NOT always mean value. Aggressive players use pot-bet as a bluff because it forces folds from 33% of the opponent's range. This aggro reg (WWSF 58%) is exactly the type who uses pot-bets as bluffs on the river. Call." },
+                    { label:"Fold — the A river worsens my relative hand", correct:false, explanation:"The river A is actually a bluff card for the BB, not necessarily a card that improves their value. Your set of 8s is still a very strong hand vs the aggro reg's bluffing range. Call." },
+                  ],
+                },
+                {
+                  situation:"NL25 · SB vs BB · River J♦T♠9♥2♣6♦",
+                  hand:"J♣ 9♦",
+                  context:"Hero opens SB to 3BB. BB (passive fish, VPIP 54%, PFR 6%, CBet River 15%, WTSD 44%) calls. Pot: 6.5BB. Flop J♦T♠9♥: BB checks. Hero bets 4BB. BB calls. Pot: 14.5BB. Turn 2♣: BB checks. Hero bets 9BB. BB calls. Pot: 32.5BB. River 6♦: BB bets 25BB.",
+                  question:"Do you call J9 (top two pair) vs passive fish who bets the river for the first time?",
+                  options:[
+                    { label:"No — passive fish betting river = strong value almost always", correct:true, explanation:"Correct! RE = 25/(25+57.5) ≈ 30%. P4: Passive fish with CBet River 15% — when they bet the river their range is EXTREMELY skewed toward strong value: sets (JJ, TT, 99), straights (KQ, Q8), better two pairs. This fish almost never bluffs the river; their WTSD 44% shows they reach showdown passively. J9 doesn't have the 30% equity against that range. Fold." },
+                    { label:"Yes — J9 has strong two pair", correct:false, explanation:"Two pair is not protection when a passive fish bets. CBet River 15% means this player only bets when they have something very strong. Your equity vs their river betting range is insufficient. Fold." },
+                    { label:"Yes — sufficient pot odds", correct:false, explanation:"Pot odds only matter if you have the equity. With a passive fish (CBet River 15%), 70%+ of their river betting range beats you. You don't have the 30% required equity. Fold." },
+                    { label:"Yes — he might value bet T9 or weaker Jx", correct:false, explanation:"With CBet River 15%, this fish does NOT bet T9 or mediocre Jx — those hands they take passively to showdown. They only bet when they have something very strong. Fold J9 here." },
+                  ],
+                },
+              ]},
+            ],
+          },
+        ],
+      },
+
     ],
   },
 };
@@ -3157,6 +3434,9 @@ const CTX = {
   call_ip_reg:      { es: "Mesa de regulars. Decides si pagar la apertura en posición.", en: "Regular table. You decide whether to call the open in position." },
   call_bb_reg:      { es: "Estás en la BB. Decides si pagar la apertura.", en: "You're in the BB. You decide whether to call the open." },
   call_sb_reg:      { es: "Estás en la SB. Decides si pagar, 3-betear o foldear.", en: "You're in the SB. You decide whether to call, 3-bet or fold." },
+  facing_river:     { es: "El rival apuesta en el river. Evalúa su rango, calcula la ER y decide si tienes suficiente equidad para pagar.", en: "Villain bets on the river. Evaluate their range, calculate required equity and decide if you have enough to call." },
+  facing_turn:      { es: "El rival apuesta en el turn (double barrel). Evalúa tu equidad, el SPR restante y el rango del rival.", en: "Villain bets on the turn (double barrel). Evaluate your equity, remaining SPR and villain's range." },
+  facing_allin:     { es: "El rival va all-in. No quedan más calles — calcula tu equidad real vs su rango probable.", en: "Villain goes all-in. No more streets — calculate your real equity vs their likely range." },
 };
 
 // { id, pos, hand, code, open, size, ctx, es, en }
@@ -3574,9 +3854,10 @@ function buildOptions(sit, p, lang) {
   if (sit.type === "vbet") {
     if (sit.open) {
       const allSizes = [
-        { id:"small", label: p.optCbetSmall },
-        { id:"large", label: p.optCbetLarge },
-        { id:"pot",   label: p.optCbetPot   },
+        { id:"small",  label: p.optCbetSmall  },
+        { id:"medium", label: p.optVbetMedium },
+        { id:"large",  label: p.optCbetLarge  },
+        { id:"pot",    label: p.optCbetPot    },
       ];
       const correctOpt = { id:"correct", label: allSizes.find(s => s.id === sit.size).label, correct: true,  explanation: correctExp };
       const wrongSizes = allSizes.filter(s => s.id !== sit.size).map(s => ({ id:"w_"+s.id, label: s.label, correct: false, explanation: p.wrongCbetSizeExp }));
@@ -3616,6 +3897,26 @@ function buildOptions(sit, p, lang) {
     }
   }
 
+  if (sit.type === "facing") {
+    const callLabel  = lang === "es" ? "Pagar (call)" : "Call";
+    const raiseLabel = lang === "es" ? "Resubir (raise)" : "Raise";
+    if (sit.open) {
+      return [
+        { id:"correct", label: callLabel,  correct: true,  explanation: correctExp },
+        { id:"fold",    label: p.optFold,  correct: false, explanation: lang==="es" ? "Con la equidad que tienes vs el rango del rival, pagar tiene más EV que foldear." : "With your equity vs villain's range, calling has more EV than folding." },
+        { id:"raise",   label: raiseLabel, correct: false, explanation: lang==="es" ? "Resubir aquí no tiene sentido estratégico. La decisión es call o fold." : "Raising here makes no strategic sense. The decision is call or fold." },
+        { id:"check",   label: lang==="es" ? "Checkear" : "Check", correct: false, explanation: lang==="es" ? "El rival ya apostó — no puedes checkear. Debes pagar o foldear." : "Villain already bet — you can't check. You must call or fold." },
+      ].sort(() => Math.random() - 0.5);
+    } else {
+      return [
+        { id:"correct", label: p.optFold,  correct: true,  explanation: correctExp },
+        { id:"call",    label: callLabel,   correct: false, explanation: lang==="es" ? "No tienes la equidad necesaria para justificar el call contra el rango probable del rival." : "You don't have the required equity to justify the call vs villain's likely range." },
+        { id:"raise",   label: raiseLabel,  correct: false, explanation: lang==="es" ? "Bluffear con un raise aquí no tiene sentido — el rango del rival está cargado de valor." : "Bluff-raising here makes no sense — villain's range is value-heavy." },
+        { id:"check",   label: lang==="es" ? "Checkear" : "Check", correct: false, explanation: lang==="es" ? "El rival ya apostó — tienes que call o fold, no puedes checkear." : "Villain already bet — you have to call or fold, you can't check." },
+      ].sort(() => Math.random() - 0.5);
+    }
+  }
+
   // Standard open situation
   const correctLabel = sit.open ? (sit.size === "3x" ? p.optOpen3 : p.optOpen25) : p.optFold;
   if (!sit.open) {
@@ -3640,149 +3941,149 @@ function buildOptions(sit, p, lang) {
 // descEs/descEn: full hand history shown to player before deciding
 const VBET_SITUATIONS = [
   // ── FLOP VALUE vs FISH IP (20) ───────────────────────────────────────────
-  {id:401,type:"vbet",hand:"A♠K♣",board:"A♦7♣2♥",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:401,type:"vbet",hand:"A♠K♣",board:"A♦7♣2♥",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish recreativo, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB · Stacks: 100BB efectivos.\nFlop A♦7♣2♥: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (recreational fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB · Stacks: 100BB effective.\nFlop A♦7♣2♥: BB checks. Hero acts.",
    es:"TPTK en flop seco vs fish. Value bet 67% — el fish paga con Ax débil, 7x, draws. Construye bote 3 calles.",en:"TPTK on dry flop vs fish. Value bet 67% — fish pays with weak Ax, 7x, draws. Build the pot for 3 streets."},
-  {id:402,type:"vbet",hand:"K♥K♦",board:"Q♦8♣3♥",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:402,type:"vbet",hand:"K♥K♦",board:"Q♦8♣3♥",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 60%, WTSD 40%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop Q♦8♣3♥: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 60%, WTSD 40%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop Q♦8♣3♥: BB checks. Hero acts.",
    es:"KK overpair en flop seco. Value bet 67% — el fish paga con Q, pares menores y draws.",en:"KK overpair on dry flop. Value bet 67% — fish pays with Q, lower pairs and draws."},
-  {id:403,type:"vbet",hand:"Q♠Q♥",board:"J♦7♣2♠",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:403,type:"vbet",hand:"Q♠Q♥",board:"J♦7♣2♠",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish pasivo, VPIP 52%, WTSD 36%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop J♦7♣2♠: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (passive fish, VPIP 52%, WTSD 36%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop J♦7♣2♠: BB checks. Hero acts.",
    es:"QQ overpair en J72r. Value bet 67% vs fish — paga con Jx, pares menores.",en:"QQ overpair on J72r. Value bet 67% vs fish — pays with Jx, lower pairs."},
-  {id:404,type:"vbet",hand:"A♦Q♦",board:"A♠J♣4♥",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"CO",callPos:"BB",
+  {id:404,type:"vbet",hand:"A♦Q♦",board:"A♠J♣4♥",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"CO",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre CO a 2.5BB. BB (fish, VPIP 58%, WTSD 37%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop A♠J♣4♥: BB checkea. Hero actúa desde CO (IP).",
    descEn:"Preflop (NL25): Hero opens CO to 2.5BB. BB (fish, VPIP 58%, WTSD 37%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop A♠J♣4♥: BB checks. Hero acts from CO (IP).",
    es:"TPTK en A-J-4r vs fish. El fish paga con Ax débil, Jx, draws. Apuesta 67%.",en:"TPTK on A-J-4r vs fish. Fish pays with weak Ax, Jx, flush draws. Bet 67%."},
-  {id:405,type:"vbet",hand:"J♠J♦",board:"9♦5♣2♥",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:405,type:"vbet",hand:"J♠J♦",board:"9♦5♣2♥",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish recreativo, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop 9♦5♣2♥: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (recreational fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop 9♦5♣2♥: BB checks. Hero acts.",
    es:"JJ overpair en flop muy bajo. El fish tiene muchos 9x y 5x en rango. Apuesta 67%.",en:"JJ overpair on very low board. Fish has lots of 9x and 5x in range. Bet 67%."},
-  {id:406,type:"vbet",hand:"T♠T♦",board:"8♠5♦2♣",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:406,type:"vbet",hand:"T♠T♦",board:"8♠5♦2♣",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 62%, WTSD 41%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop 8♠5♦2♣: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 62%, WTSD 41%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop 8♠5♦2♣: BB checks. Hero acts.",
    es:"TT overpair en flop 852r. El fish tiene muchos 8x, 5x, manos débiles. Bet 67%.",en:"TT overpair on 852r board. Fish has lots of 8x, 5x, weak hands. Bet 67%."},
-  {id:407,type:"vbet",hand:"8♠8♦",board:"8♥5♦2♣",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:407,type:"vbet",hand:"8♠8♦",board:"8♥5♦2♣",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop 8♥5♦2♣: BB checkea. Hero actúa con set.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop 8♥5♦2♣: BB checks. Hero acts with a set.",
    es:"Set de 8s en flop seco. Apuesta 67% — construye bote, no hay draws reales que regalar.",en:"Set of eights on dry board. Bet 67% — build pot, no real draws to give away."},
-  {id:408,type:"vbet",hand:"A♣J♣",board:"A♥9♦3♣",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:408,type:"vbet",hand:"A♣J♣",board:"A♥9♦3♣",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 58%, WTSD 40%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop A♥9♦3♣: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 58%, WTSD 40%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop A♥9♦3♣: BB checks. Hero acts.",
    es:"TPTK con backdoor flush. El fish paga con Ax, 9x. Apuesta 67%.",en:"TPTK with backdoor flush. Fish pays with Ax, 9x. Bet 67%."},
-  {id:409,type:"vbet",hand:"K♠Q♠",board:"K♦8♣3♠",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:409,type:"vbet",hand:"K♠Q♠",board:"K♦8♣3♠",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 53%, WTSD 36%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop K♦8♣3♠: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 53%, WTSD 36%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop K♦8♣3♠: BB checks. Hero acts.",
    es:"Top pair buena kicker en flop seco. Fish paga con K débil, 8x. Bet 67%.",en:"Top pair good kicker on dry flop. Fish pays with weak K, 8x. Bet 67%."},
-  {id:410,type:"vbet",hand:"9♥9♦",board:"7♦4♣2♥",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"CO",callPos:"BB",
+  {id:410,type:"vbet",hand:"9♥9♦",board:"7♦4♣2♥",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"CO",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre CO a 2.5BB. BB (fish, VPIP 57%, WTSD 39%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop 7♦4♣2♥: BB checkea. Hero actúa desde CO (IP).",
    descEn:"Preflop (NL25): Hero opens CO to 2.5BB. BB (fish, VPIP 57%, WTSD 39%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop 7♦4♣2♥: BB checks. Hero acts from CO (IP).",
    es:"99 overpair en flop muy bajo seco. Apuesta 67% — el fish pagará con todo su rango amplio.",en:"99 overpair on very low dry flop. Bet 67% — fish pays with their whole wide range."},
-  {id:411,type:"vbet",hand:"K♣K♥",board:"K♠9♦4♣",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:411,type:"vbet",hand:"K♣K♥",board:"K♠9♦4♣",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop K♠9♦4♣: BB checkea. Hero actúa con set.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop K♠9♦4♣: BB checks. Hero acts with a set.",
    es:"Set de reyes en flop seco. Aunque hay tentación de slowplay, el fish pasivo no apostará — value bet 67%.",en:"Set of kings on dry board. Though tempting to slowplay, the passive fish won't bet — value bet 67%."},
-  {id:412,type:"vbet",hand:"J♣T♦",board:"J♥T♣4♠",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:412,type:"vbet",hand:"J♣T♦",board:"J♥T♣4♠",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 60%, WTSD 41%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop J♥T♣4♠: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 60%, WTSD 41%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop J♥T♣4♠: BB checks. Hero acts.",
    es:"Dos pares top en flop semi-seco. Mucho rango pagando (Jx, Tx, draws). Bet 67%.",en:"Top two pair on semi-dry flop. Wide paying range (Jx, Tx, draws). Bet 67%."},
-  {id:413,type:"vbet",hand:"A♦A♣",board:"A♠7♦3♥",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:413,type:"vbet",hand:"A♦A♣",board:"A♠7♦3♥",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop A♠7♦3♥: BB checkea. Hero actúa con set.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop A♠7♦3♥: BB checks. Hero acts with a set.",
    es:"Set de ases en flop seco. El fish paga con cualquier A, 7x, 3x. Bet 67% para construir.",en:"Set of aces on dry board. Fish pays with any A, 7x, 3x. Bet 67% to build."},
-  {id:414,type:"vbet",hand:"A♥8♥",board:"A♣8♦3♠",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:414,type:"vbet",hand:"A♥8♥",board:"A♣8♦3♠",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 57%, WTSD 39%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop A♣8♦3♠: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 57%, WTSD 39%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop A♣8♦3♠: BB checks. Hero acts.",
    es:"Dos pares top-bottom (A+8) en flop seco. Bet 67% — fish paga con Ax, 8x.",en:"Top-bottom two pair (A+8) on dry flop. Bet 67% — fish pays with Ax, 8x."},
-  {id:415,type:"vbet",hand:"T♣9♣",board:"T♦9♠4♥",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:415,type:"vbet",hand:"T♣9♣",board:"T♦9♠4♥",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 37%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop T♦9♠4♥: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 37%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop T♦9♠4♥: BB checks. Hero acts.",
    es:"Dos pares top en T94r. El fish paga con Tx, 9x, draws. Bet 67%.",en:"Top two pair on T94r. Fish pays with Tx, 9x, draws. Bet 67%."},
-  {id:416,type:"vbet",hand:"A♠T♠",board:"A♦6♣2♥",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"CO",callPos:"BB",
+  {id:416,type:"vbet",hand:"A♠T♠",board:"A♦6♣2♥",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"CO",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre CO a 2.5BB. BB (fish, VPIP 58%, WTSD 40%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop A♦6♣2♥: BB checkea. Hero actúa desde CO (IP).",
    descEn:"Preflop (NL25): Hero opens CO to 2.5BB. BB (fish, VPIP 58%, WTSD 40%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop A♦6♣2♥: BB checks. Hero acts from CO (IP).",
    es:"TPTK en A62r. Apuesta 67% — construye bote vs rango débil del fish.",en:"TPTK on A62r. Bet 67% — build pot vs fish's weak range."},
-  {id:417,type:"vbet",hand:"Q♦Q♣",board:"Q♥6♣2♠",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"CO",callPos:"BB",
+  {id:417,type:"vbet",hand:"Q♦Q♣",board:"Q♥6♣2♠",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"CO",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre CO a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop Q♥6♣2♠: BB checkea. Hero actúa con set.",
    descEn:"Preflop (NL25): Hero opens CO to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop Q♥6♣2♠: BB checks. Hero acts with a set.",
    es:"Set de reinas en Q62r. Apuesta grande — fish tiene amplio rango de pago.",en:"Set of queens on Q62r. Bet big — fish has wide paying range."},
-  {id:418,type:"vbet",hand:"A♣K♦",board:"A♠K♣7♥",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:418,type:"vbet",hand:"A♣K♦",board:"A♠K♣7♥",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 60%, WTSD 42%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop A♠K♣7♥: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 60%, WTSD 42%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop A♠K♣7♥: BB checks. Hero acts.",
    es:"Dos pares top (A+K) en AK7r. Mano premium, apuesta 67% vs fish.",en:"Top two pair (A+K) on AK7r. Premium hand, bet 67% vs fish."},
-  {id:419,type:"vbet",hand:"7♥7♦",board:"7♠4♣2♥",street:"flop",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:419,type:"vbet",hand:"7♥7♦",board:"7♠4♣2♥",street:"flop",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB · Stacks: 100BB.\nFlop 7♠4♣2♥: BB checkea. Hero actúa con set.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB · Stacks: 100BB.\nFlop 7♠4♣2♥: BB checks. Hero acts with a set.",
    es:"Set de 7s en flop muy bajo. Fish paga con cualquier par. Bet 67%.",en:"Set of sevens on very low board. Fish pays with any pair. Bet 67%."},
   // ── TURN VALUE vs FISH IP (20) ─────────────────────────────────────────────
-  {id:420,type:"vbet",hand:"A♠K♣",board:"A♦7♣2♥9♠",street:"turn",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:420,type:"vbet",hand:"A♠K♣",board:"A♦7♣2♥9♠",street:"turn",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB.\nFlop A♦7♣2♥: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn 9♠: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB.\nFlop A♦7♣2♥: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn 9♠: BB checks. Hero acts.",
    es:"TPTK segunda calle vs fish. El 9 no cambia nada. Bet 67% turn para construir hacia river.",en:"TPTK second street vs fish. The 9 changes nothing. Bet 67% turn to build toward river."},
-  {id:421,type:"vbet",hand:"K♥K♦",board:"Q♦8♣3♥K♠",street:"turn",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:421,type:"vbet",hand:"K♥K♦",board:"Q♦8♣3♥K♠",street:"turn",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 60%, WTSD 40%) paga. Bote: 5.5BB.\nFlop Q♦8♣3♥: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn K♠: BB checkea. Hero actúa (ahora tiene set de reyes).",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 60%, WTSD 40%) calls. Pot: 5.5BB.\nFlop Q♦8♣3♥: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn K♠: BB checks. Hero acts (now has set of kings).",
    es:"Set de reyes en turn. Mano monster. Bet 67% — construye hacia el river.",en:"Set of kings on turn. Monster hand. Bet 67% — build toward river."},
-  {id:422,type:"vbet",hand:"J♠J♦",board:"9♦5♣2♥4♠",street:"turn",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:422,type:"vbet",hand:"J♠J♦",board:"9♦5♣2♥4♠",street:"turn",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 52%, WTSD 36%) paga. Bote: 5.5BB.\nFlop 9♦5♣2♥: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn 4♠: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 52%, WTSD 36%) calls. Pot: 5.5BB.\nFlop 9♦5♣2♥: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn 4♠: BB checks. Hero acts.",
    es:"JJ overpair segunda calle en board bajo. Straight draw llegó pero JJ sigue liderando el rango del fish. Bet 67%.",en:"JJ overpair second street on low board. Straight draw arrived but JJ still leads fish's range. Bet 67%."},
-  {id:423,type:"vbet",hand:"A♦Q♦",board:"A♠J♣4♥8♦",street:"turn",open:true,size:"large",ctx:"vbet_fish_ip",pos:"CO",callPos:"BB",
+  {id:423,type:"vbet",hand:"A♦Q♦",board:"A♠J♣4♥8♦",street:"turn",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"CO",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre CO a 2.5BB. BB (fish, VPIP 58%, WTSD 37%) paga. Bote: 5.5BB.\nFlop A♠J♣4♥: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn 8♦: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens CO to 2.5BB. BB (fish, VPIP 58%, WTSD 37%) calls. Pot: 5.5BB.\nFlop A♠J♣4♥: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn 8♦: BB checks. Hero acts.",
    es:"TPTK en turn. La 8 no cambia mucho. El fish sigue teniendo Ax, Jx. Bet 67%.",en:"TPTK on turn. The 8 doesn't change much. Fish still has Ax, Jx. Bet 67%."},
-  {id:424,type:"vbet",hand:"T♣9♣",board:"T♦9♠4♥Q♣",street:"turn",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:424,type:"vbet",hand:"T♣9♣",board:"T♦9♠4♥Q♣",street:"turn",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 37%) paga. Bote: 5.5BB.\nFlop T♦9♠4♥: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn Q♣: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 37%) calls. Pot: 5.5BB.\nFlop T♦9♠4♥: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn Q♣: BB checks. Hero acts.",
    es:"Dos pares en turn con Q. La Q ayuda a JK pero fish sigue pagando con Tx, 9x, draws. Bet 67%.",en:"Two pair on turn with Q. Q helps JK but fish still pays with Tx, 9x, draws. Bet 67%."},
-  {id:425,type:"vbet",hand:"8♣8♦",board:"8♥5♦2♣J♠",street:"turn",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:425,type:"vbet",hand:"8♣8♦",board:"8♥5♦2♣J♠",street:"turn",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB.\nFlop 8♥5♦2♣: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn J♠: BB checkea. Hero actúa con set.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB.\nFlop 8♥5♦2♣: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn J♠: BB checks. Hero acts with a set.",
    es:"Set de 8s en turn con J. Algún draw de J pero set sigue siendo dominante. Bet 67%.",en:"Set of eights on turn with J. Some J draws but set still dominant. Bet 67%."},
-  {id:426,type:"vbet",hand:"A♥8♥",board:"A♣8♦3♠7♥",street:"turn",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:426,type:"vbet",hand:"A♥8♥",board:"A♣8♦3♠7♥",street:"turn",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 57%, WTSD 39%) paga. Bote: 5.5BB.\nFlop A♣8♦3♠: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn 7♥: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 57%, WTSD 39%) calls. Pot: 5.5BB.\nFlop A♣8♦3♠: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn 7♥: BB checks. Hero acts.",
    es:"Dos pares en turn. La 7 añade algo de draws pero el fish sigue pagando. Bet 67%.",en:"Two pair on turn. The 7 adds some draws but fish still pays. Bet 67%."},
-  {id:427,type:"vbet",hand:"Q♥Q♣",board:"J♦7♣2♥T♠",street:"turn",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:427,type:"vbet",hand:"Q♥Q♣",board:"J♦7♣2♥T♠",street:"turn",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 52%, WTSD 36%) paga. Bote: 5.5BB.\nFlop J♦7♣2♥: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn T♠: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 52%, WTSD 36%) calls. Pot: 5.5BB.\nFlop J♦7♣2♥: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn T♠: BB checks. Hero acts.",
    es:"QQ overpair en turn con T. Mano fuerte vs rango de fish. Bet 67%.",en:"QQ overpair on turn with T. Strong hand vs fish range. Bet 67%."},
-  {id:428,type:"vbet",hand:"K♣K♦",board:"Q♦8♣3♥5♦",street:"turn",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:428,type:"vbet",hand:"K♣K♦",board:"Q♦8♣3♥5♦",street:"turn",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 60%, WTSD 40%) paga. Bote: 5.5BB.\nFlop Q♦8♣3♥: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn 5♦: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 60%, WTSD 40%) calls. Pot: 5.5BB.\nFlop Q♦8♣3♥: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn 5♦: BB checks. Hero acts.",
    es:"KK overpair en turn. Sin cartas de peligro graves. El fish paga con Qx. Bet 67%.",en:"KK overpair on turn. No serious danger cards. Fish pays with Qx. Bet 67%."},
-  {id:429,type:"vbet",hand:"A♣A♦",board:"A♠7♦3♥5♣",street:"turn",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:429,type:"vbet",hand:"A♣A♦",board:"A♠7♦3♥5♣",street:"turn",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB.\nFlop A♠7♦3♥: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn 5♣: BB checkea. Hero actúa con set.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB.\nFlop A♠7♦3♥: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn 5♣: BB checks. Hero acts with a set.",
    es:"Set de ases en turn. La 5 no cambia nada. Fish paga con cualquier cosa. Bet 67%.",en:"Set of aces on turn. The 5 changes nothing. Fish pays with anything. Bet 67%."},
-  {id:430,type:"vbet",hand:"J♦T♦",board:"J♥T♣4♠K♠",street:"turn",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:430,type:"vbet",hand:"J♦T♦",board:"J♥T♣4♠K♠",street:"turn",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 60%, WTSD 41%) paga. Bote: 5.5BB.\nFlop J♥T♣4♠: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn K♠: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 60%, WTSD 41%) calls. Pot: 5.5BB.\nFlop J♥T♣4♠: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn K♠: BB checks. Hero acts.",
    es:"Dos pares en turn con K. La K ayuda a AQ pero fish sigue teniendo Jx, Tx. Bet 67%.",en:"Two pair on turn with K. K helps AQ but fish still has Jx, Tx. Bet 67%."},
   // ── RIVER VALUE BETS — THICK & THIN (25) ──────────────────────────────────
-  {id:431,type:"vbet",hand:"A♠K♣",board:"A♦7♣2♥9♠J♦",street:"river",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:431,type:"vbet",hand:"A♠K♣",board:"A♦7♣2♥9♠J♦",street:"river",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB.\nFlop A♦7♣2♥: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn 9♠: BB checkea. Hero apuesta 9BB (67%). BB paga. Bote: 31.5BB.\nRiver J♦: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB.\nFlop A♦7♣2♥: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn 9♠: BB checks. Hero bets 9BB (67%). BB calls. Pot: 31.5BB.\nRiver J♦: BB checks. Hero acts.",
    es:"TPTK en river sin draws completados. El fish pagó 2 calles — sigue teniendo Ax, Jx, 9x. Bet 67%.",en:"TPTK on river with no completed draws. Fish called 2 streets — still has Ax, Jx, 9x. Bet 67%."},
-  {id:432,type:"vbet",hand:"K♥K♦",board:"Q♦8♣3♥K♠5♠",street:"river",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:432,type:"vbet",hand:"K♥K♦",board:"Q♦8♣3♥K♠5♠",street:"river",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 60%, WTSD 40%) paga. Bote: 5.5BB.\nFlop Q♦8♣3♥: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn K♠: BB checkea. Hero apuesta 9BB (67%). BB paga. Bote: 31.5BB.\nRiver 5♠: BB checkea. Hero actúa con set de reyes.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 60%, WTSD 40%) calls. Pot: 5.5BB.\nFlop Q♦8♣3♥: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn K♠: BB checks. Hero bets 9BB (67%). BB calls. Pot: 31.5BB.\nRiver 5♠: BB checks. Hero acts with set of kings.",
    es:"Set de reyes en river. Flush llegó pero es de picas (5♠). El fish puede tener Qx, trips. Bet 67%.",en:"Set of kings on river. Flush arrived but it's spades (5♠). Fish may have Qx, trips. Bet 67%."},
-  {id:433,type:"vbet",hand:"J♣T♣",board:"J♠T♦4♥9♣2♠",street:"river",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:433,type:"vbet",hand:"J♣T♣",board:"J♠T♦4♥9♣2♠",street:"river",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 37%) paga. Bote: 5.5BB.\nFlop J♠T♦4♥: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn 9♣: BB checkea. Hero apuesta 9BB (67%). BB paga. Bote: 31.5BB.\nRiver 2♠: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 37%) calls. Pot: 5.5BB.\nFlop J♠T♦4♥: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn 9♣: BB checks. Hero bets 9BB (67%). BB calls. Pot: 31.5BB.\nRiver 2♠: BB checks. Hero acts.",
    es:"Dos pares top en river seco. El fish pagó 2 calles — tiene Jx, Tx. Bet 67%.",en:"Top two pair on dry river. Fish called 2 streets — has Jx, Tx. Bet 67%."},
-  {id:434,type:"vbet",hand:"A♦Q♦",board:"A♠J♣4♥8♦3♠",street:"river",open:true,size:"large",ctx:"vbet_fish_ip",pos:"CO",callPos:"BB",
+  {id:434,type:"vbet",hand:"A♦Q♦",board:"A♠J♣4♥8♦3♠",street:"river",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"CO",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre CO a 2.5BB. BB (fish, VPIP 58%, WTSD 37%) paga. Bote: 5.5BB.\nFlop A♠J♣4♥: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn 8♦: BB checkea. Hero apuesta 9BB (67%). BB paga. Bote: 31.5BB.\nRiver 3♠: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens CO to 2.5BB. BB (fish, VPIP 58%, WTSD 37%) calls. Pot: 5.5BB.\nFlop A♠J♣4♥: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn 8♦: BB checks. Hero bets 9BB (67%). BB calls. Pot: 31.5BB.\nRiver 3♠: BB checks. Hero acts.",
    es:"TPTK en river blank. Sin draws completados. Fish sigue pagando con Ax. Bet 67%.",en:"TPTK on blank river. No completed draws. Fish still pays with Ax. Bet 67%."},
-  {id:435,type:"vbet",hand:"Q♥9♥",board:"Q♠9♦2♣K♥7♠",street:"river",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:435,type:"vbet",hand:"Q♥9♥",board:"Q♠9♦2♣K♥7♠",street:"river",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB.\nFlop Q♠9♦2♣: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn K♥: BB checkea. Hero apuesta 9BB (67%). BB paga. Bote: 31.5BB.\nRiver 7♠: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB.\nFlop Q♠9♦2♣: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn K♥: BB checks. Hero bets 9BB (67%). BB calls. Pot: 31.5BB.\nRiver 7♠: BB checks. Hero acts.",
    es:"Dos pares en river. La K ayuda a algunas manos pero fish paga con Qx, 9x. Bet 67%.",en:"Two pair on river. The K helps some hands but fish pays with Qx, 9x. Bet 67%."},
-  {id:436,type:"vbet",hand:"8♣8♦",board:"8♥5♦2♣J♠4♣",street:"river",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:436,type:"vbet",hand:"8♣8♦",board:"8♥5♦2♣J♠4♣",street:"river",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB.\nFlop 8♥5♦2♣: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn J♠: BB checkea. Hero apuesta 9BB (67%). BB paga. Bote: 31.5BB.\nRiver 4♣: BB checkea. Hero actúa con set.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB.\nFlop 8♥5♦2♣: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn J♠: BB checks. Hero bets 9BB (67%). BB calls. Pot: 31.5BB.\nRiver 4♣: BB checks. Hero acts with set.",
    es:"Set de 8s en river. La 4 no ayuda al rival. Fish paga con Jx, pares menores. Bet 67%.",en:"Set of eights on river. The 4 doesn't help villain. Fish pays with Jx, lower pairs. Bet 67%."},
@@ -3798,11 +4099,11 @@ const VBET_SITUATIONS = [
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 52%, WTSD 36%) paga. Bote: 5.5BB.\nFlop 9♦5♣2♥: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn K♠: BB checkea. Hero apuesta 9BB (67%). BB paga. Bote: 31.5BB.\nRiver 7♥: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 52%, WTSD 36%) calls. Pot: 5.5BB.\nFlop 9♦5♣2♥: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn K♠: BB checks. Hero bets 9BB (67%). BB calls. Pot: 31.5BB.\nRiver 7♥: BB checks. Hero acts.",
    es:"JJ overpair en river. La K y 7 pueden haber conectado. Thin value 33% — fish tiene 9x, pares medios.",en:"JJ overpair on river. K and 7 may have connected. Thin value 33% — fish has 9x, medium pairs."},
-  {id:440,type:"vbet",hand:"9♠9♦",board:"9♥6♦3♠2♣Q♦",street:"river",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:440,type:"vbet",hand:"9♠9♦",board:"9♥6♦3♠2♣Q♦",street:"river",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB.\nFlop 9♥6♦3♠: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn 2♣: BB checkea. Hero apuesta 9BB (67%). BB paga. Bote: 31.5BB.\nRiver Q♦: BB checkea. Hero actúa con set.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB.\nFlop 9♥6♦3♠: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn 2♣: BB checks. Hero bets 9BB (67%). BB calls. Pot: 31.5BB.\nRiver Q♦: BB checks. Hero acts with set.",
    es:"Set de 9s en river. La Q no daña tu mano. Fish paga con 6x, Qx, pares. Bet 67%.",en:"Set of nines on river. The Q doesn't hurt your hand. Fish pays with 6x, Qx, pairs. Bet 67%."},
-  {id:441,type:"vbet",hand:"A♠8♣",board:"A♦8♠5♣3♥K♦",street:"river",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:441,type:"vbet",hand:"A♠8♣",board:"A♦8♠5♣3♥K♦",street:"river",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 57%, WTSD 39%) paga. Bote: 5.5BB.\nFlop A♦8♠5♣: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn 3♥: BB checkea. Hero apuesta 9BB (67%). BB paga. Bote: 31.5BB.\nRiver K♦: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 57%, WTSD 39%) calls. Pot: 5.5BB.\nFlop A♦8♠5♣: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn 3♥: BB checks. Hero bets 9BB (67%). BB calls. Pot: 31.5BB.\nRiver K♦: BB checks. Hero acts.",
    es:"Dos pares A+8 en river. La K no daña tu rango. Fish paga con Ax, 8x. Bet 67%.",en:"Two pair A+8 on river. The K doesn't hurt your range. Fish pays with Ax, 8x. Bet 67%."},
@@ -3814,11 +4115,11 @@ const VBET_SITUATIONS = [
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB.\nFlop A♣7♦3♥: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn 5♣: BB checkea. Hero apuesta 9BB (67%). BB paga. Bote: 31.5BB.\nRiver J♠: BB checkea. Hero actúa con set.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB.\nFlop A♣7♦3♥: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn 5♣: BB checks. Hero bets 9BB (67%). BB calls. Pot: 31.5BB.\nRiver J♠: BB checks. Hero acts with set.",
    es:"Set de ases en river. River blank. Fish sigue pagando con Ax, Jx. Bet pot.",en:"Set of aces on river. Blank river. Fish still pays with Ax, Jx. Bet pot."},
-  {id:444,type:"vbet",hand:"A♣Q♣",board:"A♠Q♦5♥3♣7♦",street:"river",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:444,type:"vbet",hand:"A♣Q♣",board:"A♠Q♦5♥3♣7♦",street:"river",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 58%, WTSD 40%) paga. Bote: 5.5BB.\nFlop A♠Q♦5♥: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn 3♣: BB checkea. Hero apuesta 9BB (67%). BB paga. Bote: 31.5BB.\nRiver 7♦: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 58%, WTSD 40%) calls. Pot: 5.5BB.\nFlop A♠Q♦5♥: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn 3♣: BB checks. Hero bets 9BB (67%). BB calls. Pot: 31.5BB.\nRiver 7♦: BB checks. Hero acts.",
    es:"Dos pares A+Q en river seco. Sin draws. Fish paga con Ax, Qx, 5x. Bet 67%.",en:"Two pair A+Q on dry river. No draws. Fish pays with Ax, Qx, 5x. Bet 67%."},
-  {id:445,type:"vbet",hand:"T♦9♦",board:"T♠9♣4♥2♦8♣",street:"river",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
+  {id:445,type:"vbet",hand:"T♦9♦",board:"T♠9♣4♥2♦8♣",street:"river",open:true,size:"medium",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 37%) paga. Bote: 5.5BB.\nFlop T♠9♣4♥: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn 2♦: BB checkea. Hero apuesta 9BB (67%). BB paga. Bote: 31.5BB.\nRiver 8♣: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 37%) calls. Pot: 5.5BB.\nFlop T♠9♣4♥: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn 2♦: BB checks. Hero bets 9BB (67%). BB calls. Pot: 31.5BB.\nRiver 8♣: BB checks. Hero acts.",
    es:"Dos pares en river. La 8 completa algunos draws pero tienes full info de 2 calles pagadas. Bet 67%.",en:"Two pair on river. The 8 completes some draws but you have full info from 2 called streets. Bet 67%."},
@@ -4109,8 +4410,6 @@ const CALL_SITUATIONS = [
   {id:578,type:"call",hand:"A♠ J♦",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"BTN",es:"AJo desde SB vs BTN con BB agresivo. BB agresivo squeezea frecuentemente — pagar AJo desde SB es -EV con esa amenaza. 3-bet o fold.",en:"AJo from SB vs BTN with aggressive BB. Aggressive BB squeezes frequently — calling AJo from SB is -EV with that threat. 3-bet or fold."},
   {id:579,type:"call",hand:"K♣ T♣",board:null,open:true,ctx:"call_sb_fish",pos:"SB",callPos:"BTN",es:"KTs desde SB vs BTN con fish en BB. Fish en BB justifica pagar KTs — tiene frequent strength vs rango amplio BTN y el fish añade implied odds. Paga.",en:"KTs from SB vs BTN with fish in BB. Fish in BB justifies calling KTs — has frequent strength vs wide BTN range and fish adds implied odds. Call."},
   {id:580,type:"call",hand:"T♥ 9♥",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"CO",es:"T9s desde SB vs CO con BB desconocido. Sin certeza de que no squeezea, T9s desde SB es pago arriesgado. 3-bet o fold.",en:"T9s from SB vs CO with unknown BB. Without certainty they won't squeeze, T9s from SB is a risky call. 3-bet or fold."},
-  {id:581,type:"call",hand:"A♦ A♣",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"BTN",es:"AA desde SB vs BTN — siempre 3-bet, nunca pagar. El pago pierde valor con AA: quieres construir el bote preflop y extraer máximo valor con la mejor mano. 3-bet.",en:"AA from SB vs BTN — always 3-bet, never call. Calling loses value with AA: you want to build the pot preflop and extract maximum value with the best hand. 3-bet."},
-  {id:582,type:"call",hand:"K♠ K♦",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"BTN",es:"KK desde SB vs BTN — siempre 3-bet. KK es mano premium que no debe slowplayearse preflop. 3-bet para construir el bote.",en:"KK from SB vs BTN — always 3-bet. KK is a premium hand that shouldn't be slowplayed preflop. 3-bet to build the pot."},
   {id:583,type:"call",hand:"6♣ 4♣",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"BTN",es:"64s desde SB vs BTN con BB desconocido. Demasiado débil para pagar desde SB con riesgo de squeeze. Foldea.",en:"64s from SB vs BTN with unknown BB. Too weak to call from SB with squeeze risk. Fold."},
   {id:584,type:"call",hand:"J♥ T♣",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"CO",es:"JTo desde SB vs CO con BB desconocido. Offsuit y con riesgo de squeeze — desde SB 3-bet o fold. JTo no tiene suficiente valor para arriesgarse OOP con amenaza de squeeze.",en:"JTo from SB vs CO with unknown BB. Offsuit and with squeeze risk — from SB 3-bet or fold. JTo doesn't have enough value to risk going OOP with squeeze threat."},
   {id:585,type:"call",hand:"7♠ 6♠",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"BTN",es:"76s desde SB vs BTN con BB agresivo. Aunque tiene buenos implied odds, el squeeze de BB agresivo destruye el EV del pago. Foldea.",en:"76s from SB vs BTN with aggressive BB. Even though it has good implied odds, aggressive BB squeeze destroys call EV. Fold."},
@@ -4132,6 +4431,181 @@ const CALL_SITUATIONS = [
   {id:600,type:"call",hand:"A♣ 6♣",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"A6s desde BB vs BTN 2.5BB. Suited ace con wheel potential, flush draw y top pair. Versátil. Pot odds BB buenos vs rango BTN amplio. Paga.",en:"A6s from BB vs BTN 2.5BB. Suited ace with wheel potential, flush draw and top pair. Versatile. Good BB pot odds vs wide BTN range. Call."},
 ];
 
+// ── FACING BETS SITUATIONS — Capítulo 7 (20) ─────────────────────────────────
+// type:"facing" — open=true → call es la jugada correcta; open=false → fold
+// Cubre: overbets, double barrels, all-ins flop/turn, thin calls, tendencias población
+// descEs/descEn: historia completa de la mano calle a calle
+const FACING_SITUATIONS = [
+
+  // ── OVERBETS (5) ─────────────────────────────────────────────────────────
+
+  // S601: Fish pasivo overbet 2x river → FOLD
+  {id:601,type:"facing",hand:"Q♥ Q♦",board:"A♠K♣8♦3♥J♠",street:"river",open:false,
+   ctx:"facing_river",pos:"BTN",callPos:"BB",
+   descEs:"NL25 · BTN vs BB · Fish pasivo (VPIP 58%, PFR 5%, CBet River 12%, WTSD 42%)\nPreflop: Hero abre BTN 2.5BB. BB paga. Bote: 5.5BB.\nFlop A♠K♣8♦: BB checkea. Hero apuesta 3.5BB. BB paga. Bote: 12.5BB.\nTurn 3♥: BB checkea. Hero checkea. Bote: 12.5BB.\nRiver J♠: BB apuesta 25BB (overbet 2x el bote).",
+   descEn:"NL25 · BTN vs BB · Passive fish (VPIP 58%, PFR 5%, CBet River 12%, WTSD 42%)\nPreflop: Hero opens BTN 2.5BB. BB calls. Pot: 5.5BB.\nFlop A♠K♣8♦: BB checks. Hero bets 3.5BB. BB calls. Pot: 12.5BB.\nTurn 3♥: BB checks. Hero checks. Pot: 12.5BB.\nRiver J♠: BB bets 25BB (overbet 2x the pot).",
+   es:"FOLD. QQ no supera ninguna carta del tablero A-K-8-3-J. ER = 25/(25+37.5) = 40%. El fish pasivo (CBet River 12%) apuesta el river rarísimas veces — cuando lo hace con overbet 2x su rango es abrumadoramente valor: AX, KX, JX, sets. Sin bluffs en su rango no tienes el 40% de equity requerido. Foldea.",
+   en:"FOLD. QQ beats nothing on A-K-8-3-J. ER = 25/(25+37.5) = 40%. Passive fish (CBet River 12%) almost never bets river — when they do with 2x overbet their range is overwhelmingly value: AX, KX, JX, sets. No bluffs in range means you don't have the required 40% equity. Fold."},
+
+  // S602: Aggro reg overbet 1.5x river, bluff catcher con top pair → CALL
+  {id:602,type:"facing",hand:"K♣ 9♣",board:"K♠8♦5♣2♥6♠",street:"river",open:true,
+   ctx:"facing_river",pos:"BB",callPos:"BTN",
+   descEs:"NL25 · BB vs BTN · Aggro reg (VPIP 34%, PFR 27%, CBet River 55%, WWSF 60%)\nPreflop: BTN abre 2.5BB. Hero BB paga. Bote: 5.5BB.\nFlop K♠8♦5♣: Hero checkea. BTN apuesta 3.5BB. Hero paga. Bote: 12.5BB.\nTurn 2♥: Hero checkea. BTN checkea. Bote: 12.5BB.\nRiver 6♠: Hero checkea. BTN apuesta 19BB (overbet 1.5x el bote).",
+   descEn:"NL25 · BB vs BTN · Aggro reg (VPIP 34%, PFR 27%, CBet River 55%, WWSF 60%)\nPreflop: BTN opens 2.5BB. Hero BB calls. Pot: 5.5BB.\nFlop K♠8♦5♣: Hero checks. BTN bets 3.5BB. Hero calls. Pot: 12.5BB.\nTurn 2♥: Hero checks. BTN checks. Pot: 12.5BB.\nRiver 6♠: Hero checks. BTN bets 19BB (overbet 1.5x the pot).",
+   es:"PAGAR. K9s es bluff catcher sólido. ER = 19/(19+31.5) = 38%. El aggro reg (CBet River 55%, WWSF 60%) checkeó el turn — eso amplía su rango del river hacia bluffs: draws de flush fallidos (A♣X♣, Q♣J♣), draws de straight fallidos (79o, 74s). K9s gana vs todo ese rango de bluffs. Con WWSF 60% genera suficientes bluffs para justificar el call. Paga.",
+   en:"CALL. K9s is a solid bluff catcher. ER = 19/(19+31.5) = 38%. Aggro reg (CBet River 55%, WWSF 60%) checked turn — that widens their river range toward bluffs: missed flush draws (A♣X♣, Q♣J♣), missed straight draws (79o, 74s). K9s beats all those bluff hands. With WWSF 60% they generate enough bluffs to justify the call. Call."},
+
+  // S603: Regular sólido overbet 2x river, JJ no bate nada → FOLD
+  {id:603,type:"facing",hand:"J♠ J♥",board:"A♦K♦Q♣8♣5♦",street:"river",open:false,
+   ctx:"facing_river",pos:"CO",callPos:"BB",
+   descEs:"NL25 · CO vs BB · Regular (VPIP 26%, PFR 20%, CBet River 30%, WWSF 47%)\nPreflop: Hero abre CO 2.5BB. BB paga. Bote: 5.5BB.\nFlop A♦K♦Q♣: BB checkea. Hero apuesta 3.5BB. BB paga. Bote: 12.5BB.\nTurn 8♣: BB checkea. Hero checkea. Bote: 12.5BB.\nRiver 5♦: BB apuesta 25BB (overbet 2x el bote).",
+   descEn:"NL25 · CO vs BB · Regular (VPIP 26%, PFR 20%, CBet River 30%, WWSF 47%)\nPreflop: Hero opens CO 2.5BB. BB calls. Pot: 5.5BB.\nFlop A♦K♦Q♣: BB checks. Hero bets 3.5BB. BB calls. Pot: 12.5BB.\nTurn 8♣: BB checks. Hero checks. Pot: 12.5BB.\nRiver 5♦: BB bets 25BB (overbet 2x the pot).",
+   es:"FOLD. JJ en A-K-Q-8-5 con flush de diamantes completado — no supera casi nada del rango del BB. ER = 40%. Regular conservador (CBet River 30%, WWSF 47%) que overbet river después de check-call, check-check tiene rango cargado de valor: AX, KX, QX, flush de diamantes, two pair. Tendencia de población en NL25: overbets de regulares desconocidos son valor, no bluffs. Foldea.",
+   en:"FOLD. JJ on A-K-Q-8-5 with diamond flush on board — beats almost nothing in BB's range. ER = 40%. Conservative regular (CBet River 30%, WWSF 47%) overbetting river after check-call, check-check has value-heavy range: AX, KX, QX, diamond flush, two pair. Population tendency in NL25: overbets from unknown regulars are value, not bluffs. Fold."},
+
+  // S604: Regular 3 calles de apuesta + overbet river final, TT → FOLD
+  {id:604,type:"facing",hand:"T♦ T♣",board:"J♥9♠8♦K♣2♠",street:"river",open:false,
+   ctx:"facing_river",pos:"BTN",callPos:"SB",
+   descEs:"NL25 · BTN vs SB · Regular (VPIP 28%, PFR 22%, CBet River 35%, WWSF 50%)\nPreflop: Hero abre BTN 2.5BB. SB 3-bet a 9BB. Hero paga. Bote: 18.5BB.\nFlop J♥9♠8♦: SB apuesta 8BB. Hero paga. Bote: 34.5BB.\nTurn K♣: SB apuesta 20BB. Hero paga. Bote: 74.5BB.\nRiver 2♠: SB apuesta 93BB (overbet 1.25x el bote).",
+   descEn:"NL25 · BTN vs SB · Regular (VPIP 28%, PFR 22%, CBet River 35%, WWSF 50%)\nPreflop: Hero opens BTN 2.5BB. SB 3-bets to 9BB. Hero calls. Pot: 18.5BB.\nFlop J♥9♠8♦: SB bets 8BB. Hero calls. Pot: 34.5BB.\nTurn K♣: SB bets 20BB. Hero calls. Pot: 74.5BB.\nRiver 2♠: SB bets 93BB (overbet 1.25x the pot).",
+   es:"FOLD. TT en J-9-8-K-2 tras 3 calles de apuestas del SB (3-bet + 3 barriles + overbet). ER = 93/(93+167.5) = 36%. TT hace straight (7-8-9-T-J), pero CUALQUIER Q da straight mejor (8-9-T-J-Q). El SB que apuesta las 3 calles en tablero conectado y termina overbet tiene rango muy concentrado: QT (straight Q-high), JJ/99/88 (sets), KK. Regular desconocido apostando 3 calles con overbet final → valor extremo. Foldea.",
+   en:"FOLD. TT on J-9-8-K-2 after 3 streets of betting by SB (3-bet + 3 barrels + overbet). ER = 93/(93+167.5) = 36%. TT makes a straight (7-8-9-T-J), but ANY Q gives a better straight (8-9-T-J-Q). SB betting all 3 streets on connected board ending with overbet has concentrated range: QT (Q-high straight), JJ/99/88 (sets), KK. Unknown regular betting 3 streets with final overbet → extreme value. Fold."},
+
+  // S605: Aggro fish overbet river, top pair buena kicker → CALL
+  {id:605,type:"facing",hand:"A♣ 8♣",board:"A♠7♦2♣K♥3♠",street:"river",open:true,
+   ctx:"facing_river",pos:"BTN",callPos:"BB",
+   descEs:"NL25 · BTN vs BB · Aggro fish (VPIP 65%, PFR 22%, CBet River 48%, WWSF 55%)\nPreflop: Hero abre BTN 2.5BB. BB paga. Bote: 5.5BB.\nFlop A♠7♦2♣: BB checkea. Hero apuesta 3.5BB. BB paga. Bote: 12.5BB.\nTurn K♥: BB checkea. Hero apuesta 8BB. BB paga. Bote: 28.5BB.\nRiver 3♠: BB apuesta 43BB (overbet 1.5x el bote).",
+   descEn:"NL25 · BTN vs BB · Aggro fish (VPIP 65%, PFR 22%, CBet River 48%, WWSF 55%)\nPreflop: Hero opens BTN 2.5BB. BB calls. Pot: 5.5BB.\nFlop A♠7♦2♣: BB checks. Hero bets 3.5BB. BB calls. Pot: 12.5BB.\nTurn K♥: BB checks. Hero bets 8BB. BB calls. Pot: 28.5BB.\nRiver 3♠: BB bets 43BB (overbet 1.5x the pot).",
+   es:"PAGAR. A8s (top pair + nut flush draw completado en palo de trébol) vs aggro fish. ER = 43/(43+71.5) = 37.5%. El aggro fish (VPIP 65%, CBet River 48%) apuesta el river con: Kx, 7x, 3x, draws fallidos, pares mediocres, incluso aire total. Su rango de overbet no está concentrado en valor como lo haría un regular. A8s gana a suficientes manos de ese rango para superar el 37.5% requerido. Paga.",
+   en:"CALL. A8s (top pair on dry board) vs aggro fish. ER = 43/(43+71.5) = 37.5%. Aggro fish (VPIP 65%, CBet River 48%) bets river with: Kx, 7x, 3x, missed draws, medium pairs, even total air. Their overbet range isn't concentrated in value like a regular's would be. A8s beats enough hands in that range to exceed the required 37.5%. Call."},
+
+  // ── DOUBLE BARREL TURN (4) ───────────────────────────────────────────────
+
+  // S606: Nut flush draw + overcards en turn, aggro reg double barrel → CALL
+  {id:606,type:"facing",hand:"A♥ J♥",board:"K♥8♥5♣Q♦",street:"turn",open:true,
+   ctx:"facing_turn",pos:"BB",callPos:"BTN",
+   descEs:"NL25 · BB vs BTN · Reg (VPIP 29%, PFR 23%, CBet Turn 52%)\nPreflop: BTN abre 2.5BB. Hero BB paga. Bote: 5.5BB.\nFlop K♥8♥5♣: Hero checkea. BTN apuesta 3.5BB. Hero paga (nut flush draw). Bote: 12.5BB.\nTurn Q♦: Hero checkea. BTN apuesta 9BB (72% del bote). Stacks restantes: ~77BB.",
+   descEn:"NL25 · BB vs BTN · Reg (VPIP 29%, PFR 23%, CBet Turn 52%)\nPreflop: BTN opens 2.5BB. Hero BB calls. Pot: 5.5BB.\nFlop K♥8♥5♣: Hero checks. BTN bets 3.5BB. Hero calls (nut flush draw). Pot: 12.5BB.\nTurn Q♦: Hero checks. BTN bets 9BB (72% of pot). Remaining stacks: ~77BB.",
+   es:"PAGAR. A♥J♥ tiene nut flush draw (NFD con As de corazones — 9 outs seguros) + 2 overcards a 8 y 5. Total ~12-13 outs. ER = 9/(9+21.5) = 30%. Equidad real con NFD + overcards vs rango BTN: ~48-52%. CBet Turn 52% del BTN incluye muchos semi-bluffs y value mediocre. SPR restante ≈ 2.8 — el river tendrá todo el dinero si completas. Tu equidad supera el 30% requerido con comodidad. Paga.",
+   en:"CALL. A♥J♥ has nut flush draw (NFD with A♥ — 9 clean outs) + 2 overcards to 8 and 5. Total ~12-13 outs. ER = 9/(9+21.5) = 30%. Real equity with NFD + overcards vs BTN range: ~48-52%. BTN CBet Turn 52% includes many semi-bluffs and mediocre value. Remaining SPR ≈ 2.8 — river will get all the money if you complete. Your equity comfortably exceeds the required 30%. Call."},
+
+  // S607: SDV sin draws, tight reg double barrel turn con A cayendo → FOLD
+  {id:607,type:"facing",hand:"T♣ 9♦",board:"J♠8♦3♥A♣",street:"turn",open:false,
+   ctx:"facing_turn",pos:"BB",callPos:"CO",
+   descEs:"NL25 · BB vs CO · Tight reg (VPIP 21%, PFR 17%, CBet Turn 38%)\nPreflop: CO abre 2.5BB. Hero BB paga. Bote: 5.5BB.\nFlop J♠8♦3♥: Hero checkea. CO apuesta 3.5BB. Hero paga (gutshot + overcards a 3). Bote: 12.5BB.\nTurn A♣: Hero checkea. CO apuesta 9BB (72% del bote).",
+   descEn:"NL25 · BB vs CO · Tight reg (VPIP 21%, PFR 17%, CBet Turn 38%)\nPreflop: CO opens 2.5BB. Hero BB calls. Pot: 5.5BB.\nFlop J♠8♦3♥: Hero checks. CO bets 3.5BB. Hero calls (gutshot + overcards to 3). Pot: 12.5BB.\nTurn A♣: Hero checks. CO bets 9BB (72% of pot).",
+   es:"FOLD. T9o en J-8-3-A: gutshot fallido (necesitaba Q), sin flush draw, SDV mínimo contra rango del rival. ER = 9/(9+21.5) = 30%. El tight reg (CBet Turn 38%) barrelea selectivamente — con A en turn su rango incluye AX fuerte, AA, sets (JJ). T9o tiene apenas ~10-12% de equidad real vs ese rango ajustado. Sin draws reales y con rango del rival fortalecido por el As → foldea.",
+   en:"FOLD. T9o on J-8-3-A: gutshot missed (needed Q), no flush draw, minimal SDV against villain's range. ER = 9/(9+21.5) = 30%. Tight reg (CBet Turn 38%) double barrels selectively — with A on turn their range includes strong AX, AA, sets (JJ). T9o has only ~10-12% real equity vs that tight range. No real draws and villain's range strengthened by the ace → fold."},
+
+  // S608: OESD en turn vs aggro reg double barrel → CALL
+  {id:608,type:"facing",hand:"9♠ 7♠",board:"J♦8♥6♣T♠",street:"turn",open:true,
+   ctx:"facing_turn",pos:"BB",callPos:"BTN",
+   descEs:"NL25 · BB vs BTN · Aggro reg (VPIP 33%, PFR 26%, CBet Turn 62%)\nPreflop: BTN abre 2.5BB. Hero BB paga. Bote: 5.5BB.\nFlop J♦8♥6♣: Hero checkea. BTN apuesta 3.5BB. Hero paga. Bote: 12.5BB.\nTurn T♠: Hero checkea. BTN apuesta 9BB (72% del bote). Stacks restantes: ~75BB.",
+   descEn:"NL25 · BB vs BTN · Aggro reg (VPIP 33%, PFR 26%, CBet Turn 62%)\nPreflop: BTN opens 2.5BB. Hero BB calls. Pot: 5.5BB.\nFlop J♦8♥6♣: Hero checks. BTN bets 3.5BB. Hero calls. Pot: 12.5BB.\nTurn T♠: Hero checks. BTN bets 9BB (72% of pot). Remaining stacks: ~75BB.",
+   es:"PAGAR. 9-7 en J-8-6-T: tienes straight abierto (6-7-8-9-T — completa con J por arriba o 5 por abajo). 8 outs puros. ER = 9/(9+21.5) = 30%. Con 8 outs tienes ~33-35% de equidad en el river. El BTN aggro (CBet Turn 62%) puede tener mucho aire/semi-bluffs. SPR restante ≈ 3.5. Superas el 30% requerido y el river ofrece valor potencial si completas el straight. Paga.",
+   en:"CALL. 9-7 on J-8-6-T: you have an open-ended straight draw (6-7-8-9-T — completes with J above or 5 below). 8 clean outs. ER = 9/(9+21.5) = 30%. With 8 outs you have ~33-35% equity on the river. Aggro BTN (CBet Turn 62%) can have lots of air/semi-bluffs. Remaining SPR ≈ 3.5. You exceed the required 30% and the river offers potential value if you complete the straight. Call."},
+
+  // S609: Overpair QQ vs donk bet tight reg en turn → FOLD
+  {id:609,type:"facing",hand:"Q♦ Q♣",board:"K♠9♦4♣8♥",street:"turn",open:false,
+   ctx:"facing_turn",pos:"BTN",callPos:"BB",
+   descEs:"NL25 · BTN vs BB · Tight reg (VPIP 22%, PFR 18%, Fold to C-bet Flop 60%)\nPreflop: Hero abre BTN 2.5BB. BB paga. Bote: 5.5BB.\nFlop K♠9♦4♣: BB checkea. Hero apuesta 3.5BB. BB paga (Fold to C-bet 60% — esta vez no foldeó). Bote: 12.5BB.\nTurn 8♥: BB sale apostando 9BB (donk bet). Bote: 12.5BB. Stacks restantes: ~80BB.",
+   descEn:"NL25 · BTN vs BB · Tight reg (VPIP 22%, PFR 18%, Fold to C-bet Flop 60%)\nPreflop: Hero opens BTN 2.5BB. BB calls. Pot: 5.5BB.\nFlop K♠9♦4♣: BB checks. Hero bets 3.5BB. BB calls (Fold to C-bet 60% — this time didn't fold). Pot: 12.5BB.\nTurn 8♥: BB leads 9BB (donk bet). Pot: 12.5BB. Remaining stacks: ~80BB.",
+   es:"FOLD. QQ en K-9-4-8 con donk bet del BB tight reg. ER = 9/(9+21.5) = 30%. Un tight reg (VPIP 22%) que pagó la c-bet en el flop y sale apostando el turn tiene rango muy polarizado hacia valor: KX fuerte, sets (99, 44), dos pares (K9, K8), quizás draws de straight (J-T). QQ solo supera los bluffs, pero un VPIP 22% casi no hace donk bets como bluff — su rango de donk beat en K-9-4-8 tiene mucho valor. No tienes el 30% de equity real. Foldea.",
+   en:"FOLD. QQ on K-9-4-8 with BB tight reg donk bet. ER = 9/(9+21.5) = 30%. A tight reg (VPIP 22%) who called flop c-bet and leads turn has very polarized range toward value: strong KX, sets (99, 44), two pairs (K9, K8), maybe straight draws (J-T). QQ only beats bluffs, but VPIP 22% players almost never donk bet as a bluff — their donk range on K-9-4-8 is value-heavy. You don't have 30% real equity. Fold."},
+
+  // ── ALL-IN FLOP / TURN (5) ───────────────────────────────────────────────
+
+  // S610: Fish all-in flop, hero combo draw (NFD + OESD) → CALL
+  {id:610,type:"facing",hand:"J♠ T♠",board:"A♠9♠8♣",street:"flop",open:true,
+   ctx:"facing_allin",pos:"BTN",callPos:"BB",
+   descEs:"NL25 · BTN vs BB · Fish recreativo (VPIP 68%, PFR 7%) · All-in en el flop\nPreflop: Hero abre BTN 2.5BB. BB paga. Bote: 5.5BB.\nFlop A♠9♠8♣: BB apuesta 5.5BB (pot). Hero sube a 15BB. BB va all-in (97.5BB total). Stacks 100BB efectivos.\nBote total si pagas: 195BB. Coste del call: 80BB.",
+   descEn:"NL25 · BTN vs BB · Recreational fish (VPIP 68%, PFR 7%) · All-in on flop\nPreflop: Hero opens BTN 2.5BB. BB calls. Pot: 5.5BB.\nFlop A♠9♠8♣: BB bets 5.5BB (pot). Hero raises to 15BB. BB goes all-in (97.5BB total). Stacks 100BB effective.\nTotal pot if you call: 195BB. Cost of call: 80BB.",
+   es:"PAGAR. J♠T♠ en A♠9♠8♣: flush draw de picas (9 outs) + OESD (J-T-9-8, completa con Q o 7, 8 outs) = combo draw de ~15 outs. ER ≈ 80/(80+110) ≈ 42%. Equidad real vs rango fish amplio (AX, 9X, 8X, draws peores): ~55-60%. El fish VPIP 68% va all-in con rango amplísimo que incluye pares mediocres y draws débiles. Superas el 42% con margen. Paga.",
+   en:"CALL. J♠T♠ on A♠9♠8♣: spade flush draw (9 outs) + OESD (J-T-9-8, completes with Q or 7, 8 outs) = combo draw of ~15 outs. ER ≈ 80/(80+110) ≈ 42%. Real equity vs wide fish range (AX, 9X, 8X, weaker draws): ~55-60%. Fish VPIP 68% goes all-in with wide range including medium pairs and weak draws. You exceed 42% comfortably. Call."},
+
+  // S611: Set de 7s vs fish all-in en flop → CALL
+  {id:611,type:"facing",hand:"7♦ 7♣",board:"7♠K♣4♥",street:"flop",open:true,
+   ctx:"facing_allin",pos:"BTN",callPos:"BB",
+   descEs:"NL25 · BTN vs BB · Fish (VPIP 55%, PFR 8%) · All-in en el flop\nPreflop: Hero abre BTN 2.5BB. BB paga. Bote: 5.5BB.\nFlop 7♠K♣4♥: BB apuesta 5.5BB (pot). Hero sube a 16BB. BB va all-in (97.5BB total). Stacks 100BB efectivos.\nBote total si pagas: 195BB. Coste del call: 81.5BB.",
+   descEn:"NL25 · BTN vs BB · Fish (VPIP 55%, PFR 8%) · All-in on flop\nPreflop: Hero opens BTN 2.5BB. BB calls. Pot: 5.5BB.\nFlop 7♠K♣4♥: BB bets 5.5BB (pot). Hero raises to 16BB. BB goes all-in (97.5BB total). Stacks 100BB effective.\nTotal pot if you call: 195BB. Cost of call: 81.5BB.",
+   es:"PAGAR. Set de 7s (777) en K-7-4. ER ≈ 42%. Set de 7s tiene ~82-85% de equidad contra el rango del fish: KX (top pair), 44 (set inferior), draws de flush y straight prácticamente inexistentes en K74. El fish con VPIP 55% mete el dinero con top pair, middle pair, pares menores. Tu set aplasta su rango. Paga sin dudar.",
+   en:"CALL. Set of 7s (777) on K-7-4. ER ≈ 42%. Set of 7s has ~82-85% equity against fish range: KX (top pair), 44 (worse set), flush and straight draws practically nonexistent on K74. Fish with VPIP 55% gets it in with top pair, middle pair, lower pairs. Your set crushes their range. Call without hesitation."},
+
+  // S612: TPTK vs fish all-in flop → CALL
+  {id:612,type:"facing",hand:"A♠ K♣",board:"A♦7♥3♦",street:"flop",open:true,
+   ctx:"facing_allin",pos:"CO",callPos:"BB",
+   descEs:"NL25 · CO vs BB · Fish recreativo (VPIP 62%, PFR 9%) · All-in en el flop\nPreflop: Hero abre CO 2.5BB. BB paga. Bote: 5.5BB.\nFlop A♦7♥3♦: BB apuesta 5.5BB (pot). Hero sube a 16BB. BB va all-in (97.5BB total). Stacks 100BB efectivos.\nBote total si pagas: 195BB. Coste del call: 81.5BB.",
+   descEn:"NL25 · CO vs BB · Recreational fish (VPIP 62%, PFR 9%) · All-in on flop\nPreflop: Hero opens CO 2.5BB. BB calls. Pot: 5.5BB.\nFlop A♦7♥3♦: BB bets 5.5BB (pot). Hero raises to 16BB. BB goes all-in (97.5BB total). Stacks 100BB effective.\nTotal pot if you call: 195BB. Cost of call: 81.5BB.",
+   es:"PAGAR. TPTK (AK) en A-7-3 vs fish all-in. ER ≈ 42%. El fish VPIP 62% va all-in con: AX kicker menor (AT, AJ, AQ), 7X, 3X, flush draw de diamantes, pares mediocres. AK tiene ~68-72% de equidad vs ese rango amplio. Superas el 42% con comodidad. Los únicos combos que baten a AK son AA (2 combos) y 77/33 (sets). El rango total del fish tiene mucho más valor para ti que contra ti. Paga.",
+   en:"CALL. TPTK (AK) on A-7-3 vs fish all-in. ER ≈ 42%. Fish VPIP 62% goes all-in with: AX weaker kicker (AT, AJ, AQ), 7X, 3X, diamond flush draw, medium pairs. AK has ~68-72% equity vs that wide range. You exceed 42% comfortably. Only combos beating AK are AA (2 combos) and 77/33 (sets). Fish's total range benefits you far more than it hurts. Call."},
+
+  // S613: Straight bajo vs reg all-in flop — drawing muerto → FOLD
+  {id:613,type:"facing",hand:"6♥ 5♥",board:"9♣8♦7♠",street:"flop",open:false,
+   ctx:"facing_allin",pos:"BB",callPos:"CO",
+   descEs:"NL25 · BB vs CO · Reg (VPIP 26%, PFR 20%) · All-in en el flop\nPreflop: CO abre 2.5BB. Hero BB paga. Bote: 5.5BB.\nFlop 9♣8♦7♠: Hero checkea. CO apuesta 3.5BB. Hero sube a 12BB. CO va all-in (97.5BB total). Stacks 100BB efectivos.\nBote total si pagas: 195BB. Coste del call: 85.5BB.",
+   descEn:"NL25 · BB vs CO · Reg (VPIP 26%, PFR 20%) · All-in on flop\nPreflop: CO opens 2.5BB. Hero BB calls. Pot: 5.5BB.\nFlop 9♣8♦7♠: Hero checks. CO bets 3.5BB. Hero raises to 12BB. CO goes all-in (97.5BB total). Stacks 100BB effective.\nTotal pot if you call: 195BB. Cost of call: 85.5BB.",
+   es:"FOLD. 65 en 9-8-7: tienes straight (5-6-7-8-9) pero es el PEOR straight posible en este tablero. Cualquier T da straight mejor al rival (6-7-8-9-T). El rango del reg que relanza all-in aquí incluye JTs, T9s, J9s — manos con T que hacen straight superior o tienen muchos outs para hacerlo. ER ≈ 44%. Tu equidad real vs ese rango es ~20-25% — muy por debajo del 44% requerido. El straight bajo te da la ilusión de una mano fuerte, pero está casi muerto contra el rango del all-in del reg.",
+   en:"FOLD. 65 on 9-8-7: you have a straight (5-6-7-8-9) but it's the WORST possible straight on this board. Any T gives villain a better straight (6-7-8-9-T). Reg's all-in range includes JTs, T9s, J9s — hands with T that make the superior straight or have many outs to do so. ER ≈ 44%. Your real equity vs that range is ~20-25% — well below the required 44%. The low straight gives the illusion of a strong hand, but it's almost dead against the reg's all-in range."},
+
+  // S614: Reg all-in turn, hero solo top pair → FOLD
+  {id:614,type:"facing",hand:"A♦ T♦",board:"T♠7♣3♥K♦",street:"turn",open:false,
+   ctx:"facing_allin",pos:"BB",callPos:"BTN",
+   descEs:"NL25 · BB vs BTN · Reg (VPIP 25%, PFR 20%) · All-in en el turn\nPreflop: BTN abre 2.5BB. Hero BB paga. Bote: 5.5BB.\nFlop T♠7♣3♥: Hero checkea. BTN apuesta 3.5BB. Hero paga. Bote: 12.5BB.\nTurn K♦: Hero checkea. BTN apuesta 9BB. Hero sube a 28BB. BTN va all-in (90BB total). Stacks 100BB efectivos.\nCoste del call: ~62BB más.",
+   descEn:"NL25 · BB vs BTN · Reg (VPIP 25%, PFR 20%) · All-in on turn\nPreflop: BTN opens 2.5BB. Hero BB calls. Pot: 5.5BB.\nFlop T♠7♣3♥: Hero checks. BTN bets 3.5BB. Hero calls. Pot: 12.5BB.\nTurn K♦: Hero checks. BTN bets 9BB. Hero raises to 28BB. BTN goes all-in (90BB total). Stacks 100BB effective.\nCost of call: ~62BB more.",
+   es:"FOLD. AT (top pair de Tens) en T-7-3-K vs all-in del reg en el turn. ER ≈ 62/(62+120.5) ≈ 34%. El reg (VPIP 25%) que paga el hero raise y relanza all-in en el turn tiene rango polarizado hacia lo más fuerte: KT (dos pares), TT/KK (sets), KX fuerte. AT apenas supera a AK (un split) y pierde contra toda su gama de valor. Tu equidad real vs ese rango es ~20-25% — muy por debajo del 34% requerido. Foldea.",
+   en:"FOLD. AT (top pair of Tens) on T-7-3-K vs reg all-in on turn. ER ≈ 62/(62+120.5) ≈ 34%. Reg (VPIP 25%) who calls hero raise and goes all-in on turn has polarized range toward the strongest: KT (two pair), TT/KK (sets), strong KX. AT barely beats AK (split) and loses to all their value range. Your real equity vs that range is ~20-25% — well below the required 34%. Fold."},
+
+  // ── TENDENCIAS DE POBLACIÓN + THIN CALLS (6) ────────────────────────────
+
+  // S615: Jugador desconocido apuesta 3 calles, hero segunda pareja → FOLD
+  {id:615,type:"facing",hand:"J♦ 9♦",board:"J♠T♣5♥8♦K♠",street:"river",open:false,
+   ctx:"facing_river",pos:"BB",callPos:"BTN",
+   descEs:"NL25 · BB vs BTN · Jugador desconocido (menos de 50 manos, sin stats fiables)\nPreflop: BTN abre 2.5BB. Hero BB paga. Bote: 5.5BB.\nFlop J♠T♣5♥: Hero checkea. BTN apuesta 3.5BB. Hero paga. Bote: 12.5BB.\nTurn 8♦: Hero checkea. BTN apuesta 9BB. Hero paga. Bote: 30.5BB.\nRiver K♠: Hero checkea. BTN apuesta 25BB (82% del bote).",
+   descEn:"NL25 · BB vs BTN · Unknown player (less than 50 hands, no reliable stats)\nPreflop: BTN opens 2.5BB. Hero BB calls. Pot: 5.5BB.\nFlop J♠T♣5♥: Hero checks. BTN bets 3.5BB. Hero calls. Pot: 12.5BB.\nTurn 8♦: Hero checks. BTN bets 9BB. Hero calls. Pot: 30.5BB.\nRiver K♠: Hero checks. BTN bets 25BB (82% of pot).",
+   es:"FOLD. J9 (par de Jotas, kicker débil) en J-T-5-8-K — tablero conectado completo. Sin reads, el sesgo por defecto en NL10-NL25 es fold vs jugador desconocido apostando las 3 calles. La tendencia de la población: muy pocos jugadores bluffean las 3 calles en NL25. El K del river fortalece el rango del rival (KJ, KT, K8). J9 tiene SDV insuficiente sin reads que apoyen el call. Foldea.",
+   en:"FOLD. J9 (pair of jacks, weak kicker) on J-T-5-8-K — fully connected board. No reads, default bias in NL10-NL25 is fold vs unknown player betting all 3 streets. Population tendency: very few players bluff all 3 streets in NL25. K on river strengthens villain's range (KJ, KT, K8). J9 has insufficient SDV without reads supporting the call. Fold."},
+
+  // S616: Fish pasivo apuesta river por primera vez, hero top pair kicker mala → FOLD
+  {id:616,type:"facing",hand:"K♦ 8♦",board:"K♥Q♣3♠J♦A♦",street:"river",open:false,
+   ctx:"facing_river",pos:"BB",callPos:"BTN",
+   descEs:"NL25 · BB vs BTN · Fish pasivo (VPIP 56%, PFR 7%, CBet River 11%, WTSD 45%)\nPreflop: BTN abre 2.5BB. Hero BB paga. Bote: 5.5BB.\nFlop K♥Q♣3♠: Hero checkea. BTN apuesta 3.5BB. Hero paga. Bote: 12.5BB.\nTurn J♦: Hero checkea. BTN checkea. Bote: 12.5BB.\nRiver A♦: Hero checkea. BTN apuesta 10BB (80% del bote) — primera apuesta proactiva del rival.",
+   descEn:"NL25 · BB vs BTN · Passive fish (VPIP 56%, PFR 7%, CBet River 11%, WTSD 45%)\nPreflop: BTN opens 2.5BB. Hero BB calls. Pot: 5.5BB.\nFlop K♥Q♣3♠: Hero checks. BTN bets 3.5BB. Hero calls. Pot: 12.5BB.\nTurn J♦: Hero checks. BTN checks. Pot: 12.5BB.\nRiver A♦: Hero checks. BTN bets 10BB (80% of pot) — villain's first proactive bet.",
+   es:"FOLD. K8 (top pair kicker pésima) en K-Q-3-J-A. ER = 10/(10+22.5) = 31%. Fish pasivo (CBet River 11%) que apuesta el river por primera vez tiene rango extremadamente sesgado hacia valor: AK (dos pares), AX, KQ, KJ. Con WTSD 45% este fish llega al showdown pasivamente checkeando — solo apuesta cuando tiene mano muy fuerte. K8 no tiene el 31% de equity necesario vs su rango de river bet. Foldea.",
+   en:"FOLD. K8 (top pair terrible kicker) on K-Q-3-J-A. ER = 10/(10+22.5) = 31%. Passive fish (CBet River 11%) betting river for the first time has extremely value-weighted range: AK (two pair), AX, KQ, KJ. With WTSD 45% this fish reaches showdown passively by checking — only bets when they have a strong hand. K8 doesn't have the required 31% equity vs their river bet range. Fold."},
+
+  // S617: Aggro reg WWSF alto, apuesta river, hero underpair como bluff catcher → CALL
+  {id:617,type:"facing",hand:"8♠ 8♦",board:"A♣K♥5♦2♣9♠",street:"river",open:true,
+   ctx:"facing_river",pos:"BTN",callPos:"BB",
+   descEs:"NL25 · BTN vs BB · Aggro reg (VPIP 32%, PFR 26%, CBet River 58%, WWSF 62%)\nPreflop: Hero abre BTN 2.5BB. BB paga. Bote: 5.5BB.\nFlop A♣K♥5♦: BB checkea. Hero apuesta 3.5BB. BB paga. Bote: 12.5BB.\nTurn 2♣: BB checkea. Hero apuesta 8BB. BB paga. Bote: 28.5BB.\nRiver 9♠: BB apuesta 22BB (77% del bote).",
+   descEn:"NL25 · BTN vs BB · Aggro reg (VPIP 32%, PFR 26%, CBet River 58%, WWSF 62%)\nPreflop: Hero opens BTN 2.5BB. BB calls. Pot: 5.5BB.\nFlop A♣K♥5♦: BB checks. Hero bets 3.5BB. BB calls. Pot: 12.5BB.\nTurn 2♣: BB checks. Hero bets 8BB. BB calls. Pot: 28.5BB.\nRiver 9♠: BB bets 22BB (77% of pot).",
+   es:"PAGAR. 88 como bluff catcher vs aggro reg. ER = 22/(22+50.5) = 30%. El aggro reg (CBet River 58%, WWSF 62%) usó línea check-call-call-lead river — típica de bluffs con draws fallidos: QJ, QT, JT (missed straight draws en tablero A-K-5-2). 88 gana vs toda esa gama de bluffs. Con WWSF 62% este rival genera suficientes bluffs para justificar el call. El sizing 77% es consistente con bluff o value mediocre. Paga.",
+   en:"CALL. 88 as bluff catcher vs aggro reg. ER = 22/(22+50.5) = 30%. Aggro reg (CBet River 58%, WWSF 62%) used check-call-call-lead river line — typical of bluffs with missed draws: QJ, QT, JT (missed straight draws on A-K-5-2 board). 88 beats all those bluff hands. With WWSF 62% this opponent generates enough bluffs to justify the call. The 77% sizing is consistent with bluff or mediocre value. Call."},
+
+  // S618: Thin call — reg checkea turn, apuesta river pequeño, top pair mediocre → CALL
+  {id:618,type:"facing",hand:"Q♣ T♠",board:"Q♠8♦3♥6♣K♦",street:"river",open:true,
+   ctx:"facing_river",pos:"BB",callPos:"BTN",
+   descEs:"NL25 · BB vs BTN · Reg (VPIP 28%, PFR 21%, CBet River 38%, WWSF 52%)\nPreflop: BTN abre 2.5BB. Hero BB paga. Bote: 5.5BB.\nFlop Q♠8♦3♥: Hero checkea. BTN apuesta 3.5BB. Hero paga. Bote: 12.5BB.\nTurn 6♣: Hero checkea. BTN checkea. Bote: 12.5BB.\nRiver K♦: Hero checkea. BTN apuesta 7BB (56% del bote).",
+   descEn:"NL25 · BB vs BTN · Reg (VPIP 28%, PFR 21%, CBet River 38%, WWSF 52%)\nPreflop: BTN opens 2.5BB. Hero BB calls. Pot: 5.5BB.\nFlop Q♠8♦3♥: Hero checks. BTN bets 3.5BB. Hero calls. Pot: 12.5BB.\nTurn 6♣: Hero checks. BTN checks. Pot: 12.5BB.\nRiver K♦: Hero checks. BTN bets 7BB (56% of pot).",
+   es:"PAGAR (call thin). QT en Q-8-3-6-K. ER = 7/(7+19.5) = 26%. El BTN checkeó el turn — señal de que no tenía mano suficientemente fuerte para barrel (ni value ni semi-bluff potente). Eso amplía su rango de river bet hacia value mediocre (8X, KX débil) y bluffs de draws fallidos. CBet River 38% con turn check: mezcla de valor/bluff. QT (top pair kicker mediocre) supera los bluffs y algo del valor mediocre. ER 26% alcanzable. Call thin correcto.",
+   en:"CALL (thin call). QT on Q-8-3-6-K. ER = 7/(7+19.5) = 26%. BTN checked turn — signal they didn't have a strong enough hand to barrel (no strong value or semi-bluff). That widens their river bet range toward mediocre value (8X, weak KX) and missed draw bluffs. CBet River 38% with turn check: mix of value/bluff. QT (top pair mediocre kicker) beats the bluffs and some mediocre value. 26% ER achievable. Correct thin call."},
+
+  // S619: Nut flush completado en el flop, river empareja el tablero pero la nuts sigue siendo tuya → CALL
+  {id:619,type:"facing",hand:"A♥ 5♥",board:"K♥9♥7♥3♣3♦",street:"river",open:true,
+   ctx:"facing_river",pos:"BB",callPos:"BTN",
+   descEs:"NL25 · BB vs BTN · Fish (VPIP 60%, PFR 11%, WTSD 42%)\nPreflop: BTN abre 2.5BB. Hero BB paga. Bote: 5.5BB.\nFlop K♥9♥7♥: Hero checkea (flush de Ases ya completada). BTN apuesta 3.5BB. Hero paga. Bote: 12.5BB.\nTurn 3♣: Hero checkea. BTN apuesta 7BB. Hero paga. Bote: 26.5BB.\nRiver 3♦: Hero checkea. BTN apuesta 20BB (75% del bote).",
+   descEn:"NL25 · BB vs BTN · Fish (VPIP 60%, PFR 11%, WTSD 42%)\nPreflop: BTN opens 2.5BB. Hero BB calls. Pot: 5.5BB.\nFlop K♥9♥7♥: Hero checks (Ace-high flush already made). BTN bets 3.5BB. Hero calls. Pot: 12.5BB.\nTurn 3♣: Hero checks. BTN bets 7BB. Hero calls. Pot: 26.5BB.\nRiver 3♦: Hero checks. BTN bets 20BB (75% of pot).",
+   es:"PAGAR. A♥5♥ tiene flush de Ases (la nuts, salvo escalera de color) desde el flop en K-9-7 con tres corazones. ER = 20/(20+46.5) = 30%. El river 3♦ empareja el tablero (K-9-7-3-3), pero para que el fish tenga full house necesitaría exactamente 33 (2 combos) o K3/93/73 — extremadamente improbable viniendo de un fish (VPIP 60%) que llevó la apuesta las 3 calles desde el flop con un rango amplio de value. Tu flush de Ases sigue siendo la mejor mano en ~95% de su rango. Paga sin dudar.",
+   en:"CALL. A♥5♥ has the nut flush (the nuts barring a straight flush) since the flop on K-9-7 with three hearts. ER = 20/(20+46.5) = 30%. River 3♦ pairs the board (K-9-7-3-3), but for the fish to have a full house they'd need exactly 33 (2 combos) or K3/93/73 — extremely unlikely from a fish (VPIP 60%) who led betting all 3 streets from the flop with a wide value range. Your nut flush remains the best hand in ~95% of their range. Call without hesitation."},
+
+  // S620: AQ sin pareja vs 3-bet + 3 barriles crecientes de un reg en tablero seco → FOLD
+  {id:620,type:"facing",hand:"A♦ Q♦",board:"J♣9♠4♦2♥7♠",street:"river",open:false,
+   ctx:"facing_river",pos:"CO",callPos:"BTN",
+   descEs:"NL25 · CO vs BTN · Reg (VPIP 24%, PFR 19%, CBet River 45%, WWSF 49%)\nPreflop: Hero abre CO 2.5BB. BTN 3-bet a 8BB. Hero paga. Bote: 17BB.\nFlop J♣9♠4♦: BTN apuesta 9BB. Hero paga. Bote: 35BB.\nTurn 2♥: BTN apuesta 22BB. Hero paga. Bote: 79BB.\nRiver 7♠: BTN apuesta 60BB (76% del bote).",
+   descEn:"NL25 · CO vs BTN · Reg (VPIP 24%, PFR 19%, CBet River 45%, WWSF 49%)\nPreflop: Hero opens CO 2.5BB. BTN 3-bets to 8BB. Hero calls. Pot: 17BB.\nFlop J♣9♠4♦: BTN bets 9BB. Hero calls. Pot: 35BB.\nTurn 2♥: BTN bets 22BB. Hero calls. Pot: 79BB.\nRiver 7♠: BTN bets 60BB (76% of pot).",
+   es:"FOLD. AQ (as alto, sin pareja) en J-9-4-2-7 — no tienes ni un par. ER = 60/(60+139) = 30%. Necesitarías que el rival faroleara con frecuencia ≥30% tras 3-bet preflop + 2 barriles + overbet de river. Un reg que 3-betea preflop y dispara 3 calles con sizing creciente en un tablero seco y desconectado tiene rango polarizado: sets/overpares (JJ, 99, 44, QQ+), AJ/A9 (top pair). Sin pareja, AQ no le gana a nada de ese rango salvo bluffs puros, que un reg así rara vez ejecuta con 3 barriles. Foldea — esto es un river fold claro, no un thin call.",
+   en:"FOLD. AQ (ace-high, no pair) on J-9-4-2-7 — you don't even have a pair. ER = 60/(60+139) = 30%. You'd need villain bluffing ≥30% across a preflop 3-bet + 2 barrels + river overbet. A reg who 3-bets preflop and fires 3 streets with increasing sizing on a dry, disconnected board has a polarized range: sets/overpairs (JJ, 99, 44, QQ+), AJ/A9 (top pair). With no pair, AQ beats nothing in that range except pure bluffs, which a reg like this rarely runs with 3 barrels. Fold — this is a clear river fold, not a thin call."},
+];
+
 function PracticePage({ t, lang, onSessionComplete }) {
   const p = t.practice;
   const [session, setSession] = useState(null);
@@ -4143,11 +4617,11 @@ function PracticePage({ t, lang, onSessionComplete }) {
   const [byType, setByType] = useState({});
   const [xpEarned, setXpEarned] = useState(0);
 
-  const ALL_SITUATIONS = [...SITUATIONS, ...ISO_SITUATIONS, ...CBET_SITUATIONS, ...VBET_SITUATIONS, ...CALL_SITUATIONS];
+  const ALL_SITUATIONS = [...SITUATIONS, ...ISO_SITUATIONS, ...CBET_SITUATIONS, ...VBET_SITUATIONS, ...CALL_SITUATIONS, ...FACING_SITUATIONS];
 
   const startSession = () => {
-    // Stratified sampling: guaranteed mix of all 4 types per session
-    // 3 OR · 2 ROL · 3 CBET · 2 VBET = 10 hands
+    // Stratified sampling: guaranteed mix of all types per session
+    // 2 OR · 2 ROL · 2 CBET · 2 VBET · 2 CALL · 2 FACING = 12 hands
     const pick = (arr, n) => [...arr].sort(() => Math.random() - 0.5).slice(0, n);
     const hands = [
       ...pick(SITUATIONS,       2),
@@ -4155,6 +4629,7 @@ function PracticePage({ t, lang, onSessionComplete }) {
       ...pick(CBET_SITUATIONS,  2),
       ...pick(VBET_SITUATIONS,  2),
       ...pick(CALL_SITUATIONS,  2),
+      ...pick(FACING_SITUATIONS,2),
     ].sort(() => Math.random() - 0.5);
     setSession(hands);
     setIdx(0); setPicked(null); setScore(0); setDone(false); setByType({}); setXpEarned(0);
@@ -4174,7 +4649,7 @@ function PracticePage({ t, lang, onSessionComplete }) {
   };
 
   const handleNext = () => {
-    if (idx < 9) {
+    if (idx < 11) {
       const nextIdx = idx + 1;
       setIdx(nextIdx);
       setPicked(null);
@@ -4214,9 +4689,10 @@ function PracticePage({ t, lang, onSessionComplete }) {
       cbet: { es:"C-Bet",         en:"C-Bet"        },
       vbet: { es:"Value Bet",     en:"Value Bet"    },
       call: { es:"Pagar apert.", en:"Calling Opens" },
+      facing: { es:"Facing Bets", en:"Facing Bets" },
     };
-    const typeOrder = ["open","iso","cbet","vbet","call"];
-    const scoreColor = score>=8?"#10b981":score>=5?"#c9a84c":"#f97316";
+    const typeOrder = ["open","iso","cbet","vbet","call","facing"];
+    const scoreColor = score>=10?"#10b981":score>=6?"#c9a84c":"#f97316";
     const xp = xpEarned || calcXP(score);
     const worstType = typeOrder
       .filter(t => byType[t] && byType[t].total > 0)
@@ -4224,12 +4700,12 @@ function PracticePage({ t, lang, onSessionComplete }) {
     return (
       <div style={{ maxWidth:540, margin:"0 auto", padding:"32px 16px" }}>
         <div style={{ textAlign:"center", marginBottom:24 }}>
-          <div style={{ fontSize:44, marginBottom:8 }}>{score===10?"🏆":score>=7?"👍":"📚"}</div>
+          <div style={{ fontSize:44, marginBottom:8 }}>{score===12?"🏆":score>=8?"👍":"📚"}</div>
           <div style={{ fontSize:20, fontWeight:700, color:"#fff", marginBottom:4 }}>{p.scoreTitle}</div>
           <div style={{ fontSize:52, fontWeight:800, color:scoreColor, lineHeight:1 }}>
-            {score}<span style={{ fontSize:26, color:"#8b8fa8", fontWeight:400 }}>/10</span>
+            {score}<span style={{ fontSize:26, color:"#8b8fa8", fontWeight:400 }}>/12</span>
           </div>
-          <div style={{ fontSize:13, color:"#b0b4cc", marginTop:6 }}>{score===10?p.perfect:score>=7?p.good:p.review}</div>
+          <div style={{ fontSize:13, color:"#b0b4cc", marginTop:6 }}>{score===12?p.perfect:score>=8?p.good:p.review}</div>
         </div>
         <div style={{ background:"#120f04", border:"1px solid #c9a84c44", borderRadius:12, padding:"14px 20px", marginBottom:12, display:"flex", alignItems:"center", gap:12 }}>
           <div style={{ fontSize:26 }}>⭐</div>
@@ -4283,17 +4759,17 @@ function PracticePage({ t, lang, onSessionComplete }) {
       {/* Progress */}
       <div style={{ marginBottom: 20 }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-          <span style={{ fontSize: 12, color: "#8b8fa8" }}>{p.situation} {idx + 1} {p.of} 10</span>
+          <span style={{ fontSize: 12, color: "#8b8fa8" }}>{p.situation} {idx + 1} {p.of} 12</span>
           <span style={{ fontSize: 12, color: "#c9a84c" }}>✓ {score}</span>
         </div>
         <div style={{ height: 4, background: "#1e2235", borderRadius: 4 }}>
-          <div style={{ height: "100%", width: `${(idx / 10) * 100}%`, background: "#c9a84c", borderRadius: 4, transition: "width 0.3s" }} />
+          <div style={{ height: "100%", width: `${(idx / 12) * 100}%`, background: "#c9a84c", borderRadius: 4, transition: "width 0.3s" }} />
         </div>
       </div>
 
       {/* Situation card */}
       <div style={{ background: "#0d0f1a", border: "1px solid #1e2235", borderRadius: 14, padding: "20px", marginBottom: 16 }}>
-        {sit.type === "vbet" && sit.descEs && (
+        {(sit.type === "vbet" || sit.type === "facing") && sit.descEs && (
           <div style={{ background:"#0a0c14", border:"1px solid #1e2235", borderRadius:10, padding:"12px 14px", marginBottom:14 }}>
             <div style={{ fontSize:11, fontWeight:700, color:"#c9a84c", textTransform:"uppercase", letterSpacing:1, marginBottom:6 }}>
               {lang==="es" ? "Historia de la mano" : "Hand history"}
@@ -4380,7 +4856,7 @@ function PracticePage({ t, lang, onSessionComplete }) {
 
       {picked && (
         <button onClick={handleNext} style={{ width: "100%", background: "linear-gradient(135deg, #e8c96a 0%, #c9a84c 100%)", border: "none", borderRadius: 10, padding: "13px", color: "#0a0c14", fontWeight: 800, fontSize: 15, cursor: "pointer", letterSpacing: 0.3 }}>
-          {idx < 9 ? p.next : p.finish}
+          {idx < 11 ? p.next : p.finish}
         </button>
       )}
     </div>
@@ -4529,7 +5005,7 @@ function getLevelInfo(xp) {
 }
 function calcXP(score) {
   const base  = score * 10;
-  const bonus = score === 10 ? 60 : score >= 9 ? 40 : score >= 7 ? 25 : score >= 5 ? 10 : 0;
+  const bonus = score === 12 ? 70 : score >= 10 ? 45 : score >= 8 ? 25 : score >= 6 ? 10 : 0;
   return base + bonus;
 }
 function todayStr() { return new Date().toISOString().split('T')[0]; }
@@ -4626,7 +5102,7 @@ export default function App() {
       lastStudiedDate: newDay ? todayStr() : xpData.lastStudiedDate,
       totalCorrect:   xpData.totalCorrect + score,
       totalSessions:  xpData.totalSessions + 1,
-      totalAnswered:  (xpData.totalAnswered || 0) + 10,
+      totalAnswered:  (xpData.totalAnswered || 0) + 12,
       categoryStats:  (() => {
         const merged = { ...(xpData.categoryStats || {}) };
         Object.entries(byType).forEach(([typ, vals]) => {
