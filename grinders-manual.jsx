@@ -3801,7 +3801,7 @@ const CBET_SITUATIONS = [
   {id:390,type:"cbet",hand:"5♦5♣",board:"A♦5♠2♣",players:1,open:true, size:"large",ctx:"cb_hu_oop",    es:"Set de 5s en tablero de as. C-bet 67% — set poderoso, cobra al rival que tiene AX.",en:"Set of fives on ace board. C-bet 67% — powerful set, charge the villain who has AX.", pos:"CO", callPos:"BTN"},
   {id:391,type:"cbet",hand:"Q♣T♣",board:"Q♦T♦8♣",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Dos pares top IP en tablero con flush draw. C-bet 67% — mano fuerte pero vulnerable a flushes.",en:"Top two pair IP on board with flush draw. C-bet 67% — strong but vulnerable to flushes.", pos:"BTN", callPos:"BB"},
   {id:392,type:"cbet",hand:"A♠8♣",board:"8♦8♠3♣",players:1,open:true, size:"small",ctx:"cb_hu_ip",     es:"Trips (8s) + top kicker. C-bet 33% small — tablero seco, no hay draws, extrae valor tranquilamente.",en:"Trips (eights) + top kicker. C-bet 33% small — dry board, no draws, extract value calmly.", pos:"BTN", callPos:"BB"},
-  {id:393,type:"cbet",hand:"J♠9♠",board:"J♦9♣4♥",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Dos pares top IP en tablero con possible flush draws en colores. C-bet 67% — protege tu mano.",en:"Top two pair IP on board with potential flush draws. C-bet 67% — protect your hand.", pos:"BTN", callPos:"BB"},
+  {id:393,type:"cbet",hand:"J♠9♠",board:"J♦9♣4♥",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Dos pares top IP en tablero rainbow. C-bet 67% — protege tu mano de overcards y construye el bote.",en:"Top two pair IP on rainbow board. C-bet 67% — protect your hand from overcards and build the pot.", pos:"BTN", callPos:"BB"},
   {id:394,type:"cbet",hand:"K♥8♥",board:"K♦8♦4♠",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Dos pares IP en tablero con dos palos repetidos. C-bet 67% — cobra a los flush draws.",en:"Two pair IP on board with two repeated suits. C-bet 67% — charge the flush draws.", pos:"BTN", callPos:"BB"},
   {id:395,type:"cbet",hand:"A♦Q♦",board:"Q♠8♦3♦",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Top pair + nut flush draw IP. C-bet 67% — draw + valor es la combinación ideal para bet grande.",en:"Top pair + nut flush draw IP. C-bet 67% — draw + value is the ideal combination for a large bet.", pos:"BTN", callPos:"BB"},
   {id:396,type:"cbet",hand:"T♠T♦",board:"T♣T♥3♠",players:1,open:true, size:"small",ctx:"cb_hu_ip",     es:"Quads (cuadra de tens). C-bet 33% pequeño — tablero ultra-seco, el rival no tiene nada. Extrae valor lentamente.",en:"Quads (four tens). C-bet 33% small — ultra-dry board, villain has nothing. Extract value slowly.", pos:"BTN", callPos:"BB"},
@@ -4167,10 +4167,10 @@ const VBET_SITUATIONS = [
    descEs:"Preflop (NL25): Hero abre SB a 3BB. BTN (regular IP agresivo, VPIP 28%, Float flop 42%) paga. Bote: 6.5BB · Stacks: 100BB.\nFlop A♦Q♠T♥: Hero actúa primero (OOP).",
    descEn:"Preflop (NL25): Hero opens SB to 3BB. BTN (aggressive regular IP, VPIP 28%, Float flop 42%) calls. Pot: 6.5BB · Stacks: 100BB.\nFlop A♦Q♠T♥: Hero acts first (OOP).",
    es:"Dos pares OOP vs regular IP agresivo. El regular apostará si checkeas — slowplay válido. Check e induce.",en:"Two pair OOP vs aggressive regular IP. The regular will bet if you check — valid slowplay. Check and induce."},
-  {id:454,type:"vbet",hand:"A♠K♠",board:"A♦7♠2♠",street:"turn",open:false,size:null,ctx:"vbet_check",pos:"BTN",callPos:"BB",
-   descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (regular, VPIP 22%, WTSD 24%) paga. Bote: 5.5BB.\nFlop A♦7♠2♠: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn ?: El turn completa el flush de picas. BB checkea. Hero actúa.",
-   descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (regular, VPIP 22%, WTSD 24%) calls. Pot: 5.5BB.\nFlop A♦7♠2♠: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn ?: The turn completes the spade flush. BB checks. Hero acts.",
-   es:"TPTK + flush draw en turn cuando el flush se completa. Ahora muchas manos te ganan. Fuerza relativa insuficiente. Check.",en:"TPTK + flush draw on turn when flush completes. Many hands now beat you. Insufficient relative strength. Check."},
+  {id:454,type:"vbet",hand:"A♠K♠",board:"A♦7♠2♠",street:"turn",open:true,size:"large",ctx:"vbet_reg_ip",pos:"BTN",callPos:"BB",
+   descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (regular, VPIP 22%, WTSD 24%) paga. Bote: 5.5BB.\nFlop A♦7♠2♠: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn ?: El turn completa el quinto pica. BB checkea. Hero actúa.",
+   descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (regular, VPIP 22%, WTSD 24%) calls. Pot: 5.5BB.\nFlop A♦7♠2♠: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn ?: The turn completes the fifth spade. BB checks. Hero acts.",
+   es:"Color de As en turn (picas): tienes A♠K♠, el flop trae 7♠2♠ y el turn completa el quinto pica — tu color de As es la nuts (nadie puede tener un color más alto). Sigue apostando fuerte para construir el bote contra un regular que ya pagó el flop. Bet 67%.",en:"Ace-high flush on the turn (spades): you hold A♠K♠, the flop brought 7♠2♠, and the turn completes the fifth spade — your nut flush is the best possible hand (no one can have a higher flush). Keep betting big to build the pot against a regular who already called the flop. Bet 67%."},
   {id:455,type:"vbet",hand:"J♦T♦",board:"J♥T♣4♠Q♠",street:"turn",open:false,size:null,ctx:"vbet_check",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (regular, VPIP 22%, WTSD 24%) paga. Bote: 5.5BB.\nFlop J♥T♣4♠: BB checkea. Hero apuesta 4BB (67%). BB paga. Bote: 13.5BB.\nTurn Q♠: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (regular, VPIP 22%, WTSD 24%) calls. Pot: 5.5BB.\nFlop J♥T♣4♠: BB checks. Hero bets 4BB (67%). BB calls. Pot: 13.5BB.\nTurn Q♠: BB checks. Hero acts.",
@@ -4191,10 +4191,10 @@ const VBET_SITUATIONS = [
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB.\nFlop A♠Q♣T♦: BB checkea. Hero apuesta 4BB. BB paga. Bote: 13.5BB.\nTurn J♣: BB checkea. Hero apuesta 9BB. BB paga. Bote: 31.5BB.\nRiver K♠: BB checkea. Hero actúa.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB.\nFlop A♠Q♣T♦: BB checks. Hero bets 4BB. BB calls. Pot: 13.5BB.\nTurn J♣: BB checks. Hero bets 9BB. BB calls. Pot: 31.5BB.\nRiver K♠: BB checks. Hero acts.",
    es:"Dos pares A+Q en tablero completo A-K-Q-J-T. El straight comunitario aplana tu mano. Fuerza relativa pésima. Check.",en:"Two pair A+Q on complete A-K-Q-J-T board. The community straight flattens your hand. Terrible relative strength. Check."},
-  {id:460,type:"vbet",hand:"K♥J♥",board:"K♠J♣8♥9♥T♥",street:"river",open:false,size:null,ctx:"vbet_check",pos:"BTN",callPos:"BB",
+  {id:460,type:"vbet",hand:"K♥J♥",board:"K♠J♣8♥9♥T♥",street:"river",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB.\nFlop K♠J♣8♥: BB checkea. Hero apuesta 4BB. BB paga. Bote: 13.5BB.\nTurn 9♥: BB checkea. Hero apuesta 9BB. BB paga. Bote: 31.5BB.\nRiver T♥: BB checkea. Hero actúa. El tablero es monotone de corazones.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB.\nFlop K♠J♣8♥: BB checks. Hero bets 4BB. BB calls. Pot: 13.5BB.\nTurn 9♥: BB checks. Hero bets 9BB. BB calls. Pot: 31.5BB.\nRiver T♥: BB checks. Hero acts. Board is monotone hearts.",
-   es:"Dos pares K+J en tablero monotone de corazones. El flush llegó — cualquier corazón te gana. Fuerza relativa horrible. Check.",en:"Two pair K+J on monotone hearts board. The flush arrived — any heart beats you. Terrible relative strength. Check."},
+   es:"Color de K en tablero monotone de corazones (K♠J♣8♥9♥T♥): tienes K♥J♥ y el board trae 8♥9♥T♥, así que tienes color de Rey — solo pierdes contra Ax de corazones. El fish que pagó 2 calles tiene mucho corazón peor (Qx, Jx, 9x) y dos pares. Bet 67%.",en:"King-high flush on a monotone hearts board (K♠J♣8♥9♥T♥): you hold K♥J♥ and the board shows 8♥9♥T♥, so you have a King-high flush — you only lose to Ax of hearts. The fish who called 2 streets has lots of worse hearts (Qx, Jx, 9x) and two pair. Bet 67%."},
   {id:461,type:"vbet",hand:"T♣8♣",board:"T♦8♠6♥7♠9♣",street:"river",open:false,size:null,ctx:"vbet_check",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB.\nFlop T♦8♠6♥: BB checkea. Hero apuesta 4BB. BB paga. Bote: 13.5BB.\nTurn 7♠: BB checkea. Hero apuesta 9BB. BB paga. Bote: 31.5BB.\nRiver 9♣: BB checkea. Hero actúa. El straight 6-7-8-9-T está en el board.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB.\nFlop T♦8♠6♥: BB checks. Hero bets 4BB. BB calls. Pot: 13.5BB.\nTurn 7♠: BB checks. Hero bets 9BB. BB calls. Pot: 31.5BB.\nRiver 9♣: BB checks. Hero acts. The 6-7-8-9-T straight is on the board.",
@@ -4211,10 +4211,10 @@ const VBET_SITUATIONS = [
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB.\nFlop 5♥4♣3♦: BB checkea. Hero apuesta 4BB. BB paga. Bote: 13.5BB.\nTurn 2♠: BB checkea. Hero apuesta 9BB. BB paga. Bote: 31.5BB.\nRiver A♥: BB checkea. Hero actúa con set. Tablero A-2-3-4-5 (wheel completa).",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB.\nFlop 5♥4♣3♦: BB checks. Hero bets 4BB. BB calls. Pot: 13.5BB.\nTurn 2♠: BB checks. Hero bets 9BB. BB calls. Pot: 31.5BB.\nRiver A♥: BB checks. Hero acts with set. Board is A-2-3-4-5 (complete wheel).",
    es:"Set de 5s en tablero wheel straight completo (A-2-3-4-5). Cualquier 6 tiene straight superior. La wheel es la mano que TIENE el rival si tiene A-2, A-3. Check.",en:"Set of fives on complete wheel straight board (A-2-3-4-5). Any 6 has a superior straight. The wheel is the hand the villain HAS if they have A-2, A-3. Check."},
-  {id:465,type:"vbet",hand:"A♥T♥",board:"A♦T♣8♥Q♥K♥",street:"river",open:false,size:null,ctx:"vbet_check",pos:"BTN",callPos:"BB",
+  {id:465,type:"vbet",hand:"A♥T♥",board:"A♦T♣8♥Q♥K♥",street:"river",open:true,size:"large",ctx:"vbet_fish_ip",pos:"BTN",callPos:"BB",
    descEs:"Preflop (NL25): Hero abre BTN a 2.5BB. BB (fish, VPIP 55%, WTSD 38%) paga. Bote: 5.5BB.\nFlop A♦T♣8♥: BB checkea. Hero apuesta 4BB. BB paga. Bote: 13.5BB.\nTurn Q♥: BB checkea. Hero apuesta 9BB. BB paga. Bote: 31.5BB.\nRiver K♥: BB checkea. Hero actúa. Tablero monotone de corazones con A-T-8-Q-K.",
    descEn:"Preflop (NL25): Hero opens BTN to 2.5BB. BB (fish, VPIP 55%, WTSD 38%) calls. Pot: 5.5BB.\nFlop A♦T♣8♥: BB checks. Hero bets 4BB. BB calls. Pot: 13.5BB.\nTurn Q♥: BB checks. Hero bets 9BB. BB calls. Pot: 31.5BB.\nRiver K♥: BB checks. Hero acts. Monotone hearts board A-T-8-Q-K.",
-   es:"Dos pares A+T en tablero monotone de corazones. El flush llegó y muchos straights posibles. Fuerza relativa muy baja. Check.",en:"Two pair A+T on monotone hearts board. Flush arrived and many possible straights. Very low relative strength. Check."},
+   es:"Color de As en tablero monotone de corazones (A♦T♣8♥Q♥K♥): tienes A♥T♥ y el board ya trae 8♥Q♥K♥, así que tu color de As es la nuts (nadie puede tener un color más alto). El fish paga river con corazones peores (Kx, Qx, Jx, 9x) y con dos pares/sets. Bet 67%.",en:"Ace-high flush on a monotone hearts board (A♦T♣8♥Q♥K♥): you hold A♥T♥ and the board already shows 8♥Q♥K♥, so your Ace-high flush is the nuts (no one can have a higher flush). The fish calls river with worse hearts (Kx, Qx, Jx, 9x) and with two pair/sets. Bet 67%."},
 ];
 
 
@@ -4536,8 +4536,8 @@ const FACING_SITUATIONS = [
    ctx:"facing_allin",pos:"BTN",callPos:"BB",
    descEs:"NL25 · BTN vs BB · Fish recreativo (VPIP 68%, PFR 7%) · All-in en el flop\nPreflop: Hero abre BTN 2.5BB. BB paga. Bote: 5.5BB.\nFlop A♠9♠8♣: BB apuesta 5.5BB (pot). Hero sube a 15BB. BB va all-in (97.5BB total). Stacks 100BB efectivos.\nBote total si pagas: 195BB. Coste del call: 80BB.",
    descEn:"NL25 · BTN vs BB · Recreational fish (VPIP 68%, PFR 7%) · All-in on flop\nPreflop: Hero opens BTN 2.5BB. BB calls. Pot: 5.5BB.\nFlop A♠9♠8♣: BB bets 5.5BB (pot). Hero raises to 15BB. BB goes all-in (97.5BB total). Stacks 100BB effective.\nTotal pot if you call: 195BB. Cost of call: 80BB.",
-   es:"PAGAR. J♠T♠ en A♠9♠8♣: flush draw de picas (9 outs) + OESD (J-T-9-8, completa con Q o 7, 8 outs) = combo draw de ~15 outs. ER ≈ 80/(80+110) ≈ 42%. Equidad real vs rango fish amplio (AX, 9X, 8X, draws peores): ~55-60%. El fish VPIP 68% va all-in con rango amplísimo que incluye pares mediocres y draws débiles. Superas el 42% con margen. Paga.",
-   en:"CALL. J♠T♠ on A♠9♠8♣: spade flush draw (9 outs) + OESD (J-T-9-8, completes with Q or 7, 8 outs) = combo draw of ~15 outs. ER ≈ 80/(80+110) ≈ 42%. Real equity vs wide fish range (AX, 9X, 8X, weaker draws): ~55-60%. Fish VPIP 68% goes all-in with wide range including medium pairs and weak draws. You exceed 42% comfortably. Call."},
+   es:"PAGAR. J♠T♠ en A♠9♠8♣: flush draw de picas (9 outs) + OESD (J-T-9-8, completa con Q o 7, 8 outs) = combo draw de ~15 outs. ER ≈ 80/(80+115) ≈ 41%. Equidad real vs rango fish amplio (AX, 9X, 8X, draws peores): ~55-60%. El fish VPIP 68% va all-in con rango amplísimo que incluye pares mediocres y draws débiles. Superas el 41% con margen. Paga.",
+   en:"CALL. J♠T♠ on A♠9♠8♣: spade flush draw (9 outs) + OESD (J-T-9-8, completes with Q or 7, 8 outs) = combo draw of ~15 outs. ER ≈ 80/(80+115) ≈ 41%. Real equity vs wide fish range (AX, 9X, 8X, weaker draws): ~55-60%. Fish VPIP 68% goes all-in with wide range including medium pairs and weak draws. You exceed 41% comfortably. Call."},
 
   // S611: Set de 7s vs fish all-in en flop → CALL
   {id:611,type:"facing",hand:"7♦ 7♣",board:"7♠K♣4♥",street:"flop",open:true,
@@ -4711,6 +4711,23 @@ function PracticePage({ t, lang, onSessionComplete }) {
 
   const posColors = { UTG:"#ef4444", MP:"#f97316", CO:"#eab308", BTN:"#10b981", SB:"#8b5cf6", BB:"#06b6d4" };
 
+  // Postflop acting order (earliest to latest). Used to determine IP/OOP for the
+  // cbet/vbet badge when the ctx label itself doesn't disambiguate (e.g. "vbet_check").
+  const POSTFLOP_ORDER = ["SB", "BB", "UTG", "MP", "CO", "BTN"];
+  const isOOP = (sit) => {
+    if (!sit.ctx) return false;
+    if (sit.ctx === "cb_3way") return true;
+    if (sit.ctx === "cb_3way_ip") return false;
+    if (sit.ctx.includes("oop")) return true;
+    if (sit.ctx.includes("ip")) return false;
+    if (sit.pos && sit.callPos && !sit.callPos.includes("+")) {
+      const a = POSTFLOP_ORDER.indexOf(sit.pos);
+      const b = POSTFLOP_ORDER.indexOf(sit.callPos);
+      if (a >= 0 && b >= 0) return a < b;
+    }
+    return false;
+  };
+
   // ── Start screen ──────────────────────────────────────────────
   if (!session) {
     const toggleCat = (key) => setSelected(prev => prev.includes(key) ? prev.filter(c => c !== key) : [...prev, key]);
@@ -4865,7 +4882,7 @@ function PracticePage({ t, lang, onSessionComplete }) {
             <span style={{ color: "#1e2235" }}>·</span>
             <span>{sit.players === 1 ? (lang === "es" ? "Heads-up" : "Heads-up") : (lang === "es" ? "3-way" : "3-way")}</span>
             <span style={{ color: "#1e2235" }}>·</span>
-            <span>{sit.ctx && (sit.ctx.includes("oop") || sit.ctx === "cb_3way") ? (lang === "es" ? "Fuera de posición" : "Out of position") : (lang === "es" ? "En posición" : "In position")}</span>
+            <span>{isOOP(sit) ? (lang === "es" ? "Fuera de posición" : "Out of position") : (lang === "es" ? "En posición" : "In position")}</span>
           </div>
         )}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 20, alignItems: "center", marginBottom: 16 }}>
