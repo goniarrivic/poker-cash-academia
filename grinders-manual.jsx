@@ -23,6 +23,12 @@ import rolMP  from './rol_p1_0.png';
 import rolCO  from './rol_p1_1.png';
 import rolBTN from './rol_p2_2.png';
 import rolSB  from './rol_p2_3.png';
+import { SITUATIONS_EXTRA } from './situations/open.js';
+import { ISO_SITUATIONS_EXTRA } from './situations/iso.js';
+import { CBET_SITUATIONS_EXTRA } from './situations/cbet.js';
+import { VBET_SITUATIONS_EXTRA } from './situations/vbet.js';
+import { CALL_SITUATIONS_EXTRA } from './situations/call.js';
+import { FACING_SITUATIONS_EXTRA } from './situations/facing.js';
 
 // ─── FIREBASE ────────────────────────────────────────────────────────────────
 
@@ -142,6 +148,8 @@ const content = {
       posLabel: "Posición",
       handLabel: "Tu mano",
       contextLabel: "Contexto",
+      filterTitle: "Elige las categorías a practicar",
+      filterRandom: "Aleatorio (todas)",
       optFold: "Foldear",
       optOpen3: "Abrir a 3x BB",
       optOpen25: "Abrir a 2.5x BB",
@@ -1504,6 +1512,8 @@ const content = {
       posLabel: "Position",
       handLabel: "Your hand",
       contextLabel: "Context",
+      filterTitle: "Choose categories to practice",
+      filterRandom: "Random (all)",
       optFold: "Fold",
       optOpen3: "Open to 3x BB",
       optOpen25: "Open to 2.5x BB",
@@ -3380,7 +3390,6 @@ function HomePage({ t, onNavigate }) {
           </div>
           <span style={{ marginLeft: "auto", color: "#10b981", fontSize: 20 }}>→</span>
         </button>
-      </div>
 
         <button
           onClick={() => onNavigate("stats")}
@@ -3395,6 +3404,7 @@ function HomePage({ t, onNavigate }) {
           </div>
           <span style={{ marginLeft: "auto", color: "#8b5cf6", fontSize: 20 }}>→</span>
         </button>
+      </div>
 
       {/* Bottom suits strip */}
       <div style={{ marginTop: 52, display: "flex", justifyContent: "center", gap: 20, opacity: 0.15 }}>
@@ -3434,6 +3444,7 @@ const CTX = {
   call_ip_reg:      { es: "Mesa de regulars. Decides si pagar la apertura en posición.", en: "Regular table. You decide whether to call the open in position." },
   call_bb_reg:      { es: "Estás en la BB. Decides si pagar la apertura.", en: "You're in the BB. You decide whether to call the open." },
   call_sb_reg:      { es: "Estás en la SB. Decides si pagar, 3-betear o foldear.", en: "You're in the SB. You decide whether to call, 3-bet or fold." },
+  call_sb_fish:     { es: "Estás en la SB y hay un fish recreativo en el bote. Decides si pagar, 3-betear o foldear.", en: "You're in the SB and there's a recreational fish in the pot. You decide whether to call, 3-bet or fold." },
   facing_river:     { es: "El rival apuesta en el river. Evalúa su rango, calcula la ER y decide si tienes suficiente equidad para pagar.", en: "Villain bets on the river. Evaluate their range, calculate required equity and decide if you have enough to call." },
   facing_turn:      { es: "El rival apuesta en el turn (double barrel). Evalúa tu equidad, el SPR restante y el rango del rival.", en: "Villain bets on the turn (double barrel). Evaluate your equity, remaining SPR and villain's range." },
   facing_allin:     { es: "El rival va all-in. No quedan más calles — calcula tu equidad real vs su rango probable.", en: "Villain goes all-in. No more streets — calculate your real equity vs their likely range." },
@@ -3697,8 +3708,8 @@ const CBET_SITUATIONS = [
   {id:306,type:"cbet",hand:"K♣T♣",board:"K♦8♦2♣",players:1,open:true, size:"small",ctx:"cb_hu_ip",     es:"Top pair en tablero casi seco (un palo repetido). C-bet 33% extrae valor de manera eficiente.",en:"Top pair on a near-dry board (one suit repeated). C-bet 33% extracts value efficiently.", pos:"BTN", callPos:"BB"},
   {id:307,type:"cbet",hand:"A♦5♦",board:"A♠9♣3♥",players:1,open:true, size:"small",ctx:"cb_hu_ip",     es:"Pareja de ases con kicker baja en tablero seco. C-bet 33% — aún tienes top pair y range advantage.",en:"Pair of aces with low kicker on dry board. C-bet 33% — you still have top pair and range advantage.", pos:"CO", callPos:"BB"},
   {id:308,type:"cbet",hand:"T♠T♦",board:"8♦4♣2♥",players:1,open:true, size:"small",ctx:"cb_hu_ip_nit", es:"TT overpair en tablero muy seco 842r vs nit. C-bet 33% — el nit foldea casi todo el rango.",en:"TT overpair on very dry 842r vs nit. C-bet 33% — the nit folds almost their entire range.", pos:"BTN", callPos:"BB"},
-  {id:309,type:"cbet",hand:"9♥9♦",board:"7♦5♣2♥",players:1,open:true, size:"small",ctx:"cb_hu_ip",     es:"99 overpair en tablero bajo seco. C-bet 33% con alta frecuencia.",en:"99 overpair on a low dry board. C-bet 33% at high frequency.", pos:"CO", callPos:"BTN"},
-  {id:310,type:"cbet",hand:"K♠J♠",board:"K♣7♦2♠",players:1,open:true, size:"small",ctx:"cb_hu_ip",     es:"Top pair con buena kicker en tablero seco. C-bet 33% — estándar.",en:"Top pair with good kicker on dry board. C-bet 33% — standard.", pos:"CO", callPos:"BTN"},
+  {id:309,type:"cbet",hand:"9♥9♦",board:"7♦5♣2♥",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"99 overpair en tablero bajo seco. C-bet 33% con alta frecuencia.",en:"99 overpair on a low dry board. C-bet 33% at high frequency.", pos:"CO", callPos:"BTN"},
+  {id:310,type:"cbet",hand:"K♠J♠",board:"K♣7♦2♠",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"Top pair con buena kicker en tablero seco. C-bet 33% — estándar.",en:"Top pair with good kicker on dry board. C-bet 33% — standard.", pos:"CO", callPos:"BTN"},
   // ── IP, dry board, bluff C-bet small — 10 situations ──────────────────────
   {id:311,type:"cbet",hand:"J♣T♣",board:"A♦8♥2♣",players:1,open:true, size:"small",ctx:"cb_hu_ip",     es:"Missed mano en tablero de as seco. C-bet 33% — el as favorece tu rango de apertura, el rival foldea mucho.",en:"Missed hand on dry ace-high board. C-bet 33% — the ace favors your opening range, villain folds a lot.", pos:"BTN", callPos:"BB"},
   {id:312,type:"cbet",hand:"Q♥J♥",board:"K♦7♣2♥",players:1,open:true, size:"small",ctx:"cb_hu_ip",     es:"Sin mano en tablero de rey seco. C-bet 33% — tu rango como abridor tiene más reyes que el caller. Fold equity alta.",en:"No hand on dry king-high board. C-bet 33% — your opening range has more kings than the caller's range. High fold equity.", pos:"BTN", callPos:"BB"},
@@ -3713,10 +3724,10 @@ const CBET_SITUATIONS = [
   // ── IP, wet board, should C-bet large (67%) — 10 situations ───────────────
   {id:321,type:"cbet",hand:"A♠K♠",board:"A♠T♠8♦",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"TPTK con nut flush draw en tablero mojado. C-bet 67% — construyes bote con draw + valor, cargas al rival por sus draws.",en:"TPTK with nut flush draw on wet board. C-bet 67% — build the pot with draw + value, charge villain for their draws.", pos:"BTN", callPos:"BB"},
   {id:322,type:"cbet",hand:"K♣K♦",board:"J♠T♠9♦",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"KK overpair en tablero muy conectado. C-bet 67% — mano fuerte pero muchos draws por detrás, cobra por ellos.",en:"KK overpair on very connected board. C-bet 67% — strong hand but many draws behind, charge for them.", pos:"BTN", callPos:"BB"},
-  {id:323,type:"cbet",hand:"9♥9♠",board:"9♦8♠7♦",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Set de 9s en tablero monotone-style. C-bet 67% — mano de valor muy fuerte pero tablero peligroso con draws.",en:"Set of nines on a very connected board. C-bet 67% — very strong value hand but dangerous board full of draws.", pos:"CO", callPos:"BTN"},
+  {id:323,type:"cbet",hand:"9♥9♠",board:"9♦8♠7♦",players:1,open:true, size:"large",ctx:"cb_hu_oop",    es:"Set de 9s en tablero monotone-style. C-bet 67% — mano de valor muy fuerte pero tablero peligroso con draws.",en:"Set of nines on a very connected board. C-bet 67% — very strong value hand but dangerous board full of draws.", pos:"CO", callPos:"BTN"},
   {id:324,type:"cbet",hand:"J♦T♦",board:"J♠9♠8♥",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Top pair + gutshot en tablero muy mojado. C-bet 67% — protege tu mano y construye bote con equity.",en:"Top pair + gutshot on very wet board. C-bet 67% — protect your hand and build pot with equity.", pos:"BTN", callPos:"BB"},
   {id:325,type:"cbet",hand:"A♥Q♥",board:"Q♠J♥T♥",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Top pair + nut flush draw en tablero de rainbow a tres colores. C-bet 67% — draw potente + valor.",en:"Top pair + nut flush draw on rainbow three-suit board. C-bet 67% — strong draw + value.", pos:"BTN", callPos:"BB"},
-  {id:326,type:"cbet",hand:"K♠Q♠",board:"Q♥J♠T♠",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Top pair + flush draw en tablero conectado peligroso. C-bet 67% — extrae valor y cobra por los draws.",en:"Top pair + flush draw on dangerous connected board. C-bet 67% — extract value and charge for draws.", pos:"CO", callPos:"BTN"},
+  {id:326,type:"cbet",hand:"K♠Q♠",board:"Q♥J♠T♠",players:1,open:true, size:"large",ctx:"cb_hu_oop",    es:"Top pair + flush draw en tablero conectado peligroso. C-bet 67% — extrae valor y cobra por los draws.",en:"Top pair + flush draw on dangerous connected board. C-bet 67% — extract value and charge for draws.", pos:"CO", callPos:"BTN"},
   {id:327,type:"cbet",hand:"T♥9♥",board:"T♠9♠8♦",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Dos pares en tablero mojado. C-bet 67% — mano fuerte pero tablero peligroso. Cobra a los draws ya.",en:"Two pair on wet board. C-bet 67% — strong hand but dangerous board. Charge the draws now.", pos:"BTN", callPos:"BB"},
   {id:328,type:"cbet",hand:"8♣8♦",board:"8♠7♠6♦",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Set en tablero muy conectado y con flush draw. C-bet 67% — necesitas cobrar a los draws ya, no puedes dormir.",en:"Set on a very connected board with flush draw. C-bet 67% — need to charge draws now, can't slow-play.", pos:"BTN", callPos:"BB"},
   {id:329,type:"cbet",hand:"A♣J♣",board:"J♥9♣8♣",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Top pair + nut flush draw en tablero conectado. C-bet 67% — draw combo potentísimo, construye el bote.",en:"Top pair + nut flush draw on connected board. C-bet 67% — powerful combo draw, build the pot.", pos:"CO", callPos:"BB"},
@@ -3734,23 +3745,23 @@ const CBET_SITUATIONS = [
   {id:340,type:"cbet",hand:"6♣6♦",board:"K♠Q♦J♠",players:1,open:false,size:null,ctx:"cb_hu_ip",        es:"Underpair en tablero de tres cartas altas conectadas. Sin valor real, sin fold equity. Checkea.",en:"Underpair on three connected high cards. No real value, no fold equity. Check.", pos:"BTN", callPos:"BB"},
   // ── OOP, dry board, should C-bet ── 10 situations ─────────────────────────
   {id:341,type:"cbet",hand:"A♠K♦",board:"A♥7♦2♣",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"TPTK OOP en tablero seco. C-bet 33% — aún tienes la iniciativa y la mano más fuerte. El tablero es seco.",en:"TPTK OOP on dry board. C-bet 33% — you still have initiative and the strongest hand. Dry board.", pos:"CO", callPos:"BTN"},
-  {id:342,type:"cbet",hand:"K♣K♥",board:"Q♦8♣2♥",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"KK overpair OOP en tablero seco. C-bet 33% — construye bote con mano fuerte. No hay draws.",en:"KK overpair OOP on dry board. C-bet 33% — build pot with strong hand. No draws.", pos:"UTG", callPos:"BB"},
+  {id:342,type:"cbet",hand:"K♣K♥",board:"Q♦8♣2♥",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"KK overpair OOP en tablero seco. C-bet 33% — construye bote con mano fuerte. No hay draws.",en:"KK overpair OOP on dry board. C-bet 33% — build pot with strong hand. No draws.", pos:"SB", callPos:"BB"},
   {id:343,type:"cbet",hand:"A♦J♦",board:"A♠9♣3♥",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"Top pair OOP en tablero seco. C-bet 33% para extraer valor.",en:"Top pair OOP on dry board. C-bet 33% to extract value.", pos:"CO", callPos:"BTN"},
-  {id:344,type:"cbet",hand:"Q♠Q♦",board:"J♣7♦2♠",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"QQ overpair OOP en tablero seco de J. C-bet 33% — extraes valor de JX y manos más débiles.",en:"QQ overpair OOP on dry jack-high board. C-bet 33% — extract value from JX and weaker hands.", pos:"UTG", callPos:"BB"},
+  {id:344,type:"cbet",hand:"Q♠Q♦",board:"J♣7♦2♠",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"QQ overpair OOP en tablero seco de J. C-bet 33% — extraes valor de JX y manos más débiles.",en:"QQ overpair OOP on dry jack-high board. C-bet 33% — extract value from JX and weaker hands.", pos:"SB", callPos:"BB"},
   {id:345,type:"cbet",hand:"K♦Q♦",board:"K♣8♦3♠",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"Top pair OOP en tablero seco. C-bet 33% por valor.",en:"Top pair OOP on dry board. C-bet 33% for value.", pos:"CO", callPos:"BTN"},
-  {id:346,type:"cbet",hand:"A♥T♥",board:"A♦6♣2♥",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"Top pair + backdoor flush draw OOP en tablero seco. C-bet 33% — valor + algo de potencial.",en:"Top pair + backdoor flush draw OOP on dry board. C-bet 33% — value + some potential.", pos:"UTG", callPos:"BB"},
+  {id:346,type:"cbet",hand:"A♥T♥",board:"A♦6♣2♥",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"Top pair + backdoor flush draw OOP en tablero seco. C-bet 33% — valor + algo de potencial.",en:"Top pair + backdoor flush draw OOP on dry board. C-bet 33% — value + some potential.", pos:"SB", callPos:"BB"},
   {id:347,type:"cbet",hand:"J♠J♦",board:"T♦6♣2♠",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"JJ overpair OOP en tablero bajo seco. C-bet 33% — mano fuerte en tablero favorable.",en:"JJ overpair OOP on low dry board. C-bet 33% — strong hand on favorable board.", pos:"CO", callPos:"BTN"},
-  {id:348,type:"cbet",hand:"T♣T♦",board:"8♠5♦2♣",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"TT overpair OOP en tablero muy seco. C-bet 33% con alta frecuencia — nadie tiene nada aquí.",en:"TT overpair OOP on very dry board. C-bet 33% at high frequency — nobody has anything here.", pos:"UTG", callPos:"BB"},
+  {id:348,type:"cbet",hand:"T♣T♦",board:"8♠5♦2♣",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"TT overpair OOP en tablero muy seco. C-bet 33% con alta frecuencia — nadie tiene nada aquí.",en:"TT overpair OOP on very dry board. C-bet 33% at high frequency — nobody has anything here.", pos:"SB", callPos:"BB"},
   {id:349,type:"cbet",hand:"A♣8♣",board:"A♦7♣3♥",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"Top pair buena kicker OOP en tablero seco. C-bet 33% por valor.",en:"Top pair good kicker OOP on dry board. C-bet 33% for value.", pos:"CO", callPos:"BTN"},
-  {id:350,type:"cbet",hand:"Q♦Q♣",board:"9♦5♣2♥",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"QQ overpair OOP en tablero muy bajo. C-bet 33% — tienes la mano más fuerte probable.",en:"QQ overpair OOP on very low board. C-bet 33% — you likely have the strongest hand.", pos:"UTG", callPos:"BB"},
+  {id:350,type:"cbet",hand:"Q♦Q♣",board:"9♦5♣2♥",players:1,open:true, size:"small",ctx:"cb_hu_oop",    es:"QQ overpair OOP en tablero muy bajo. C-bet 33% — tienes la mano más fuerte probable.",en:"QQ overpair OOP on very low board. C-bet 33% — you likely have the strongest hand.", pos:"SB", callPos:"BB"},
   // ── OOP, should CHECK ── 15 situations ────────────────────────────────────
   {id:351,type:"cbet",hand:"K♠Q♠",board:"9♠8♠7♦",players:1,open:false,size:null,ctx:"cb_hu_oop",       es:"Mano perdida OOP en tablero muy mojado. Sin equidad real. El rival tiene mejor posición y rango que conecta. Checkea.",en:"Missed hand OOP on very wet board. No real equity. Villain has better position and connecting range. Check.", pos:"CO", callPos:"BTN"},
-  {id:352,type:"cbet",hand:"A♦Q♦",board:"J♠T♠9♦",players:1,open:false,size:null,ctx:"cb_hu_oop",       es:"Sin par OOP en tablero extremadamente conectado. No apostar — checkea y evalúa la apuesta del rival.",en:"No pair OOP on extremely connected board. Don't bet — check and evaluate villain's bet.", pos:"UTG", callPos:"BB"},
+  {id:352,type:"cbet",hand:"A♦Q♦",board:"J♠T♠9♦",players:1,open:false,size:null,ctx:"cb_hu_oop",       es:"Sin par OOP en tablero extremadamente conectado. No apostar — checkea y evalúa la apuesta del rival.",en:"No pair OOP on extremely connected board. Don't bet — check and evaluate villain's bet.", pos:"SB", callPos:"BB"},
   {id:353,type:"cbet",hand:"J♣T♣",board:"A♠K♦Q♦",players:1,open:true, size:"large",ctx:"cb_hu_oop",    es:"JT en tablero A-K-Q = broadway straight (A-K-Q-J-T). Tienes el nuts straight OOP. C-bet 67% — incluso OOP, la mano es demasiado fuerte para checkear. Cobra al rival que tiene draws o pares de broadway.",en:"JT on A-K-Q board = broadway straight (A-K-Q-J-T). You have the nut straight OOP. C-bet 67% — even OOP, the hand is too strong to check. Charge the villain who has draws or broadway pairs.", pos:"CO", callPos:"BTN"},
   {id:354,type:"cbet",hand:"7♦6♦",board:"K♠Q♣J♦",players:1,open:false,size:null,ctx:"cb_hu_oop",       es:"Missed suited connector OOP en tablero de tres cartas altas. Sin fold equity relevante. Checkea.",en:"Missed suited connector OOP on three-high-card board. No relevant fold equity. Check.", pos:"SB", callPos:"BTN"},
-  {id:355,type:"cbet",hand:"9♣8♣",board:"A♦K♣Q♥",players:1,open:false,size:null,ctx:"cb_hu_oop",       es:"Sin nada OOP en tablero de tres cartas altas. Bluffear aquí es tirar fichas. Checkea.",en:"Nothing OOP on three-high-card board. Bluffing here is wasting chips. Check.", pos:"UTG", callPos:"BB"},
+  {id:355,type:"cbet",hand:"9♣8♣",board:"A♦K♣Q♥",players:1,open:false,size:null,ctx:"cb_hu_oop",       es:"Sin nada OOP en tablero de tres cartas altas. Bluffear aquí es tirar fichas. Checkea.",en:"Nothing OOP on three-high-card board. Bluffing here is wasting chips. Check.", pos:"SB", callPos:"BB"},
   {id:356,type:"cbet",hand:"A♠5♠",board:"8♠7♠6♦",players:1,open:false,size:null,ctx:"cb_hu_oop",       es:"A5s OOP en tablero muy conectado que favorece al caller. Backdoor flush no es suficiente. Checkea.",en:"A5s OOP on very connected board favoring the caller. Backdoor flush isn't enough. Check.", pos:"CO", callPos:"BTN"},
-  {id:357,type:"cbet",hand:"K♥J♥",board:"T♠9♠8♦",players:1,open:false,size:null,ctx:"cb_hu_oop",       es:"Gutshot OOP en tablero muy conectado. Poca fold equity. El rival tiene más equity aquí. Checkea.",en:"Gutshot OOP on very connected board. Low fold equity. Villain has more equity here. Check.", pos:"UTG", callPos:"BB"},
+  {id:357,type:"cbet",hand:"K♥J♥",board:"T♠9♠8♦",players:1,open:false,size:null,ctx:"cb_hu_oop",       es:"Gutshot OOP en tablero muy conectado. Poca fold equity. El rival tiene más equity aquí. Checkea.",en:"Gutshot OOP on very connected board. Low fold equity. Villain has more equity here. Check.", pos:"SB", callPos:"BB"},
   {id:358,type:"cbet",hand:"Q♣J♦",board:"A♠K♠Q♣",players:1,open:false,size:null,ctx:"cb_hu_oop",       es:"Par de damas OOP en tablero peligroso. El rival puede tener AK, AQ, KQ, flush draw. Checkea.",en:"Pair of queens OOP on dangerous board. Villain can have AK, AQ, KQ, flush draw. Check.", pos:"CO", callPos:"BTN"},
   {id:359,type:"cbet",hand:"5♠5♦",board:"J♣T♣9♥",players:1,open:false,size:null,ctx:"cb_hu_oop",       es:"Underpair OOP en tablero muy conectado. Sin equity real. Checkea.",en:"Underpair OOP on very connected board. No real equity. Check.", pos:"SB", callPos:"BTN"},
   {id:360,type:"cbet",hand:"A♦2♦",board:"K♠Q♠J♦",players:1,open:false,size:null,ctx:"cb_hu_ip_fish",   es:"A2s sin par en tablero de tres cartas altas vs calling station. No bluffees. Checkea.",en:"A2s no pair on three-high-card board vs calling station. Don't bluff. Check.", pos:"BTN", callPos:"BB"},
@@ -3759,7 +3770,7 @@ const CBET_SITUATIONS = [
   {id:362,type:"cbet",hand:"K♣K♦",board:"9♠8♣7♠",players:1,open:true, size:"large",ctx:"cb_hu_oop",    es:"KK OOP en tablero mojado. C-bet 67% — overpair fuerte pero tablero peligroso. Cobra a los draws.",en:"KK OOP on wet board. C-bet 67% — strong overpair but dangerous board. Charge the draws.", pos:"CO", callPos:"BTN"},
   {id:363,type:"cbet",hand:"T♠T♦",board:"T♣9♣8♦",players:1,open:true, size:"large",ctx:"cb_hu_oop",    es:"Set de tens OOP en tablero conectado. C-bet 67% — set fuerte pero necesita cobrar a los draws.",en:"Set of tens OOP on connected board. C-bet 67% — strong set but needs to charge the draws.", pos:"CO", callPos:"BTN"},
   {id:364,type:"cbet",hand:"A♥J♥",board:"J♠T♥9♠",players:1,open:true, size:"large",ctx:"cb_hu_oop",    es:"Top pair + flush draw OOP en tablero peligroso. C-bet 67% — draw + valor justifican tamaño grande.",en:"Top pair + flush draw OOP on dangerous board. C-bet 67% — draw + value justify large size.", pos:"CO", callPos:"BTN"},
-  {id:365,type:"cbet",hand:"Q♠Q♦",board:"Q♣J♠T♣",players:1,open:true, size:"large",ctx:"cb_hu_oop",    es:"Set OOP en tablero con straight draws y flush draw. C-bet 67% — cobra YA, no puedes dormir este set.",en:"Set OOP on board with straight and flush draws. C-bet 67% — charge NOW, can't slow-play this set.", pos:"UTG", callPos:"BB"},
+  {id:365,type:"cbet",hand:"Q♠Q♦",board:"Q♣J♠T♣",players:1,open:true, size:"large",ctx:"cb_hu_oop",    es:"Set OOP en tablero con straight draws y flush draw. C-bet 67% — cobra YA, no puedes dormir este set.",en:"Set OOP on board with straight and flush draws. C-bet 67% — charge NOW, can't slow-play this set.", pos:"SB", callPos:"BB"},
   // ── Multiway, should CHECK — 10 situations ────────────────────────────────
   {id:366,type:"cbet",hand:"A♣J♣",board:"K♦8♣3♠",players:2,open:false,size:null,ctx:"cb_3way",         es:"Sin par en tablero seco 3-way. Bluffear multiway tiene poca fold equity. Checkea.",en:"No pair on dry board 3-way. Bluffing multiway has low fold equity. Check.", pos:"UTG", callPos:"MP+BB"},
   {id:367,type:"cbet",hand:"J♠T♠",board:"A♦9♣4♥",players:2,open:false,size:null,ctx:"cb_3way",         es:"Mano perdida 3-way. En botes de 3 jugadores el bluff rara vez funciona. Checkea.",en:"Missed hand 3-way. In 3-player pots bluffing rarely works. Check.", pos:"UTG", callPos:"MP+BB"},
@@ -3787,7 +3798,7 @@ const CBET_SITUATIONS = [
   {id:387,type:"cbet",hand:"7♣7♦",board:"7♠6♦5♣",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Set de 7s en tablero conectado. C-bet 67% — set poderoso pero tablero peligroso con draws.",en:"Set of sevens on connected board. C-bet 67% — powerful set but dangerous board with draws.", pos:"CO", callPos:"BB"},
   {id:388,type:"cbet",hand:"A♣9♣",board:"9♦8♣7♦",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Top pair + flush draw IP en tablero mojado. C-bet 67% — semi-bluff con mucha equity.",en:"Top pair + flush draw IP on wet board. C-bet 67% — semi-bluff with lots of equity.", pos:"CO", callPos:"BB"},
   {id:389,type:"cbet",hand:"K♦K♣",board:"A♠T♦5♣",players:1,open:false,size:null,ctx:"cb_hu_oop",       es:"KK OOP pero hay un as en el tablero. Mucho riesgo de que el rival tenga AX. Checkea.",en:"KK OOP but there's an ace on the board. High risk villain has AX. Check.", pos:"CO", callPos:"BTN"},
-  {id:390,type:"cbet",hand:"5♦5♣",board:"A♦5♠2♣",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Set de 5s en tablero de as. C-bet 67% — set poderoso, cobra al rival que tiene AX.",en:"Set of fives on ace board. C-bet 67% — powerful set, charge the villain who has AX.", pos:"CO", callPos:"BTN"},
+  {id:390,type:"cbet",hand:"5♦5♣",board:"A♦5♠2♣",players:1,open:true, size:"large",ctx:"cb_hu_oop",    es:"Set de 5s en tablero de as. C-bet 67% — set poderoso, cobra al rival que tiene AX.",en:"Set of fives on ace board. C-bet 67% — powerful set, charge the villain who has AX.", pos:"CO", callPos:"BTN"},
   {id:391,type:"cbet",hand:"Q♣T♣",board:"Q♦T♦8♣",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Dos pares top IP en tablero con flush draw. C-bet 67% — mano fuerte pero vulnerable a flushes.",en:"Top two pair IP on board with flush draw. C-bet 67% — strong but vulnerable to flushes.", pos:"BTN", callPos:"BB"},
   {id:392,type:"cbet",hand:"A♠8♣",board:"8♦8♠3♣",players:1,open:true, size:"small",ctx:"cb_hu_ip",     es:"Trips (8s) + top kicker. C-bet 33% small — tablero seco, no hay draws, extrae valor tranquilamente.",en:"Trips (eights) + top kicker. C-bet 33% small — dry board, no draws, extract value calmly.", pos:"BTN", callPos:"BB"},
   {id:393,type:"cbet",hand:"J♠9♠",board:"J♦9♣4♥",players:1,open:true, size:"large",ctx:"cb_hu_ip",     es:"Dos pares top IP en tablero con possible flush draws en colores. C-bet 67% — protege tu mano.",en:"Top two pair IP on board with potential flush draws. C-bet 67% — protect your hand.", pos:"BTN", callPos:"BB"},
@@ -4212,18 +4223,23 @@ const VBET_SITUATIONS = [
 function StatsPage({ t, lang, xpData, completed, totalLessons }) {
   const lv = getLevelInfo(xpData.xp);
   const es = lang === "es";
-  const accuracy = xpData.totalAnswered > 0
-    ? Math.round((xpData.totalCorrect / xpData.totalAnswered) * 100)
+  const catTotals = Object.values(xpData.categoryStats || {}).reduce(
+    (acc, v) => ({ correct: acc.correct + (v?.correct || 0), total: acc.total + (v?.total || 0) }),
+    { correct: 0, total: 0 }
+  );
+  const accuracy = catTotals.total > 0
+    ? Math.round((catTotals.correct / catTotals.total) * 100)
     : 0;
 
   const typeLabels = {
-    open: { es:"Apertura (OR)",  en:"Opening (OR)",  icon:"♠" },
-    iso:  { es:"ROL / ISO",      en:"ROL / ISO",     icon:"♣" },
-    cbet: { es:"C-Bet",          en:"C-Bet",          icon:"♥" },
-    vbet: { es:"Value Bet",      en:"Value Bet",      icon:"♦" },
-    call: { es:"Pagar apert.",   en:"Calling Opens",  icon:"⟵" },
+    open:   { es:"Apertura (OR)",  en:"Opening (OR)",  icon:"♠" },
+    iso:    { es:"ROL / ISO",      en:"ROL / ISO",     icon:"♣" },
+    cbet:   { es:"C-Bet",          en:"C-Bet",          icon:"♥" },
+    vbet:   { es:"Value Bet",      en:"Value Bet",      icon:"♦" },
+    call:   { es:"Pagar apert.",   en:"Calling Opens",  icon:"⟵" },
+    facing: { es:"Facing Bets",    en:"Facing Bets",    icon:"⚡" },
   };
-  const typeOrder = ["open","iso","cbet","vbet","call"];
+  const typeOrder = ["open","iso","cbet","vbet","call","facing"];
 
   const StatCard = ({ label, value, sub, color="#c9a84c" }) => (
     <div style={{ background:"#0d0f1a", border:"1px solid #1e2235", borderRadius:12, padding:"14px 18px" }}>
@@ -4270,7 +4286,7 @@ function StatsPage({ t, lang, xpData, completed, totalLessons }) {
       {/* Key stats grid */}
       <div style={{ display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:10, marginBottom:16 }}>
         <StatCard label={es?"Racha actual":"Current streak"} value={`🔥 ${xpData.streak}`} sub={es?`Máx: ${xpData.longestStreak} días`:`Best: ${xpData.longestStreak} days`} color="#f97316"/>
-        <StatCard label={es?"Precisión global":"Global accuracy"} value={`${accuracy}%`} sub={`${xpData.totalCorrect}/${xpData.totalAnswered} ${es?"correctas":"correct"}`} color={accuracy>=80?"#10b981":accuracy>=60?"#c9a84c":"#ef4444"}/>
+        <StatCard label={es?"Precisión global":"Global accuracy"} value={`${accuracy}%`} sub={`${catTotals.correct}/${catTotals.total} ${es?"correctas":"correct"}`} color={accuracy>=80?"#10b981":accuracy>=60?"#c9a84c":"#ef4444"}/>
         <StatCard label={es?"Sesiones jugadas":"Sessions played"} value={xpData.totalSessions} sub={es?"sesiones completadas":"completed sessions"} color="#8b5cf6"/>
         <StatCard label={es?"Lecciones":"Lessons"} value={`${completed.size}/${totalLessons}`} sub={es?"capítulos completados":"chapters completed"} color="#10b981"/>
       </div>
@@ -4337,13 +4353,13 @@ const CALL_SITUATIONS = [
   {id:509,type:"call",hand:"A♥ J♠",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"AJo vs CO 2.5BB desde BTN. Rango CO ~27% incluye muchas manos que AJo domina. Frequent strength, IP, tamaño pequeño. Paga.",en:"AJo vs CO 2.5BB from BTN. CO range ~27% includes many hands AJo dominates. Frequent strength, IP, small sizing. Call."},
   {id:510,type:"call",hand:"K♣ Q♦",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"KQo vs CO desde BTN. Frequent strength clara vs rango amplio CO — flopeá top pair que domina mucho del rango. Estás IP. Paga.",en:"KQo vs CO from BTN. Clear frequent strength vs wide CO range — flops top pair that dominates much of the range. You're IP. Call."},
   {id:511,type:"call",hand:"8♦ 7♦",board:null,open:true,ctx:"call_ip_fish",pos:"HJ",callPos:"UTG",es:"87s vs UTG con fish en blinds. Normalmente fold, pero fish en BB o SB añaden implied odds para suited connectors especulativos. Paga.",en:"87s vs UTG with fish in blinds. Normally fold, but fish in BB or SB add implied odds for speculative suited connectors. Call."},
-  {id:512,type:"call",hand:"A♠ K♠",board:null,open:true,ctx:"call_ip_reg",pos:"CO",callPos:"MP",es:"AKs vs MP desde CO. Mano premium. Puedes pagar o 3-betear — ambas líneas son válidas. Si pagas, lo haces IP con la mano más fuerte.",en:"AKs vs MP from CO. Premium hand. You can call or 3-bet — both lines are valid. If you call, you're IP with the strongest hand."},
+  {id:512,type:"call",hand:"A♠ K♠",board:null,open:true,ctx:"call_ip_reg",pos:"CO",callPos:"MP",es:"AKs vs MP desde CO. Mano premium que juega muy bien IP. Pagar mantiene el bote controlado y entras al flop con la mejor mano y posición — la línea más sólida aquí.",en:"AKs vs MP from CO. Premium hand that plays great IP. Calling keeps the pot controlled and you enter the flop with the best hand and position — the soundest line here."},
   {id:513,type:"call",hand:"9♥ 8♥",board:null,open:true,ctx:"call_ip_fish",pos:"BTN",callPos:"SB",es:"98s vs SB open con fish en BB. Fish en BB asegura bote multiway y implied odds extra. 98s conecta bien multiway. Paga.",en:"98s vs SB open with fish in BB. Fish in BB ensures multiway pot and extra implied odds. 98s connects well multiway. Call."},
-  {id:514,type:"call",hand:"J♦ J♣",board:null,open:true,ctx:"call_ip_reg",pos:"CO",callPos:"MP",es:"JJ vs MP desde CO. JJ es híbrido — puede 3-bet o pagar. Pagar IP es opción válida: mantienes el bote controlado y postflop tienes posición y mano fuerte.",en:"JJ vs MP from CO. JJ is a hybrid — can 3-bet or call. Calling IP is a valid option: keep the pot controlled and postflop you have position and a strong hand."},
+  {id:514,type:"call",hand:"J♦ J♣",board:null,open:true,ctx:"call_ip_reg",pos:"CO",callPos:"MP",es:"JJ vs MP desde CO. Pagar IP es la línea más sólida: mantienes el bote controlado, evitas inflarlo contra una mano que te domine (QQ+), y postflop juegas con posición y una mano fuerte.",en:"JJ vs MP from CO. Calling IP is the soundest line: keep the pot controlled, avoid bloating it against a hand that dominates you (QQ+), and postflop you play with position and a strong hand."},
   {id:515,type:"call",hand:"6♠ 5♠",board:null,open:true,ctx:"call_ip_fish",pos:"BTN",callPos:"CO",es:"65s vs CO con fish en blinds. Suited connector bajo con buenos implied odds cuando hay fish. Multiway potencial alto. Paga desde BTN.",en:"65s vs CO with fish in blinds. Low suited connector with good implied odds when fish are present. High multiway potential. Call from BTN."},
   {id:516,type:"call",hand:"A♦ T♦",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"ATs vs CO desde BTN. Suited ace con frequent strength (flopeá top pair bueno) y implied odds (flush draw). Paga IP.",en:"ATs vs CO from BTN. Suited ace with frequent strength (flops good top pair) and implied odds (flush draw). Call IP."},
   {id:517,type:"call",hand:"K♥ J♥",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"KJs vs CO. Suited broadway con frecuente strength vs rango CO amplio. IP desde BTN hace este pago cómodo.",en:"KJs vs CO. Suited broadway with frequent strength vs wide CO range. IP from BTN makes this call comfortable."},
-  {id:518,type:"call",hand:"T♦ T♣",board:null,open:true,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"TT vs UTG desde HJ. TT es overpair frecuente en flops bajos y tiene set value. Pagar o 3-bet son válidos vs UTG. Pagar mantiene pot controlado.",en:"TT vs UTG from HJ. TT is a frequent overpair on low boards and has set value. Calling or 3-betting are both valid vs UTG. Calling keeps pot controlled."},
+  {id:518,type:"call",hand:"T♦ T♣",board:null,open:true,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"TT vs UTG desde HJ. TT es overpair frecuente en flops bajos y tiene set value. Pagar es la línea más sólida vs un rango UTG fuerte: mantiene el bote controlado y evita inflarlo contra manos que te dominen (JJ+).",en:"TT vs UTG from HJ. TT is a frequent overpair on low boards and has set value. Calling is the soundest line vs a strong UTG range: keeps the pot controlled and avoids bloating it against hands that dominate you (JJ+)."},
   {id:519,type:"call",hand:"Q♦ T♦",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"QTs vs CO desde BTN. Suited connector alto con frequent strength y implied odds. Flopeá buenas manos frecuentemente vs rango CO. Paga.",en:"QTs vs CO from BTN. High suited connector with frequent strength and implied odds. Flops good hands frequently vs CO range. Call."},
   {id:520,type:"call",hand:"A♣ 9♣",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"A9s vs CO desde BTN. Suited ace en posición perfecta. Flopeá top pair decente y tiene flush potential. Paga IP.",en:"A9s vs CO from BTN. Suited ace in perfect position. Flops decent top pair and has flush potential. Call IP."},
   // ── SHOULD FOLD IP — wrong to call (15) ─────────────────────────────────────
@@ -4401,7 +4417,7 @@ const CALL_SITUATIONS = [
   {id:570,type:"call",hand:"6♠ 2♣",board:null,open:false,ctx:"call_bb_reg",pos:"BB",callPos:"CO",es:"62o desde BB vs CO 2.5BB. Completamente inmanejable postflop. Foldea aunque los pot odds sean razonables.",en:"62o from BB vs CO 2.5BB. Completely unmanageable postflop. Fold even though pot odds are reasonable."},
   // ── SB SITUATIONS (15) ───────────────────────────────────────────────────────
   {id:571,type:"call",hand:"A♣ Q♣",board:null,open:true,ctx:"call_sb_reg",pos:"SB",callPos:"UTG",es:"AQs desde SB vs UTG 3BB con BB nit. BB es nit que nunca squeezea — puedes pagar. AQs tiene excelente frequent strength vs UTG ajustado. Paga.",en:"AQs from SB vs UTG 3BB with nit BB. BB is a nit who never squeezes — you can call. AQs has excellent frequent strength vs tight UTG. Call."},
-  {id:572,type:"call",hand:"J♠ J♦",board:null,open:true,ctx:"call_sb_reg",pos:"SB",callPos:"HJ",es:"JJ desde SB vs HJ con BB pasivo. BB es regular pasivo que casi nunca squeezea. JJ es mano demasiado fuerte para foldear. Paga o 3-bet — ambas son válidas.",en:"JJ from SB vs HJ with passive BB. BB is a passive regular who almost never squeezes. JJ is too strong to fold. Call or 3-bet — both are valid."},
+  {id:572,type:"call",hand:"J♠ J♦",board:null,open:true,ctx:"call_sb_reg",pos:"SB",callPos:"HJ",es:"JJ desde SB vs HJ con BB pasivo. BB es regular pasivo que casi nunca squeezea, así que el riesgo de pagar OOP es bajo. Pagar mantiene el bote controlado con una mano que puede estar dominada por rangos de apertura tempranos. JJ es demasiado fuerte para foldear.",en:"JJ from SB vs HJ with passive BB. Passive BB almost never squeezes, so the risk of calling OOP is low. Calling keeps the pot controlled with a hand that can be dominated by early-position opening ranges. JJ is too strong to fold."},
   {id:573,type:"call",hand:"K♥ Q♥",board:null,open:true,ctx:"call_sb_reg",pos:"SB",callPos:"UTG",es:"KQs desde SB vs UTG con BB nit. BB nit no squeezea, rango UTG tiene manos que KQs domina frecuentemente. Paga.",en:"KQs from SB vs UTG with nit BB. Nit BB doesn't squeeze, UTG range has hands that KQs frequently dominates. Call."},
   {id:574,type:"call",hand:"9♣ 8♣",board:null,open:true,ctx:"call_sb_fish",pos:"SB",callPos:"CO",es:"98s desde SB vs CO con fish en BB. Fish en BB añade implied odds y potencial multiway — justifica pagar 98s desde SB a pesar de la desventaja posicional. Paga.",en:"98s from SB vs CO with fish in BB. Fish in BB adds implied odds and multiway potential — justifies calling 98s from SB despite positional disadvantage. Call."},
   {id:575,type:"call",hand:"Q♦ J♦",board:null,open:true,ctx:"call_sb_reg",pos:"SB",callPos:"UTG",es:"QJs desde SB vs UTG con BB nit. Mano híbrida fuerte — frequent strength e implied odds. BB nit garantiza ver el flop. Paga.",en:"QJs from SB vs UTG with nit BB. Strong hybrid hand — frequent strength and implied odds. Nit BB guarantees seeing the flop. Call."},
@@ -4414,10 +4430,10 @@ const CALL_SITUATIONS = [
   {id:584,type:"call",hand:"J♥ T♣",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"CO",es:"JTo desde SB vs CO con BB desconocido. Offsuit y con riesgo de squeeze — desde SB 3-bet o fold. JTo no tiene suficiente valor para arriesgarse OOP con amenaza de squeeze.",en:"JTo from SB vs CO with unknown BB. Offsuit and with squeeze risk — from SB 3-bet or fold. JTo doesn't have enough value to risk going OOP with squeeze threat."},
   {id:585,type:"call",hand:"7♠ 6♠",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"BTN",es:"76s desde SB vs BTN con BB agresivo. Aunque tiene buenos implied odds, el squeeze de BB agresivo destruye el EV del pago. Foldea.",en:"76s from SB vs BTN with aggressive BB. Even though it has good implied odds, aggressive BB squeeze destroys call EV. Fold."},
   // ── MIXED SPOTS — tricky decisions (15) ──────────────────────────────────────
-  {id:586,type:"call",hand:"A♥ K♣",board:null,open:true,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"AKo vs UTG desde HJ. Mano premium — puedes pagar o 3-bet. Pagar está bien: mantienes el bote controlado y postflop tienes la mejor mano frecuentemente. 3-bet también es válido.",en:"AKo vs UTG from HJ. Premium hand — you can call or 3-bet. Calling is fine: keeps pot controlled and postflop you frequently have the best hand. 3-bet is also valid."},
+  {id:586,type:"call",hand:"A♥ K♣",board:null,open:true,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"AKo vs UTG desde HJ. Mano premium. Pagar mantiene el bote controlado frente al rango más fuerte de la mesa (UTG) y postflop tendrás la mejor mano con frecuencia. La línea más sólida aquí es pagar.",en:"AKo vs UTG from HJ. Premium hand. Calling keeps the pot controlled against the strongest range at the table (UTG) and postflop you'll frequently have the best hand. Calling is the soundest line here."},
   {id:587,type:"call",hand:"3♠ 3♣",board:null,open:true,ctx:"call_ip_fish",pos:"BTN",callPos:"CO",es:"33 vs CO con fish en BB. Fish en BB transforma 33 en pago rentable — sus errores postflop cuando flopeás set compensan el riesgo. Paga.",en:"33 vs CO with fish in BB. Fish in BB transforms 33 into a profitable call — their postflop mistakes when you flop a set compensate the risk. Call."},
-  {id:588,type:"call",hand:"Q♠ Q♣",board:null,open:true,ctx:"call_ip_reg",pos:"CO",callPos:"UTG",es:"QQ vs UTG desde CO. Mano fuerte — pagar o 3-bet son ambas válidas. Pagar mantiene el bote pequeño (ventaja si UTG tiene KK/AA). 3-bet extrae valor. Ambas líneas son correctas.",en:"QQ vs UTG from CO. Strong hand — calling or 3-betting are both valid. Calling keeps the pot small (advantage if UTG has KK/AA). 3-betting extracts value. Both lines are correct."},
-  {id:589,type:"call",hand:"A♠ Q♦",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"AQo vs CO desde BTN. Frequent strength excelente vs rango CO. IP con mano fuerte. Pagar o 3-bet — ambas correctas. Pagar mantiene bote controlado.",en:"AQo vs CO from BTN. Excellent frequent strength vs CO range. IP with strong hand. Call or 3-bet — both correct. Calling keeps pot controlled."},
+  {id:588,type:"call",hand:"Q♠ Q♣",board:null,open:true,ctx:"call_ip_reg",pos:"CO",callPos:"UTG",es:"QQ vs UTG desde CO. Mano fuerte, pero UTG tiene el rango más fuerte de la mesa (más combos de KK/AA). Pagar mantiene el bote pequeño, limitando el daño en los spots donde estás dominado, y juegas postflop con posición. La línea más sólida aquí es pagar.",en:"QQ vs UTG from CO. Strong hand, but UTG has the strongest range at the table (more KK/AA combos). Calling keeps the pot small, limiting the damage in spots where you're dominated, and you play postflop with position. Calling is the soundest line here."},
+  {id:589,type:"call",hand:"A♠ Q♦",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"AQo vs CO desde BTN. Frequent strength excelente vs rango CO. IP con mano fuerte — pagar mantiene el bote controlado y juegas postflop con posición frente a un rango amplio. La línea más sólida aquí es pagar.",en:"AQo vs CO from BTN. Excellent frequent strength vs CO range. IP with a strong hand — calling keeps the pot controlled and you play postflop with position against a wide range. Calling is the soundest line here."},
   {id:590,type:"call",hand:"2♠ 2♦",board:null,open:true,ctx:"call_ip_fish",pos:"BTN",callPos:"UTG",es:"22 vs UTG con dos fish en blinds. Normalmente fold 22 vs UTG, pero con dos fish en los blinds los implied odds son excelentes. Flopeás set el 12% — fish pagarán generosamente. Paga.",en:"22 vs UTG with two fish in blinds. Normally fold 22 vs UTG, but with two fish in the blinds implied odds are excellent. You flop a set 12% — fish will pay generously. Call."},
   {id:591,type:"call",hand:"A♦ 4♦",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"A4s desde BB vs BTN 2BB. Min-raise da pot odds excelentes. A4s tiene wheel straight, flush draw y top pair potencial. Con rango BTN amplio y pot odds de casi 3:1, paga.",en:"A4s from BB vs BTN 2BB. Min-raise gives excellent pot odds. A4s has wheel straight, flush draw and top pair potential. With wide BTN range and almost 3:1 pot odds, call."},
   {id:592,type:"call",hand:"J♣ J♥",board:null,open:true,ctx:"call_sb_fish",pos:"SB",callPos:"BTN",es:"JJ desde SB vs BTN con fish en BB. Fish en BB + JJ (mano muy fuerte) = pagar es razonable. El fish añade implied odds y hace más rentable el pago OOP. Paga.",en:"JJ from SB vs BTN with fish in BB. Fish in BB + JJ (very strong hand) = calling is reasonable. Fish adds implied odds and makes OOP call more profitable. Call."},
@@ -4426,7 +4442,7 @@ const CALL_SITUATIONS = [
   {id:595,type:"call",hand:"A♥ 7♥",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"A7s desde BB vs BTN 2.5BB. Suited ace con flush draw, top pair potencial. Pot odds BB buenos. Rango BTN amplio donde A7s juega bien. Paga.",en:"A7s from BB vs BTN 2.5BB. Suited ace with flush draw, top pair potential. Good BB pot odds. Wide BTN range where A7s plays well. Call."},
   {id:596,type:"call",hand:"Q♣ 8♣",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"Q8s desde BB vs BTN 2.5BB. Suited one-gapper con potencial vs rango BTN amplio. Pot odds BB hacen el pago rentable. Paga.",en:"Q8s from BB vs BTN 2.5BB. Suited one-gapper with potential vs wide BTN range. BB pot odds make the call profitable. Call."},
   {id:597,type:"call",hand:"6♠ 6♦",board:null,open:true,ctx:"call_ip_fish",pos:"HJ",callPos:"UTG",es:"66 vs UTG con fish en BB. Fish en BB transforma 66 en set mine rentable vs rango UTG ajustado. Paga.",en:"66 vs UTG with fish in BB. Fish in BB transforms 66 into profitable set mine vs tight UTG range. Call."},
-  {id:598,type:"call",hand:"T♠ T♦",board:null,open:true,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"TT vs UTG desde HJ. Mano híbrida fuerte — overpair frecuente + set value. Pagar IP o 3-bet son válidos. El pago mantiene el bote controlado vs un rango UTG muy fuerte.",en:"TT vs UTG from HJ. Strong hybrid hand — frequent overpair + set value. Calling IP or 3-betting are both valid. Calling keeps pot controlled vs a very strong UTG range."},
+  {id:598,type:"call",hand:"T♠ T♦",board:null,open:true,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"TT vs UTG desde HJ. Mano híbrida fuerte — overpair frecuente + set value. Pagar es la línea más sólida: mantiene el bote controlado frente a un rango UTG muy fuerte y juegas postflop con posición.",en:"TT vs UTG from HJ. Strong hybrid hand — frequent overpair + set value. Calling is the soundest line: keeps the pot controlled against a very strong UTG range and you play postflop with position."},
   {id:599,type:"call",hand:"9♦ 7♦",board:null,open:true,ctx:"call_ip_fish",pos:"BTN",callPos:"CO",es:"97s vs CO con fish en SB. Fish en SB añade implied odds extra para suited connectors especulativos. 97s conecta bien multiway. Paga desde BTN con fish.",en:"97s vs CO with fish in SB. Fish in SB adds extra implied odds for speculative suited connectors. 97s connects well multiway. Call from BTN with fish."},
   {id:600,type:"call",hand:"A♣ 6♣",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"A6s desde BB vs BTN 2.5BB. Suited ace con wheel potential, flush draw y top pair. Versátil. Pot odds BB buenos vs rango BTN amplio. Paga.",en:"A6s from BB vs BTN 2.5BB. Suited ace with wheel potential, flush draw and top pair. Versatile. Good BB pot odds vs wide BTN range. Call."},
 ];
@@ -4606,6 +4622,15 @@ const FACING_SITUATIONS = [
    en:"FOLD. AQ (ace-high, no pair) on J-9-4-2-7 — you don't even have a pair. ER = 60/(60+139) = 30%. You'd need villain bluffing ≥30% across a preflop 3-bet + 2 barrels + river overbet. A reg who 3-bets preflop and fires 3 streets with increasing sizing on a dry, disconnected board has a polarized range: sets/overpairs (JJ, 99, 44, QQ+), AJ/A9 (top pair). With no pair, AQ beats nothing in that range except pure bluffs, which a reg like this rarely runs with 3 barrels. Fold — this is a clear river fold, not a thin call."},
 ];
 
+const CATEGORY_DEFS = [
+  { key: "open",   icon: "♠", es: "Apertura (OR)", en: "Opening (OR)" },
+  { key: "iso",    icon: "♣", es: "ROL / ISO",      en: "ROL / ISO" },
+  { key: "cbet",   icon: "♥", es: "C-Bet",          en: "C-Bet" },
+  { key: "vbet",   icon: "♦", es: "Value Bet",      en: "Value Bet" },
+  { key: "call",   icon: "⟵", es: "Pagar apert.",   en: "Calling Opens" },
+  { key: "facing", icon: "⚡", es: "Facing Bets",    en: "Facing Bets" },
+];
+
 function PracticePage({ t, lang, onSessionComplete }) {
   const p = t.practice;
   const [session, setSession] = useState(null);
@@ -4616,21 +4641,38 @@ function PracticePage({ t, lang, onSessionComplete }) {
   const [currentOpts, setCurrentOpts] = useState([]);
   const [byType, setByType] = useState({});
   const [xpEarned, setXpEarned] = useState(0);
+  const [selected, setSelected] = useState([]);
 
-  const ALL_SITUATIONS = [...SITUATIONS, ...ISO_SITUATIONS, ...CBET_SITUATIONS, ...VBET_SITUATIONS, ...CALL_SITUATIONS, ...FACING_SITUATIONS];
+  const CATEGORIES = {
+    open:   [...SITUATIONS,       ...SITUATIONS_EXTRA],
+    iso:    [...ISO_SITUATIONS,   ...ISO_SITUATIONS_EXTRA],
+    cbet:   [...CBET_SITUATIONS,  ...CBET_SITUATIONS_EXTRA],
+    vbet:   [...VBET_SITUATIONS,  ...VBET_SITUATIONS_EXTRA],
+    call:   [...CALL_SITUATIONS,  ...CALL_SITUATIONS_EXTRA],
+    facing: [...FACING_SITUATIONS,...FACING_SITUATIONS_EXTRA],
+  };
 
   const startSession = () => {
-    // Stratified sampling: guaranteed mix of all types per session
-    // 2 OR · 2 ROL · 2 CBET · 2 VBET · 2 CALL · 2 FACING = 12 hands
     const pick = (arr, n) => [...arr].sort(() => Math.random() - 0.5).slice(0, n);
-    const hands = [
-      ...pick(SITUATIONS,       2),
-      ...pick(ISO_SITUATIONS,   2),
-      ...pick(CBET_SITUATIONS,  2),
-      ...pick(VBET_SITUATIONS,  2),
-      ...pick(CALL_SITUATIONS,  2),
-      ...pick(FACING_SITUATIONS,2),
-    ].sort(() => Math.random() - 0.5);
+    let hands;
+    if (selected.length === 0) {
+      // Sin filtro: sesión estratificada de 12 manos (2 por categoría)
+      hands = [
+        ...pick(CATEGORIES.open,   2),
+        ...pick(CATEGORIES.iso,    2),
+        ...pick(CATEGORIES.cbet,   2),
+        ...pick(CATEGORIES.vbet,   2),
+        ...pick(CATEGORIES.call,   2),
+        ...pick(CATEGORIES.facing, 2),
+      ];
+    } else {
+      // Con filtro: 10 manos repartidas entre las categorías elegidas
+      const n = selected.length;
+      const base = Math.floor(10 / n);
+      const extra = 10 % n;
+      hands = selected.flatMap((cat, i) => pick(CATEGORIES[cat], base + (i < extra ? 1 : 0)));
+    }
+    hands = hands.sort(() => Math.random() - 0.5);
     setSession(hands);
     setIdx(0); setPicked(null); setScore(0); setDone(false); setByType({}); setXpEarned(0);
     setCurrentOpts(buildOptions(hands[0], t.practice, lang));
@@ -4649,7 +4691,7 @@ function PracticePage({ t, lang, onSessionComplete }) {
   };
 
   const handleNext = () => {
-    if (idx < 11) {
+    if (idx < session.length - 1) {
       const nextIdx = idx + 1;
       setIdx(nextIdx);
       setPicked(null);
@@ -4658,10 +4700,10 @@ function PracticePage({ t, lang, onSessionComplete }) {
       const finalScore = (picked && picked.correct ? score + 1 : score);
       if (onSessionComplete) {
         onSessionComplete(finalScore, byType)
-          .then(earned => setXpEarned(earned || calcXP(finalScore)))
-          .catch(() => setXpEarned(calcXP(finalScore)));
+          .then(earned => setXpEarned(earned || calcXP(finalScore, session.length)))
+          .catch(() => setXpEarned(calcXP(finalScore, session.length)));
       } else {
-        setXpEarned(calcXP(finalScore));
+        setXpEarned(calcXP(finalScore, session.length));
       }
       setDone(true);
     }
@@ -4670,16 +4712,44 @@ function PracticePage({ t, lang, onSessionComplete }) {
   const posColors = { UTG:"#ef4444", MP:"#f97316", CO:"#eab308", BTN:"#10b981", SB:"#8b5cf6", BB:"#06b6d4" };
 
   // ── Start screen ──────────────────────────────────────────────
-  if (!session) return (
-    <div style={{ maxWidth: 720, margin: "0 auto", padding: "48px 16px", textAlign: "center" }}>
-      <div style={{ fontSize: 40, marginBottom: 16 }}>🎯</div>
-      <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{p.title}</div>
-      <div style={{ fontSize: 14, color: "#8b8fa8", marginBottom: 36 }}>{p.subtitle}</div>
-      <button onClick={startSession} style={{ background: "linear-gradient(135deg, #e8c96a 0%, #c9a84c 100%)", border: "none", borderRadius: 12, padding: "14px 36px", color: "#0a0c14", fontSize: 16, fontWeight: 800, cursor: "pointer", letterSpacing: 0.3 }}>
-        {p.start}
-      </button>
-    </div>
-  );
+  if (!session) {
+    const toggleCat = (key) => setSelected(prev => prev.includes(key) ? prev.filter(c => c !== key) : [...prev, key]);
+    return (
+      <div style={{ maxWidth: 720, margin: "0 auto", padding: "48px 16px", textAlign: "center" }}>
+        <div style={{ fontSize: 40, marginBottom: 16 }}>🎯</div>
+        <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{p.title}</div>
+        <div style={{ fontSize: 14, color: "#8b8fa8", marginBottom: 28 }}>{p.subtitle}</div>
+
+        <div style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c", textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 }}>
+          {p.filterTitle}
+        </div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", marginBottom: 36 }}>
+          <button
+            onClick={() => setSelected([])}
+            style={{ padding: "8px 16px", borderRadius: 20, border: selected.length === 0 ? "1px solid #c9a84c" : "1px solid #1e2235", background: selected.length === 0 ? "#c9a84c22" : "transparent", color: selected.length === 0 ? "#e8c96a" : "#8b8fa8", fontSize: 13, fontWeight: 600, cursor: "pointer" }}
+          >
+            🎲 {p.filterRandom}
+          </button>
+          {CATEGORY_DEFS.map(c => {
+            const active = selected.includes(c.key);
+            return (
+              <button
+                key={c.key}
+                onClick={() => toggleCat(c.key)}
+                style={{ padding: "8px 16px", borderRadius: 20, border: active ? "1px solid #c9a84c" : "1px solid #1e2235", background: active ? "#c9a84c22" : "transparent", color: active ? "#e8c96a" : "#8b8fa8", fontSize: 13, fontWeight: 600, cursor: "pointer" }}
+              >
+                {c.icon} {lang === "es" ? c.es : c.en}
+              </button>
+            );
+          })}
+        </div>
+
+        <button onClick={startSession} style={{ background: "linear-gradient(135deg, #e8c96a 0%, #c9a84c 100%)", border: "none", borderRadius: 12, padding: "14px 36px", color: "#0a0c14", fontSize: 16, fontWeight: 800, cursor: "pointer", letterSpacing: 0.3 }}>
+          {p.start}
+        </button>
+      </div>
+    );
+  }
 
   // ── Results screen ────────────────────────────────────────────
   if (done) {
@@ -4692,20 +4762,21 @@ function PracticePage({ t, lang, onSessionComplete }) {
       facing: { es:"Facing Bets", en:"Facing Bets" },
     };
     const typeOrder = ["open","iso","cbet","vbet","call","facing"];
-    const scoreColor = score>=10?"#10b981":score>=6?"#c9a84c":"#f97316";
-    const xp = xpEarned || calcXP(score);
+    const sessionSize = session.length;
+    const scoreColor = score>=sessionSize*0.8?"#10b981":score>=sessionSize*0.5?"#c9a84c":"#f97316";
+    const xp = xpEarned || calcXP(score, sessionSize);
     const worstType = typeOrder
       .filter(t => byType[t] && byType[t].total > 0)
       .sort((a,b) => (byType[a].correct/byType[a].total) - (byType[b].correct/byType[b].total))[0];
     return (
       <div style={{ maxWidth:540, margin:"0 auto", padding:"32px 16px" }}>
         <div style={{ textAlign:"center", marginBottom:24 }}>
-          <div style={{ fontSize:44, marginBottom:8 }}>{score===12?"🏆":score>=8?"👍":"📚"}</div>
+          <div style={{ fontSize:44, marginBottom:8 }}>{score===sessionSize?"🏆":score>=sessionSize*0.67?"👍":"📚"}</div>
           <div style={{ fontSize:20, fontWeight:700, color:"#fff", marginBottom:4 }}>{p.scoreTitle}</div>
           <div style={{ fontSize:52, fontWeight:800, color:scoreColor, lineHeight:1 }}>
-            {score}<span style={{ fontSize:26, color:"#8b8fa8", fontWeight:400 }}>/12</span>
+            {score}<span style={{ fontSize:26, color:"#8b8fa8", fontWeight:400 }}>/{sessionSize}</span>
           </div>
-          <div style={{ fontSize:13, color:"#b0b4cc", marginTop:6 }}>{score===12?p.perfect:score>=8?p.good:p.review}</div>
+          <div style={{ fontSize:13, color:"#b0b4cc", marginTop:6 }}>{score===sessionSize?p.perfect:score>=sessionSize*0.67?p.good:p.review}</div>
         </div>
         <div style={{ background:"#120f04", border:"1px solid #c9a84c44", borderRadius:12, padding:"14px 20px", marginBottom:12, display:"flex", alignItems:"center", gap:12 }}>
           <div style={{ fontSize:26 }}>⭐</div>
@@ -4759,11 +4830,11 @@ function PracticePage({ t, lang, onSessionComplete }) {
       {/* Progress */}
       <div style={{ marginBottom: 20 }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-          <span style={{ fontSize: 12, color: "#8b8fa8" }}>{p.situation} {idx + 1} {p.of} 12</span>
+          <span style={{ fontSize: 12, color: "#8b8fa8" }}>{p.situation} {idx + 1} {p.of} {session.length}</span>
           <span style={{ fontSize: 12, color: "#c9a84c" }}>✓ {score}</span>
         </div>
         <div style={{ height: 4, background: "#1e2235", borderRadius: 4 }}>
-          <div style={{ height: "100%", width: `${(idx / 12) * 100}%`, background: "#c9a84c", borderRadius: 4, transition: "width 0.3s" }} />
+          <div style={{ height: "100%", width: `${(idx / session.length) * 100}%`, background: "#c9a84c", borderRadius: 4, transition: "width 0.3s" }} />
         </div>
       </div>
 
@@ -4779,6 +4850,13 @@ function PracticePage({ t, lang, onSessionComplete }) {
             ))}
           </div>
         )}
+        {sit.type === "call" && sit.pos && sit.callPos && (
+          <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 14, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+            <span style={{ color: posColors[sit.pos] || "#c9a84c", fontWeight: 800 }}>{sit.pos}</span>
+            <span>{lang === "es" ? "vs apertura de" : "vs open from"}</span>
+            <span style={{ fontWeight: 700, color: "#c9a84c" }}>{sit.callPos}</span>
+          </div>
+        )}
         {(sit.type === "cbet" || sit.type === "vbet") && sit.pos && sit.callPos && (
           <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 14, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
             <span style={{ color: posColors[sit.pos] || "#c9a84c", fontWeight: 800 }}>{sit.pos}</span>
@@ -4787,7 +4865,7 @@ function PracticePage({ t, lang, onSessionComplete }) {
             <span style={{ color: "#1e2235" }}>·</span>
             <span>{sit.players === 1 ? (lang === "es" ? "Heads-up" : "Heads-up") : (lang === "es" ? "3-way" : "3-way")}</span>
             <span style={{ color: "#1e2235" }}>·</span>
-            <span>{sit.ctx && sit.ctx.includes("oop") ? (lang === "es" ? "Fuera de posición" : "Out of position") : (lang === "es" ? "En posición" : "In position")}</span>
+            <span>{sit.ctx && (sit.ctx.includes("oop") || sit.ctx === "cb_3way") ? (lang === "es" ? "Fuera de posición" : "Out of position") : (lang === "es" ? "En posición" : "In position")}</span>
           </div>
         )}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 20, alignItems: "center", marginBottom: 16 }}>
@@ -4856,7 +4934,7 @@ function PracticePage({ t, lang, onSessionComplete }) {
 
       {picked && (
         <button onClick={handleNext} style={{ width: "100%", background: "linear-gradient(135deg, #e8c96a 0%, #c9a84c 100%)", border: "none", borderRadius: 10, padding: "13px", color: "#0a0c14", fontWeight: 800, fontSize: 15, cursor: "pointer", letterSpacing: 0.3 }}>
-          {idx < 11 ? p.next : p.finish}
+          {idx < session.length - 1 ? p.next : p.finish}
         </button>
       )}
     </div>
@@ -5003,10 +5081,12 @@ function getLevelInfo(xp) {
   const pct  = next ? Math.round(((xp - lvl.min)/(next.min - lvl.min))*100) : 100;
   return { ...lvl, next, pct };
 }
-function calcXP(score) {
-  const base  = score * 10;
-  const bonus = score === 12 ? 70 : score >= 10 ? 45 : score >= 8 ? 25 : score >= 6 ? 10 : 0;
-  return base + bonus;
+function calcXP(score, sessionSize = 12) {
+  const base = score * 10;
+  const pct = sessionSize > 0 ? score / sessionSize : 0;
+  const ratio = sessionSize / 12;
+  const bonus = pct === 1 ? 70 : pct >= 10/12 ? 45 : pct >= 8/12 ? 25 : pct >= 0.5 ? 10 : 0;
+  return base + Math.round(bonus * ratio);
 }
 function todayStr() { return new Date().toISOString().split('T')[0]; }
 function calcStreak(lastDate, cur) {
@@ -5089,7 +5169,8 @@ export default function App() {
   };
 
   const handleSessionComplete = async (score, byType) => {
-    const earned     = calcXP(score);
+    const sessionSize = Object.values(byType).reduce((sum, v) => sum + (v?.total || 0), 0) || 12;
+    const earned     = calcXP(score, sessionSize);
     const { streak: newStreak, newDay } = calcStreak(xpData.lastStudiedDate, xpData.streak);
     const newXp      = xpData.xp + earned;
     const lvInfo     = getLevelInfo(newXp);
@@ -5102,7 +5183,7 @@ export default function App() {
       lastStudiedDate: newDay ? todayStr() : xpData.lastStudiedDate,
       totalCorrect:   xpData.totalCorrect + score,
       totalSessions:  xpData.totalSessions + 1,
-      totalAnswered:  (xpData.totalAnswered || 0) + 12,
+      totalAnswered:  (xpData.totalAnswered || 0) + sessionSize,
       categoryStats:  (() => {
         const merged = { ...(xpData.categoryStats || {}) };
         Object.entries(byType).forEach(([typ, vals]) => {
@@ -5194,3 +5275,4 @@ export default function App() {
     </div>
   );
 }
+// TEST_MARKER_12345
