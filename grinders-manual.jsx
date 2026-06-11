@@ -12,6 +12,14 @@ import {
   doc,
   getDoc,
   setDoc,
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  where,
+  onSnapshot,
+  updateDoc,
+  serverTimestamp,
 } from "firebase/firestore";
 import orEP  from './or_p1_0.png';
 import orMP  from './or_p1_1.png';
@@ -44,6 +52,17 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
+
+// Cuentas con acceso al panel de moderación / administración.
+const ADMIN_EMAILS = ["goniarrivic@gmail.com"];
+
+// Motivos de reporte de fallos en una situación.
+const REPORT_REASONS = [
+  { id: "wrong_answer",   es: "La respuesta marcada como correcta no lo es", en: "The answer marked correct isn't" },
+  { id: "missing_context",es: "Falta contexto (no se sabe quién abrió, tamaños, etc.)", en: "Missing context (unclear who opened, sizes, etc.)" },
+  { id: "bad_option",     es: "Una de las opciones no tiene sentido", en: "One of the options doesn't make sense" },
+  { id: "other",          es: "Otro", en: "Other" },
+];
 
 
 
@@ -180,6 +199,100 @@ const content = {
       posTypeIP: "En posición (IP)",
       posTypeOOP: "Fuera de posición (OOP)",
       playersLabel: "Jugadores en el bote",
+      reportBtn: "Reportar fallo",
+      reportTitle: "Reportar un fallo en esta situación",
+      reportReasonLabel: "¿Cuál es el problema?",
+      reportCommentLabel: "Comentario (opcional)",
+      reportCommentPlaceholder: "Cuéntanos qué crees que está mal y por qué...",
+      reportCancel: "Cancelar",
+      reportSubmit: "Enviar reporte",
+      reportSending: "Enviando...",
+      reportSuccess: "¡Gracias! Hemos recibido tu reporte.",
+      reportError: "No se pudo enviar el reporte. Inténtalo de nuevo.",
+      reportLoginRequired: "Inicia sesión para reportar fallos.",
+      actionCall: "Pagar (call)",
+      editBtn: "Proponer cambio",
+      editTitle: "Proponer un cambio en esta situación",
+      editCurrentLabel: "Jugada correcta actual",
+      editCorrectLabel: "¿Cuál crees que es la jugada correcta?",
+      editExplEsLabel: "Explicación corregida (ES)",
+      editExplEnLabel: "Explicación corregida (EN)",
+      editCommentLabel: "Justificación (obligatorio)",
+      editCommentPlaceholder: "Explica por qué crees que esto debería cambiar...",
+      editCancel: "Cancelar",
+      editSubmit: "Enviar propuesta",
+      editSending: "Enviando...",
+      editSuccess: "¡Gracias! Tu propuesta se ha enviado a la comunidad para votación.",
+      editError: "No se pudo enviar la propuesta. Inténtalo de nuevo.",
+      editLoginRequired: "Inicia sesión para proponer cambios.",
+      editCommentRequired: "Escribe una breve justificación para tu propuesta.",
+      communityNav: "Comunidad",
+      communityTitle: "Moderación de propuestas",
+      communityDesc: "Vota las propuestas de cambio enviadas por la comunidad. Con suficientes votos a favor o en contra, la propuesta se aprueba o se rechaza automáticamente.",
+      communityEmpty: "No hay propuestas pendientes ahora mismo.",
+      communityVoteUp: "A favor",
+      communityVoteDown: "En contra",
+      communityApproved: "Aprobada",
+      communityRejected: "Rechazada",
+      communityPending: "Pendiente",
+      communityNetVotes: "Votos netos",
+      communityCurrent: "Actual",
+      communityProposed: "Propuesta",
+      communityComment: "Justificación",
+      communityBy: "Propuesto por",
+      communityFilterPending: "Pendientes",
+      communityFilterResolved: "Resueltas",
+      communityFilterAll: "Todas",
+      communityLoginRequired: "Inicia sesión para votar las propuestas de la comunidad.",
+      communityAlreadyVoted: "Ya has votado en esta propuesta.",
+      communityTabEdits: "Cambios propuestos",
+      communityTabNewHands: "Manos nuevas",
+      proposeBtn: "✚ Proponer mano nueva",
+      proposeTitle: "Proponer una mano nueva",
+      proposeCategoryLabel: "Categoría",
+      proposePosLabel: "Tu posición",
+      proposeHandLabel: "Tu mano (ej: A♠ K♦)",
+      proposeBoardLabel: "Board (ej: A♦ 7♣ 2♥)",
+      proposeCallPosLabel: "Posición del rival",
+      proposePlayersLabel: "Jugadores en la mano",
+      proposeHU: "Heads-up (1 rival)",
+      propose3way: "3-way (2 rivales)",
+      proposeStreetLabel: "Calle",
+      proposeStreetFlop: "Flop",
+      proposeStreetTurn: "Turn",
+      proposeStreetRiver: "River",
+      proposeLimpersLabel: "Número de limpers",
+      proposeLimper1: "1 limper",
+      proposeLimper2: "2 limpers",
+      proposeLimperContextLabel: "¿Quién ha limpeado y en qué posición?",
+      proposeLimperContextPlaceholder: "Ej: UTG ha limpeado (jugador recreativo)",
+      proposeContextLabel: "Contexto / historia de la mano",
+      proposeContextPlaceholder: "Describe la situación: tipo de rival, acción previa, stacks, etc.",
+      proposeContextOptional: "Contexto adicional (opcional)",
+      proposeOptionsLabel: "Opciones de respuesta (rellena las 4)",
+      proposeOptionPlaceholder: "Opción",
+      proposeCorrectLabel: "¿Cuál opción es la correcta?",
+      proposeCorrectExplLabel: "¿Por qué es correcta? (explicación)",
+      proposeWrongExplLabel: "¿Por qué son incorrectas las demás? (opcional)",
+      proposeCommentLabel: "Comentario adicional (opcional)",
+      proposeCancel: "Cancelar",
+      proposeSubmit: "Enviar propuesta",
+      proposeSending: "Enviando...",
+      proposeSuccess: "¡Gracias! Tu mano se ha enviado a la comunidad para votación.",
+      proposeError: "No se pudo enviar la propuesta. Inténtalo de nuevo.",
+      proposeLoginRequired: "Inicia sesión para proponer manos nuevas.",
+      proposeValidation: "Completa la mano, las 4 opciones y la explicación de por qué es correcta.",
+      newHandsTitle: "Manos propuestas por la comunidad",
+      newHandsDesc: "Vota las manos nuevas enviadas por otros usuarios. Con suficientes votos a favor se añaden al banco de práctica para todos.",
+      newHandsEmpty: "No hay manos nuevas pendientes ahora mismo.",
+      newHandsAddedToPool: "Añadida al banco de práctica",
+      communityProposedBy: "Propuesta por",
+      proposeAddOtherLang: "➕ Añadir también en inglés (opcional)",
+      proposeOtherLangTitle: "Versión en inglés",
+      proposeSecondaryContextLabel: "Contexto / historia de la mano (inglés)",
+      proposeSecondaryOptionsLabel: "Opciones de respuesta (inglés)",
+      proposeSecondaryCorrectExplLabel: "¿Por qué es correcta? (inglés)",
+      proposeSecondaryWrongExplLabel: "¿Por qué son incorrectas las demás? (inglés, opcional)",
     },
     lessons: [
       {
@@ -1533,6 +1646,7 @@ const content = {
       wrongIsoOpenExp: "This hand is in the ISO range for this position. ISO raise to the correct size.",
       wrongLimpBehindExp: "Overlimping (calling behind without raising) is almost always wrong: you enter without initiative into a multiway pot. Either ISO or fold.",
       optCbetSmall: "C-bet 33% of the pot",
+      optVbetMedium:"Bet 50% of the pot",
       optCbetLarge: "C-bet 67% of the pot",
       optCbetPot:   "C-bet the pot (100%)",
       optCheck:     "Check",
@@ -1543,6 +1657,100 @@ const content = {
       posTypeIP: "In position (IP)",
       posTypeOOP: "Out of position (OOP)",
       playersLabel: "Players in pot",
+      reportBtn: "Report issue",
+      reportTitle: "Report an issue with this situation",
+      reportReasonLabel: "What's the problem?",
+      reportCommentLabel: "Comment (optional)",
+      reportCommentPlaceholder: "Tell us what you think is wrong and why...",
+      reportCancel: "Cancel",
+      reportSubmit: "Send report",
+      reportSending: "Sending...",
+      reportSuccess: "Thanks! We've received your report.",
+      reportError: "Couldn't send the report. Please try again.",
+      reportLoginRequired: "Sign in to report issues.",
+      actionCall: "Call",
+      editBtn: "Propose change",
+      editTitle: "Propose a change to this situation",
+      editCurrentLabel: "Current correct play",
+      editCorrectLabel: "What do you think the correct play is?",
+      editExplEsLabel: "Corrected explanation (ES)",
+      editExplEnLabel: "Corrected explanation (EN)",
+      editCommentLabel: "Justification (required)",
+      editCommentPlaceholder: "Explain why you think this should change...",
+      editCancel: "Cancel",
+      editSubmit: "Send proposal",
+      editSending: "Sending...",
+      editSuccess: "Thanks! Your proposal was sent to the community for voting.",
+      editError: "Couldn't send the proposal. Please try again.",
+      editLoginRequired: "Sign in to propose changes.",
+      editCommentRequired: "Write a short justification for your proposal.",
+      communityNav: "Community",
+      communityTitle: "Proposal moderation",
+      communityDesc: "Vote on change proposals submitted by the community. With enough votes for or against, a proposal is automatically approved or rejected.",
+      communityEmpty: "No pending proposals right now.",
+      communityVoteUp: "Agree",
+      communityVoteDown: "Disagree",
+      communityApproved: "Approved",
+      communityRejected: "Rejected",
+      communityPending: "Pending",
+      communityNetVotes: "Net votes",
+      communityCurrent: "Current",
+      communityProposed: "Proposed",
+      communityComment: "Justification",
+      communityBy: "Proposed by",
+      communityFilterPending: "Pending",
+      communityFilterResolved: "Resolved",
+      communityFilterAll: "All",
+      communityLoginRequired: "Sign in to vote on community proposals.",
+      communityAlreadyVoted: "You've already voted on this proposal.",
+      communityTabEdits: "Proposed edits",
+      communityTabNewHands: "New hands",
+      proposeBtn: "✚ Propose new hand",
+      proposeTitle: "Propose a new hand",
+      proposeCategoryLabel: "Category",
+      proposePosLabel: "Your position",
+      proposeHandLabel: "Your hand (e.g. A♠ K♦)",
+      proposeBoardLabel: "Board (e.g. A♦ 7♣ 2♥)",
+      proposeCallPosLabel: "Opponent's position",
+      proposePlayersLabel: "Players in the hand",
+      proposeHU: "Heads-up (1 opponent)",
+      propose3way: "3-way (2 opponents)",
+      proposeStreetLabel: "Street",
+      proposeStreetFlop: "Flop",
+      proposeStreetTurn: "Turn",
+      proposeStreetRiver: "River",
+      proposeLimpersLabel: "Number of limpers",
+      proposeLimper1: "1 limper",
+      proposeLimper2: "2 limpers",
+      proposeLimperContextLabel: "Who limped and from which position?",
+      proposeLimperContextPlaceholder: "E.g.: UTG limped (recreational player)",
+      proposeContextLabel: "Context / hand history",
+      proposeContextPlaceholder: "Describe the situation: opponent type, prior action, stacks, etc.",
+      proposeContextOptional: "Additional context (optional)",
+      proposeOptionsLabel: "Answer options (fill all 4)",
+      proposeOptionPlaceholder: "Option",
+      proposeCorrectLabel: "Which option is correct?",
+      proposeCorrectExplLabel: "Why is it correct? (explanation)",
+      proposeWrongExplLabel: "Why are the others incorrect? (optional)",
+      proposeCommentLabel: "Additional comment (optional)",
+      proposeCancel: "Cancel",
+      proposeSubmit: "Submit proposal",
+      proposeSending: "Sending...",
+      proposeSuccess: "Thanks! Your hand has been sent to the community for voting.",
+      proposeError: "Could not submit the proposal. Please try again.",
+      proposeLoginRequired: "Sign in to propose new hands.",
+      proposeValidation: "Fill in the hand, all 4 options, and the explanation of why it's correct.",
+      newHandsTitle: "Hands proposed by the community",
+      newHandsDesc: "Vote on new hands submitted by other users. Once a hand gets enough upvotes it's added to the practice pool for everyone.",
+      newHandsEmpty: "No pending new hands right now.",
+      newHandsAddedToPool: "Added to practice pool",
+      communityProposedBy: "Proposed by",
+      proposeAddOtherLang: "➕ Also add in Spanish (optional)",
+      proposeOtherLangTitle: "Spanish version",
+      proposeSecondaryContextLabel: "Context / hand history (Spanish)",
+      proposeSecondaryOptionsLabel: "Answer options (Spanish)",
+      proposeSecondaryCorrectExplLabel: "Why is it correct? (Spanish)",
+      proposeSecondaryWrongExplLabel: "Why are the others incorrect? (Spanish, optional)",
     },
     lessons: [
       {
@@ -3815,6 +4023,18 @@ const CBET_SITUATIONS = [
 
 // buildOptions is defined outside to avoid temporal dead zone issues
 function buildOptions(sit, p, lang) {
+  if (sit.community && (Array.isArray(sit.optionsEs) || Array.isArray(sit.optionsEn) || Array.isArray(sit.options))) {
+    const opts = (lang === "es" ? sit.optionsEs : sit.optionsEn) || sit.optionsEs || sit.optionsEn || sit.options;
+    const correctExplain = (lang === "es" ? sit.correctExplainEs : sit.correctExplainEn) || sit.correctExplainEs || sit.correctExplainEn || sit.correctExplain || "";
+    const wrongExplain = (lang === "es" ? sit.wrongExplainEs : sit.wrongExplainEn) || sit.wrongExplainEs || sit.wrongExplainEn || sit.wrongExplain || "";
+    return opts.map((opt, idx) => ({
+      id: "opt" + idx,
+      label: opt,
+      correct: idx === sit.correctIndex,
+      explanation: idx === sit.correctIndex ? correctExplain : (wrongExplain || correctExplain),
+    })).sort(() => Math.random() - 0.5);
+  }
+
   const correctExp = lang === "es" ? sit.es : sit.en;
 
   if (sit.type === "cbet") {
@@ -3944,6 +4164,55 @@ function buildOptions(sit, p, lang) {
     { id:"wsize",   label: sit.size === "3x" ? p.optOpen2 : p.optOpen4,  correct: false, explanation: p.wrongSizeExp },
     { id:"limp",    label: p.optLimp,                                     correct: false, explanation: p.wrongLimpExp },
   ].sort(() => Math.random() - 0.5);
+}
+
+// Genera la lista de "jugadas correctas" posibles para una situación, según su tipo.
+// Cada opción es { open, size, label }. Usado por EditProposalModal para que el usuario
+// elija cuál cree que debería ser la jugada correcta.
+function correctActionOptions(sit, p, lang) {
+  if (sit.type === "cbet" || sit.type === "vbet") {
+    const opts = [
+      { open: false, size: null, label: p.optCheck },
+      { open: true,  size: "small", label: p.optCbetSmall },
+    ];
+    if (sit.type === "vbet") opts.push({ open: true, size: "medium", label: p.optVbetMedium });
+    opts.push({ open: true, size: "large", label: p.optCbetLarge });
+    opts.push({ open: true, size: "pot", label: p.optCbetPot });
+    return opts;
+  }
+  if (sit.type === "iso") {
+    const isoLabel = sit.limpers === 2 ? p.optIso5 : p.optIso4;
+    return [
+      { open: true,  size: null, label: isoLabel },
+      { open: false, size: null, label: p.optFold },
+    ];
+  }
+  if (sit.type === "call" || sit.type === "facing") {
+    return [
+      { open: true,  size: null, label: p.actionCall },
+      { open: false, size: null, label: p.optFold },
+    ];
+  }
+  // open type (RFI)
+  const openLabel = sit.size === "3x" ? p.optOpen3 : p.optOpen25;
+  return [
+    { open: true,  size: null, label: openLabel },
+    { open: false, size: null, label: p.optFold },
+  ];
+}
+
+// Aplica un override aprobado por la comunidad (si existe) sobre una situación.
+// `overrides` es un mapa { "type_id": { open, size, es, en } }.
+function applyOverride(sit, overrides) {
+  if (!overrides || !sit) return sit;
+  const ov = overrides[`${sit.type}_${sit.id}`];
+  if (!ov) return sit;
+  const merged = { ...sit };
+  if (ov.open !== null && ov.open !== undefined) merged.open = ov.open;
+  if (ov.size !== null && ov.size !== undefined) merged.size = ov.size;
+  if (ov.es) merged.es = ov.es;
+  if (ov.en) merged.en = ov.en;
+  return merged;
 }
 
 
@@ -4631,7 +4900,475 @@ const CATEGORY_DEFS = [
   { key: "facing", icon: "⚡", es: "Facing Bets",    en: "Facing Bets" },
 ];
 
-function PracticePage({ t, lang, onSessionComplete }) {
+// ─── REPORT ISSUE MODAL ───────────────────────────────────────────────────────
+
+function ReportModal({ onClose, sit, lang, user, p }) {
+  const [reason, setReason] = useState(REPORT_REASONS[0].id);
+  const [comment, setComment] = useState("");
+  const [status, setStatus] = useState("idle"); // idle | sending | success | error
+
+  const handleSubmit = async () => {
+    if (!user) return;
+    setStatus("sending");
+    try {
+      await addDoc(collection(db, "situationReports"), {
+        situationType: sit.type || "open",
+        situationId: sit.id ?? null,
+        hand: sit.hand || null,
+        board: sit.board || null,
+        lang,
+        reason,
+        comment: comment.trim(),
+        reporterUid: user.uid,
+        reporterEmail: user.email,
+        status: "open",
+        createdAt: serverTimestamp(),
+      });
+      setStatus("success");
+    } catch (_) {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "#000000aa", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 50, padding: 16 }} onClick={onClose}>
+      <div style={{ background: "#0d0f1a", border: "1px solid #1e2235", borderRadius: 14, padding: 20, maxWidth: 440, width: "100%" }} onClick={e => e.stopPropagation()}>
+        <div style={{ fontSize: 15, fontWeight: 800, color: "#fff", marginBottom: 14 }}>{p.reportTitle}</div>
+        {status === "success" ? (
+          <div style={{ color: "#10b981", fontSize: 14, marginBottom: 14 }}>✓ {p.reportSuccess}</div>
+        ) : !user ? (
+          <div style={{ color: "#8b8fa8", fontSize: 14, marginBottom: 14 }}>{p.reportLoginRequired}</div>
+        ) : (
+          <>
+            <div style={{ fontSize: 12, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>{p.reportReasonLabel}</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 14 }}>
+              {REPORT_REASONS.map(r => (
+                <label key={r.id} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: reason === r.id ? "#e8c96a" : "#c8cce0", cursor: "pointer" }}>
+                  <input type="radio" name="reportReason" checked={reason === r.id} onChange={() => setReason(r.id)} />
+                  {lang === "es" ? r.es : r.en}
+                </label>
+              ))}
+            </div>
+            <div style={{ fontSize: 12, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>{p.reportCommentLabel}</div>
+            <textarea
+              value={comment}
+              onChange={e => setComment(e.target.value)}
+              placeholder={p.reportCommentPlaceholder}
+              rows={3}
+              style={{ width: "100%", boxSizing: "border-box", background: "#0a0c14", border: "1px solid #1e2235", borderRadius: 8, padding: "10px 12px", color: "#e8e8e8", fontSize: 13, fontFamily: "inherit", marginBottom: 14, resize: "vertical" }}
+            />
+            {status === "error" && <div style={{ color: "#ef4444", fontSize: 12, marginBottom: 10 }}>{p.reportError}</div>}
+          </>
+        )}
+        <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+          <button onClick={onClose} style={{ background: "transparent", border: "1px solid #1e2235", borderRadius: 8, padding: "8px 16px", color: "#8b8fa8", cursor: "pointer", fontSize: 13 }}>
+            {status === "success" ? (lang === "es" ? "Cerrar" : "Close") : p.reportCancel}
+          </button>
+          {status !== "success" && user && (
+            <button
+              onClick={handleSubmit}
+              disabled={status === "sending"}
+              style={{ background: "linear-gradient(135deg,#e8c96a 0%,#c9a84c 100%)", border: "none", borderRadius: 8, padding: "8px 18px", color: "#0a0c14", fontWeight: 800, fontSize: 13, cursor: status === "sending" ? "default" : "pointer", opacity: status === "sending" ? 0.7 : 1 }}
+            >
+              {status === "sending" ? p.reportSending : p.reportSubmit}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function EditProposalModal({ onClose, sit, lang, user, p }) {
+  const options = correctActionOptions(sit, p, lang);
+  const currentIdx = options.findIndex(o =>
+    o.open === !!sit.open && (o.size === null || o.size === sit.size)
+  );
+  const [choiceIdx, setChoiceIdx] = useState(currentIdx >= 0 ? currentIdx : 0);
+  const [explEs, setExplEs] = useState(sit.es || "");
+  const [explEn, setExplEn] = useState(sit.en || "");
+  const [comment, setComment] = useState("");
+  const [status, setStatus] = useState("idle"); // idle | sending | success | error | needComment
+
+  const handleSubmit = async () => {
+    if (!user) return;
+    if (!comment.trim()) { setStatus("needComment"); return; }
+    setStatus("sending");
+    const chosen = options[choiceIdx];
+    try {
+      await addDoc(collection(db, "editProposals"), {
+        situationType: sit.type || "open",
+        situationId: sit.id ?? null,
+        hand: sit.hand || null,
+        board: sit.board || null,
+        lang,
+        currentOpen: !!sit.open,
+        currentSize: sit.size ?? null,
+        currentEs: sit.es || "",
+        currentEn: sit.en || "",
+        currentLabel: options[currentIdx]?.label ?? null,
+        proposedOpen: chosen.open,
+        proposedSize: chosen.size,
+        proposedEs: explEs.trim(),
+        proposedEn: explEn.trim(),
+        proposedLabel: chosen.label,
+        comment: comment.trim(),
+        proposerUid: user.uid,
+        proposerEmail: user.email,
+        status: "pending",
+        votesUp: 0,
+        votesDown: 0,
+        createdAt: serverTimestamp(),
+      });
+      setStatus("success");
+    } catch (_) {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "#000000aa", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 50, padding: 16 }} onClick={onClose}>
+      <div style={{ background: "#0d0f1a", border: "1px solid #1e2235", borderRadius: 14, padding: 20, maxWidth: 480, width: "100%", maxHeight: "85vh", overflowY: "auto" }} onClick={e => e.stopPropagation()}>
+        <div style={{ fontSize: 15, fontWeight: 800, color: "#fff", marginBottom: 14 }}>{p.editTitle}</div>
+        {status === "success" ? (
+          <div style={{ color: "#10b981", fontSize: 14, marginBottom: 14 }}>✓ {p.editSuccess}</div>
+        ) : !user ? (
+          <div style={{ color: "#8b8fa8", fontSize: 14, marginBottom: 14 }}>{p.editLoginRequired}</div>
+        ) : (
+          <>
+            {currentIdx >= 0 && (
+              <div style={{ fontSize: 12, color: "#5a5f78", marginBottom: 12 }}>
+                {p.editCurrentLabel}: <span style={{ color: "#c8cce0" }}>{options[currentIdx].label}</span>
+              </div>
+            )}
+            <div style={{ fontSize: 12, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>{p.editCorrectLabel}</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 14 }}>
+              {options.map((o, i) => (
+                <label key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: choiceIdx === i ? "#e8c96a" : "#c8cce0", cursor: "pointer" }}>
+                  <input type="radio" name="editChoice" checked={choiceIdx === i} onChange={() => setChoiceIdx(i)} />
+                  {o.label}
+                </label>
+              ))}
+            </div>
+            <div style={{ fontSize: 12, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>{p.editExplEsLabel}</div>
+            <textarea
+              value={explEs}
+              onChange={e => setExplEs(e.target.value)}
+              rows={3}
+              style={{ width: "100%", boxSizing: "border-box", background: "#0a0c14", border: "1px solid #1e2235", borderRadius: 8, padding: "10px 12px", color: "#e8e8e8", fontSize: 13, fontFamily: "inherit", marginBottom: 12, resize: "vertical" }}
+            />
+            <div style={{ fontSize: 12, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>{p.editExplEnLabel}</div>
+            <textarea
+              value={explEn}
+              onChange={e => setExplEn(e.target.value)}
+              rows={3}
+              style={{ width: "100%", boxSizing: "border-box", background: "#0a0c14", border: "1px solid #1e2235", borderRadius: 8, padding: "10px 12px", color: "#e8e8e8", fontSize: 13, fontFamily: "inherit", marginBottom: 12, resize: "vertical" }}
+            />
+            <div style={{ fontSize: 12, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>{p.editCommentLabel}</div>
+            <textarea
+              value={comment}
+              onChange={e => setComment(e.target.value)}
+              placeholder={p.editCommentPlaceholder}
+              rows={2}
+              style={{ width: "100%", boxSizing: "border-box", background: "#0a0c14", border: "1px solid #1e2235", borderRadius: 8, padding: "10px 12px", color: "#e8e8e8", fontSize: 13, fontFamily: "inherit", marginBottom: 12, resize: "vertical" }}
+            />
+            {status === "needComment" && <div style={{ color: "#ef4444", fontSize: 12, marginBottom: 10 }}>{p.editCommentRequired}</div>}
+            {status === "error" && <div style={{ color: "#ef4444", fontSize: 12, marginBottom: 10 }}>{p.editError}</div>}
+          </>
+        )}
+        <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+          <button onClick={onClose} style={{ background: "transparent", border: "1px solid #1e2235", borderRadius: 8, padding: "8px 16px", color: "#8b8fa8", cursor: "pointer", fontSize: 13 }}>
+            {status === "success" ? (lang === "es" ? "Cerrar" : "Close") : p.editCancel}
+          </button>
+          {status !== "success" && user && (
+            <button
+              onClick={handleSubmit}
+              disabled={status === "sending"}
+              style={{ background: "linear-gradient(135deg,#e8c96a 0%,#c9a84c 100%)", border: "none", borderRadius: 8, padding: "8px 18px", color: "#0a0c14", fontWeight: 800, fontSize: 13, cursor: status === "sending" ? "default" : "pointer", opacity: status === "sending" ? 0.7 : 1 }}
+            >
+              {status === "sending" ? p.editSending : p.editSubmit}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── PROPOSE NEW HAND MODAL ───────────────────────────────────────────────────
+
+const POSITIONS = ["UTG", "MP", "CO", "BTN", "SB", "BB"];
+
+function ProposeSituationModal({ onClose, lang, user, p, defaultCategory }) {
+  const [category, setCategory] = useState(defaultCategory || "open");
+  const [pos, setPos] = useState("BTN");
+  const [hand, setHand] = useState("");
+  const [board, setBoard] = useState("");
+  const [callPos, setCallPos] = useState("BB");
+  const [players, setPlayers] = useState(1); // 1 = HU, 2 = 3-way
+  const [street, setStreet] = useState("flop");
+  const [limpers, setLimpers] = useState(1);
+  const [limperContext, setLimperContext] = useState("");
+  const [contextText, setContextText] = useState("");
+  const [options, setOptions] = useState(["", "", "", ""]);
+  const [correctIndex, setCorrectIndex] = useState(0);
+  const [correctExplain, setCorrectExplain] = useState("");
+  const [wrongExplain, setWrongExplain] = useState("");
+  const [comment, setComment] = useState("");
+  const [status, setStatus] = useState("idle"); // idle | sending | success | error | invalid
+
+  // Versión opcional en el otro idioma
+  const otherLang = lang === "es" ? "en" : "es";
+  const [addOtherLang, setAddOtherLang] = useState(false);
+  const [contextText2, setContextText2] = useState("");
+  const [options2, setOptions2] = useState(["", "", "", ""]);
+  const [correctExplain2, setCorrectExplain2] = useState("");
+  const [wrongExplain2, setWrongExplain2] = useState("");
+
+  const setOption = (i, val) => setOptions(prev => prev.map((o, idx) => idx === i ? val : o));
+  const setOption2 = (i, val) => setOptions2(prev => prev.map((o, idx) => idx === i ? val : o));
+
+  const handleSubmit = async () => {
+    if (!user) return;
+    const filledOptions = options.map(o => o.trim());
+    if (!hand.trim() || filledOptions.some(o => !o) || !correctExplain.trim()) {
+      setStatus("invalid");
+      return;
+    }
+    setStatus("sending");
+    try {
+      // Contexto en el idioma principal (incluye el contexto de limpers para iso)
+      let primaryDesc = contextText.trim();
+      if (category === "iso" && limperContext.trim()) {
+        primaryDesc = `${limperContext.trim()}${primaryDesc ? " — " + primaryDesc : ""}`;
+      }
+
+      const data = {
+        type: category,
+        community: true,
+        pos,
+        hand: hand.trim(),
+        correctIndex,
+        comment: comment.trim(),
+        lang,
+        authorUid: user.uid,
+        authorEmail: user.email,
+        status: "pending",
+        votesUp: 0,
+        votesDown: 0,
+        createdAt: serverTimestamp(),
+      };
+
+      // Idioma principal
+      data[lang === "es" ? "optionsEs" : "optionsEn"] = filledOptions;
+      data[lang === "es" ? "correctExplainEs" : "correctExplainEn"] = correctExplain.trim();
+      data[lang === "es" ? "wrongExplainEs" : "wrongExplainEn"] = wrongExplain.trim() || null;
+      data[lang === "es" ? "descEs" : "descEn"] = primaryDesc || null;
+
+      // Idioma secundario (opcional)
+      if (addOtherLang) {
+        const filledOptions2 = options2.map(o => o.trim());
+        if (filledOptions2.every(o => o) && correctExplain2.trim()) {
+          let secondaryDesc = contextText2.trim();
+          data[otherLang === "es" ? "optionsEs" : "optionsEn"] = filledOptions2;
+          data[otherLang === "es" ? "correctExplainEs" : "correctExplainEn"] = correctExplain2.trim();
+          data[otherLang === "es" ? "wrongExplainEs" : "wrongExplainEn"] = wrongExplain2.trim() || null;
+          data[otherLang === "es" ? "descEs" : "descEn"] = secondaryDesc || null;
+        }
+      }
+
+      if (category === "cbet" || category === "vbet" || category === "facing") {
+        data.board = board.trim() || null;
+      }
+      if (category === "cbet" || category === "vbet" || category === "call" || category === "facing") {
+        data.callPos = callPos;
+      }
+      if (category === "cbet" || category === "vbet") {
+        data.players = players;
+      }
+      if (category === "facing") {
+        data.street = street;
+      }
+      if (category === "iso") {
+        data.limpers = limpers;
+      }
+
+      await addDoc(collection(db, "communitySituations"), data);
+      setStatus("success");
+    } catch (_) {
+      setStatus("error");
+    }
+  };
+
+  const inputStyle = { width: "100%", boxSizing: "border-box", background: "#0a0c14", border: "1px solid #1e2235", borderRadius: 8, padding: "10px 12px", color: "#e8e8e8", fontSize: 13, fontFamily: "inherit" };
+  const labelStyle = { fontSize: 12, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8, marginTop: 14 };
+
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "#000000aa", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 50, padding: 16 }} onClick={onClose}>
+      <div style={{ background: "#0d0f1a", border: "1px solid #1e2235", borderRadius: 14, padding: 20, maxWidth: 520, width: "100%", maxHeight: "85vh", overflowY: "auto" }} onClick={e => e.stopPropagation()}>
+        <div style={{ fontSize: 15, fontWeight: 800, color: "#fff", marginBottom: 14 }}>{p.proposeTitle}</div>
+        {status === "success" ? (
+          <div style={{ color: "#10b981", fontSize: 14, marginBottom: 14 }}>✓ {p.proposeSuccess}</div>
+        ) : !user ? (
+          <div style={{ color: "#8b8fa8", fontSize: 14, marginBottom: 14 }}>{p.proposeLoginRequired}</div>
+        ) : (
+          <>
+            <div style={labelStyle}>{p.proposeCategoryLabel}</div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 4 }}>
+              {CATEGORY_DEFS.map(c => (
+                <button
+                  key={c.key}
+                  type="button"
+                  onClick={() => setCategory(c.key)}
+                  style={{ padding: "6px 12px", borderRadius: 16, border: category === c.key ? "1px solid #c9a84c" : "1px solid #1e2235", background: category === c.key ? "#c9a84c22" : "transparent", color: category === c.key ? "#e8c96a" : "#8b8fa8", fontSize: 12, fontWeight: 600, cursor: "pointer" }}
+                >
+                  {c.icon} {lang === "es" ? c.es : c.en}
+                </button>
+              ))}
+            </div>
+
+            <div style={labelStyle}>{p.proposePosLabel}</div>
+            <select value={pos} onChange={e => setPos(e.target.value)} style={inputStyle}>
+              {POSITIONS.map(po => <option key={po} value={po}>{po}</option>)}
+            </select>
+
+            <div style={labelStyle}>{p.proposeHandLabel}</div>
+            <input type="text" value={hand} onChange={e => setHand(e.target.value)} placeholder="A♠ K♦" style={inputStyle} />
+
+            {(category === "cbet" || category === "vbet" || category === "facing") && (
+              <>
+                <div style={labelStyle}>{p.proposeBoardLabel}</div>
+                <input type="text" value={board} onChange={e => setBoard(e.target.value)} placeholder="A♦ 7♣ 2♥" style={inputStyle} />
+              </>
+            )}
+
+            {(category === "cbet" || category === "vbet" || category === "call" || category === "facing") && (
+              <>
+                <div style={labelStyle}>{p.proposeCallPosLabel}</div>
+                <select value={callPos} onChange={e => setCallPos(e.target.value)} style={inputStyle}>
+                  {POSITIONS.map(po => <option key={po} value={po}>{po}</option>)}
+                </select>
+              </>
+            )}
+
+            {(category === "cbet" || category === "vbet") && (
+              <>
+                <div style={labelStyle}>{p.proposePlayersLabel}</div>
+                <div style={{ display: "flex", gap: 6 }}>
+                  <button type="button" onClick={() => setPlayers(1)} style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: players === 1 ? "1px solid #c9a84c" : "1px solid #1e2235", background: players === 1 ? "#c9a84c22" : "transparent", color: players === 1 ? "#e8c96a" : "#8b8fa8", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>{p.proposeHU}</button>
+                  <button type="button" onClick={() => setPlayers(2)} style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: players === 2 ? "1px solid #c9a84c" : "1px solid #1e2235", background: players === 2 ? "#c9a84c22" : "transparent", color: players === 2 ? "#e8c96a" : "#8b8fa8", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>{p.propose3way}</button>
+                </div>
+              </>
+            )}
+
+            {category === "facing" && (
+              <>
+                <div style={labelStyle}>{p.proposeStreetLabel}</div>
+                <div style={{ display: "flex", gap: 6 }}>
+                  {[["flop", p.proposeStreetFlop], ["turn", p.proposeStreetTurn], ["river", p.proposeStreetRiver]].map(([k, lab]) => (
+                    <button key={k} type="button" onClick={() => setStreet(k)} style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: street === k ? "1px solid #c9a84c" : "1px solid #1e2235", background: street === k ? "#c9a84c22" : "transparent", color: street === k ? "#e8c96a" : "#8b8fa8", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>{lab}</button>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {category === "iso" && (
+              <>
+                <div style={labelStyle}>{p.proposeLimpersLabel}</div>
+                <div style={{ display: "flex", gap: 6, marginBottom: 4 }}>
+                  <button type="button" onClick={() => setLimpers(1)} style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: limpers === 1 ? "1px solid #c9a84c" : "1px solid #1e2235", background: limpers === 1 ? "#c9a84c22" : "transparent", color: limpers === 1 ? "#e8c96a" : "#8b8fa8", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>{p.proposeLimper1}</button>
+                  <button type="button" onClick={() => setLimpers(2)} style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: limpers === 2 ? "1px solid #c9a84c" : "1px solid #1e2235", background: limpers === 2 ? "#c9a84c22" : "transparent", color: limpers === 2 ? "#e8c96a" : "#8b8fa8", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>{p.proposeLimper2}</button>
+                </div>
+                <div style={labelStyle}>{p.proposeLimperContextLabel}</div>
+                <input type="text" value={limperContext} onChange={e => setLimperContext(e.target.value)} placeholder={p.proposeLimperContextPlaceholder} style={inputStyle} />
+              </>
+            )}
+
+            <div style={labelStyle}>{category === "iso" ? p.proposeContextOptional : p.proposeContextLabel}</div>
+            <textarea value={contextText} onChange={e => setContextText(e.target.value)} placeholder={p.proposeContextPlaceholder} rows={3} style={{ ...inputStyle, resize: "vertical" }} />
+
+            <div style={labelStyle}>{p.proposeOptionsLabel}</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {options.map((opt, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <input
+                    type="radio"
+                    name="correctOption"
+                    checked={correctIndex === i}
+                    onChange={() => setCorrectIndex(i)}
+                    title={p.proposeCorrectLabel}
+                  />
+                  <input type="text" value={opt} onChange={e => setOption(i, e.target.value)} placeholder={`${p.proposeOptionPlaceholder} ${i + 1}`} style={inputStyle} />
+                </div>
+              ))}
+            </div>
+            <div style={{ fontSize: 11, color: "#5a5f78", marginTop: 6 }}>{p.proposeCorrectLabel}</div>
+
+            <div style={labelStyle}>{p.proposeCorrectExplLabel}</div>
+            <textarea value={correctExplain} onChange={e => setCorrectExplain(e.target.value)} rows={2} style={{ ...inputStyle, resize: "vertical" }} />
+
+            <div style={labelStyle}>{p.proposeWrongExplLabel}</div>
+            <textarea value={wrongExplain} onChange={e => setWrongExplain(e.target.value)} rows={2} style={{ ...inputStyle, resize: "vertical" }} />
+
+            <div style={{ marginTop: 16 }}>
+              <button
+                type="button"
+                onClick={() => setAddOtherLang(v => !v)}
+                style={{ width: "100%", textAlign: "left", padding: "8px 12px", borderRadius: 8, border: addOtherLang ? "1px solid #c9a84c" : "1px solid #1e2235", background: addOtherLang ? "#c9a84c22" : "transparent", color: addOtherLang ? "#e8c96a" : "#8b8fa8", fontSize: 12, fontWeight: 700, cursor: "pointer" }}
+              >
+                {p.proposeAddOtherLang}
+              </button>
+            </div>
+
+            {addOtherLang && (
+              <div style={{ marginTop: 10, paddingLeft: 12, borderLeft: "2px solid #1e2235" }}>
+                <div style={{ fontSize: 12, fontWeight: 800, color: "#c9a84c", marginBottom: 4 }}>{p.proposeOtherLangTitle}</div>
+
+                <div style={labelStyle}>{p.proposeSecondaryContextLabel}</div>
+                <textarea value={contextText2} onChange={e => setContextText2(e.target.value)} rows={3} style={{ ...inputStyle, resize: "vertical" }} />
+
+                <div style={labelStyle}>{p.proposeSecondaryOptionsLabel}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  {options2.map((opt, i) => (
+                    <input key={i} type="text" value={opt} onChange={e => setOption2(i, e.target.value)} placeholder={`${p.proposeOptionPlaceholder} ${i + 1}`} style={inputStyle} />
+                  ))}
+                </div>
+
+                <div style={labelStyle}>{p.proposeSecondaryCorrectExplLabel}</div>
+                <textarea value={correctExplain2} onChange={e => setCorrectExplain2(e.target.value)} rows={2} style={{ ...inputStyle, resize: "vertical" }} />
+
+                <div style={labelStyle}>{p.proposeSecondaryWrongExplLabel}</div>
+                <textarea value={wrongExplain2} onChange={e => setWrongExplain2(e.target.value)} rows={2} style={{ ...inputStyle, resize: "vertical" }} />
+              </div>
+            )}
+
+            <div style={labelStyle}>{p.proposeCommentLabel}</div>
+            <textarea value={comment} onChange={e => setComment(e.target.value)} rows={2} style={{ ...inputStyle, resize: "vertical" }} />
+
+            {status === "invalid" && <div style={{ color: "#ef4444", fontSize: 12, marginTop: 10 }}>{p.proposeValidation}</div>}
+            {status === "error" && <div style={{ color: "#ef4444", fontSize: 12, marginTop: 10 }}>{p.proposeError}</div>}
+          </>
+        )}
+        <div style={{ display: "flex", gap: 8, justifyContent: "flex-end", marginTop: 16 }}>
+          <button onClick={onClose} style={{ background: "transparent", border: "1px solid #1e2235", borderRadius: 8, padding: "8px 16px", color: "#8b8fa8", cursor: "pointer", fontSize: 13 }}>
+            {status === "success" ? (lang === "es" ? "Cerrar" : "Close") : p.proposeCancel}
+          </button>
+          {status !== "success" && user && (
+            <button
+              onClick={handleSubmit}
+              disabled={status === "sending"}
+              style={{ background: "linear-gradient(135deg,#e8c96a 0%,#c9a84c 100%)", border: "none", borderRadius: 8, padding: "8px 18px", color: "#0a0c14", fontWeight: 800, fontSize: 13, cursor: status === "sending" ? "default" : "pointer", opacity: status === "sending" ? 0.7 : 1 }}
+            >
+              {status === "sending" ? p.proposeSending : p.proposeSubmit}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PracticePage({ t, lang, onSessionComplete, user, overrides, communityHands }) {
   const p = t.practice;
   const [session, setSession] = useState(null);
   const [idx, setIdx] = useState(0);
@@ -4642,14 +5379,20 @@ function PracticePage({ t, lang, onSessionComplete }) {
   const [byType, setByType] = useState({});
   const [xpEarned, setXpEarned] = useState(0);
   const [selected, setSelected] = useState([]);
+  const [reportOpen, setReportOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [proposeOpen, setProposeOpen] = useState(false);
+
+  const community = communityHands || [];
+  const byCommunity = (typ) => community.filter(h => h.type === typ);
 
   const CATEGORIES = {
-    open:   [...SITUATIONS,       ...SITUATIONS_EXTRA],
-    iso:    [...ISO_SITUATIONS,   ...ISO_SITUATIONS_EXTRA],
-    cbet:   [...CBET_SITUATIONS,  ...CBET_SITUATIONS_EXTRA],
-    vbet:   [...VBET_SITUATIONS,  ...VBET_SITUATIONS_EXTRA],
-    call:   [...CALL_SITUATIONS,  ...CALL_SITUATIONS_EXTRA],
-    facing: [...FACING_SITUATIONS,...FACING_SITUATIONS_EXTRA],
+    open:   [...SITUATIONS,       ...SITUATIONS_EXTRA,  ...byCommunity("open")],
+    iso:    [...ISO_SITUATIONS,   ...ISO_SITUATIONS_EXTRA, ...byCommunity("iso")],
+    cbet:   [...CBET_SITUATIONS,  ...CBET_SITUATIONS_EXTRA, ...byCommunity("cbet")],
+    vbet:   [...VBET_SITUATIONS,  ...VBET_SITUATIONS_EXTRA, ...byCommunity("vbet")],
+    call:   [...CALL_SITUATIONS,  ...CALL_SITUATIONS_EXTRA, ...byCommunity("call")],
+    facing: [...FACING_SITUATIONS,...FACING_SITUATIONS_EXTRA, ...byCommunity("facing")],
   };
 
   const startSession = () => {
@@ -4674,8 +5417,8 @@ function PracticePage({ t, lang, onSessionComplete }) {
     }
     hands = hands.sort(() => Math.random() - 0.5);
     setSession(hands);
-    setIdx(0); setPicked(null); setScore(0); setDone(false); setByType({}); setXpEarned(0);
-    setCurrentOpts(buildOptions(hands[0], t.practice, lang));
+    setIdx(0); setPicked(null); setScore(0); setDone(false); setByType({}); setXpEarned(0); setReportOpen(false); setEditOpen(false);
+    setCurrentOpts(buildOptions(applyOverride(hands[0], overrides), t.practice, lang));
   };
 
   const handlePick = (opt) => {
@@ -4695,7 +5438,9 @@ function PracticePage({ t, lang, onSessionComplete }) {
       const nextIdx = idx + 1;
       setIdx(nextIdx);
       setPicked(null);
-      setCurrentOpts(buildOptions(session[nextIdx], t.practice, lang));
+      setReportOpen(false);
+      setEditOpen(false);
+      setCurrentOpts(buildOptions(applyOverride(session[nextIdx], overrides), t.practice, lang));
     } else {
       const finalScore = (picked && picked.correct ? score + 1 : score);
       if (onSessionComplete) {
@@ -4764,6 +5509,18 @@ function PracticePage({ t, lang, onSessionComplete }) {
         <button onClick={startSession} style={{ background: "linear-gradient(135deg, #e8c96a 0%, #c9a84c 100%)", border: "none", borderRadius: 12, padding: "14px 36px", color: "#0a0c14", fontSize: 16, fontWeight: 800, cursor: "pointer", letterSpacing: 0.3 }}>
           {p.start}
         </button>
+
+        <div style={{ marginTop: 24 }}>
+          <button
+            onClick={() => setProposeOpen(true)}
+            style={{ background: "transparent", border: "1px solid #1e2235", borderRadius: 10, padding: "10px 20px", color: "#c9a84c", fontSize: 13, fontWeight: 700, cursor: "pointer" }}
+          >
+            {p.proposeBtn}
+          </button>
+        </div>
+        {proposeOpen && (
+          <ProposeSituationModal lang={lang} user={user} p={p} defaultCategory={selected[0]} onClose={() => setProposeOpen(false)} />
+        )}
       </div>
     );
   }
@@ -4838,9 +5595,9 @@ function PracticePage({ t, lang, onSessionComplete }) {
   }
 
   // ── Question screen ───────────────────────────────────────────
-  const sit = session[idx];
+  const sit = applyOverride(session[idx], overrides);
   const opts = currentOpts;
-  const ctx = CTX[sit.ctx];
+  const ctx = sit.community ? null : CTX[sit.ctx];
 
   return (
     <div style={{ maxWidth: 720, margin: "0 auto", padding: "24px 16px" }}>
@@ -4855,18 +5612,45 @@ function PracticePage({ t, lang, onSessionComplete }) {
         </div>
       </div>
 
+      {/* Report issue / Propose change */}
+      <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginBottom: 8 }}>
+        <button
+          onClick={() => setEditOpen(true)}
+          style={{ background: "transparent", border: "1px solid #1e2235", borderRadius: 8, padding: "5px 10px", color: "#8b8fa8", cursor: "pointer", fontSize: 11, display: "flex", alignItems: "center", gap: 5 }}
+        >
+          ✏️ {p.editBtn}
+        </button>
+        <button
+          onClick={() => setReportOpen(true)}
+          style={{ background: "transparent", border: "1px solid #1e2235", borderRadius: 8, padding: "5px 10px", color: "#8b8fa8", cursor: "pointer", fontSize: 11, display: "flex", alignItems: "center", gap: 5 }}
+        >
+          🚩 {p.reportBtn}
+        </button>
+      </div>
+      {reportOpen && (
+        <ReportModal key={"r"+idx} sit={sit} lang={lang} user={user} p={p} onClose={() => setReportOpen(false)} />
+      )}
+      {editOpen && (
+        <EditProposalModal key={"e"+idx} sit={sit} lang={lang} user={user} p={p} onClose={() => setEditOpen(false)} />
+      )}
+
       {/* Situation card */}
       <div style={{ background: "#0d0f1a", border: "1px solid #1e2235", borderRadius: 14, padding: "20px", marginBottom: 16 }}>
-        {(sit.type === "vbet" || sit.type === "facing") && sit.descEs && (
+        {sit.community && (
+          <div style={{ display: "inline-block", fontSize: 10, fontWeight: 700, color: "#0a0c14", background: "#e8c96a", borderRadius: 6, padding: "2px 8px", marginBottom: 10, textTransform: "uppercase", letterSpacing: 1 }}>
+            👥 {lang === "es" ? "Mano de la comunidad" : "Community hand"}
+          </div>
+        )}
+        {((sit.type === "vbet" || sit.type === "facing") && sit.descEs) || (sit.community && (sit.descEs || sit.descEn)) ? (
           <div style={{ background:"#0a0c14", border:"1px solid #1e2235", borderRadius:10, padding:"12px 14px", marginBottom:14 }}>
             <div style={{ fontSize:11, fontWeight:700, color:"#c9a84c", textTransform:"uppercase", letterSpacing:1, marginBottom:6 }}>
               {lang==="es" ? "Historia de la mano" : "Hand history"}
             </div>
-            {(lang==="es" ? sit.descEs : sit.descEn).split("\n").map((line,li) => (
+            {((lang==="es" ? sit.descEs : sit.descEn) || sit.descEs || sit.descEn).split("\n").map((line,li) => (
               <div key={li} style={{ fontSize:13, color: li===0 ? "#8b8fa8" : "#b0b4cc", lineHeight:1.6, marginBottom:2 }}>{line}</div>
             ))}
           </div>
-        )}
+        ) : null}
         {sit.type === "call" && sit.pos && sit.callPos && (
           <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 14, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
             <span style={{ color: posColors[sit.pos] || "#c9a84c", fontWeight: 800 }}>{sit.pos}</span>
@@ -4909,16 +5693,18 @@ function PracticePage({ t, lang, onSessionComplete }) {
             </div>
           )}
         </div>
-        <div style={{ fontSize: 13, color: "#8b8fa8", borderTop: "1px solid #1e2235", paddingTop: 12 }}>
-          {sit.type === "cbet" && sit.callPos ? (
-            <span>
-              <span style={{ color: "#c9a84c", fontWeight: 600 }}>{lang === "es" ? "Situación: " : "Situation: "}</span>
-              {lang === "es" ? `Abriste desde ${sit.pos}. ${sit.callPos} ${ctx.es}` : `You opened from ${sit.pos}. ${sit.callPos} ${ctx.en}`}
-            </span>
-          ) : (
-            <span><span style={{ color: "#c9a84c", fontWeight: 600 }}>{p.contextLabel}: </span>{lang === "es" ? ctx.es : ctx.en}</span>
-          )}
-        </div>
+        {!sit.community && (
+          <div style={{ fontSize: 13, color: "#8b8fa8", borderTop: "1px solid #1e2235", paddingTop: 12 }}>
+            {sit.type === "cbet" && sit.callPos ? (
+              <span>
+                <span style={{ color: "#c9a84c", fontWeight: 600 }}>{lang === "es" ? "Situación: " : "Situation: "}</span>
+                {lang === "es" ? `Abriste desde ${sit.pos}. ${sit.callPos} ${ctx.es}` : `You opened from ${sit.pos}. ${sit.callPos} ${ctx.en}`}
+              </span>
+            ) : (
+              <span><span style={{ color: "#c9a84c", fontWeight: 600 }}>{p.contextLabel}: </span>{lang === "es" ? ctx.es : ctx.en}</span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Options */}
@@ -5116,6 +5902,556 @@ function calcStreak(lastDate, cur) {
     : { streak:1,     newDay:true };
 }
 
+// ─── ADMIN: REPORTES ────────────────────────────────────────────────────────────────
+
+function AdminReportsPage({ lang }) {
+  const [reports, setReports] = useState([]);
+  const [filter, setFilter] = useState("open");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const q = query(collection(db, "situationReports"), orderBy("createdAt", "desc"));
+    const unsub = onSnapshot(q, (snap) => {
+      setReports(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      setLoading(false);
+    }, () => setLoading(false));
+    return () => unsub();
+  }, []);
+
+  const filtered = filter === "all" ? reports : reports.filter(r => (r.status || "open") === filter);
+
+  const setStatus = async (id, status) => {
+    try {
+      await updateDoc(doc(db, "situationReports", id), { status });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const reasonLabel = (id) => {
+    const r = REPORT_REASONS.find(x => x.id === id);
+    if (!r) return id;
+    return lang === "es" ? r.es : r.en;
+  };
+
+  const statusColors = { open: "#e0a83a", resolved: "#4caf6e", dismissed: "#8b8fa8" };
+  const filters = [
+    { id: "open", es: "Abiertos", en: "Open" },
+    { id: "resolved", es: "Resueltos", en: "Resolved" },
+    { id: "dismissed", es: "Descartados", en: "Dismissed" },
+    { id: "all", es: "Todos", en: "All" },
+  ];
+
+  return (
+    <div style={{ maxWidth: 900, margin: "0 auto", padding: "24px 16px" }}>
+      <h2 style={{ color: "#fff", fontSize: 22, marginBottom: 4 }}>
+        {lang === "es" ? "Reportes de fallos" : "Bug reports"}
+      </h2>
+      <p style={{ color: "#8b8fa8", fontSize: 13, marginBottom: 16 }}>
+        {lang === "es"
+          ? "Revisa los fallos reportados por los usuarios en las situaciones de práctica."
+          : "Review issues reported by users on practice situations."}
+      </p>
+
+      <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
+        {filters.map(f => (
+          <button
+            key={f.id}
+            onClick={() => setFilter(f.id)}
+            style={{
+              background: filter === f.id ? "#c9a84c22" : "#111320",
+              border: `1px solid ${filter === f.id ? "#c9a84c" : "#1e2235"}`,
+              borderRadius: 8, padding: "6px 14px", color: filter === f.id ? "#c9a84c" : "#8b8fa8",
+              cursor: "pointer", fontSize: 13, fontWeight: 600,
+            }}
+          >
+            {lang === "es" ? f.es : f.en}
+          </button>
+        ))}
+      </div>
+
+      {loading && (
+        <p style={{ color: "#8b8fa8", fontSize: 13 }}>{lang === "es" ? "Cargando..." : "Loading..."}</p>
+      )}
+      {!loading && filtered.length === 0 && (
+        <p style={{ color: "#8b8fa8", fontSize: 13 }}>
+          {lang === "es" ? "No hay reportes en esta categoría." : "No reports in this category."}
+        </p>
+      )}
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        {filtered.map(r => (
+          <div key={r.id} style={{ background: "#111320", border: "1px solid #1e2235", borderRadius: 12, padding: 14 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 8 }}>
+              <div>
+                <div style={{ color: "#fff", fontWeight: 700, fontSize: 14 }}>
+                  {r.situationType} · #{r.situationId}
+                </div>
+                <div style={{ color: "#c9a84c", fontSize: 12, marginTop: 2 }}>
+                  {reasonLabel(r.reason)}
+                </div>
+              </div>
+              <span style={{
+                background: `${statusColors[r.status || "open"]}22`,
+                color: statusColors[r.status || "open"],
+                border: `1px solid ${statusColors[r.status || "open"]}55`,
+                borderRadius: 999, padding: "2px 10px", fontSize: 11, fontWeight: 700, textTransform: "uppercase",
+              }}>
+                {r.status || "open"}
+              </span>
+            </div>
+
+            {(r.hand || r.board) && (
+              <div style={{ color: "#8b8fa8", fontSize: 12, marginTop: 8 }}>
+                {r.hand && <span>{lang === "es" ? "Mano" : "Hand"}: <b style={{ color: "#cfd2e5" }}>{r.hand}</b></span>}
+                {r.hand && r.board && <span> · </span>}
+                {r.board && <span>{lang === "es" ? "Mesa" : "Board"}: <b style={{ color: "#cfd2e5" }}>{r.board}</b></span>}
+              </div>
+            )}
+
+            {r.comment && (
+              <div style={{ color: "#cfd2e5", fontSize: 13, marginTop: 8, background: "#0b0d18", borderRadius: 8, padding: 10 }}>
+                {r.comment}
+              </div>
+            )}
+
+            <div style={{ color: "#5a5f78", fontSize: 11, marginTop: 8 }}>
+              {r.reporterEmail || (lang === "es" ? "Anónimo" : "Anonymous")}
+              {r.lang ? ` · ${r.lang.toUpperCase()}` : ""}
+            </div>
+
+            <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
+              {(r.status || "open") !== "resolved" && (
+                <button
+                  onClick={() => setStatus(r.id, "resolved")}
+                  style={{ background: "#4caf6e22", border: "1px solid #4caf6e55", borderRadius: 8, padding: "5px 12px", color: "#4caf6e", cursor: "pointer", fontSize: 12, fontWeight: 600 }}
+                >
+                  {lang === "es" ? "Marcar resuelto" : "Mark resolved"}
+                </button>
+              )}
+              {(r.status || "open") !== "dismissed" && (
+                <button
+                  onClick={() => setStatus(r.id, "dismissed")}
+                  style={{ background: "#8b8fa822", border: "1px solid #8b8fa855", borderRadius: 8, padding: "5px 12px", color: "#8b8fa8", cursor: "pointer", fontSize: 12, fontWeight: 600 }}
+                >
+                  {lang === "es" ? "Descartar" : "Dismiss"}
+                </button>
+              )}
+              {(r.status || "open") !== "open" && (
+                <button
+                  onClick={() => setStatus(r.id, "open")}
+                  style={{ background: "#e0a83a22", border: "1px solid #e0a83a55", borderRadius: 8, padding: "5px 12px", color: "#e0a83a", cursor: "pointer", fontSize: 12, fontWeight: 600 }}
+                >
+                  {lang === "es" ? "Reabrir" : "Reopen"}
+                </button>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── COMUNIDAD: MODERACIÓN DE PROPUESTAS ───────────────────────────────────────
+
+function EditProposalCard({ proposal, lang, user, p }) {
+  const [votes, setVotes] = useState({});
+  const [voting, setVoting] = useState(false);
+
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, "editProposals", proposal.id, "votes"), (snap) => {
+      const v = {};
+      snap.docs.forEach(d => { v[d.id] = d.data().value; });
+      setVotes(v);
+    });
+    return () => unsub();
+  }, [proposal.id]);
+
+  const votesUp = Object.values(votes).filter(v => v === 1).length;
+  const votesDown = Object.values(votes).filter(v => v === -1).length;
+  const net = votesUp - votesDown;
+  const myVote = user ? votes[user.uid] : undefined;
+
+  // Resolución automática al alcanzar el umbral de votos netos (±5)
+  useEffect(() => {
+    if (proposal.status !== "pending") return;
+    if (net >= 5) {
+      updateDoc(doc(db, "editProposals", proposal.id), { status: "approved", votesUp, votesDown }).catch(() => {});
+      const key = `${proposal.situationType}_${proposal.situationId}`;
+      setDoc(doc(db, "situationOverrides", key), {
+        type: proposal.situationType,
+        id: proposal.situationId,
+        open: proposal.proposedOpen ?? null,
+        size: proposal.proposedSize ?? null,
+        es: proposal.proposedEs || null,
+        en: proposal.proposedEn || null,
+        fromProposalId: proposal.id,
+        updatedAt: serverTimestamp(),
+      }).catch(() => {});
+    } else if (net <= -5) {
+      updateDoc(doc(db, "editProposals", proposal.id), { status: "rejected", votesUp, votesDown }).catch(() => {});
+    }
+  }, [net, proposal.status]);
+
+  const vote = async (value) => {
+    if (!user || voting) return;
+    setVoting(true);
+    try {
+      await setDoc(doc(db, "editProposals", proposal.id, "votes", user.uid), { value, votedAt: serverTimestamp() });
+    } catch (_) {}
+    setVoting(false);
+  };
+
+  const statusColors = { pending: "#e0a83a", approved: "#4caf6e", rejected: "#ef4444" };
+  const statusLabels = {
+    pending: p.communityPending,
+    approved: p.communityApproved,
+    rejected: p.communityRejected,
+  };
+
+  return (
+    <div style={{ background: "#111320", border: "1px solid #1e2235", borderRadius: 12, padding: 14 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 8 }}>
+        <div>
+          <div style={{ color: "#fff", fontWeight: 700, fontSize: 14 }}>
+            {proposal.situationType} · #{proposal.situationId}
+          </div>
+          {(proposal.hand || proposal.board) && (
+            <div style={{ color: "#8b8fa8", fontSize: 12, marginTop: 2 }}>
+              {proposal.hand}{proposal.hand && proposal.board ? " · " : ""}{proposal.board}
+            </div>
+          )}
+        </div>
+        <span style={{
+          background: `${statusColors[proposal.status] || statusColors.pending}22`,
+          color: statusColors[proposal.status] || statusColors.pending,
+          border: `1px solid ${(statusColors[proposal.status] || statusColors.pending)}55`,
+          borderRadius: 999, padding: "2px 10px", fontSize: 11, fontWeight: 700, textTransform: "uppercase",
+        }}>
+          {statusLabels[proposal.status] || statusLabels.pending}
+        </span>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 10 }}>
+        <div style={{ background: "#0b0d18", borderRadius: 8, padding: 10 }}>
+          <div style={{ color: "#5a5f78", fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>{p.communityCurrent}</div>
+          <div style={{ color: "#c8cce0", fontSize: 13, fontWeight: 700, marginBottom: 4 }}>{proposal.currentLabel}</div>
+          <div style={{ color: "#8b8fa8", fontSize: 12, lineHeight: 1.5 }}>
+            {lang === "es" ? proposal.currentEs : proposal.currentEn}
+          </div>
+        </div>
+        <div style={{ background: "#0b0d1822", border: "1px solid #c9a84c33", borderRadius: 8, padding: 10 }}>
+          <div style={{ color: "#c9a84c", fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>{p.communityProposed}</div>
+          <div style={{ color: "#fff", fontSize: 13, fontWeight: 700, marginBottom: 4 }}>{proposal.proposedLabel}</div>
+          <div style={{ color: "#cfd2e5", fontSize: 12, lineHeight: 1.5 }}>
+            {lang === "es" ? proposal.proposedEs : proposal.proposedEn}
+          </div>
+        </div>
+      </div>
+
+      {proposal.comment && (
+        <div style={{ marginTop: 10 }}>
+          <div style={{ color: "#5a5f78", fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>{p.communityComment}</div>
+          <div style={{ color: "#cfd2e5", fontSize: 13 }}>{proposal.comment}</div>
+        </div>
+      )}
+
+      <div style={{ color: "#5a5f78", fontSize: 11, marginTop: 10 }}>
+        {p.communityBy} {proposal.proposerEmail || "—"}
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
+        <button
+          onClick={() => vote(1)}
+          disabled={!user || voting}
+          style={{
+            background: myVote === 1 ? "#4caf6e22" : "transparent",
+            border: `1px solid ${myVote === 1 ? "#4caf6e" : "#1e2235"}`,
+            borderRadius: 8, padding: "6px 12px", color: "#4caf6e", cursor: user ? "pointer" : "default", fontSize: 12, fontWeight: 600,
+          }}
+        >
+          👍 {p.communityVoteUp} ({votesUp})
+        </button>
+        <button
+          onClick={() => vote(-1)}
+          disabled={!user || voting}
+          style={{
+            background: myVote === -1 ? "#ef444422" : "transparent",
+            border: `1px solid ${myVote === -1 ? "#ef4444" : "#1e2235"}`,
+            borderRadius: 8, padding: "6px 12px", color: "#ef4444", cursor: user ? "pointer" : "default", fontSize: 12, fontWeight: 600,
+          }}
+        >
+          👎 {p.communityVoteDown} ({votesDown})
+        </button>
+        <span style={{ color: "#8b8fa8", fontSize: 12 }}>{p.communityNetVotes}: {net} / 5</span>
+      </div>
+    </div>
+  );
+}
+
+function CommunitySituationCard({ situation, lang, user, p }) {
+  const [votes, setVotes] = useState({});
+  const [voting, setVoting] = useState(false);
+
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, "communitySituations", situation.id, "votes"), (snap) => {
+      const v = {};
+      snap.docs.forEach(d => { v[d.id] = d.data().value; });
+      setVotes(v);
+    });
+    return () => unsub();
+  }, [situation.id]);
+
+  const votesUp = Object.values(votes).filter(v => v === 1).length;
+  const votesDown = Object.values(votes).filter(v => v === -1).length;
+  const net = votesUp - votesDown;
+  const myVote = user ? votes[user.uid] : undefined;
+
+  // Resolución automática al alcanzar el umbral de votos netos (±5)
+  useEffect(() => {
+    if (situation.status !== "pending") return;
+    if (net >= 5) {
+      updateDoc(doc(db, "communitySituations", situation.id), { status: "approved", votesUp, votesDown }).catch(() => {});
+    } else if (net <= -5) {
+      updateDoc(doc(db, "communitySituations", situation.id), { status: "rejected", votesUp, votesDown }).catch(() => {});
+    }
+  }, [net, situation.status]);
+
+  const vote = async (value) => {
+    if (!user || voting) return;
+    setVoting(true);
+    try {
+      await setDoc(doc(db, "communitySituations", situation.id, "votes", user.uid), { value, votedAt: serverTimestamp() });
+    } catch (_) {}
+    setVoting(false);
+  };
+
+  const statusColors = { pending: "#e0a83a", approved: "#4caf6e", rejected: "#ef4444" };
+  const statusLabels = {
+    pending: p.communityPending,
+    approved: p.communityApproved,
+    rejected: p.communityRejected,
+  };
+
+  const cat = CATEGORY_DEFS.find(c => c.key === situation.type);
+  const desc = (lang === "es" ? situation.descEs : situation.descEn) || situation.descEs || situation.descEn || situation.ctxText;
+  const opts = (lang === "es" ? situation.optionsEs : situation.optionsEn) || situation.optionsEs || situation.optionsEn || situation.options;
+  const correctExplain = (lang === "es" ? situation.correctExplainEs : situation.correctExplainEn) || situation.correctExplainEs || situation.correctExplainEn || situation.correctExplain;
+  const hasBothLangs = !!(situation.optionsEs && situation.optionsEn);
+
+  return (
+    <div style={{ background: "#111320", border: "1px solid #1e2235", borderRadius: 12, padding: 14 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 8 }}>
+        <div>
+          <div style={{ color: "#fff", fontWeight: 700, fontSize: 14 }}>
+            {cat ? `${cat.icon} ${lang === "es" ? cat.es : cat.en}` : situation.type}
+          </div>
+          <div style={{ color: "#8b8fa8", fontSize: 12, marginTop: 2 }}>
+            {situation.pos && <span style={{ fontWeight: 700, color: "#c9a84c" }}>{situation.pos}</span>}
+            {situation.hand && <span> · {situation.hand}</span>}
+            {situation.board && <span> · {situation.board}</span>}
+            {situation.callPos && <span> · vs {situation.callPos}</span>}
+          </div>
+        </div>
+        <span style={{
+          background: `${statusColors[situation.status] || statusColors.pending}22`,
+          color: statusColors[situation.status] || statusColors.pending,
+          border: `1px solid ${(statusColors[situation.status] || statusColors.pending)}55`,
+          borderRadius: 999, padding: "2px 10px", fontSize: 11, fontWeight: 700, textTransform: "uppercase",
+        }}>
+          {statusLabels[situation.status] || statusLabels.pending}
+        </span>
+      </div>
+
+      {desc && (
+        <div style={{ background: "#0b0d18", borderRadius: 8, padding: 10, marginTop: 10, color: "#cfd2e5", fontSize: 12, lineHeight: 1.5 }}>
+          {desc}
+        </div>
+      )}
+
+      {Array.isArray(opts) && (
+        <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 10 }}>
+          {opts.map((opt, i) => (
+            <div key={i} style={{
+              padding: "6px 10px", borderRadius: 8, fontSize: 12,
+              border: `1px solid ${i === situation.correctIndex ? "#4caf6e55" : "#1e2235"}`,
+              background: i === situation.correctIndex ? "#4caf6e11" : "transparent",
+              color: i === situation.correctIndex ? "#6ee7b7" : "#c8cce0",
+            }}>
+              {i === situation.correctIndex ? "✓ " : ""}{opt}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {correctExplain && (
+        <div style={{ marginTop: 10 }}>
+          <div style={{ color: "#5a5f78", fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>{p.proposeCorrectExplLabel}</div>
+          <div style={{ color: "#cfd2e5", fontSize: 13 }}>{correctExplain}</div>
+        </div>
+      )}
+
+      {hasBothLangs && (
+        <div style={{ marginTop: 8, fontSize: 11, color: "#5a5f78" }}>🌐 ES / EN</div>
+      )}
+
+      {situation.comment && (
+        <div style={{ marginTop: 10 }}>
+          <div style={{ color: "#5a5f78", fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>{p.communityComment}</div>
+          <div style={{ color: "#cfd2e5", fontSize: 13 }}>{situation.comment}</div>
+        </div>
+      )}
+
+      {situation.status === "approved" && (
+        <div style={{ marginTop: 10, color: "#4caf6e", fontSize: 12, fontWeight: 600 }}>
+          ✓ {p.newHandsAddedToPool}
+        </div>
+      )}
+
+      <div style={{ color: "#5a5f78", fontSize: 11, marginTop: 10 }}>
+        {p.communityProposedBy} {situation.authorEmail || "—"}
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
+        <button
+          onClick={() => vote(1)}
+          disabled={!user || voting}
+          style={{
+            background: myVote === 1 ? "#4caf6e22" : "transparent",
+            border: `1px solid ${myVote === 1 ? "#4caf6e" : "#1e2235"}`,
+            borderRadius: 8, padding: "6px 12px", color: "#4caf6e", cursor: user ? "pointer" : "default", fontSize: 12, fontWeight: 600,
+          }}
+        >
+          👍 {p.communityVoteUp} ({votesUp})
+        </button>
+        <button
+          onClick={() => vote(-1)}
+          disabled={!user || voting}
+          style={{
+            background: myVote === -1 ? "#ef444422" : "transparent",
+            border: `1px solid ${myVote === -1 ? "#ef4444" : "#1e2235"}`,
+            borderRadius: 8, padding: "6px 12px", color: "#ef4444", cursor: user ? "pointer" : "default", fontSize: 12, fontWeight: 600,
+          }}
+        >
+          👎 {p.communityVoteDown} ({votesDown})
+        </button>
+        <span style={{ color: "#8b8fa8", fontSize: 12 }}>{p.communityNetVotes}: {net} / 5</span>
+      </div>
+    </div>
+  );
+}
+
+function CommunityPage({ t, lang, user }) {
+  const p = t.practice;
+  const [proposals, setProposals] = useState([]);
+  const [situations, setSituations] = useState([]);
+  const [tab, setTab] = useState("edits"); // edits | newHands
+  const [filter, setFilter] = useState("pending");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const q = query(collection(db, "editProposals"), orderBy("createdAt", "desc"));
+    const unsub = onSnapshot(q, (snap) => {
+      setProposals(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      setLoading(false);
+    }, () => setLoading(false));
+    const q2 = query(collection(db, "communitySituations"), orderBy("createdAt", "desc"));
+    const unsub2 = onSnapshot(q2, (snap) => {
+      setSituations(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+    }, () => {});
+    return () => { unsub(); unsub2(); };
+  }, []);
+
+  const items = tab === "edits" ? proposals : situations;
+  const filtered = filter === "all" ? items
+    : filter === "pending" ? items.filter(x => (x.status || "pending") === "pending")
+    : items.filter(x => (x.status || "pending") !== "pending");
+
+  const filters = [
+    { id: "pending", label: p.communityFilterPending },
+    { id: "resolved", label: p.communityFilterResolved },
+    { id: "all", label: p.communityFilterAll },
+  ];
+
+  return (
+    <div style={{ maxWidth: 900, margin: "0 auto", padding: "24px 16px" }}>
+      <h2 style={{ color: "#fff", fontSize: 22, marginBottom: 4 }}>{p.communityTitle}</h2>
+      <p style={{ color: "#8b8fa8", fontSize: 13, marginBottom: 16 }}>{p.communityDesc}</p>
+
+      {!user && (
+        <div style={{ background: "#111320", border: "1px solid #1e2235", borderRadius: 10, padding: 12, color: "#8b8fa8", fontSize: 13, marginBottom: 16 }}>
+          {p.communityLoginRequired}
+        </div>
+      )}
+
+      <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
+        <button
+          onClick={() => setTab("edits")}
+          style={{
+            background: tab === "edits" ? "#c9a84c22" : "#111320",
+            border: `1px solid ${tab === "edits" ? "#c9a84c" : "#1e2235"}`,
+            borderRadius: 8, padding: "6px 14px", color: tab === "edits" ? "#c9a84c" : "#8b8fa8",
+            cursor: "pointer", fontSize: 13, fontWeight: 700,
+          }}
+        >
+          {p.communityTabEdits}
+        </button>
+        <button
+          onClick={() => setTab("newHands")}
+          style={{
+            background: tab === "newHands" ? "#c9a84c22" : "#111320",
+            border: `1px solid ${tab === "newHands" ? "#c9a84c" : "#1e2235"}`,
+            borderRadius: 8, padding: "6px 14px", color: tab === "newHands" ? "#c9a84c" : "#8b8fa8",
+            cursor: "pointer", fontSize: 13, fontWeight: 700,
+          }}
+        >
+          {p.communityTabNewHands}
+        </button>
+      </div>
+
+      {tab === "newHands" && (
+        <p style={{ color: "#8b8fa8", fontSize: 13, marginBottom: 12 }}>{p.newHandsDesc}</p>
+      )}
+
+      <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap" }}>
+        {filters.map(f => (
+          <button
+            key={f.id}
+            onClick={() => setFilter(f.id)}
+            style={{
+              background: filter === f.id ? "#c9a84c22" : "#111320",
+              border: `1px solid ${filter === f.id ? "#c9a84c" : "#1e2235"}`,
+              borderRadius: 8, padding: "6px 14px", color: filter === f.id ? "#c9a84c" : "#8b8fa8",
+              cursor: "pointer", fontSize: 13, fontWeight: 600,
+            }}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      {loading && (
+        <p style={{ color: "#8b8fa8", fontSize: 13 }}>{lang === "es" ? "Cargando..." : "Loading..."}</p>
+      )}
+      {!loading && filtered.length === 0 && (
+        <p style={{ color: "#8b8fa8", fontSize: 13 }}>{tab === "edits" ? p.communityEmpty : p.newHandsEmpty}</p>
+      )}
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        {tab === "edits"
+          ? filtered.map(pr => (
+              <EditProposalCard key={pr.id} proposal={pr} lang={lang} user={user} p={p} />
+            ))
+          : filtered.map(s => (
+              <CommunitySituationCard key={s.id} situation={s} lang={lang} user={user} p={p} />
+            ))
+        }
+      </div>
+    </div>
+  );
+}
+
 // ─── APP SHELL ────────────────────────────────────────────────────────────────
 
 export default function App() {
@@ -5124,8 +6460,32 @@ export default function App() {
   const [completed, setCompleted] = useState(new Set());
   const [user, setUser] = useState(undefined);
   const [xpData, setXpData] = useState({ xp:0, level:1, streak:0, longestStreak:0, lastStudiedDate:null, totalCorrect:0, totalSessions:0, totalAnswered:0, categoryStats:{} });
+  const [overrides, setOverrides] = useState({});
 
   const t = content[lang];
+
+  // Listen to community-approved overrides for situations
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, "situationOverrides"), (snap) => {
+      const map = {};
+      snap.docs.forEach(d => {
+        const data = d.data();
+        map[`${data.type}_${data.id}`] = data;
+      });
+      setOverrides(map);
+    }, () => {});
+    return () => unsub();
+  }, []);
+
+  // Listen to community-approved new hands
+  const [communityHands, setCommunityHands] = useState([]);
+  useEffect(() => {
+    const q = query(collection(db, "communitySituations"), where("status", "==", "approved"));
+    const unsub = onSnapshot(q, (snap) => {
+      setCommunityHands(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+    }, () => {});
+    return () => unsub();
+  }, []);
 
   // Listen to auth state
   useEffect(() => {
@@ -5275,6 +6635,24 @@ export default function App() {
           >
             {lang === "en" ? "🇪🇸 ES" : "🇬🇧 EN"}
           </button>
+          {user && (
+            <button
+              onClick={() => setPage("community")}
+              title={lang === "es" ? "Comunidad" : "Community"}
+              style={{ background: page === "community" ? "#c9a84c22" : "transparent", border: "1px solid #1e2235", borderRadius: 8, padding: "5px 11px", color: "#c9a84c", cursor: "pointer", fontSize: 13 }}
+            >
+              👥
+            </button>
+          )}
+          {ADMIN_EMAILS.includes(user?.email) && (
+            <button
+              onClick={() => setPage("admin")}
+              title={lang === "es" ? "Reportes" : "Reports"}
+              style={{ background: page === "admin" ? "#c9a84c22" : "transparent", border: "1px solid #1e2235", borderRadius: 8, padding: "5px 11px", color: "#c9a84c", cursor: "pointer", fontSize: 13 }}
+            >
+              🛠️
+            </button>
+          )}
           <button
             onClick={handleLogout}
             title={lang === "es" ? "Cerrar sesión" : "Sign out"}
@@ -5288,7 +6666,9 @@ export default function App() {
       {page === "home" && <HomePage t={t} onNavigate={setPage} />}
       {page === "stats" && <StatsPage t={t} lang={lang} xpData={xpData} completed={completed} totalLessons={t.lessons.length} />}
       {page === "academia" && <AcademiaPage t={t} completed={completed} onComplete={handleComplete} lang={lang} />}
-      {page === "practice" && <PracticePage t={t} lang={lang} onSessionComplete={handleSessionComplete} />}
+      {page === "practice" && <PracticePage t={t} lang={lang} onSessionComplete={handleSessionComplete} user={user} overrides={overrides} communityHands={communityHands} />}
+      {page === "community" && user && <CommunityPage t={t} lang={lang} user={user} />}
+      {page === "admin" && ADMIN_EMAILS.includes(user?.email) && <AdminReportsPage lang={lang} />}
     </div>
   );
 }

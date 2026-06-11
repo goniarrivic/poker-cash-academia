@@ -1,0 +1,78 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email in [
+        "goniarrivic@gmail.com"
+      ];
+    }
+
+    // ─── Perfiles de usuario (progreso, xp, etc.) ───────────────────────────
+    match /users/{uid} {
+      allow read, write: if isSignedIn() && request.auth.uid == uid;
+    }
+
+    // ─── Reportes de fallos en situaciones ──────────────────────────────────
+    match /situationReports/{reportId} {
+      allow create: if isSignedIn()
+        && request.resource.data.reporterUid == request.auth.uid
+        && request.resource.data.status == "open";
+      allow read: if isSignedIn();
+      // Solo el admin puede cambiar el estado (resolved/dismissed/open)
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // ─── Propuestas de edición de situaciones existentes ────────────────────
+    match /editProposals/{proposalId} {
+      allow create: if isSignedIn()
+        && request.resource.data.proposerUid == request.auth.uid
+        && request.resource.data.status == "pending"
+        && request.resource.data.votesUp == 0
+        && request.resource.data.votesDown == 0;
+      allow read: if isSignedIn();
+      // Cambios de estado/voto agregados (cualquier usuario autenticado o admin)
+      allow update: if isSignedIn();
+      allow delete: if isAdmin();
+
+      // Un voto por usuario
+      match /votes/{uid} {
+        allow read: if isSignedIn();
+        allow create, update: if isSignedIn() && request.auth.uid == uid;
+        allow delete: if isAdmin();
+      }
+    }
+
+    // ─── Overrides aplicados a situaciones tras una propuesta aprobada (+5) ──
+    match /situationOverrides/{overrideId} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn();
+      allow delete: if isAdmin();
+    }
+
+    // ─── Manos/situaciones propuestas por la comunidad ──────────────────────
+    match /communitySituations/{situationId} {
+      allow create: if isSignedIn()
+        && request.resource.data.authorUid == request.auth.uid
+        && request.resource.data.status == "pending"
+        && request.resource.data.votesUp == 0
+        && request.resource.data.votesDown == 0;
+      allow read: if isSignedIn();
+      allow update: if isSignedIn();
+      allow delete: if isAdmin();
+
+      // Un voto por usuario
+      match /votes/{uid} {
+        allow read: if isSignedIn();
+        allow create, update: if isSignedIn() && request.auth.uid == uid;
+        allow delete: if isAdmin();
+      }
+    }
+  }
+}
