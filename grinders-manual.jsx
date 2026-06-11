@@ -3542,7 +3542,7 @@ function AcademiaPage({ t, completed, onComplete, lang }) {
 
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
 
-function HomePage({ t, onNavigate }) {
+function HomePage({ t, onNavigate, onPropose }) {
   return (
     <div style={{ maxWidth: 720, margin: "0 auto", padding: "48px 16px 40px", textAlign: "center", position: "relative", overflow: "hidden" }}>
       {/* Decorative suits background */}
@@ -3611,6 +3611,18 @@ function HomePage({ t, onNavigate }) {
             <div style={{ fontSize: 12, color: "#8b8fa8", marginTop: 2 }}>{t.menu.statsSubtitle}</div>
           </div>
           <span style={{ marginLeft: "auto", color: "#8b5cf6", fontSize: 20 }}>→</span>
+        </button>
+
+        <button
+          onClick={onPropose}
+          style={{ display: "flex", alignItems: "center", gap: 16, background: "transparent", border: "1px solid #1e2235", borderRadius: 16, padding: "16px 24px", color: "#c9a84c", cursor: "pointer", fontSize: 14, fontWeight: 700, width: "100%", transition: "border-color 0.2s" }}
+          onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#c9a84c"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#1e2235"; }}
+        >
+          <div style={{ width: 44, height: 44, borderRadius: 12, background: "#c9a84c11", border: "1px solid #c9a84c44", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }}>✚</div>
+          <div style={{ textAlign: "left" }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#c9a84c" }}>{t.practice.proposeBtn}</div>
+          </div>
         </button>
       </div>
 
@@ -5381,7 +5393,6 @@ function PracticePage({ t, lang, onSessionComplete, user, overrides, communityHa
   const [selected, setSelected] = useState([]);
   const [reportOpen, setReportOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
-  const [proposeOpen, setProposeOpen] = useState(false);
 
   const community = communityHands || [];
   const byCommunity = (typ) => community.filter(h => h.type === typ);
@@ -5509,18 +5520,6 @@ function PracticePage({ t, lang, onSessionComplete, user, overrides, communityHa
         <button onClick={startSession} style={{ background: "linear-gradient(135deg, #e8c96a 0%, #c9a84c 100%)", border: "none", borderRadius: 12, padding: "14px 36px", color: "#0a0c14", fontSize: 16, fontWeight: 800, cursor: "pointer", letterSpacing: 0.3 }}>
           {p.start}
         </button>
-
-        <div style={{ marginTop: 24 }}>
-          <button
-            onClick={() => setProposeOpen(true)}
-            style={{ background: "transparent", border: "1px solid #1e2235", borderRadius: 10, padding: "10px 20px", color: "#c9a84c", fontSize: 13, fontWeight: 700, cursor: "pointer" }}
-          >
-            {p.proposeBtn}
-          </button>
-        </div>
-        {proposeOpen && (
-          <ProposeSituationModal lang={lang} user={user} p={p} defaultCategory={selected[0]} onClose={() => setProposeOpen(false)} />
-        )}
       </div>
     );
   }
@@ -6461,6 +6460,7 @@ export default function App() {
   const [user, setUser] = useState(undefined);
   const [xpData, setXpData] = useState({ xp:0, level:1, streak:0, longestStreak:0, lastStudiedDate:null, totalCorrect:0, totalSessions:0, totalAnswered:0, categoryStats:{} });
   const [overrides, setOverrides] = useState({});
+  const [proposeOpen, setProposeOpen] = useState(false);
 
   const t = content[lang];
 
@@ -6663,12 +6663,16 @@ export default function App() {
         </div>
       </div>
 
-      {page === "home" && <HomePage t={t} onNavigate={setPage} />}
+      {page === "home" && <HomePage t={t} onNavigate={setPage} onPropose={() => setProposeOpen(true)} />}
       {page === "stats" && <StatsPage t={t} lang={lang} xpData={xpData} completed={completed} totalLessons={t.lessons.length} />}
       {page === "academia" && <AcademiaPage t={t} completed={completed} onComplete={handleComplete} lang={lang} />}
       {page === "practice" && <PracticePage t={t} lang={lang} onSessionComplete={handleSessionComplete} user={user} overrides={overrides} communityHands={communityHands} />}
       {page === "community" && user && <CommunityPage t={t} lang={lang} user={user} />}
       {page === "admin" && ADMIN_EMAILS.includes(user?.email) && <AdminReportsPage lang={lang} />}
+
+      {proposeOpen && (
+        <ProposeSituationModal lang={lang} user={user} p={t.practice} onClose={() => setProposeOpen(false)} />
+      )}
     </div>
   );
 }
