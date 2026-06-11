@@ -74,5 +74,19 @@ service cloud.firestore {
         allow delete: if isAdmin();
       }
     }
+
+    // ─── Ranking mensual de Supervivencia (1 doc por usuario, mejor marca) ──
+    match /survivalLeaderboard/{uid} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn() && request.auth.uid == uid;
+      allow delete: if isAdmin();
+    }
+
+    // ─── Insignias del Top 3 mensual de Supervivencia (calculadas por clientes) ──
+    match /survivalBadges/{month} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn();
+      allow delete: if isAdmin();
+    }
   }
 }

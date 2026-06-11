@@ -11,6 +11,7 @@ import {
   getFirestore,
   doc,
   getDoc,
+  getDocs,
   setDoc,
   collection,
   addDoc,
@@ -135,7 +136,7 @@ const content = {
   es: {
     nav: { title: "Poker Cash Academy", back: "Inicio" },
     home: { welcome: "Poker Cash Academy", subtitle: "Domina el cash game. Un concepto a la vez." },
-    menu: { academia: "Academy", academiaSubtitle: "Lecciones estructuradas paso a paso", stats: "Estadísticas", statsSubtitle: "Tu progreso, nivel y precisión por categoría" },
+    menu: { academia: "Academy", academiaSubtitle: "Lecciones estructuradas paso a paso", stats: "Estadísticas", statsSubtitle: "Tu progreso, nivel y precisión por categoría", survival: "Supervivencia", survivalSubtitle: "Una racha al día. Compite por el Top 10 mensual" },
     academia: {
       title: "Academia",
       subtitle: "Aprende paso a paso",
@@ -293,6 +294,44 @@ const content = {
       proposeSecondaryOptionsLabel: "Opciones de respuesta (inglés)",
       proposeSecondaryCorrectExplLabel: "¿Por qué es correcta? (inglés)",
       proposeSecondaryWrongExplLabel: "¿Por qué son incorrectas las demás? (inglés, opcional)",
+    },
+    survival: {
+      title: "Supervivencia",
+      subtitle: "Responde situaciones sin parar. En cuanto falles una, se acaba la racha.",
+      rulesTitle: "Cómo funciona",
+      rule1: "🔁 Solo puedes jugar una vez al día.",
+      rule2: "🎲 Las preguntas salen al azar de todas las categorías.",
+      rule3: "❌ La racha termina en cuanto falles una pregunta.",
+      rule4: "🏆 Tu mejor racha del mes entra en el ranking mensual.",
+      startBtn: "Empezar racha",
+      yourBestEver: "Tu mejor racha histórica",
+      streakLabel: "Racha",
+      question: "Pregunta",
+      failHeading: "¡Racha terminada!",
+      failedAtQuestion: "Has fallado en la pregunta",
+      finalScoreLabel: "Tu racha final",
+      newPersonalBest: "¡Nuevo récord personal! 🎉",
+      newMonthlyBest: "¡Nuevo mejor del mes! Entras en el ranking 🏆",
+      xpEarned: "XP ganado",
+      backToMenu: "Volver al menú",
+      playTomorrow: "Vuelve mañana para superar tu marca.",
+      alreadyTitle: "Ya has jugado hoy",
+      alreadyDesc: "Solo se permite un intento de Supervivencia al día. Vuelve mañana para intentar superar tu marca.",
+      yourScoreToday: "Tu racha de hoy",
+      leaderboardTitle: "Ranking mensual",
+      leaderboardSubtitle: "Top 10 · se reinicia cada mes",
+      rankHeader: "#",
+      playerHeader: "Jugador",
+      scoreHeader: "Racha",
+      youTag: "Tú",
+      emptyLeaderboard: "Todavía no hay puntuaciones este mes. ¡Sé el primero!",
+      badgesTitle: "Insignias de Supervivencia",
+      badgesDesc: "Termina en el Top 3 del ranking mensual para ganar una insignia permanente.",
+      noBadges: "Aún no tienes insignias. ¡Termina en el Top 3 del mes!",
+      rank1: "🥇 1er puesto",
+      rank2: "🥈 2º puesto",
+      rank3: "🥉 3er puesto",
+      loginRequired: "Inicia sesión para jugar a Supervivencia.",
     },
     lessons: [
       {
@@ -1593,7 +1632,7 @@ const content = {
   en: {
     nav: { title: "Poker Cash Academy", back: "Home" },
     home: { welcome: "Poker Cash Academy", subtitle: "Master cash game. One concept at a time." },
-    menu: { academia: "Academy", academiaSubtitle: "Structured lessons step by step", stats: "Statistics", statsSubtitle: "Your progress, level and accuracy by category" },
+    menu: { academia: "Academy", academiaSubtitle: "Structured lessons step by step", stats: "Statistics", statsSubtitle: "Your progress, level and accuracy by category", survival: "Survival", survivalSubtitle: "One run per day. Compete for the monthly Top 10" },
     academia: {
       title: "Academia",
       subtitle: "Learn step by step",
@@ -1751,6 +1790,44 @@ const content = {
       proposeSecondaryOptionsLabel: "Answer options (Spanish)",
       proposeSecondaryCorrectExplLabel: "Why is it correct? (Spanish)",
       proposeSecondaryWrongExplLabel: "Why are the others incorrect? (Spanish, optional)",
+    },
+    survival: {
+      title: "Survival",
+      subtitle: "Answer situations back to back. As soon as you miss one, your run ends.",
+      rulesTitle: "How it works",
+      rule1: "🔁 You can only play once per day.",
+      rule2: "🎲 Questions are picked at random from every category.",
+      rule3: "❌ Your run ends as soon as you get one wrong.",
+      rule4: "🏆 Your best run of the month enters the monthly leaderboard.",
+      startBtn: "Start run",
+      yourBestEver: "Your all-time best run",
+      streakLabel: "Streak",
+      question: "Question",
+      failHeading: "Run over!",
+      failedAtQuestion: "You missed question",
+      finalScoreLabel: "Your final streak",
+      newPersonalBest: "New personal best! 🎉",
+      newMonthlyBest: "New best this month! You're on the leaderboard 🏆",
+      xpEarned: "XP earned",
+      backToMenu: "Back to menu",
+      playTomorrow: "Come back tomorrow to beat your record.",
+      alreadyTitle: "You've already played today",
+      alreadyDesc: "Only one Survival run is allowed per day. Come back tomorrow to try to beat your record.",
+      yourScoreToday: "Today's run",
+      leaderboardTitle: "Monthly leaderboard",
+      leaderboardSubtitle: "Top 10 · resets every month",
+      rankHeader: "#",
+      playerHeader: "Player",
+      scoreHeader: "Streak",
+      youTag: "You",
+      emptyLeaderboard: "No scores yet this month. Be the first!",
+      badgesTitle: "Survival badges",
+      badgesDesc: "Finish in the monthly Top 3 to earn a permanent badge.",
+      noBadges: "No badges yet. Finish in the monthly Top 3!",
+      rank1: "🥇 1st place",
+      rank2: "🥈 2nd place",
+      rank3: "🥉 3rd place",
+      loginRequired: "Sign in to play Survival.",
     },
     lessons: [
       {
@@ -3600,6 +3677,20 @@ function HomePage({ t, onNavigate, onPropose }) {
         </button>
 
         <button
+          onClick={() => onNavigate("survival")}
+          style={{ display: "flex", alignItems: "center", gap: 16, background: "linear-gradient(135deg, #111320 0%, #0d0f1a 100%)", border: "1px solid #ef444444", borderRadius: 16, padding: "20px 24px", color: "#f0f0f5", cursor: "pointer", fontSize: 16, fontWeight: 700, width: "100%", transition: "border-color 0.2s, box-shadow 0.2s", boxShadow: "0 4px 24px #00000066" }}
+          onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#ef4444"; e.currentTarget.style.boxShadow = "0 4px 32px #ef444422"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#ef444444"; e.currentTarget.style.boxShadow = "0 4px 24px #00000066"; }}
+        >
+          <div style={{ width: 44, height: 44, borderRadius: 12, background: "linear-gradient(135deg, #ef444422, #ef444411)", border: "1px solid #ef444444", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>🔥</div>
+          <div style={{ textAlign: "left" }}>
+            <div style={{ fontSize: 16, fontWeight: 700, color: "#f0f0f5" }}>{t.menu.survival}</div>
+            <div style={{ fontSize: 12, color: "#8b8fa8", marginTop: 2 }}>{t.menu.survivalSubtitle}</div>
+          </div>
+          <span style={{ marginLeft: "auto", color: "#ef4444", fontSize: 20 }}>→</span>
+        </button>
+
+        <button
           onClick={() => onNavigate("stats")}
           style={{ display: "flex", alignItems: "center", gap: 16, background: "linear-gradient(135deg, #111320 0%, #0d0f1a 100%)", border: "1px solid #8b5cf644", borderRadius: 16, padding: "20px 24px", color: "#f0f0f5", cursor: "pointer", fontSize: 16, fontWeight: 700, width: "100%", transition: "border-color 0.2s, box-shadow 0.2s", boxShadow: "0 4px 24px #00000066" }}
           onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#8b5cf6"; e.currentTarget.style.boxShadow = "0 4px 32px #8b5cf622"; }}
@@ -4501,9 +4592,32 @@ const VBET_SITUATIONS = [
 
 
 // ─── STATS PAGE ───────────────────────────────────────────────────────────────
-function StatsPage({ t, lang, xpData, completed, totalLessons }) {
+function StatsPage({ t, lang, xpData, completed, totalLessons, user }) {
   const lv = getLevelInfo(xpData.xp);
   const es = lang === "es";
+  const s = t.survival;
+
+  // Cargar insignias de Top 3 mensual de Supervivencia
+  const [badges, setBadges] = useState([]);
+  useEffect(() => {
+    if (!user) { setBadges([]); return; }
+    let cancelled = false;
+    (async () => {
+      try {
+        const badgesSnap = await getDocs(collection(db, "survivalBadges"));
+        if (cancelled) return;
+        const mine = [];
+        badgesSnap.docs.forEach(d => {
+          const data = d.data();
+          const entry = (data.top3 || []).find(w => w.uid === user.uid);
+          if (entry) mine.push({ month: data.month || d.id, rank: entry.rank, score: entry.score });
+        });
+        mine.sort((a, b) => b.month.localeCompare(a.month));
+        setBadges(mine);
+      } catch (_) {}
+    })();
+    return () => { cancelled = true; };
+  }, [user?.uid]);
   const catTotals = Object.values(xpData.categoryStats || {}).reduce(
     (acc, v) => ({ correct: acc.correct + (v?.correct || 0), total: acc.total + (v?.total || 0) }),
     { correct: 0, total: 0 }
@@ -4570,7 +4684,25 @@ function StatsPage({ t, lang, xpData, completed, totalLessons }) {
         <StatCard label={es?"Precisión global":"Global accuracy"} value={`${accuracy}%`} sub={`${catTotals.correct}/${catTotals.total} ${es?"correctas":"correct"}`} color={accuracy>=80?"#10b981":accuracy>=60?"#c9a84c":"#ef4444"}/>
         <StatCard label={es?"Sesiones jugadas":"Sessions played"} value={xpData.totalSessions} sub={es?"sesiones completadas":"completed sessions"} color="#8b5cf6"/>
         <StatCard label={es?"Lecciones":"Lessons"} value={`${completed.size}/${totalLessons}`} sub={es?"capítulos completados":"chapters completed"} color="#10b981"/>
+        <StatCard label={es?"Mejor racha Supervivencia":"Best Survival streak"} value={`🔥 ${xpData.survivalBest || 0}`} sub={es?"preguntas seguidas":"questions in a row"} color="#ef4444"/>
       </div>
+
+      {/* Survival badges */}
+      {badges.length > 0 && (
+        <div style={{ background:"#0d0f1a", border:"1px solid #1e2235", borderRadius:14, padding:"18px 20px", marginBottom:16 }}>
+          <div style={{ fontSize:13, fontWeight:700, color:"#fff", marginBottom:4 }}>🎖️ {s.badgesTitle}</div>
+          <div style={{ fontSize:11, color:"#8b8fa8", marginBottom:14 }}>{s.badgesDesc}</div>
+          {badges.map((b, i) => {
+            const rankLabel = b.rank === 1 ? s.rank1 : b.rank === 2 ? s.rank2 : s.rank3;
+            return (
+              <div key={i} style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"8px 12px", borderRadius:10, background:"#120f04", border:"1px solid #c9a84c33", marginBottom:6 }}>
+                <div style={{ fontSize:13, fontWeight:700, color:"#e8c96a" }}>{rankLabel}</div>
+                <div style={{ fontSize:12, color:"#8b8fa8" }}>{monthLabel(b.month, lang)} · {s.scoreHeader} {b.score}</div>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {/* Category breakdown */}
       <div style={{ background:"#0d0f1a", border:"1px solid #1e2235", borderRadius:14, padding:"18px 20px" }}>
@@ -4911,6 +5043,153 @@ const CATEGORY_DEFS = [
   { key: "call",   icon: "⟵", es: "Pagar apert.",   en: "Calling Opens" },
   { key: "facing", icon: "⚡", es: "Facing Bets",    en: "Facing Bets" },
 ];
+
+// Combina las situaciones base + extra + manos de comunidad aprobadas, por categoría.
+// Usado tanto por el Test (PracticePage) como por Supervivencia (SurvivalPage).
+function buildCategoryPools(communityHands) {
+  const community = communityHands || [];
+  const byCommunity = (typ) => community.filter(h => h.type === typ);
+  return {
+    open:   [...SITUATIONS,       ...SITUATIONS_EXTRA,  ...byCommunity("open")],
+    iso:    [...ISO_SITUATIONS,   ...ISO_SITUATIONS_EXTRA, ...byCommunity("iso")],
+    cbet:   [...CBET_SITUATIONS,  ...CBET_SITUATIONS_EXTRA, ...byCommunity("cbet")],
+    vbet:   [...VBET_SITUATIONS,  ...VBET_SITUATIONS_EXTRA, ...byCommunity("vbet")],
+    call:   [...CALL_SITUATIONS,  ...CALL_SITUATIONS_EXTRA, ...byCommunity("call")],
+    facing: [...FACING_SITUATIONS,...FACING_SITUATIONS_EXTRA, ...byCommunity("facing")],
+  };
+}
+
+// ─── Posiciones / orientación postflop (compartido entre Test y Supervivencia) ──
+const posColors = { UTG:"#ef4444", MP:"#f97316", CO:"#eab308", BTN:"#10b981", SB:"#8b5cf6", BB:"#06b6d4" };
+
+// Postflop acting order (earliest to latest). Used to determine IP/OOP for the
+// cbet/vbet badge when the ctx label itself doesn't disambiguate (e.g. "vbet_check").
+const POSTFLOP_ORDER = ["SB", "BB", "UTG", "MP", "CO", "BTN"];
+function isOOP(sit) {
+  if (!sit.ctx) return false;
+  if (sit.ctx === "cb_3way") return true;
+  if (sit.ctx === "cb_3way_ip") return false;
+  if (sit.ctx.includes("oop")) return true;
+  if (sit.ctx.includes("ip")) return false;
+  if (sit.pos && sit.callPos && !sit.callPos.includes("+")) {
+    const a = POSTFLOP_ORDER.indexOf(sit.pos);
+    const b = POSTFLOP_ORDER.indexOf(sit.callPos);
+    if (a >= 0 && b >= 0) return a < b;
+  }
+  return false;
+}
+
+// ─── Tarjeta de situación (mano, posición, board, contexto) ─────────────────────
+// Compartida entre el Test (PracticePage) y Supervivencia (SurvivalPage).
+function SituationCard({ sit, lang, p }) {
+  const ctx = sit.community ? null : CTX[sit.ctx];
+  return (
+    <div style={{ background: "#0d0f1a", border: "1px solid #1e2235", borderRadius: 14, padding: "20px", marginBottom: 16 }}>
+      {sit.community && (
+        <div style={{ display: "inline-block", fontSize: 10, fontWeight: 700, color: "#0a0c14", background: "#e8c96a", borderRadius: 6, padding: "2px 8px", marginBottom: 10, textTransform: "uppercase", letterSpacing: 1 }}>
+          👥 {lang === "es" ? "Mano de la comunidad" : "Community hand"}
+        </div>
+      )}
+      {((sit.type === "vbet" || sit.type === "facing") && sit.descEs) || (sit.community && (sit.descEs || sit.descEn)) ? (
+        <div style={{ background:"#0a0c14", border:"1px solid #1e2235", borderRadius:10, padding:"12px 14px", marginBottom:14 }}>
+          <div style={{ fontSize:11, fontWeight:700, color:"#c9a84c", textTransform:"uppercase", letterSpacing:1, marginBottom:6 }}>
+            {lang==="es" ? "Historia de la mano" : "Hand history"}
+          </div>
+          {((lang==="es" ? sit.descEs : sit.descEn) || sit.descEs || sit.descEn).split("\n").map((line,li) => (
+            <div key={li} style={{ fontSize:13, color: li===0 ? "#8b8fa8" : "#b0b4cc", lineHeight:1.6, marginBottom:2 }}>{line}</div>
+          ))}
+        </div>
+      ) : null}
+      {sit.type === "call" && sit.pos && sit.callPos && (
+        <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 14, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+          <span style={{ color: posColors[sit.pos] || "#c9a84c", fontWeight: 800 }}>{sit.pos}</span>
+          <span>{lang === "es" ? "vs apertura de" : "vs open from"}</span>
+          <span style={{ fontWeight: 700, color: "#c9a84c" }}>{sit.callPos}</span>
+        </div>
+      )}
+      {(sit.type === "cbet" || sit.type === "vbet") && sit.pos && sit.callPos && (
+        <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 14, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+          <span style={{ color: posColors[sit.pos] || "#c9a84c", fontWeight: 800 }}>{sit.pos}</span>
+          <span>vs</span>
+          <span style={{ fontWeight: 700, color: "#c9a84c" }}>{sit.callPos}</span>
+          <span style={{ color: "#1e2235" }}>·</span>
+          <span>{sit.players === 1 ? (lang === "es" ? "Heads-up" : "Heads-up") : (lang === "es" ? "3-way" : "3-way")}</span>
+          <span style={{ color: "#1e2235" }}>·</span>
+          <span>{isOOP(sit) ? (lang === "es" ? "Fuera de posición" : "Out of position") : (lang === "es" ? "En posición" : "In position")}</span>
+        </div>
+      )}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 20, alignItems: "center", marginBottom: 16 }}>
+        {sit.pos && (
+          <div>
+            <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 0.8 }}>{p.posLabel}</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: posColors[sit.pos] || "#c9a84c" }}>{sit.pos}</div>
+          </div>
+        )}
+        <div>
+          <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 0.8 }}>{p.handLabel}</div>
+          <div style={{ fontSize: 26, fontFamily: "monospace", fontWeight: 700, color: "#fff", letterSpacing: 2 }}>{sit.hand}</div>
+        </div>
+        {sit.board && (
+          <div>
+            <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 0.8 }}>{p.boardLabel}</div>
+            <div style={{ fontSize: 22, fontFamily: "monospace", fontWeight: 700, color: "#f59e0b", letterSpacing: 2 }}>{sit.board}</div>
+          </div>
+        )}
+        {sit.players != null && sit.type !== "cbet" && sit.type !== "vbet" && (
+          <div>
+            <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 0.8 }}>{p.playersLabel}</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: "#e8c96a" }}>{sit.players === 1 ? "HU (2)" : `${sit.players + 1}-way`}</div>
+          </div>
+        )}
+      </div>
+      {!sit.community && (
+        <div style={{ fontSize: 13, color: "#8b8fa8", borderTop: "1px solid #1e2235", paddingTop: 12 }}>
+          {sit.type === "cbet" && sit.callPos ? (
+            <span>
+              <span style={{ color: "#c9a84c", fontWeight: 600 }}>{lang === "es" ? "Situación: " : "Situation: "}</span>
+              {lang === "es" ? `Abriste desde ${sit.pos}. ${sit.callPos} ${ctx.es}` : `You opened from ${sit.pos}. ${sit.callPos} ${ctx.en}`}
+            </span>
+          ) : (
+            <span><span style={{ color: "#c9a84c", fontWeight: 600 }}>{p.contextLabel}: </span>{lang === "es" ? ctx.es : ctx.en}</span>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Lista de opciones de respuesta con feedback ────────────────────────────────
+// Compartida entre el Test (PracticePage) y Supervivencia (SurvivalPage).
+function OptionsList({ opts, picked, onPick }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 20 }}>
+      {opts.map((opt, oi) => {
+        const isSelected = picked?.id === opt.id;
+        let borderColor = "#1e2235", bg = "transparent", color = "#c8cce0";
+        if (picked) {
+          if (opt.correct) { borderColor = "#10b981"; bg = "#10b98111"; color = "#10b981"; }
+          else if (isSelected) { borderColor = "#ef4444"; bg = "#ef444411"; color = "#ef4444"; }
+        }
+        return (
+          <div key={oi}>
+            <button
+              disabled={!!picked}
+              onClick={() => onPick(opt)}
+              style={{ width: "100%", textAlign: "left", padding: "12px 16px", borderRadius: 10, border: `1px solid ${borderColor}`, background: bg, color, cursor: picked ? "default" : "pointer", fontSize: 14, fontWeight: 500 }}
+            >
+              {opt.label}
+            </button>
+            {picked && isSelected && (
+              <div style={{ marginTop: 6, padding: "10px 14px", background: opt.correct ? "#10b98115" : "#ef444415", borderRadius: 8, border: `1px solid ${opt.correct ? "#10b98133" : "#ef444433"}`, fontSize: 13, color: opt.correct ? "#6ee7b7" : "#fca5a5", lineHeight: 1.6 }}>
+                {opt.correct ? "✓ " : "✗ "}{opt.explanation}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 // ─── REPORT ISSUE MODAL ───────────────────────────────────────────────────────
 
@@ -5394,17 +5673,7 @@ function PracticePage({ t, lang, onSessionComplete, user, overrides, communityHa
   const [reportOpen, setReportOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
 
-  const community = communityHands || [];
-  const byCommunity = (typ) => community.filter(h => h.type === typ);
-
-  const CATEGORIES = {
-    open:   [...SITUATIONS,       ...SITUATIONS_EXTRA,  ...byCommunity("open")],
-    iso:    [...ISO_SITUATIONS,   ...ISO_SITUATIONS_EXTRA, ...byCommunity("iso")],
-    cbet:   [...CBET_SITUATIONS,  ...CBET_SITUATIONS_EXTRA, ...byCommunity("cbet")],
-    vbet:   [...VBET_SITUATIONS,  ...VBET_SITUATIONS_EXTRA, ...byCommunity("vbet")],
-    call:   [...CALL_SITUATIONS,  ...CALL_SITUATIONS_EXTRA, ...byCommunity("call")],
-    facing: [...FACING_SITUATIONS,...FACING_SITUATIONS_EXTRA, ...byCommunity("facing")],
-  };
+  const CATEGORIES = buildCategoryPools(communityHands);
 
   const startSession = () => {
     const pick = (arr, n) => [...arr].sort(() => Math.random() - 0.5).slice(0, n);
@@ -5463,25 +5732,6 @@ function PracticePage({ t, lang, onSessionComplete, user, overrides, communityHa
       }
       setDone(true);
     }
-  };
-
-  const posColors = { UTG:"#ef4444", MP:"#f97316", CO:"#eab308", BTN:"#10b981", SB:"#8b5cf6", BB:"#06b6d4" };
-
-  // Postflop acting order (earliest to latest). Used to determine IP/OOP for the
-  // cbet/vbet badge when the ctx label itself doesn't disambiguate (e.g. "vbet_check").
-  const POSTFLOP_ORDER = ["SB", "BB", "UTG", "MP", "CO", "BTN"];
-  const isOOP = (sit) => {
-    if (!sit.ctx) return false;
-    if (sit.ctx === "cb_3way") return true;
-    if (sit.ctx === "cb_3way_ip") return false;
-    if (sit.ctx.includes("oop")) return true;
-    if (sit.ctx.includes("ip")) return false;
-    if (sit.pos && sit.callPos && !sit.callPos.includes("+")) {
-      const a = POSTFLOP_ORDER.indexOf(sit.pos);
-      const b = POSTFLOP_ORDER.indexOf(sit.callPos);
-      if (a >= 0 && b >= 0) return a < b;
-    }
-    return false;
   };
 
   // ── Start screen ──────────────────────────────────────────────
@@ -5596,7 +5846,6 @@ function PracticePage({ t, lang, onSessionComplete, user, overrides, communityHa
   // ── Question screen ───────────────────────────────────────────
   const sit = applyOverride(session[idx], overrides);
   const opts = currentOpts;
-  const ctx = sit.community ? null : CTX[sit.ctx];
 
   return (
     <div style={{ maxWidth: 720, margin: "0 auto", padding: "24px 16px" }}>
@@ -5634,111 +5883,410 @@ function PracticePage({ t, lang, onSessionComplete, user, overrides, communityHa
       )}
 
       {/* Situation card */}
-      <div style={{ background: "#0d0f1a", border: "1px solid #1e2235", borderRadius: 14, padding: "20px", marginBottom: 16 }}>
-        {sit.community && (
-          <div style={{ display: "inline-block", fontSize: 10, fontWeight: 700, color: "#0a0c14", background: "#e8c96a", borderRadius: 6, padding: "2px 8px", marginBottom: 10, textTransform: "uppercase", letterSpacing: 1 }}>
-            👥 {lang === "es" ? "Mano de la comunidad" : "Community hand"}
-          </div>
-        )}
-        {((sit.type === "vbet" || sit.type === "facing") && sit.descEs) || (sit.community && (sit.descEs || sit.descEn)) ? (
-          <div style={{ background:"#0a0c14", border:"1px solid #1e2235", borderRadius:10, padding:"12px 14px", marginBottom:14 }}>
-            <div style={{ fontSize:11, fontWeight:700, color:"#c9a84c", textTransform:"uppercase", letterSpacing:1, marginBottom:6 }}>
-              {lang==="es" ? "Historia de la mano" : "Hand history"}
-            </div>
-            {((lang==="es" ? sit.descEs : sit.descEn) || sit.descEs || sit.descEn).split("\n").map((line,li) => (
-              <div key={li} style={{ fontSize:13, color: li===0 ? "#8b8fa8" : "#b0b4cc", lineHeight:1.6, marginBottom:2 }}>{line}</div>
-            ))}
-          </div>
-        ) : null}
-        {sit.type === "call" && sit.pos && sit.callPos && (
-          <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 14, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-            <span style={{ color: posColors[sit.pos] || "#c9a84c", fontWeight: 800 }}>{sit.pos}</span>
-            <span>{lang === "es" ? "vs apertura de" : "vs open from"}</span>
-            <span style={{ fontWeight: 700, color: "#c9a84c" }}>{sit.callPos}</span>
-          </div>
-        )}
-        {(sit.type === "cbet" || sit.type === "vbet") && sit.pos && sit.callPos && (
-          <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 14, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-            <span style={{ color: posColors[sit.pos] || "#c9a84c", fontWeight: 800 }}>{sit.pos}</span>
-            <span>vs</span>
-            <span style={{ fontWeight: 700, color: "#c9a84c" }}>{sit.callPos}</span>
-            <span style={{ color: "#1e2235" }}>·</span>
-            <span>{sit.players === 1 ? (lang === "es" ? "Heads-up" : "Heads-up") : (lang === "es" ? "3-way" : "3-way")}</span>
-            <span style={{ color: "#1e2235" }}>·</span>
-            <span>{isOOP(sit) ? (lang === "es" ? "Fuera de posición" : "Out of position") : (lang === "es" ? "En posición" : "In position")}</span>
-          </div>
-        )}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 20, alignItems: "center", marginBottom: 16 }}>
-          {sit.pos && (
-            <div>
-              <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 0.8 }}>{p.posLabel}</div>
-              <div style={{ fontSize: 22, fontWeight: 800, color: posColors[sit.pos] || "#c9a84c" }}>{sit.pos}</div>
-            </div>
-          )}
-          <div>
-            <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 0.8 }}>{p.handLabel}</div>
-            <div style={{ fontSize: 26, fontFamily: "monospace", fontWeight: 700, color: "#fff", letterSpacing: 2 }}>{sit.hand}</div>
-          </div>
-          {sit.board && (
-            <div>
-              <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 0.8 }}>{p.boardLabel}</div>
-              <div style={{ fontSize: 22, fontFamily: "monospace", fontWeight: 700, color: "#f59e0b", letterSpacing: 2 }}>{sit.board}</div>
-            </div>
-          )}
-          {sit.players != null && sit.type !== "cbet" && sit.type !== "vbet" && (
-            <div>
-              <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 0.8 }}>{p.playersLabel}</div>
-              <div style={{ fontSize: 16, fontWeight: 700, color: "#e8c96a" }}>{sit.players === 1 ? "HU (2)" : `${sit.players + 1}-way`}</div>
-            </div>
-          )}
-        </div>
-        {!sit.community && (
-          <div style={{ fontSize: 13, color: "#8b8fa8", borderTop: "1px solid #1e2235", paddingTop: 12 }}>
-            {sit.type === "cbet" && sit.callPos ? (
-              <span>
-                <span style={{ color: "#c9a84c", fontWeight: 600 }}>{lang === "es" ? "Situación: " : "Situation: "}</span>
-                {lang === "es" ? `Abriste desde ${sit.pos}. ${sit.callPos} ${ctx.es}` : `You opened from ${sit.pos}. ${sit.callPos} ${ctx.en}`}
-              </span>
-            ) : (
-              <span><span style={{ color: "#c9a84c", fontWeight: 600 }}>{p.contextLabel}: </span>{lang === "es" ? ctx.es : ctx.en}</span>
-            )}
-          </div>
-        )}
-      </div>
+      <SituationCard sit={sit} lang={lang} p={p} />
 
       {/* Options */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 20 }}>
-        {opts.map((opt, oi) => {
-          const isSelected = picked?.id === opt.id;
-          let borderColor = "#1e2235", bg = "transparent", color = "#c8cce0";
-          if (picked) {
-            if (opt.correct) { borderColor = "#10b981"; bg = "#10b98111"; color = "#10b981"; }
-            else if (isSelected) { borderColor = "#ef4444"; bg = "#ef444411"; color = "#ef4444"; }
-          }
-          return (
-            <div key={oi}>
-              <button
-                disabled={!!picked}
-                onClick={() => handlePick(opt)}
-                style={{ width: "100%", textAlign: "left", padding: "12px 16px", borderRadius: 10, border: `1px solid ${borderColor}`, background: bg, color, cursor: picked ? "default" : "pointer", fontSize: 14, fontWeight: 500 }}
-              >
-                {opt.label}
-              </button>
-              {picked && isSelected && (
-                <div style={{ marginTop: 6, padding: "10px 14px", background: opt.correct ? "#10b98115" : "#ef444415", borderRadius: 8, border: `1px solid ${opt.correct ? "#10b98133" : "#ef444433"}`, fontSize: 13, color: opt.correct ? "#6ee7b7" : "#fca5a5", lineHeight: 1.6 }}>
-                  {opt.correct ? "✓ " : "✗ "}{opt.explanation}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+      <OptionsList opts={opts} picked={picked} onPick={handlePick} />
 
       {picked && (
         <button onClick={handleNext} style={{ width: "100%", background: "linear-gradient(135deg, #e8c96a 0%, #c9a84c 100%)", border: "none", borderRadius: 10, padding: "13px", color: "#0a0c14", fontWeight: 800, fontSize: 15, cursor: "pointer", letterSpacing: 0.3 }}>
           {idx < session.length - 1 ? p.next : p.finish}
         </button>
       )}
+    </div>
+  );
+}
+
+// ─── SUPERVIVENCIA ────────────────────────────────────────────────────────────
+
+// XP otorgado al terminar una racha de Supervivencia: base por acierto + bonus por hitos.
+function calcSurvivalXP(streak) {
+  const base = streak * 15;
+  let bonus = 0;
+  if (streak >= 30)      bonus = 300;
+  else if (streak >= 20) bonus = 150;
+  else if (streak >= 10) bonus = 50;
+  else if (streak >= 5)  bonus = 15;
+  return base + bonus;
+}
+
+function currentMonthStr(date = new Date()) { return date.toISOString().slice(0, 7); } // "YYYY-MM"
+function previousMonthStr(date = new Date()) {
+  const d = new Date(date.getFullYear(), date.getMonth() - 1, 1);
+  return currentMonthStr(d);
+}
+function monthLabel(monthStr, lang) {
+  const [y, m] = (monthStr || "").split("-").map(Number);
+  if (!y || !m) return monthStr;
+  const d = new Date(y, m - 1, 1);
+  const label = d.toLocaleDateString(lang === "es" ? "es-ES" : "en-US", { month: "long", year: "numeric" });
+  return label.charAt(0).toUpperCase() + label.slice(1);
+}
+function sortLeaderboardRows(rows) {
+  return [...rows].sort((a, b) => {
+    if ((b.bestScore || 0) !== (a.bestScore || 0)) return (b.bestScore || 0) - (a.bestScore || 0);
+    const at = a.achievedAt?.toMillis ? a.achievedAt.toMillis() : 0;
+    const bt = b.achievedAt?.toMillis ? b.achievedAt.toMillis() : 0;
+    return at - bt; // earlier achievement ranks higher on ties
+  });
+}
+
+function LeaderboardTable({ rows, user, s, lang }) {
+  if (rows.length === 0) {
+    return (
+      <div style={{ textAlign: "center", padding: "20px 0", color: "#8b8fa8", fontSize: 13 }}>
+        {s.emptyLeaderboard}
+      </div>
+    );
+  }
+  const medals = ["🥇", "🥈", "🥉"];
+  return (
+    <div>
+      {rows.map((row, i) => {
+        const isMe = user && row.uid === user.uid;
+        return (
+          <div key={row.uid || i} style={{
+            display: "flex", alignItems: "center", gap: 12, padding: "10px 12px",
+            borderRadius: 10, marginBottom: 6,
+            background: isMe ? "#c9a84c1a" : "transparent",
+            border: isMe ? "1px solid #c9a84c55" : "1px solid transparent",
+          }}>
+            <div style={{ width: 28, textAlign: "center", fontSize: i < 3 ? 18 : 13, fontWeight: 800, color: i < 3 ? undefined : "#8b8fa8" }}>
+              {i < 3 ? medals[i] : i + 1}
+            </div>
+            <div style={{ flex: 1, fontSize: 14, fontWeight: isMe ? 700 : 500, color: isMe ? "#e8c96a" : "#e8e8e8", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {row.displayName || "—"}{isMe && <span style={{ marginLeft: 6, fontSize: 11, color: "#c9a84c" }}>({s.youTag})</span>}
+            </div>
+            <div style={{ fontSize: 15, fontWeight: 800, color: "#10b981" }}>{row.bestScore ?? row.score ?? 0}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function SurvivalPage({ t, lang, user, overrides, communityHands, xpData, onSurvivalComplete }) {
+  const s = t.survival;
+  const p = t.practice;
+
+  const [phase, setPhase] = useState("intro"); // intro | playing | gameover | already
+  const [streak, setStreak] = useState(0);
+  const [sit, setSit] = useState(null);
+  const [opts, setOpts] = useState([]);
+  const [picked, setPicked] = useState(null);
+  const [xpEarned, setXpEarned] = useState(0);
+  const [isPersonalBest, setIsPersonalBest] = useState(false);
+  const [isMonthlyBest, setIsMonthlyBest] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [leaderboardLoading, setLeaderboardLoading] = useState(true);
+  const [badges, setBadges] = useState([]);
+
+  const month = currentMonthStr();
+  const today = todayStr();
+  const alreadyPlayedToday = xpData?.survivalLastPlayed === today;
+
+  // Si ya jugó hoy, arrancar directamente en la pantalla "ya has jugado".
+  useEffect(() => {
+    if (alreadyPlayedToday && phase === "intro") setPhase("already");
+  }, [alreadyPlayedToday]);
+
+  const pickQuestion = () => {
+    const CATEGORIES = buildCategoryPools(communityHands);
+    const keys = Object.keys(CATEGORIES).filter(k => CATEGORIES[k].length > 0);
+    const key = keys[Math.floor(Math.random() * keys.length)];
+    const pool = CATEGORIES[key];
+    const raw = pool[Math.floor(Math.random() * pool.length)];
+    const applied = applyOverride(raw, overrides);
+    setSit(applied);
+    setOpts(buildOptions(applied, p, lang));
+    setPicked(null);
+  };
+
+  const startRun = () => {
+    setStreak(0);
+    setXpEarned(0);
+    setIsPersonalBest(false);
+    setIsMonthlyBest(false);
+    setPhase("playing");
+    pickQuestion();
+  };
+
+  const handlePick = (opt) => {
+    if (picked) return;
+    setPicked(opt);
+  };
+
+  const handleNext = () => {
+    setStreak(prev => prev + 1);
+    pickQuestion();
+  };
+
+  const handleFinish = async () => {
+    setSubmitting(true);
+    const finalStreak = streak;
+    let earned = calcSurvivalXP(finalStreak);
+    let personalBest = finalStreak > (xpData?.survivalBest || 0);
+    let monthlyBest = false;
+
+    if (user) {
+      try {
+        const result = await onSurvivalComplete(finalStreak);
+        if (result?.earned != null) earned = result.earned;
+        if (result?.personalBest != null) personalBest = result.personalBest;
+      } catch (_) {}
+
+      try {
+        const ref = doc(db, "survivalLeaderboard", user.uid);
+        const snap = await getDoc(ref);
+        const displayName = (user.email || "Player").split("@")[0];
+        const prev = snap.exists() ? snap.data() : null;
+        const isNewMonth = !prev || prev.month !== month;
+        const beatsPrevious = isNewMonth || finalStreak > (prev.bestScore || 0);
+        if (beatsPrevious) {
+          await setDoc(ref, {
+            uid: user.uid,
+            displayName,
+            month,
+            bestScore: finalStreak,
+            achievedAt: serverTimestamp(),
+          });
+          monthlyBest = true;
+        }
+      } catch (_) {}
+    }
+
+    setXpEarned(earned);
+    setIsPersonalBest(personalBest);
+    setIsMonthlyBest(monthlyBest);
+    setSubmitting(false);
+    setPhase("gameover");
+  };
+
+  // Cargar ranking mensual + insignias (y calcular insignias del mes anterior si faltan)
+  useEffect(() => {
+    if (phase === "playing") return;
+    let cancelled = false;
+    (async () => {
+      setLeaderboardLoading(true);
+      try {
+        const qRef = query(collection(db, "survivalLeaderboard"), where("month", "==", month));
+        const snap = await getDocs(qRef);
+        const rows = sortLeaderboardRows(snap.docs.map(d => d.data())).slice(0, 10);
+        if (!cancelled) setLeaderboard(rows);
+      } catch (_) {
+        if (!cancelled) setLeaderboard([]);
+      } finally {
+        if (!cancelled) setLeaderboardLoading(false);
+      }
+
+      // Calcular insignias del top 3 del mes anterior si todavía no existen
+      try {
+        const prevMonth = previousMonthStr();
+        const badgeRef = doc(db, "survivalBadges", prevMonth);
+        const badgeSnap = await getDoc(badgeRef);
+        if (!badgeSnap.exists()) {
+          const qPrev = query(collection(db, "survivalLeaderboard"), where("month", "==", prevMonth));
+          const prevSnap = await getDocs(qPrev);
+          const prevRows = sortLeaderboardRows(prevSnap.docs.map(d => d.data()));
+          if (prevRows.length > 0) {
+            const top3 = prevRows.slice(0, 3).map((r, i) => ({ uid: r.uid, displayName: r.displayName, score: r.bestScore, rank: i + 1 }));
+            await setDoc(badgeRef, { month: prevMonth, top3, computedAt: serverTimestamp() });
+          }
+        }
+      } catch (_) {}
+
+      // Cargar insignias propias
+      if (user) {
+        try {
+          const badgesSnap = await getDocs(collection(db, "survivalBadges"));
+          if (!cancelled) {
+            const mine = [];
+            badgesSnap.docs.forEach(d => {
+              const data = d.data();
+              const entry = (data.top3 || []).find(w => w.uid === user.uid);
+              if (entry) mine.push({ month: data.month || d.id, rank: entry.rank, score: entry.score });
+            });
+            mine.sort((a, b) => b.month.localeCompare(a.month));
+            setBadges(mine);
+          }
+        } catch (_) {}
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [phase, user?.uid]);
+
+  const Leaderboard = () => (
+    <div style={{ background: "#0d0f1a", border: "1px solid #1e2235", borderRadius: 14, padding: "18px 20px", marginTop: 20 }}>
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 4 }}>
+        <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>🏆 {s.leaderboardTitle}</div>
+        <div style={{ fontSize: 11, color: "#8b8fa8" }}>{monthLabel(month, lang)}</div>
+      </div>
+      <div style={{ fontSize: 11, color: "#8b8fa8", marginBottom: 14 }}>{s.leaderboardSubtitle}</div>
+      {leaderboardLoading ? (
+        <div style={{ textAlign: "center", padding: "20px 0", color: "#8b8fa8", fontSize: 13 }}>···</div>
+      ) : (
+        <LeaderboardTable rows={leaderboard} user={user} s={s} lang={lang} />
+      )}
+    </div>
+  );
+
+  const Badges = () => (
+    <div style={{ background: "#0d0f1a", border: "1px solid #1e2235", borderRadius: 14, padding: "18px 20px", marginTop: 16 }}>
+      <div style={{ fontSize: 14, fontWeight: 700, color: "#fff", marginBottom: 4 }}>🎖️ {s.badgesTitle}</div>
+      <div style={{ fontSize: 11, color: "#8b8fa8", marginBottom: 14 }}>{s.badgesDesc}</div>
+      {badges.length === 0 ? (
+        <div style={{ textAlign: "center", padding: "12px 0", color: "#8b8fa8", fontSize: 13 }}>{s.noBadges}</div>
+      ) : (
+        badges.map((b, i) => {
+          const rankLabel = b.rank === 1 ? s.rank1 : b.rank === 2 ? s.rank2 : s.rank3;
+          return (
+            <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 12px", borderRadius: 10, background: "#120f04", border: "1px solid #c9a84c33", marginBottom: 6 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#e8c96a" }}>{rankLabel}</div>
+              <div style={{ fontSize: 12, color: "#8b8fa8" }}>{monthLabel(b.month, lang)} · {s.scoreHeader} {b.score}</div>
+            </div>
+          );
+        })
+      )}
+    </div>
+  );
+
+  // ── Pantalla: ya jugaste hoy ─────────────────────────────────────
+  if (phase === "already") {
+    return (
+      <div style={{ maxWidth: 560, margin: "0 auto", padding: "32px 16px" }}>
+        <div style={{ textAlign: "center", marginBottom: 20 }}>
+          <div style={{ fontSize: 44, marginBottom: 8 }}>⏳</div>
+          <div style={{ fontSize: 20, fontWeight: 700, color: "#fff", marginBottom: 6 }}>{s.alreadyTitle}</div>
+          <div style={{ fontSize: 13, color: "#8b8fa8" }}>{s.alreadyDesc}</div>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 10 }}>
+          <div style={{ background: "#0d0f1a", border: "1px solid #1e2235", borderRadius: 12, padding: "14px 18px" }}>
+            <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>{s.yourBestEver}</div>
+            <div style={{ fontSize: 26, fontWeight: 800, color: "#10b981" }}>🔥 {xpData?.survivalBest || 0}</div>
+          </div>
+          <div style={{ background: "#0d0f1a", border: "1px solid #1e2235", borderRadius: 12, padding: "14px 18px" }}>
+            <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>{s.scoreHeader} {monthLabel(month, lang)}</div>
+            <div style={{ fontSize: 26, fontWeight: 800, color: "#c9a84c" }}>
+              {(leaderboard.find(r => r.uid === user?.uid)?.bestScore) ?? "—"}
+            </div>
+          </div>
+        </div>
+        <Leaderboard />
+        <Badges />
+      </div>
+    );
+  }
+
+  // ── Pantalla: resultado de la racha ──────────────────────────────
+  if (phase === "gameover") {
+    return (
+      <div style={{ maxWidth: 540, margin: "0 auto", padding: "32px 16px" }}>
+        <div style={{ textAlign: "center", marginBottom: 24 }}>
+          <div style={{ fontSize: 44, marginBottom: 8 }}>{streak >= 10 ? "🔥" : streak >= 5 ? "👍" : "💀"}</div>
+          <div style={{ fontSize: 20, fontWeight: 700, color: "#fff", marginBottom: 4 }}>{s.failHeading}</div>
+          <div style={{ fontSize: 13, color: "#8b8fa8", marginBottom: 10 }}>{s.failedAtQuestion} {streak + 1}</div>
+          <div style={{ fontSize: 13, color: "#b0b4cc" }}>{s.finalScoreLabel}</div>
+          <div style={{ fontSize: 52, fontWeight: 800, color: "#10b981", lineHeight: 1 }}>{streak}</div>
+        </div>
+
+        {(isPersonalBest || isMonthlyBest) && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 12 }}>
+            {isPersonalBest && (
+              <div style={{ background: "#10b98115", border: "1px solid #10b98133", borderRadius: 10, padding: "10px 14px", fontSize: 13, color: "#6ee7b7", textAlign: "center", fontWeight: 700 }}>
+                {s.newPersonalBest}
+              </div>
+            )}
+            {isMonthlyBest && (
+              <div style={{ background: "#c9a84c15", border: "1px solid #c9a84c33", borderRadius: 10, padding: "10px 14px", fontSize: 13, color: "#e8c96a", textAlign: "center", fontWeight: 700 }}>
+                {s.newMonthlyBest}
+              </div>
+            )}
+          </div>
+        )}
+
+        <div style={{ background: "#120f04", border: "1px solid #c9a84c44", borderRadius: 12, padding: "14px 20px", marginBottom: 16, display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ fontSize: 26 }}>⭐</div>
+          <div>
+            <div style={{ fontSize: 10, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1 }}>{s.xpEarned}</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "#e8c96a" }}>+{xpEarned} XP</div>
+          </div>
+        </div>
+
+        <div style={{ fontSize: 13, color: "#8b8fa8", textAlign: "center", marginBottom: 16 }}>{s.playTomorrow}</div>
+
+        <button onClick={() => setPhase("already")} style={{ background: "linear-gradient(135deg,#e8c96a 0%,#c9a84c 100%)", border: "none", borderRadius: 12, padding: "14px 0", color: "#0a0c14", fontSize: 16, fontWeight: 800, cursor: "pointer", letterSpacing: 0.3, width: "100%" }}>
+          {s.backToMenu}
+        </button>
+
+        <Leaderboard />
+        <Badges />
+      </div>
+    );
+  }
+
+  // ── Pantalla: en juego ────────────────────────────────────────────
+  if (phase === "playing" && sit) {
+    return (
+      <div style={{ maxWidth: 720, margin: "0 auto", padding: "24px 16px" }}>
+        <div style={{ marginBottom: 20 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+            <span style={{ fontSize: 12, color: "#8b8fa8" }}>{s.question} {streak + 1}</span>
+            <span style={{ fontSize: 13, fontWeight: 800, color: "#10b981" }}>🔥 {s.streakLabel}: {streak}</span>
+          </div>
+          <div style={{ height: 4, background: "#1e2235", borderRadius: 4 }}>
+            <div style={{ height: "100%", width: `${Math.min(100, streak * 5)}%`, background: "linear-gradient(90deg,#10b981,#c9a84c)", borderRadius: 4, transition: "width 0.3s" }} />
+          </div>
+        </div>
+
+        <SituationCard sit={sit} lang={lang} p={p} />
+        <OptionsList opts={opts} picked={picked} onPick={handlePick} />
+
+        {picked && (
+          picked.correct ? (
+            <button onClick={handleNext} style={{ width: "100%", background: "linear-gradient(135deg,#e8c96a 0%,#c9a84c 100%)", border: "none", borderRadius: 10, padding: "13px", color: "#0a0c14", fontWeight: 800, fontSize: 15, cursor: "pointer", letterSpacing: 0.3 }}>
+              {p.next}
+            </button>
+          ) : (
+            <button onClick={handleFinish} disabled={submitting} style={{ width: "100%", background: submitting ? "#7a4040" : "linear-gradient(135deg,#ef4444 0%,#b91c1c 100%)", border: "none", borderRadius: 10, padding: "13px", color: "#fff", fontWeight: 800, fontSize: 15, cursor: submitting ? "default" : "pointer", letterSpacing: 0.3 }}>
+              {p.finish}
+            </button>
+          )
+        )}
+      </div>
+    );
+  }
+
+  // ── Pantalla: intro ───────────────────────────────────────────────
+  return (
+    <div style={{ maxWidth: 560, margin: "0 auto", padding: "32px 16px", textAlign: "center" }}>
+      <div style={{ fontSize: 40, marginBottom: 16 }}>🔥</div>
+      <div style={{ fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{s.title}</div>
+      <div style={{ fontSize: 14, color: "#8b8fa8", marginBottom: 24 }}>{s.subtitle}</div>
+
+      <div style={{ background: "#0d0f1a", border: "1px solid #1e2235", borderRadius: 14, padding: "16px 20px", marginBottom: 20, textAlign: "left" }}>
+        <div style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c", textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>{s.rulesTitle}</div>
+        {[s.rule1, s.rule2, s.rule3, s.rule4].map((r, i) => (
+          <div key={i} style={{ fontSize: 13, color: "#c8cce0", marginBottom: 6, lineHeight: 1.5 }}>{r}</div>
+        ))}
+      </div>
+
+      <div style={{ background: "#120f04", border: "1px solid #c9a84c44", borderRadius: 12, padding: "14px 20px", marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "center", gap: 12 }}>
+        <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1 }}>{s.yourBestEver}</div>
+        <div style={{ fontSize: 22, fontWeight: 800, color: "#10b981" }}>🔥 {xpData?.survivalBest || 0}</div>
+      </div>
+
+      {!user ? (
+        <div style={{ fontSize: 13, color: "#8b8fa8" }}>{s.loginRequired}</div>
+      ) : (
+        <button onClick={startRun} style={{ background: "linear-gradient(135deg,#e8c96a 0%,#c9a84c 100%)", border: "none", borderRadius: 12, padding: "14px 36px", color: "#0a0c14", fontSize: 16, fontWeight: 800, cursor: "pointer", letterSpacing: 0.3 }}>
+          {s.startBtn}
+        </button>
+      )}
+
+      <Leaderboard />
+      <Badges />
     </div>
   );
 }
@@ -6458,7 +7006,7 @@ export default function App() {
   const [page, setPage] = useState("home");
   const [completed, setCompleted] = useState(new Set());
   const [user, setUser] = useState(undefined);
-  const [xpData, setXpData] = useState({ xp:0, level:1, streak:0, longestStreak:0, lastStudiedDate:null, totalCorrect:0, totalSessions:0, totalAnswered:0, categoryStats:{} });
+  const [xpData, setXpData] = useState({ xp:0, level:1, streak:0, longestStreak:0, lastStudiedDate:null, totalCorrect:0, totalSessions:0, totalAnswered:0, categoryStats:{}, survivalLastPlayed:null, survivalBest:0 });
   const [overrides, setOverrides] = useState({});
   const [proposeOpen, setProposeOpen] = useState(false);
 
@@ -6516,6 +7064,8 @@ export default function App() {
               totalSessions:  data.totalSessions   || 0,
               totalAnswered:  data.totalAnswered    || 0,
               categoryStats:  data.categoryStats    || {},
+              survivalLastPlayed: data.survivalLastPlayed || null,
+              survivalBest:       data.survivalBest       || 0,
             });
           }
         } catch (_) {}
@@ -6580,7 +7130,33 @@ export default function App() {
   const handleLogout = () => {
     signOut(auth);
     setPage("home");
-    setXpData({ xp:0, level:1, streak:0, longestStreak:0, lastStudiedDate:null, totalCorrect:0, totalSessions:0, totalAnswered:0, categoryStats:{} });
+    setXpData({ xp:0, level:1, streak:0, longestStreak:0, lastStudiedDate:null, totalCorrect:0, totalSessions:0, totalAnswered:0, categoryStats:{}, survivalLastPlayed:null, survivalBest:0 });
+  };
+
+  const handleSurvivalComplete = async (finalStreak) => {
+    const earned = calcSurvivalXP(finalStreak);
+    const newXp  = xpData.xp + earned;
+    const lvInfo = getLevelInfo(newXp);
+    const personalBest = finalStreak > (xpData.survivalBest || 0);
+    const updated = {
+      ...xpData,
+      xp: newXp,
+      level: lvInfo.level,
+      survivalLastPlayed: todayStr(),
+      survivalBest: personalBest ? finalStreak : (xpData.survivalBest || 0),
+    };
+    setXpData(updated);
+    if (user) {
+      try {
+        await setDoc(doc(db, "users", user.uid), {
+          xp: updated.xp,
+          level: updated.level,
+          survivalLastPlayed: updated.survivalLastPlayed,
+          survivalBest: updated.survivalBest,
+        }, { merge: true });
+      } catch (_) {}
+    }
+    return { earned, personalBest };
   };
 
   // Loading state while Firebase checks auth
@@ -6664,9 +7240,10 @@ export default function App() {
       </div>
 
       {page === "home" && <HomePage t={t} onNavigate={setPage} onPropose={() => setProposeOpen(true)} />}
-      {page === "stats" && <StatsPage t={t} lang={lang} xpData={xpData} completed={completed} totalLessons={t.lessons.length} />}
+      {page === "stats" && <StatsPage t={t} lang={lang} xpData={xpData} completed={completed} totalLessons={t.lessons.length} user={user} />}
       {page === "academia" && <AcademiaPage t={t} completed={completed} onComplete={handleComplete} lang={lang} />}
       {page === "practice" && <PracticePage t={t} lang={lang} onSessionComplete={handleSessionComplete} user={user} overrides={overrides} communityHands={communityHands} />}
+      {page === "survival" && <SurvivalPage t={t} lang={lang} user={user} overrides={overrides} communityHands={communityHands} xpData={xpData} onSurvivalComplete={handleSurvivalComplete} />}
       {page === "community" && user && <CommunityPage t={t} lang={lang} user={user} />}
       {page === "admin" && ADMIN_EMAILS.includes(user?.email) && <AdminReportsPage lang={lang} />}
 
