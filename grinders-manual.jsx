@@ -1519,7 +1519,7 @@ const content = {
           {
             title: "Equity fantasma: por qué ATC/(ATC+TP) no sirve aquí",
             body: [
-              { type:"text", content:"En los Spots de Fin de Acción usamos ER = ATC/(ATC+TP): si tu equity total contra el rango del rival supera la ER, pagas. Pero en el flop o el turn quedan más calles — son Spots Abiertos. Pagar aquí no garantiza ver el showdown gratis: normalmente enfrentarás otra apuesta antes de llegar al río. Por eso tu equity TOTAL deja de ser la cifra relevante; lo que importa es cuánta de esa equity es realmente realizable sin coste extra." },
+              { type:"text", content:"En los Spots de Fin de Acción usamos ER = ATC/(ATC+TP): si tu equity total contra el rango del rival supera la ER, pagas. Pero en el flop o el turn quedan más calles — son Spots Abiertos. Pagar aquí no garantiza ver el showdown gratis: normalmente enfrentarás otra apuesta antes de llegar al river. Por eso tu equity TOTAL deja de ser la cifra relevante; lo que importa es cuánta de esa equity es realmente realizable sin coste extra." },
               { type:"callout", label:"Equity fantasma (ghost equity)", content:"La equity fantasma es la parte de tu equity total que nunca llegarás a 'cobrar' porque no ves las dos cartas restantes gratis. Ejemplo del manual: un gutshot + backdoor flush draw tiene 24% de equity total frente a un par superior a 77, pero solo el 8.5% (4 de 47 cartas) es equity realizable a coste cero en la siguiente carta — el resto es equity fantasma, porque si no mejoras normalmente foldearás o harás un call/semi-bluff apenas +EV." },
               { type:"callout", label:"4 razones por las que 'tengo suficiente equity total' no basta", content:"(1) Equity fantasma: gran parte de tu equity asume ver dos cartas gratis, algo que casi nunca ocurre. (2) Pocos outs cuando vas detrás: por ejemplo, un underpair como 77 contra un par superior solo mejora a set un 2/47 ≈ 4% de las veces. (3) Vulnerabilidad SDV: tu mano puede dejar de ganar el showdown en cartas futuras si el rival tiene muchas overcards en su rango. (4) Posición: jugar OOP dificulta materializar la equity que sí tienes — el rival controla el tamaño del bote y puede checkear detrás con manos marginales." },
             ],
@@ -1539,7 +1539,7 @@ const content = {
                   question:"¿Pagas tu underpair de 7s en este flop, sabiendo que jugarás OOP el resto de la mano?",
                   options:[
                     { label:"Foldear — equity fantasma, pocos outs y SDV vulnerable", correct:true, explanation:"Correcto. (1) Tipo de equity: contra el rango de CBet del CO, gran parte de tu equity es fantasma — solo cuenta de verdad mejorar a set en la siguiente carta. (2) Outs cuando vas detrás: 2/47 ≈ 4%, casi nada. (3) SDV: muy vulnerable — Q, K, A o J en el turn dan al rival muchas más manos que te superan. (4) Posición: OOP, lo que dificulta llegar al showdown barato. Los 4 factores apuntan a fold." },
-                    { label:"Pagar — tienes un par y pot odds razonables", correct:false, explanation:"Tener 'un par' no basta en spots abiertos. Mucha de tu equity contra QQ8 es equity fantasma: si no mejoras a set, normalmente foldearás el turn o el río. Con CBet Flop 68% el CO puede tener desde aire hasta QQ — pero incluso contra su rango global, tu 77 OOP con SDV vulnerable y pocos outs cuando vas detrás es un fold." },
+                    { label:"Pagar — tienes un par y pot odds razonables", correct:false, explanation:"Tener 'un par' no basta en spots abiertos. Mucha de tu equity contra QQ8 es equity fantasma: si no mejoras a set, normalmente foldearás el turn o el river. Con CBet Flop 68% el CO puede tener desde aire hasta QQ — pero incluso contra su rango global, tu 77 OOP con SDV vulnerable y pocos outs cuando vas detrás es un fold." },
                     { label:"Subir para proteger tu equity", correct:false, explanation:"Esta es la 'lógica del 2003' que el manual desmonta: subir aquí no protege nada relevante — tu rango de subida quedaría muy fino (poco que representar como valor real en QQ8) y, si te pagan o suben, sigues con un underpair vulnerable OOP. No hay urgencia de valor especial en este board." },
                     { label:"Pagar — los pot odds del 39% son buenos", correct:false, explanation:"Los pot odds (ATC/(ATC+TP) ≈ 3.5/9 ≈ 39%) solo importan si tu equity REALIZABLE los alcanza. Tu equity realizable (outs cuando vas detrás ≈ 4%, más algo de SDV vulnerable) está muy por debajo del 39%. El resto es equity fantasma. Foldea." },
                   ],
@@ -1581,7 +1581,7 @@ const content = {
           {
             title: "Defendiendo el turn: la estrategia piramidal",
             body: [
-              { type:"text", content:"Pagar el flop no obliga a pagar el turn. Defender en spots abiertos sigue una 'estrategia piramidal': tu rango de continuación se va estrechando calle a calle, como una pirámide que se afina hacia la cima. Las exigencias para pagar el turn son siempre más estrictas que las del flop, y las del río más estrictas que las del turn." },
+              { type:"text", content:"Pagar el flop no obliga a pagar el turn. Defender en spots abiertos sigue una 'estrategia piramidal': tu rango de continuación se va estrechando calle a calle, como una pirámide que se afina hacia la cima. Las exigencias para pagar el turn son siempre más estrictas que las del flop, y las del river más estrictas que las del turn." },
               { type:"callout", label:"Re-evalúa los 4 factores en cada calle", content:"En el turn, vuelve a aplicar los 4 factores de defensa con manos hechas usando la nueva carta: (1) tipo de equity (¿la turn card mejoró el rango del rival más que el tuyo?), (2) outs cuando vas detrás, (3) tipo de SDV (¿quedan buenas river cards para ti?), (4) posición. Si los 4 factores empeoran respecto al flop, foldear el turn tras haber pagado el flop es perfectamente correcto." },
               { type:"callout", label:"Por qué pagar flop y foldear turn NO es un error", content:"El argumento 'pagaste el flop, así que tienes que pagar el turn' es falso. El rango de apuesta del rival se contrae de flop a turn — apuesta menos aire en el turn — así que tu rango de pago también debe contraerse. Si pagaras el turn con TODO lo que pagaste el flop, tu pirámide nunca se estrecharía: el rival tendría 0% fold equity y le convendría apostar el turn solo por valor, nunca de farol. Foldear la parte inferior de tu rango de flop en el turn es justo lo que mantiene viables tus bluff-catches del turn." },
               { type:"callout", label:"Cuándo desviarte del balance piramidal", content:"Sobre-foldea el turn cuando: el rival es ajustado y su CBet Turn es bajo (rango muy orientado a valor), o hay otro jugador pasivo en el bote que reduce el fold equity del agresor (su barreleo será casi puramente de valor). Sobre-paga (o incluso sube como bluff) cuando: tu rango de turn quedó 'sin aire' (la mayoría de tus draws del flop mejoraron a manos fuertes) y el rival barrelea de forma agresiva — en ese caso, las manos de tu rango que no quieren pagar más pueden subir como bluff en vez de foldear, porque el resto de tu rango está cargado de manos fuertes capaces de sostener un 3-bet." },
@@ -1621,7 +1621,7 @@ const content = {
             title: "El proceso de pensamiento en dos partes",
             body: [
               { type:"text", content:"Antes de pagar o foldear en un spot de fin de acción, evita el error más común: intentar adivinar qué 'piensa que piensas' el rival a partir del sizing, sin haber calculado primero cuánta equity necesitas. Ese tipo de razonamiento ('apostó grande así que cree que voy a pensar que farolea, así que en realidad...') es un callejón sin salida — no conoces a este rival lo suficiente como para leerle la mente, y puedes llegar a cualquier conclusión que quieras por ese camino. El proceso correcto se divide en dos partes: Parte 1 — ¿Cuál es mi Equity Requerida (ER) para pagar? Parte 2 — ¿Tengo esa equity en promedio? Solo después de responder la Parte 1 tiene sentido empezar a pensar en si el rival farolea o apuesta por valor." },
-              { type:"callout", label:"Parte 1 — ER = ATC/(ATC+TP) (Hand 48)", content:"En la Hand 48 del manual, Hero tiene TT en el río como bluff-catcher y enfrenta una apuesta de 26BB en un bote de 40.5BB. ATC = 26 (lo que cuesta pagar). TP = 66.5BB (el bote total INCLUYENDO la apuesta del rival — no lo olvides nunca). ER = ATC/(ATC+TP) = 26/(26+66.5) = 28.1%. Hero necesita ganar el 28.1% de las veces en promedio contra el rango del rival para que pagar sea +EV. Este número, la ER, es el punto de partida obligatorio de CUALQUIER spot de fin de acción — calcúlalo siempre antes de pensar en cualquier otra cosa." },
+              { type:"callout", label:"Parte 1 — ER = ATC/(ATC+TP) (Hand 48)", content:"En la Hand 48 del manual, Hero tiene TT en el river como bluff-catcher y enfrenta una apuesta de 26BB en un bote de 40.5BB. ATC = 26 (lo que cuesta pagar). TP = 66.5BB (el bote total INCLUYENDO la apuesta del rival — no lo olvides nunca). ER = ATC/(ATC+TP) = 26/(26+66.5) = 28.1%. Hero necesita ganar el 28.1% de las veces en promedio contra el rango del rival para que pagar sea +EV. Este número, la ER, es el punto de partida obligatorio de CUALQUIER spot de fin de acción — calcúlalo siempre antes de pensar en cualquier otra cosa." },
               { type:"callout", label:"Milestones de ER según el sizing del rival (Figura 37)", content:"En mesa no hay tiempo para dividir con precisión, así que memoriza estos milestones de ER = ATC/(ATC+TP) según el tamaño de la apuesta del rival respecto al bote anterior: apuesta de 1/3 de bote → ER ≈ 20%. Apuesta de 1/2 bote → ER ≈ 25%. Apuesta de 2/3 de bote → ER ≈ 28.6% (el caso de Hand 48, donde 26 en 40.5 es ~64% del bote, da 28.1%). Apuesta de 3/4 de bote → ER ≈ 30%. Apuesta del tamaño del bote → ER ≈ 33%. Apuesta de 1.5x el bote → ER ≈ 37.5%. Apuesta de 2x el bote → ER ≈ 40%. Cuanto mayor la apuesta relativa al bote, mayor la ER, pero la relación se aplana — nunca llega al 100% por mucho que suba el sizing. En mesa: mira el sizing del rival, busca el milestone más cercano y ya tienes tu objetivo de equity sin necesidad de hacer la división exacta." },
             ],
           },
@@ -1629,7 +1629,7 @@ const content = {
             title: "Las 4 preguntas y las 3 especificidades de lectura",
             body: [
               { type:"text", content:"Una vez calculada tu ER (Parte 1), la Parte 2 — '¿tengo esa equity en promedio?' — no se puede responder con una fórmula mágica. No existe un cálculo directo para tu equity real contra el rango del rival; hay que pensar. El manual propone ir respondiendo estas cuatro preguntas en orden, ya que las primeras tres a veces resuelven el spot directamente sin necesidad de entrar en lecturas más finas." },
-              { type:"callout", label:"Las 4 preguntas de la Parte 2", content:"P1. ¿Es probable que el rival esté apostando por valor con manos peores que la mía? Si SÍ → normalmente puedes pagar rápido, porque ganas a parte de su rango de valor y necesitas que faroleé mucho menos. P2. ¿El rival llega al río con algo de aire en su rango? Si NO → normalmente puedes foldear rápido, porque sin aire casi no hay farol que pueda ganarte. P3. ¿La línea del rival representa creíblemente manos mejores que la mía? Si NO tiene sentido como valor → normalmente puedes pagar como bluff-catch (con la salvedad de que los Fish pasivos juegan lento las manos fuertes muy a menudo, así que esta pregunta es menos fiable contra ellos). P4. ¿Qué me dicen mis lecturas de jugador / tipo de jugador / población? Esta es la más compleja y la que decide la mayoría de los spots, porque P1-P3 no suelen dar una respuesta clara por sí solas." },
+              { type:"callout", label:"Las 4 preguntas de la Parte 2", content:"P1. ¿Es probable que el rival esté apostando por valor con manos peores que la mía? Si SÍ → normalmente puedes pagar rápido, porque ganas a parte de su rango de valor y necesitas que faroleé mucho menos. P2. ¿El rival llega al river con algo de aire en su rango? Si NO → normalmente puedes foldear rápido, porque sin aire casi no hay farol que pueda ganarte. P3. ¿La línea del rival representa creíblemente manos mejores que la mía? Si NO tiene sentido como valor → normalmente puedes pagar como bluff-catch (con la salvedad de que los Fish pasivos juegan lento las manos fuertes muy a menudo, así que esta pregunta es menos fiable contra ellos). P4. ¿Qué me dicen mis lecturas de jugador / tipo de jugador / población? Esta es la más compleja y la que decide la mayoría de los spots, porque P1-P3 no suelen dar una respuesta clara por sí solas." },
               { type:"callout", label:"Las 3 especificidades de lectura (Figura 38)", content:"De más útil a menos útil: (1) Lecturas de Jugador (Player Reads) — lo que has observado de ESTE rival concreto: sus acciones pasadas, sus showdowns, sus stats de HUD, tus notas sobre él. Es la información más precisa. (2) Lecturas de Tipo de Jugador (Player Type Reads) — verdades sobre la categoría a la que pertenece el rival: los Regs no suelen jugar lento las nuts dos calles sin motivo; los Fish suelen pagar más de lo que apuestan; los Fish agresivos suelen tener muchos farols e incluso convierten manos con showdown value en farol sin razón. (3) Lecturas de Población (Population Reads) — verdades sobre la población general de Regs en tus stakes: quizá la población foldea demasiado a c-bets, o tiene rangos de 4-bet desbalanceados hacia el farol, o en NL5 la población no encuentra el botón de fold. Nunca digas 'no sé nada' — como mínimo siempre tienes lecturas de población." },
               { type:"text", content:"En Hand 48, P1-P3 no resuelven el spot: el rival no parece value-betear nada peor (P1=NO útil), sí puede tener algo de aire pero gran parte ya mejoró con la Q del turn (P2 no da fold fácil), y su línea representa creíblemente manos de valor como QJ, KQ, overpairs y sets (P3=NO bluff-catch fácil). Hero tampoco tiene lecturas específicas del rival más allá de 'es un Reg', así que recurre a lecturas de población: en la mayoría de las partidas de stakes bajas, la población tiene un rango muy orientado a valor cuando dispara tres calles así. Hero concluye que perderá más del 72% de las veces — muy por debajo del 28.1% de ER. Hero foldea TT. Importante: esto no significa que el rival juegue mal si en este caso concreto resulta tener un farol — Hero solo comete un error si foldea ESTE TIPO de mano con demasiada frecuencia, no por foldear una mano que está en el fondo de su rango de pagos." },
             ],
@@ -1637,7 +1637,7 @@ const content = {
           {
             title: "Spots de fin de acción pre-flop: el shove all-in",
             body: [
-              { type:"text", content:"Los spots de fin de acción no son solo cosa del río. También ocurren pre-flop, normalmente cuando un Fish mete todo su stack all-in pre-flop como si estuviera corto en un torneo — algo bastante más común en torneos que en cash, pero que aparece de vez en cuando. El proceso de dos partes es exactamente el mismo." },
+              { type:"text", content:"Los spots de fin de acción no son solo cosa del river. También ocurren pre-flop, normalmente cuando un Fish mete todo su stack all-in pre-flop como si estuviera corto en un torneo — algo bastante más común en torneos que en cash, pero que aparece de vez en cuando. El proceso de dos partes es exactamente el mismo." },
               { type:"callout", label:"Parte 1 — ER del shove all-in", content:"Ejemplo del manual: un Fish va all-in por 36BB. El bote antes del shove tiene 1.5BB de dinero muerto (prácticamente vacío). ATC = 36, TP = 36 + 1.5 = 37.5. ER = ATC/(ATC+TP) = 36/(36+37.5) = 49% ≈ 50%. Como el rake se come parte de las ganancias cuando Hero gana, conviene redondear ligeramente al alza y tratar el objetivo como 50%." },
               { type:"callout", label:"Parte 2 — ¿tiene Hero el 50% de equity? (Figura 40)", content:"Para estimar la equity en un all-in pre-flop hay que estimar primero el rango de shove del rival, y esto depende mucho del contexto reciente: un Fish que acaba de perder un bote grande y está tilteado puede shovear con cualquier par de cartas, mientras que sin señales de tilt, su rango será más estrecho — algo como la mayoría de pares y los mejores broadways. Contra el rango estimado [66+ AJo+ KQo+ A9s+ KTs+ QJs+], Hero tiene solo un 43% de equity. Como 43% < 50% (la ER), Hero foldea — salvo que tenga una lectura sólida de que este Fish concreto está tilteado y shoveando mucho más ancho de lo normal, en cuyo caso su equity real subiría por encima del 50% y el call sería correcto." },
             ],
@@ -1767,6 +1767,211 @@ const content = {
                     { label:"Sí — J9 tiene dos pares fuertes", correct:false, explanation:"Dos pares no son protección cuando el fish pasivo apuesta. CBet River 15% indica que este jugador solo apuesta cuando tiene algo muy fuerte. Tu equidad vs su rango de river bet es insuficiente. Foldea." },
                     { label:"Sí — pot odds suficientes", correct:false, explanation:"Los pot odds solo importan si tienes la equidad. Con fish pasivo (CBet River 15%), el 70%+ de su rango de river bet te gana. No tienes el 30% de equity requerido. Foldea." },
                     { label:"Sí — puede value con T9 o JX peor", correct:false, explanation:"Con CBet River 15%, este fish NO apuesta con T9 o JX mediocre — esas manos las lleva al showdown checkando. Solo apuesta cuando tiene algo muy fuerte. Foldea J9 aquí." },
+                  ],
+                },
+              ]},
+            ],
+          },
+        ],
+      },
+      {
+        id: 8,
+        title: "8. Combos y Bloqueadores",
+        summary: "La herramienta matemática más potente del póker: contar combos para ponderar rangos y usar bloqueadores para inclinar tu equity y tu fold equity a favor.",
+        chapters: [
+          {
+            title: "Combos: contando las combinaciones de tu rival",
+            body: [
+              { type:"text", content:"Hasta ahora hemos hablado de rangos como 'KK+, AK' o '3-bet con manos suited de broadway' sin preguntarnos cuántas combinaciones concretas de cartas representa cada parte de ese rango. Un combo es cada combinación específica de dos cartas que forma una starting hand — por ejemplo Q♠Q♥ es un combo distinto de Q♠Q♦, aunque ambos sean 'QQ'. Contar combos es lo que te permite pasar de 'Villano puede tener KK o AK' a saber CUÁNTO más probable es una cosa que la otra — y eso cambia completamente cómo debes leer su rango." },
+              { type:"callout", label:"Los tres tipos de combos preflop", content:"De las 1326 combinaciones posibles de dos cartas que existen, cada starting hand tiene un número fijo de combos: las parejas (AA, KK, 99...) tienen 6 combos cada una. Las manos suited (AKs, T9s...) tienen 4 combos cada una. Las manos offsuit (AKo, T9o...) tienen 12 combos cada una. Sumando suited + offsuit, cualquier mano sin parear tiene 16 combos — más del doble que una pareja concreta (6). A priori, es más de dos veces más fácil que tu rival tenga una mano sin parear que una pareja determinada." },
+              { type:"callout", label:"La falacia de las proporciones iguales", content:"Imagina que el rango de shove de un rival es exactamente [KK+, AK]. Un jugador inexperto podría pensar: 'tiene una mano que me destroza (KK o AA) o una con la que estoy parejo (AK) — debe ser 50/50'. Pero contando combos: KK+AA son 6+6=12 combos, mientras que AK (suited + offsuit) son 16 combos — más que KK y AA juntas. Tratar dos resultados posibles como si tuvieran la misma probabilidad, sin contar combos, es la falacia de las proporciones iguales — uno de los errores más comunes al leer rangos." },
+              { type:"callout", label:"Por qué esto cambia tu equity real", content:"Esta ponderación por combos es la razón por la que manos 'atrapadas entre dos resultados' suelen tener más equity de la que parece a simple vista contra un rango polarizado entre una pareja superior y AK. Cuantos más combos de AK (y menos de la pareja superior) tenga el rango de tu rival, más sube tu equity total — aunque tu mano siga estando muy mal contra la parte de pareja superior." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL50 · BU vs BB · Bote de 4-bet",
+                  hand:"J♠ J♦",
+                  context:"Hero (BU) abre 2.5BB. BB (reg tight-aggressive, 3Bet 10%) 3-bet a 11BB. Hero 4-bet a 25BB. BB va all-in. Bote total si Hero paga: 260BB. Coste de Hero: 60BB. El rango de shove de BB es exactamente [QQ+, AK].",
+                  question:"ER = 60/(60+260) ≈ 19%. Contando combos, ¿tiene JJ suficiente equity para pagar el shove de BB?",
+                  options:[
+                    { label:"Sí — los 16 combos de AK (donde JJ es gran favorito) pesan tanto como los 18 de QQ+ (donde JJ está crushed), dando a JJ ~47% de equity total", correct:true, explanation:"¡Correcto! [QQ+, AK] = QQ(6)+KK(6)+AA(6)+AK(16) = 34 combos. Contra los 18 combos de QQ+, JJ tiene solo ~18% de equity (cooler). Pero contra los 16 combos de AK, JJ es un ~80% favorito (pareja vs dos cartas altas sin parear). Equity ponderada ≈ (18·18 + 16·80)/34 ≈ 47%. Muy por encima del 19% de ER — call clarísimo." },
+                    { label:"No — QQ, KK y AA te destrozan, y eso es la mayoría del rango", correct:false, explanation:"QQ+AA+KK son 18 combos, pero AK son 16 — casi la mitad del rango. Y contra esos 16 combos JJ es un 80% favorito. Ignorar el peso relativo de AK te hace foldear una mano con un 47% de equity contra una ER de solo 19%." },
+                    { label:"No — un 4-bet/call con JJ siempre es demasiado arriesgado", correct:false, explanation:"El riesgo no se mide por el tamaño del bote, sino por equity vs ER. Aquí JJ tiene ~47% de equity y solo necesitas un 19%. La 'sensación' de riesgo no sustituye el cálculo de combos." },
+                    { label:"Sí, pero solo porque QQ+ y AK son '50/50' en este rango", correct:false, explanation:"No es 50/50: hay 18 combos de QQ+ y 16 de AK — parecido en cantidad, sí, pero la EQUITY de JJ frente a cada grupo es radicalmente distinta (18% vs 80%). El resultado correcto (call) depende de contar combos Y de saber la equity de JJ contra cada uno, no de asumir que las dos partes del rango 'valen lo mismo'." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Combos post-flop: separar valor de farols",
+            body: [
+              { type:"text", content:"Post-flop, los combos siguen siendo tu herramienta principal para poner a tu rival en un rango concreto calle por calle. El proceso tiene tres pasos: (1) calcula tu ER, igual que en un spot de fin de acción. (2) Construye el rango de VALOR de tu rival — las manos con las que de verdad apostaría tres calles — y cuenta sus combos teniendo en cuenta las cartas del board y las tuyas. (3) Construye su rango de FAROL — draws que han fallado y que apostaría como bluff — y cuenta esos combos también. Tu equity real es (combos de farol) / (combos de farol + combos de valor)." },
+              { type:"callout", label:"Las cartas visibles bloquean combos", content:"Cada carta del board (o de tu mano) reduce los combos posibles de las manos que la contienen. Una pareja de bolsillo que comparte rango con una carta del board pasa de 6 combos a solo 3 si esa carta sale una vez en el board, o a 1 combo si sale dos veces entre el board y tu mano. Esto es clave para estimar cuántos sets concretos puede tener realmente tu rival en un board determinado — y por qué, muchas veces, 'solo' tiene 3 o 4 combos de valor en total." },
+              { type:"callout", label:"Ejemplo: contando el rango de valor en el river", content:"Board T♠7♠5♣3♦K♥. Villano (BU) raiseó el flop con dos picas y disparó turn y river. Hero tiene T♦9♣ (top pair). Por la línea (raise de flop + 2 barrels), el valor más realista de Villano son sets: 77 (un 7 ya está en el board → quedan 3 combos) y 55 (un 5 ya está en el board → quedan 3 combos). TT está casi descartado porque Hero tiene un T y porque Villano raiseó el flop con un draw, no con un set ya hecho de top pair. Total del rango de valor: 6 combos." },
+              { type:"callout", label:"Ejemplo: contando el rango de farol en el river", content:"El flop tenía dos picas (T♠7♠), así que el raise del flop pudo ser con un flush draw de picas. De los combos suited-pica que Villano puede flatear preflop, varios quedan bloqueados por las dos picas ya visibles en el board, dejando unos 16 combos posibles de flush draw. Si Villano elige farolear el river con 3 de cada 4 de esos draws fallados (75%), eso son 12 combos de farol." },
+              { type:"callout", label:"Comparar valor vs farol = tu equity real", content:"Rango total de Villano en el river = 6 (valor) + 12 (farol) = 18 combos. La equity de Hero con T9 es 12/18 ≈ 67%. Si Villano apuesta el tamaño del bote (ER ≈ 33%, según los milestones de la Lección 7), un 67% de equity hace que pagar sea una decisión clarísima — no por 'corazonada', sino porque los combos lo demuestran. Este mismo ejercicio explica por qué los rangos polarizados son tan difíciles de balancear: con solo 6 combos de valor, Villano necesitaría limitarse a 6 combos de farol como máximo para que tu call fuera indiferente (ER=33% → bluffs/(bluffs+value)=33% → bluffs=value/2≈3). Tener 12 combos de farol en vez de 3 deja a Villano muy explotable." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · BB vs BU · River T♠7♠5♣3♦K♥",
+                  hand:"T♦ 9♣",
+                  context:"BU (reg, VPIP 26%, raisea el flop con flush draws y dispara 2 barrels) abre 2.5BB. Hero BB paga. Flop T♠7♠5♣: Hero checkea, BU apuesta, Hero paga. Turn 3♦: Hero checkea, BU apuesta, Hero paga. Bote antes del river: 36BB. River K♥: BU apuesta 36BB (pot).",
+                  question:"Contando combos de valor (sets de 77 y 55 = 6 combos) y de farol (flush draws fallados ≈ 12 combos), ¿pagas tu top pair T9 al pot-bet del river?",
+                  options:[
+                    { label:"Sí — 12 combos de farol vs 6 de valor = ~67% de equity, muy por encima del ~33% de ER de un pot-bet", correct:true, explanation:"¡Correcto! Rango total = 18 combos (6 valor + 12 farol). Equity de Hero = 12/18 ≈ 67%. ER de un pot-bet ≈ 33% (milestone de la Lección 7). 67% > 33% por un margen enorme — call claro." },
+                    { label:"No — siempre puede tener un set y eso te gana", correct:false, explanation:"Sí, puede tener un set — pero solo 6 combos de los 18 posibles. La mayoría de su rango de apuesta en esta línea (raise de flop con dos picas + 2 barrels) son flush draws fallados, no sets. Contar 'puede tener X' sin contar combos lleva a foldear ganadores." },
+                    { label:"No — un pot-bet en el river siempre representa valor", correct:false, explanation:"Esto ignora el rango de farol que tú mismo puedes construir contando combos: 12 combos de flush draws fallados que Villano decide farolear. Un pot-bet no 'siempre' es valor — depende de cuántos combos de farol y de valor tiene realmente el rango de apuesta." },
+                    { label:"Sí, pero solo por pot odds de 1:1, sin necesidad de contar combos", correct:false, explanation:"Las pot odds de un pot-bet te dicen que necesitas ≈33% de equity, pero no te dicen cuánta equity TIENES. Sin contar combos no sabrías que tu equity real es ~67%. Contar combos es precisamente lo que confirma que el call es correcto y no solo 'razonable'." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Bloqueadores: cómo tus cartas cambian el rango del rival",
+            body: [
+              { type:"text", content:"Un bloqueador es una carta de tu mano que reduce el número de combos que tu rival puede tener de una mano concreta, simplemente porque esa carta ya no está disponible para él. Los bloqueadores afectan a DOS cosas a la vez: tu fold equity (cuántas veces foldea el rival a tu apuesta o subida) y tu equity directa (qué tan bien le ganas cuando no foldea). Cuando ambas suben al mismo tiempo, ciertas manos se convierten en candidatas excelentes para líneas agresivas que 'sobre el papel' parecerían arriesgadas." },
+              { type:"callout", label:"Bloqueadores y fold equity", content:"Imagina que Villano va a 3-bet shovear un rango de [QQ+, AK] (34 combos) sobre el 4-bet de Hero. Si Hero tiene una mano sin relación (por ejemplo 4♣4♦), Villano shovea esos 34 combos íntegros. Pero si Hero tiene A♠Q♠, bloquea 3 combos de QQ (de 6 a 3), 3 combos de AA (de 6 a 3) y 4 combos de AK (de 16 a 12) — un total de 10 combos que YA NO puede tener. El rango de shove de Villano cae de 34 a solo 24 combos. Como el número de combos de FAROL que Villano tendría en otros spots no cambia por esto, la proporción de manos de valor sobre el total baja — y eso significa más folds para Hero en el spot equivalente donde Villano decide si 3-bet shovear o no." },
+              { type:"callout", label:"Bloqueadores y equity directa", content:"Los mismos bloqueadores de A♠Q♠ ayudan también cuando Villano SÍ tiene [QQ+, AK]. Las manos que más castigan a AQ son QQ y AA — y son precisamente las que AQ bloquea parcialmente (de 6 a 3 combos cada una). Frente al resto del rango (KK y AK), AQ tiene mucha más equity. El resultado neto: el bloqueo no solo reduce CUÁNTAS veces Villano tiene las manos que te destrozan, sino que mejora tu equity media contra el rango que queda." },
+              { type:"callout", label:"La regla práctica de los bloqueadores", content:"Cuando evalúes un 4-bet/call, un farol en el river, o cualquier spot donde tus cartas 'chocan' con el rango fuerte de tu rival, pregúntate: (1) ¿Cuántos combos de las manos que más me ganan estoy bloqueando? (2) ¿Eso reduce también el total de combos de valor de mi rival en este spot, dándome más fold equity? Cuantas más respuestas afirmativas, mejor candidata es esa mano concreta para una línea agresiva — aunque a primera vista parezca la más arriesgada de tu rango." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL50 · BU vs BB · Bote de 4-bet (antes del shove)",
+                  hand:"A♠ Q♠",
+                  context:"Hero (BU) abre 2.5BB. BB (reg, 3Bet 9%) 3-bet a 11BB. Hero se plantea 4-bet a 25BB sabiendo que, si BB decide ir all-in, su rango de shove sería exactamente [QQ+, AK] (34 combos sin bloqueadores).",
+                  question:"¿Por qué A♠Q♠ es una mano especialmente buena para 4-bet aquí, comparado con una mano random sin relación con ese rango?",
+                  options:[
+                    { label:"AQ bloquea 3 combos de QQ, 3 de AA y 4 de AK (10 en total) — reduce el rango de shove de 34 a 24 combos, dando más fold equity al 4-bet Y mejor equity si Villano sí va all-in", correct:true, explanation:"¡Correcto! QQ pasa de 6 a 3 combos, AA de 6 a 3, AK de 16 a 12 — Villano se queda con solo 24 de los 34 combos que tendría sin esos bloqueadores. Además, las manos que AQ bloquea (QQ, AA) son justo las que más le castigan — así que si Villano SÍ va all-in con lo que le queda, la equity media de AQ contra ese rango reducido es mejor de lo que sería contra el rango completo." },
+                    { label:"Porque AQs tiene los kickers más altos posibles", correct:false, explanation:"El valor del kicker no es lo relevante aquí — lo relevante es qué combos del rango de Villano deja de existir porque Hero tiene esas cartas concretas. Una mano con kickers altos pero sin relación con QQ/AA/AK (p. ej. K♦J♦) no tendría este efecto de bloqueo." },
+                    { label:"Porque AQ bloquea los farols de 3-bet de Villano, no sus manos de valor", correct:false, explanation:"Es justo lo contrario: AQ comparte cartas con las manos de VALOR del rango de shove (QQ, AA, AK), no con típicos farols de 3-bet (manos suited bajas o conectoras). El bloqueo aquí reduce el rango de valor de Villano, no sus farols." },
+                    { label:"Porque sin bloqueadores AQ no tendría ninguna fold equity, así que solo importa la equity directa", correct:false, explanation:"Los bloqueadores casi siempre afectan a AMBAS cosas a la vez — fold equity Y equity directa — como se explica en el texto. Tratarlas como mutuamente excluyentes ('o una o la otra') es ignorar justo el efecto combinado que hace que AQ con bloqueadores sea mejor que una mano random." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Práctica: contando combos y bloqueadores",
+            body: [
+              { type:"text", content:"Esta sección es un bloque de práctica pura: 10 preguntas centradas solo en contar combos y aplicar bloqueadores, sin entrar en otras decisiones estratégicas. No aparecerán en el Test ni en Supervivencia — son para que entrenes el cálculo hasta que te salga de forma automática en la mesa." },
+              { type:"quiz", questions:[
+                {
+                  situation:"Repaso · Combos preflop de manos suited",
+                  hand:"A♣ J♣",
+                  context:"Quieres recordar cuántas combinaciones de cartas concretas representa AJs (A♣J♣, A♦J♦, A♥J♥, A♠J♠).",
+                  question:"¿Cuántos combos totales tiene AJs?",
+                  options:[
+                    { label:"4 — un combo por cada palo", correct:true, explanation:"¡Correcto! Una mano suited tiene exactamente un combo por cada uno de los 4 palos: A♠J♠, A♥J♥, A♦J♦, A♣J♣ → 4 combos." },
+                    { label:"6 — como una pareja de bolsillo", correct:false, explanation:"6 es el número de combos de una PAREJA (C(4,2)=6), no de una mano suited. Las suited siempre tienen 4 combos." },
+                    { label:"12 — como una mano offsuit", correct:false, explanation:"12 es el número de combos OFFSUIT de una mano sin parear. Las suited tienen muchos menos: solo 4." },
+                    { label:"16 — sumando suited y offsuit", correct:false, explanation:"16 es el total combinado (suited + offsuit) de AJ. La parte SUITED por sí sola es solo 4 de esos 16." },
+                  ],
+                },
+                {
+                  situation:"Repaso · Combos preflop de parejas",
+                  hand:"8♠ 8♥",
+                  context:"Quieres recordar cuántas combinaciones de cartas concretas representa 88 antes del flop.",
+                  question:"¿Cuántos combos totales tiene 88?",
+                  options:[
+                    { label:"6 — C(4,2), eliges 2 de los 4 ochos de la baraja", correct:true, explanation:"¡Correcto! Cualquier pareja de bolsillo tiene C(4,2)=6 combos: 8♠8♥, 8♠8♦, 8♠8♣, 8♥8♦, 8♥8♣, 8♦8♣." },
+                    { label:"4 — como una mano suited", correct:false, explanation:"4 es el número de combos de una mano SUITED sin parear (como T9s). Las parejas tienen 6." },
+                    { label:"12 — como una mano offsuit", correct:false, explanation:"12 es el número de combos OFFSUIT sin parear (como T9o). Las parejas tienen 6, no 12." },
+                    { label:"3 — la mitad de una mano suited", correct:false, explanation:"No hay relación de 'mitad' aquí. Las parejas de bolsillo siempre tienen 6 combos: C(4,2)=6." },
+                  ],
+                },
+                {
+                  situation:"Repaso · Combos preflop de manos sin parear",
+                  hand:"K♦ Q♣",
+                  context:"Quieres recordar cuántas combinaciones totales (suited + offsuit) representa KQ.",
+                  question:"¿Cuántos combos totales (suited + offsuit) tiene KQ?",
+                  options:[
+                    { label:"16 — 4 suited + 12 offsuit", correct:true, explanation:"¡Correcto! KQs tiene 4 combos y KQo tiene 12 combos. 4+12=16 combos totales — el mismo total que cualquier mano sin parear." },
+                    { label:"12 — solo cuenta la versión offsuit", correct:false, explanation:"12 es solo KQo. Si la pregunta pide el total (suited+offsuit), hay que sumar también los 4 combos de KQs → 16." },
+                    { label:"20 — 4 suited + 16 offsuit", correct:false, explanation:"Una mano offsuit nunca tiene 16 combos — siempre tiene 12 (C(4,1)·C(3,1)=12). 4 suited + 12 offsuit = 16, no 20." },
+                    { label:"6 — como una pareja", correct:false, explanation:"6 es el total de combos de una PAREJA de bolsillo. KQ no es una pareja — al ser dos rangos distintos, su total (suited+offsuit) es 16." },
+                  ],
+                },
+                {
+                  situation:"Repaso · Combos totales de un rango",
+                  hand:"—",
+                  context:"Quieres saber cuántos combos representa en total el rango de shove [JJ+, AKs] de un Villano: JJ, QQ, KK, AA y AKs.",
+                  question:"¿Cuántos combos totales tiene el rango [JJ+, AKs]?",
+                  options:[
+                    { label:"28 — JJ(6)+QQ(6)+KK(6)+AA(6)+AKs(4)=28", correct:true, explanation:"¡Correcto! Las 4 parejas JJ-AA suman 4×6=24 combos, y AKs aporta 4 combos más → 24+4=28 combos totales." },
+                    { label:"34 — incluyendo también AKo", correct:false, explanation:"34 sería el total si el rango fuera [QQ+, AK] (con AK completo, suited+offsuit). Pero aquí el rango es [JJ+, AKs] — AK SOLO suited (4 combos), no 16. El total correcto es 28." },
+                    { label:"24 — solo las 4 parejas (JJ-AA)", correct:false, explanation:"24 son solo las parejas (JJ, QQ, KK, AA = 4×6). Pero el rango también incluye AKs (4 combos más) → 24+4=28." },
+                    { label:"44 — JJ+ con AK completo y AQs", correct:false, explanation:"44 mezclaría JJ+ (24 combos) + AK completo suited y offsuit (16) + AQs (4) = 44 — eso sería el rango [JJ+, AK, AQs], no [JJ+, AKs]. Aquí solo hay 28 combos." },
+                  ],
+                },
+                {
+                  situation:"NL25 · Flop Q♣8♦3♥",
+                  hand:"—",
+                  context:"Quieres estimar cuántos combos de QQ puede tener todavía Villano en este flop.",
+                  question:"El flop muestra una dama (Q♣). ¿Cuántos combos de QQ le quedan a Villano?",
+                  options:[
+                    { label:"3 — una de las 4 damas ya está en el board, quedan 3 para emparejar con ella", correct:true, explanation:"¡Correcto! De los 6 combos normales de QQ, los que incluyen la Q♣ del board ya no existen para Villano. Quedan 3 combos: Q♠Q♥, Q♠Q♦, Q♥Q♦." },
+                    { label:"6 — el board no afecta los combos de mano de Villano", correct:false, explanation:"El board SÍ afecta: una carta visible en el board reduce los combos de cualquier pareja que la incluya. QQ pasa de 6 a 3 combos cuando una dama está en el board." },
+                    { label:"1 — solo queda una combinación posible", correct:false, explanation:"1 sería el resultado si DOS damas estuvieran ya visibles (board + tu mano). Con solo una dama visible en el board, quedan 3 combos, no 1." },
+                    { label:"0 — es imposible que tenga QQ con una dama en el board", correct:false, explanation:"No es imposible, solo menos probable. Aún quedan 3 damas en la baraja, y 3 combos posibles de QQ para Villano (C(3,2)=3)." },
+                  ],
+                },
+                {
+                  situation:"NL25 · Flop 9♠4♥2♣",
+                  hand:"9♣ 9♦",
+                  context:"Hero tiene 9♣9♦ en la mano y el flop trae un tercer 9 (9♠). Entre tu mano y el board hay 3 de los 4 nueves visibles.",
+                  question:"¿Cuántos combos de 99 puede tener Villano en este spot?",
+                  options:[
+                    { label:"0 — solo queda un 9 en la baraja, y hacen falta dos para formar 99", correct:true, explanation:"¡Correcto! Hero tiene 2 nueves y el board muestra otro más — 3 de los 4 nueves están contabilizados. Solo queda 1 nueve en la baraja, y para formar 99 Villano necesitaría 2. C(1,2)=0 — es matemáticamente imposible que Villano tenga 99 aquí." },
+                    { label:"1 — el 9 restante forma un combo por sí solo", correct:false, explanation:"Un solo 9 no puede formar un combo de 99 — hacen falta DOS cartas de ese rango. Con solo 1 nueve disponible, hay 0 combos posibles." },
+                    { label:"3 — como en un bloqueo simple (una sola carta vista)", correct:false, explanation:"3 sería el resultado si solo UNA carta de ese rango estuviera bloqueada (como en la pregunta anterior con QQ). Aquí hay 3 cartas bloqueadas (2 en tu mano + 1 en el board), dejando 0 combos." },
+                    { label:"6 — el board y tu mano no afectan los combos de Villano", correct:false, explanation:"Sí afectan, y mucho: cada carta de un rango que está en tu mano o en el board reduce los combos disponibles de ese rango para Villano. Con 3 de 4 nueves contabilizados, a Villano no le queda ningún combo de 99." },
+                  ],
+                },
+                {
+                  situation:"NL25 · River — construyendo el rango de apuesta de Villano",
+                  hand:"—",
+                  context:"Tras contar combos calle por calle, concluyes que el rango de apuesta de Villano en el river tiene 3 combos de valor (que te ganan) y 9 combos de farol (que pierden contra ti).",
+                  question:"¿Cuál es la equity de Hero contra ese rango de apuesta?",
+                  options:[
+                    { label:"75% — Hero gana los 9 combos de farol de un total de 12", correct:true, explanation:"¡Correcto! Equity = combos que ganas / combos totales = 9/(9+3) = 9/12 = 75%." },
+                    { label:"25% — Hero gana solo los combos de valor", correct:false, explanation:"Al revés: Hero PIERDE contra los combos de valor (3) y GANA contra los de farol (9). La equity de Hero es 9/12=75%, no 3/12=25%." },
+                    { label:"33% — comparando solo farol con valor (9/3 invertido)", correct:false, explanation:"33% sería 3/9, una proporción entre los dos grupos, pero no es la equity. La equity se calcula sobre el TOTAL de combos: 9/(9+3)=75%." },
+                    { label:"50% — asumiendo que valor y farol pesan igual", correct:false, explanation:"Valor y farol NO pesan igual aquí: hay el triple de combos de farol (9) que de valor (3). Asumir 50/50 es exactamente la falacia de las proporciones iguales del primer capítulo." },
+                  ],
+                },
+                {
+                  situation:"NL25 · River — decisión final",
+                  hand:"—",
+                  context:"Continuando el ejemplo anterior (equity de Hero ≈ 75% por combos), Villano apuesta 2/3 del bote en el river.",
+                  question:"Según los milestones de ER de la Lección 7, una apuesta de 2/3 de bote requiere ≈28.6% de equity. ¿Paga Hero?",
+                  options:[
+                    { label:"Sí — 75% de equity supera ampliamente el 28.6% requerido", correct:true, explanation:"¡Correcto! ER≈28.6% es lo MÍNIMO que necesitas para que pagar sea +EV. Con un 75% de equity real (calculada por combos), pagar es una decisión clarísima — sobra margen de más del doble." },
+                    { label:"No — 75% es la equity de Villano, no la de Hero", correct:false, explanation:"El 75% fue calculado como 'combos que Hero gana / combos totales' — es la equity de HERO contra el rango de apuesta de Villano, no al revés." },
+                    { label:"No — hace falta más del 50% para pagar siempre", correct:false, explanation:"Ese es justamente el error que estas lecciones intentan corregir: la ER casi nunca es 50%. Con una apuesta de 2/3 de bote, la ER es ≈28.6% — muy por debajo del 50%." },
+                    { label:"Depende del tamaño del stack, no de la equity", correct:false, explanation:"El stack importa para las implied odds en manos sin showdown, pero aquí ya tienes tu equity total por combos (75%) y tu ER (28.6%). Comparar esos dos números es lo que determina la decisión." },
+                  ],
+                },
+                {
+                  situation:"NL50 · Bote de 4-bet — sin bloqueadores",
+                  hand:"4♣ 4♦",
+                  context:"El rango de shove de Villano es [QQ+, AK] = 34 combos (QQ6+KK6+AA6+AK16). Hero tiene 4♣4♦, sin relación con ninguna de esas cartas.",
+                  question:"¿Cuántos combos del rango de shove de Villano le quedan, teniendo en cuenta los bloqueadores de Hero?",
+                  options:[
+                    { label:"34 — sin cambios, porque 44 no comparte cartas con QQ, KK, AA ni AK", correct:true, explanation:"¡Correcto! Para que haya bloqueo, tu mano debe compartir una carta con las manos del rango de Villano. 4♣4♦ no comparte ninguna carta con Q, K o A — así que los 34 combos siguen intactos. Los bloqueadores solo existen cuando tus cartas 'chocan' con el rango." },
+                    { label:"31 — siempre se bloquean algunos combos por defecto", correct:false, explanation:"No 'siempre' — el bloqueo depende de qué cartas tengas. Si tu mano no comparte rangos con las manos del rango rival, no hay ningún bloqueo. 44 no bloquea nada aquí." },
+                    { label:"24 — como con AQs", correct:false, explanation:"24 es el resultado cuando Hero tiene A♠Q♠ (bloquea QQ, AA y AK). 4♣4♦ no tiene esas cartas, así que no se aplica esa reducción — el rango sigue siendo 34." },
+                    { label:"10 — el número de combos bloqueados con AQs", correct:false, explanation:"10 es cuántos combos BLOQUEA AQs (3 de QQ + 3 de AA + 4 de AK), no cuántos quedan, y desde luego no aplica a 44, que no bloquea nada." },
+                  ],
+                },
+                {
+                  situation:"NL50 · Bote de 4-bet — con bloqueadores",
+                  hand:"A♠ K♠",
+                  context:"El rango de shove de Villano vuelve a ser [QQ+, AK] = 34 combos (QQ6+KK6+AA6+AK16). Esta vez Hero tiene A♠K♠.",
+                  question:"¿Cuántos combos le quedan a Villano después de los bloqueadores de A♠K♠? (Pista: A♠K♠ bloquea combos de AA, KK y AK, pero no de QQ)",
+                  options:[
+                    { label:"24 — AA 6→3, KK 6→3, AK 16→12, QQ sin cambios (6) → 3+3+12+6=24", correct:true, explanation:"¡Correcto! El A♠ de Hero bloquea 3 combos de AA (de 6 a 3) y 4 combos de AK (de 16 a 12, porque el A♠ aparece en 4 de los 16 AK). El K♠ de Hero bloquea 3 combos de KK (de 6 a 3). QQ no se ve afectada (6 intactos). Total: 3(AA)+3(KK)+12(AK)+6(QQ)=24." },
+                    { label:"21 — bloqueando 13 combos en total", correct:false, explanation:"13 combos bloqueados sería un error de cálculo. La suma correcta de combos bloqueados es 3(AA)+3(KK)+4(AK)=10, no 13. 34-10=24, no 21." },
+                    { label:"31 — solo se bloquean 3 combos", correct:false, explanation:"A♠K♠ bloquea mucho más que 3 combos: 3 de AA, 3 de KK Y 4 de AK = 10 combos bloqueados en total. 34-10=24, no 31." },
+                    { label:"18 — bloqueando también combos de QQ", correct:false, explanation:"A♠K♠ no comparte ninguna carta con QQ (no tiene ninguna dama), así que los 6 combos de QQ permanecen intactos. Restar combos de QQ aquí es un error — el total correcto es 24." },
                   ],
                 },
               ]},
@@ -3347,6 +3552,211 @@ const content = {
                     { label:"Yes — J9 has strong two pair", correct:false, explanation:"Two pair is not protection when a passive fish bets. CBet River 15% means this player only bets when they have something very strong. Your equity vs their river betting range is insufficient. Fold." },
                     { label:"Yes — sufficient pot odds", correct:false, explanation:"Pot odds only matter if you have the equity. With a passive fish (CBet River 15%), 70%+ of their river betting range beats you. You don't have the 30% required equity. Fold." },
                     { label:"Yes — he might value bet T9 or weaker Jx", correct:false, explanation:"With CBet River 15%, this fish does NOT bet T9 or mediocre Jx — those hands they take passively to showdown. They only bet when they have something very strong. Fold J9 here." },
+                  ],
+                },
+              ]},
+            ],
+          },
+        ],
+      },
+      {
+        id: 8,
+        title: "8. Combos and Blockers",
+        summary: "Poker's most powerful math tool: counting combos to weight ranges, and using blockers to tilt your equity and fold equity in your favor.",
+        chapters: [
+          {
+            title: "Combos: counting your opponent's combinations",
+            body: [
+              { type:"text", content:"So far we've talked about ranges like 'KK+, AK' or '3-betting suited broadways' without asking how many specific card combinations each part of that range actually represents. A combo is each specific two-card combination that makes up a starting hand — for example Q♠Q♥ is a different combo from Q♠Q♦, even though both are 'QQ'. Counting combos is what lets you go from 'Villain could have KK or AK' to knowing HOW MUCH more likely one is than the other — and that completely changes how you should read his range." },
+              { type:"callout", label:"The three combo types pre-flop", content:"Of the 1326 possible two-card combinations, every starting hand has a fixed number of combos: pocket pairs (AA, KK, 99...) have 6 combos each. Suited hands (AKs, T9s...) have 4 combos each. Offsuit hands (AKo, T9o...) have 12 combos each. Adding suited + offsuit, any unpaired hand has 16 combos — more than double a specific pocket pair (6). A priori, your opponent is more than twice as likely to hold an unpaired hand than any one specific pair." },
+              { type:"callout", label:"The Equal Chance Fallacy", content:"Imagine an opponent's shoving range is exactly [KK+, AK]. An inexperienced player might think: 'he either crushes me (KK or AA) or we're close (AK) — must be 50/50'. But counting combos: KK+AA are 6+6=12 combos, while AK (suited + offsuit) is 16 combos — more than KK and AA combined. Treating two possible outcomes as equally likely without counting combos is the Equal Chance Fallacy — one of the most common mistakes in range reading." },
+              { type:"callout", label:"Why this changes your real equity", content:"This combo weighting is why hands 'caught between two outcomes' often have more equity than they look like they should against a range polarized between an overpair and AK. The more combos of AK (and fewer of the overpair) your opponent's range contains, the higher your total equity climbs — even though your hand is still crushed by the overpair portion." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL50 · BU vs BB · 4-bet pot",
+                  hand:"J♠ J♦",
+                  context:"Hero (BU) opens 2.5BB. BB (tight-aggressive reg, 3Bet 10%) 3-bets to 11BB. Hero 4-bets to 25BB. BB goes all-in. Total pot if Hero calls: 260BB. Hero's cost: 60BB. BB's shoving range is exactly [QQ+, AK].",
+                  question:"RE = 60/(60+260) ≈ 19%. Counting combos, does JJ have enough equity to call BB's shove?",
+                  options:[
+                    { label:"Yes — the 16 combos of AK (where JJ is a big favorite) weigh as much as the 18 combos of QQ+ (where JJ is crushed), giving JJ ~47% total equity", correct:true, explanation:"Correct! [QQ+, AK] = QQ(6)+KK(6)+AA(6)+AK(16) = 34 combos. Against the 18 combos of QQ+, JJ has only ~18% equity (a cooler). But against the 16 combos of AK, JJ is a ~80% favorite (pocket pair vs two unpaired overcards). Weighted equity ≈ (18·18 + 16·80)/34 ≈ 47%. Way above the 19% RE — an easy call." },
+                    { label:"No — QQ, KK and AA crush you, and that's the majority of the range", correct:false, explanation:"QQ+AA+KK are 18 combos, but AK is 16 — almost half the range. And against those 16 combos JJ is an 80% favorite. Ignoring the relative weight of AK makes you fold a hand with ~47% equity against an RE of only 19%." },
+                    { label:"No — a 4-bet/call with JJ is always too risky", correct:false, explanation:"Risk isn't measured by pot size, it's measured by equity vs RE. Here JJ has ~47% equity and you only need 19%. The 'feeling' of risk doesn't replace counting combos." },
+                    { label:"Yes, but only because QQ+ and AK are '50/50' in this range", correct:false, explanation:"It's not 50/50: there are 18 combos of QQ+ and 16 of AK — similar in quantity, sure, but JJ's EQUITY against each group is radically different (18% vs 80%). The correct answer (call) depends on counting combos AND knowing JJ's equity against each group, not on assuming the two parts of the range 'are worth the same'." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Post-flop combos: separating value from bluffs",
+            body: [
+              { type:"text", content:"Post-flop, combos remain your main tool for placing your opponent on a concrete range street by street. The process has three steps: (1) calculate your RE, just like in an end-of-action spot. (2) Build your opponent's VALUE range — the hands he'd genuinely bet three streets with — and count its combos accounting for the board cards and your own. (3) Build his BLUFF range — busted draws he'd bet as a bluff — and count those combos too. Your real equity is (bluff combos) / (bluff combos + value combos)." },
+              { type:"callout", label:"Visible cards block combos", content:"Every card on the board (or in your hand) reduces the possible combos of hands that contain it. A pocket pair that shares a rank with a board card drops from 6 combos to just 3 if that card appears once on the board, or to 1 combo if it appears twice between the board and your hand. This is key for estimating how many concrete sets your opponent can realistically have on a given board — and why, often, he 'only' has 3 or 4 value combos in total." },
+              { type:"callout", label:"Example: counting the value range on the river", content:"Board T♠7♠5♣3♦K♥. Villain (BU) raised the flop holding two spades and fired turn and river. Hero has T♦9♣ (top pair). Given the line (flop raise + 2 barrels), Villain's most realistic value is sets: 77 (one 7 is already on the board → 3 combos left) and 55 (one 5 is already on the board → 3 combos left). TT is nearly ruled out because Hero holds a T and because Villain raised the flop with a draw, not an already-made top-pair set. Total value range: 6 combos." },
+              { type:"callout", label:"Example: counting the bluff range on the river", content:"The flop had two spades (T♠7♠), so the flop raise could have been a spade flush draw. Of the suited-spade combos Villain could flat pre-flop, several are blocked by the two spades already visible on the board, leaving around 16 possible flush-draw combos. If Villain chooses to bluff the river with 3 out of every 4 of those busted draws (75%), that's 12 bluff combos." },
+              { type:"callout", label:"Comparing value vs bluffs = your real equity", content:"Villain's total river range = 6 (value) + 12 (bluffs) = 18 combos. Hero's equity with T9 is 12/18 ≈ 67%. If Villain bets pot-size (RE ≈ 33%, per the milestones from Lesson 7), 67% equity makes calling an easy decision — not because of a 'gut feeling', but because the combos prove it. This same exercise explains why polarized ranges are so hard to balance: with only 6 value combos, Villain would need to cap himself at 6 bluff combos at most for your call to be indifferent (RE=33% → bluffs/(bluffs+value)=33% → bluffs=value/2≈3). Having 12 bluff combos instead of 3 leaves Villain hugely exploitable." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL25 · BB vs BU · River T♠7♠5♣3♦K♥",
+                  hand:"T♦ 9♣",
+                  context:"BU (reg, VPIP 26%, raises the flop with flush draws and fires 2 barrels) opens 2.5BB. Hero BB calls. Flop T♠7♠5♣: Hero checks, BU bets, Hero calls. Turn 3♦: Hero checks, BU bets, Hero calls. Pot before the river: 36BB. River K♥: BU bets 36BB (pot).",
+                  question:"Counting value combos (sets of 77 and 55 = 6 combos) and bluff combos (busted flush draws ≈ 12 combos), do you call your top pair T9 against the pot-bet on the river?",
+                  options:[
+                    { label:"Yes — 12 bluff combos vs 6 value combos = ~67% equity, way above the ~33% RE of a pot-bet", correct:true, explanation:"Correct! Total range = 18 combos (6 value + 12 bluffs). Hero's equity = 12/18 ≈ 67%. RE of a pot-bet ≈ 33% (Lesson 7 milestone). 67% > 33% by a huge margin — a clear call." },
+                    { label:"No — he could always have a set and that beats you", correct:false, explanation:"Yes, he could have a set — but only 6 of the 18 possible combos. Most of his betting range on this line (flop raise with two spades + 2 barrels) is busted flush draws, not sets. Counting 'he could have X' without counting combos leads to folding winners." },
+                    { label:"No — a pot-bet on the river is always value", correct:false, explanation:"This ignores the bluff range you can build yourself by counting combos: 12 combos of busted flush draws Villain chooses to bluff. A pot-bet is not 'always' value — it depends on how many bluff and value combos the betting range actually has." },
+                    { label:"Yes, but only because of 1:1 pot odds, without needing to count combos", correct:false, explanation:"The pot odds of a pot-bet tell you that you need ≈33% equity, but they don't tell you how much equity you HAVE. Without counting combos you wouldn't know your real equity is ~67%. Counting combos is precisely what confirms the call is correct and not just 'reasonable'." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Blockers: how your cards change your opponent's range",
+            body: [
+              { type:"text", content:"A blocker is a card in your hand that reduces the number of combos your opponent can hold of a specific hand, simply because that card is no longer available to him. Blockers affect TWO things at once: your fold equity (how often your opponent folds to your bet or raise) and your direct equity (how well you do against him when he doesn't fold). When both increase at the same time, certain hands become excellent candidates for aggressive lines that 'on paper' would look risky." },
+              { type:"callout", label:"Blockers and fold equity", content:"Imagine an opponent is going to 3-bet shove a range of [QQ+, AK] (34 combos) over Hero's 4-bet. If Hero holds an unrelated hand (say 4♣4♦), Villain shoves all 34 of those combos. But if Hero holds A♠Q♠, he blocks 3 combos of QQ (from 6 to 3), 3 combos of AA (from 6 to 3) and 4 combos of AK (from 16 to 12) — a total of 10 combos he can NO LONGER have. Villain's shoving range drops from 34 to just 24 combos. Since the number of BLUFF combos Villain would have in other spots doesn't change because of this, the proportion of value hands in the total goes down — which means more folds for Hero in the equivalent spot where Villain decides whether to 3-bet shove at all." },
+              { type:"callout", label:"Blockers and direct equity", content:"The same A♠Q♠ blockers also help when Villain DOES have [QQ+, AK]. The hands that punish AQ the most are QQ and AA — and those are precisely the ones AQ partially blocks (from 6 to 3 combos each). Against the rest of the range (KK and AK), AQ has much more equity. The net result: the blocking effect doesn't just reduce HOW OFTEN Villain has the hands that crush you, it also improves your average equity against whatever range remains." },
+              { type:"callout", label:"The practical blocker rule", content:"When evaluating a 4-bet/call, a river bluff, or any spot where your cards 'collide' with your opponent's strong range, ask yourself: (1) How many combos of the hands that beat me the most am I blocking? (2) Does that also reduce my opponent's total value combos in this spot, giving me more fold equity? The more 'yes' answers, the better candidate that specific hand is for an aggressive line — even if at first glance it looks like the riskiest hand in your range." },
+              { type:"quiz", questions:[
+                {
+                  situation:"NL50 · BU vs BB · 4-bet pot (before the shove)",
+                  hand:"A♠ Q♠",
+                  context:"Hero (BU) opens 2.5BB. BB (reg, 3Bet 9%) 3-bets to 11BB. Hero is considering a 4-bet to 25BB, knowing that if BB decides to go all-in, his shoving range would be exactly [QQ+, AK] (34 combos with no blockers).",
+                  question:"Why is A♠Q♠ an especially good hand to 4-bet here, compared to a random hand unrelated to that range?",
+                  options:[
+                    { label:"AQ blocks 3 combos of QQ, 3 of AA, and 4 of AK (10 total) — shrinking the shoving range from 34 to 24 combos, giving more fold equity to the 4-bet AND better equity if Villain does go all-in", correct:true, explanation:"Correct! QQ drops from 6 to 3 combos, AA from 6 to 3, AK from 16 to 12 — Villain is left with only 24 of the 34 combos he'd have without those blockers. Plus, the hands AQ blocks (QQ, AA) are exactly the ones that punish it the most — so if Villain DOES go all-in with what's left, AQ's average equity against that reduced range is better than it would be against the full range." },
+                    { label:"Because AQs has the highest possible kickers", correct:false, explanation:"Kicker value isn't what matters here — what matters is which combos of Villain's range cease to exist because Hero holds these specific cards. A hand with high kickers but unrelated to QQ/AA/AK (e.g. K♦J♦) wouldn't have this blocking effect." },
+                    { label:"Because AQ blocks Villain's 3-bet bluffs, not his value hands", correct:false, explanation:"It's the opposite: AQ shares cards with the VALUE hands of the shoving range (QQ, AA, AK), not with typical 3-bet bluffs (low suited or connected hands). The blocking effect here reduces Villain's value range, not his bluffs." },
+                    { label:"Because without blockers AQ would have zero fold equity, so only direct equity matters", correct:false, explanation:"Blockers almost always affect BOTH things at once — fold equity AND direct equity — as explained in the text. Treating them as mutually exclusive ('it's either one or the other') ignores exactly the combined effect that makes AQ with blockers better than a random hand." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Practice: counting combos and blockers",
+            body: [
+              { type:"text", content:"This section is a pure practice block: 10 questions focused only on counting combos and applying blockers, without other strategic decisions mixed in. They won't appear in the Test or Survival modes — they're here so you can drill the math until it becomes automatic at the table." },
+              { type:"quiz", questions:[
+                {
+                  situation:"Review · Preflop combos of suited hands",
+                  hand:"A♣ J♣",
+                  context:"You want to remember how many specific card combinations AJs represents (A♣J♣, A♦J♦, A♥J♥, A♠J♠).",
+                  question:"How many total combos does AJs have?",
+                  options:[
+                    { label:"4 — one combo per suit", correct:true, explanation:"Correct! A suited hand has exactly one combo per suit: A♠J♠, A♥J♥, A♦J♦, A♣J♣ → 4 combos." },
+                    { label:"6 — same as a pocket pair", correct:false, explanation:"6 is the number of combos for a PAIR (C(4,2)=6), not a suited hand. Suited hands always have 4 combos." },
+                    { label:"12 — same as an offsuit hand", correct:false, explanation:"12 is the number of OFFSUIT combos of an unpaired hand. Suited hands have far fewer: just 4." },
+                    { label:"16 — adding suited and offsuit together", correct:false, explanation:"16 is the combined total (suited + offsuit) for AJ. The SUITED portion alone is only 4 of those 16." },
+                  ],
+                },
+                {
+                  situation:"Review · Preflop combos of pairs",
+                  hand:"8♠ 8♥",
+                  context:"You want to remember how many specific card combinations 88 represents before the flop.",
+                  question:"How many total combos does 88 have?",
+                  options:[
+                    { label:"6 — C(4,2), choosing 2 of the 4 eights in the deck", correct:true, explanation:"Correct! Any pocket pair has C(4,2)=6 combos: 8♠8♥, 8♠8♦, 8♠8♣, 8♥8♦, 8♥8♣, 8♦8♣." },
+                    { label:"4 — same as a suited hand", correct:false, explanation:"4 is the combo count for an unpaired SUITED hand (like T9s). Pairs have 6." },
+                    { label:"12 — same as an offsuit hand", correct:false, explanation:"12 is the unpaired OFFSUIT combo count (like T9o). Pairs have 6, not 12." },
+                    { label:"3 — half of a suited hand's count", correct:false, explanation:"There's no 'half' relationship here. Pocket pairs always have 6 combos: C(4,2)=6." },
+                  ],
+                },
+                {
+                  situation:"Review · Combos of unpaired hands",
+                  hand:"K♦ Q♣",
+                  context:"You want to remember how many total combinations (suited + offsuit) KQ represents.",
+                  question:"How many total combos (suited + offsuit) does KQ have?",
+                  options:[
+                    { label:"16 — 4 suited + 12 offsuit", correct:true, explanation:"Correct! KQs has 4 combos and KQo has 12 combos. 4+12=16 total combos — the same total as any unpaired hand." },
+                    { label:"12 — counting only the offsuit version", correct:false, explanation:"12 is just KQo. If the question asks for the total (suited+offsuit), you also need the 4 combos of KQs → 16." },
+                    { label:"20 — 4 suited + 16 offsuit", correct:false, explanation:"An offsuit hand never has 16 combos — it always has 12 (C(4,1)·C(3,1)=12). 4 suited + 12 offsuit = 16, not 20." },
+                    { label:"6 — same as a pair", correct:false, explanation:"6 is the combo total for a POCKET PAIR. KQ isn't a pair — being two different ranks, its total (suited+offsuit) is 16." },
+                  ],
+                },
+                {
+                  situation:"Review · Total combos in a range",
+                  hand:"—",
+                  context:"You want to know how many total combos Villain's shoving range [JJ+, AKs] represents: JJ, QQ, KK, AA, and AKs.",
+                  question:"How many total combos does the range [JJ+, AKs] have?",
+                  options:[
+                    { label:"28 — JJ(6)+QQ(6)+KK(6)+AA(6)+AKs(4)=28", correct:true, explanation:"Correct! The 4 pairs JJ-AA add up to 4×6=24 combos, and AKs adds 4 more → 24+4=28 total combos." },
+                    { label:"34 — also including AKo", correct:false, explanation:"34 would be the total if the range were [QQ+, AK] (with AK complete, suited+offsuit). But here the range is [JJ+, AKs] — AK is suited ONLY (4 combos), not 16. The correct total is 28." },
+                    { label:"24 — just the 4 pairs (JJ-AA)", correct:false, explanation:"24 is only the pairs (JJ, QQ, KK, AA = 4×6). But the range also includes AKs (4 more combos) → 24+4=28." },
+                    { label:"44 — JJ+ with full AK plus AQs", correct:false, explanation:"44 would mix JJ+ (24 combos) + full AK suited and offsuit (16) + AQs (4) = 44 — that would be the range [JJ+, AK, AQs], not [JJ+, AKs]. Here there are only 28 combos." },
+                  ],
+                },
+                {
+                  situation:"NL25 · Flop Q♣8♦3♥",
+                  hand:"—",
+                  context:"You want to estimate how many combos of QQ Villain can still have on this flop.",
+                  question:"The flop shows a queen (Q♣). How many combos of QQ does Villain have left?",
+                  options:[
+                    { label:"3 — one of the 4 queens is already on the board, leaving 3 to pair with it", correct:true, explanation:"Correct! Of the normal 6 combos of QQ, the ones that include the Q♣ on the board no longer exist for Villain. That leaves 3 combos: Q♠Q♥, Q♠Q♦, Q♥Q♦." },
+                    { label:"6 — the board doesn't affect Villain's hand combos", correct:false, explanation:"The board DOES affect it: a visible board card reduces the combos of any pair that includes it. QQ goes from 6 to 3 combos when one queen is on the board." },
+                    { label:"1 — only one combination remains possible", correct:false, explanation:"1 would be the result if TWO queens were already visible (board + your hand). With only one queen visible on the board, 3 combos remain, not 1." },
+                    { label:"0 — it's impossible for Villain to have QQ with a queen on the board", correct:false, explanation:"It's not impossible, just less likely. There are still 3 queens left in the deck, and 3 possible combos of QQ for Villain (C(3,2)=3)." },
+                  ],
+                },
+                {
+                  situation:"NL25 · Flop 9♠4♥2♣",
+                  hand:"9♣ 9♦",
+                  context:"Hero holds 9♣9♦ and the flop brings a third 9 (9♠). Between your hand and the board, 3 of the 4 nines are visible.",
+                  question:"How many combos of 99 can Villain have in this spot?",
+                  options:[
+                    { label:"0 — only one 9 remains in the deck, and two are needed to make 99", correct:true, explanation:"Correct! Hero has 2 nines and the board shows another one — 3 of the 4 nines are accounted for. Only 1 nine remains in the deck, and Villain would need 2 to make 99. C(1,2)=0 — it's mathematically impossible for Villain to have 99 here." },
+                    { label:"1 — the remaining 9 forms a combo by itself", correct:false, explanation:"A single 9 can't form a combo of 99 — that requires TWO cards of that rank. With only 1 nine available, there are 0 possible combos." },
+                    { label:"3 — like a simple block (one card seen)", correct:false, explanation:"3 would be the result if only ONE card of that rank were blocked (as in the previous QQ question). Here 3 cards are blocked (2 in your hand + 1 on the board), leaving 0 combos." },
+                    { label:"6 — the board and your hand don't affect Villain's combos", correct:false, explanation:"They absolutely do: every card of a rank that's in your hand or on the board reduces the combos available for Villain of that rank. With 3 of 4 nines accounted for, Villain has zero combos of 99 left." },
+                  ],
+                },
+                {
+                  situation:"NL25 · River — building Villain's betting range",
+                  hand:"—",
+                  context:"After counting combos street by street, you conclude that Villain's river betting range has 3 value combos (that beat you) and 9 bluff combos (that lose to you).",
+                  question:"What is Hero's equity against that betting range?",
+                  options:[
+                    { label:"75% — Hero beats the 9 bluff combos out of a total of 12", correct:true, explanation:"Correct! Equity = combos you beat / total combos = 9/(9+3) = 9/12 = 75%." },
+                    { label:"25% — Hero only wins against the value combos", correct:false, explanation:"It's the opposite: Hero LOSES to the value combos (3) and WINS against the bluff combos (9). Hero's equity is 9/12=75%, not 3/12=25%." },
+                    { label:"33% — comparing bluffs to value only (9/3 inverted)", correct:false, explanation:"33% would be 3/9, a ratio between the two groups, but that's not equity. Equity is calculated over the TOTAL combos: 9/(9+3)=75%." },
+                    { label:"50% — assuming value and bluffs carry equal weight", correct:false, explanation:"Value and bluffs do NOT carry equal weight here: there are three times as many bluff combos (9) as value combos (3). Assuming 50/50 is exactly the equal-proportions fallacy from the first chapter." },
+                  ],
+                },
+                {
+                  situation:"NL25 · River — final decision",
+                  hand:"—",
+                  context:"Continuing the previous example (Hero's equity ≈ 75% by combo count), Villain bets 2/3 pot on the river.",
+                  question:"Per Lesson 7's RE milestones, a 2/3 pot bet requires ≈28.6% equity. Does Hero call?",
+                  options:[
+                    { label:"Yes — 75% equity comfortably exceeds the 28.6% required", correct:true, explanation:"Correct! ER≈28.6% is the MINIMUM equity needed for a call to be +EV. With a real 75% equity (calculated by combos), calling is a clear decision — there's more than double the margin needed." },
+                    { label:"No — 75% is Villain's equity, not Hero's", correct:false, explanation:"The 75% was calculated as 'combos Hero beats / total combos' — it's HERO's equity against Villain's betting range, not the other way around." },
+                    { label:"No — you always need more than 50% to call", correct:false, explanation:"That's exactly the misconception these lessons aim to correct: RE is almost never 50%. For a 2/3 pot bet, RE is ≈28.6% — well below 50%." },
+                    { label:"It depends on stack size, not equity", correct:false, explanation:"Stack size matters for implied odds on hands without a showdown, but here you already have your total combo equity (75%) and your RE (28.6%). Comparing those two numbers is what determines the decision." },
+                  ],
+                },
+                {
+                  situation:"NL50 · 4-bet pot — no blockers",
+                  hand:"4♣ 4♦",
+                  context:"Villain's shoving range is [QQ+, AK] = 34 combos (QQ6+KK6+AA6+AK16). Hero holds 4♣4♦, unrelated to any of those cards.",
+                  question:"How many combos of Villain's shoving range remain, accounting for Hero's blockers?",
+                  options:[
+                    { label:"34 — unchanged, because 44 shares no cards with QQ, KK, AA, or AK", correct:true, explanation:"Correct! Blocking requires your hand to share a card with the hands in Villain's range. 4♣4♦ shares no card with any Q, K, or A — so all 34 combos remain intact. Blockers only exist when your cards 'collide' with the range." },
+                    { label:"31 — some combos are always blocked by default", correct:false, explanation:"Not 'always' — blocking depends entirely on which cards you hold. If your hand shares no ranks with the villain's range, there's no blocking at all. 44 blocks nothing here." },
+                    { label:"24 — same as with AQs", correct:false, explanation:"24 is the result when Hero holds A♠Q♠ (blocking QQ, AA, and AK). 4♣4♦ doesn't have those cards, so that reduction doesn't apply — the range stays at 34." },
+                    { label:"10 — the number of combos AQs blocks", correct:false, explanation:"10 is how many combos AQs BLOCKS (3 of QQ + 3 of AA + 4 of AK), not how many remain, and it certainly doesn't apply to 44, which blocks nothing." },
+                  ],
+                },
+                {
+                  situation:"NL50 · 4-bet pot — with blockers",
+                  hand:"A♠ K♠",
+                  context:"Villain's shoving range is again [QQ+, AK] = 34 combos (QQ6+KK6+AA6+AK16). This time Hero holds A♠K♠.",
+                  question:"How many combos remain for Villain after A♠K♠'s blockers? (Hint: A♠K♠ blocks combos of AA, KK, and AK, but not QQ)",
+                  options:[
+                    { label:"24 — AA 6→3, KK 6→3, AK 16→12, QQ unchanged (6) → 3+3+12+6=24", correct:true, explanation:"Correct! Hero's A♠ blocks 3 combos of AA (from 6 to 3) and 4 combos of AK (from 16 to 12, since A♠ appears in 4 of the 16 AK combos). Hero's K♠ blocks 3 combos of KK (from 6 to 3). QQ is unaffected (6 intact). Total: 3(AA)+3(KK)+12(AK)+6(QQ)=24." },
+                    { label:"21 — blocking 13 combos in total", correct:false, explanation:"13 blocked combos would be a math error. The correct sum of blocked combos is 3(AA)+3(KK)+4(AK)=10, not 13. 34-10=24, not 21." },
+                    { label:"31 — only 3 combos are blocked", correct:false, explanation:"A♠K♠ blocks far more than 3 combos: 3 from AA, 3 from KK, AND 4 from AK = 10 combos blocked in total. 34-10=24, not 31." },
+                    { label:"18 — also blocking combos of QQ", correct:false, explanation:"A♠K♠ shares no card with QQ (it has no queen), so QQ's 6 combos remain intact. Subtracting QQ combos here is an error — the correct total is 24." },
                   ],
                 },
               ]},
