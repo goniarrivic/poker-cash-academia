@@ -88,5 +88,16 @@ service cloud.firestore {
       allow create, update: if isSignedIn();
       allow delete: if isAdmin();
     }
+
+    // ─── Nombres de usuario únicos (1 doc por username en minúsculas) ───────
+    // El doc id es el username normalizado a minúsculas. El campo `uid` debe
+    // coincidir con el propietario para crear/actualizar/borrar, lo que impide
+    // que un usuario reclame o modifique el username de otro.
+    match /usernames/{usernameLower} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
+      allow update: if isSignedIn() && resource.data.uid == request.auth.uid && request.resource.data.uid == request.auth.uid;
+      allow delete: if isSignedIn() && resource.data.uid == request.auth.uid;
+    }
   }
 }
