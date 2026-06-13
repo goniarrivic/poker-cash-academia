@@ -39,6 +39,13 @@ import { CBET_SITUATIONS_EXTRA } from './situations/cbet.js';
 import { VBET_SITUATIONS_EXTRA } from './situations/vbet.js';
 import { CALL_SITUATIONS_EXTRA } from './situations/call.js';
 import { FACING_SITUATIONS_EXTRA } from './situations/facing.js';
+import { THREEBET_SITUATIONS_EXTRA } from './situations/threebet.js';
+import threebetEarly  from './3bet_vs_early.png';
+import threebetLate   from './3bet_vs_late.png';
+import fourbet        from './4bet.png';
+import vsCold4bet     from './vs_cold_4bet.png';
+import call4betEarly  from './call_4bet_vs_early.png';
+import call4betLate   from './call_4bet_vs_late.png';
 
 // ─── FIREBASE ────────────────────────────────────────────────────────────────
 
@@ -1868,10 +1875,10 @@ const content = {
                   context:"Quieres recordar cuántas combinaciones de cartas concretas representa AJs (A♣J♣, A♦J♦, A♥J♥, A♠J♠).",
                   question:"¿Cuántos combos totales tiene AJs?",
                   options:[
-                    { label:"4 — un combo por cada palo", correct:true, explanation:"¡Correcto! Una mano suited tiene exactamente un combo por cada uno de los 4 palos: A♠J♠, A♥J♥, A♦J♦, A♣J♣ → 4 combos." },
                     { label:"6 — como una pareja de bolsillo", correct:false, explanation:"6 es el número de combos de una PAREJA (C(4,2)=6), no de una mano suited. Las suited siempre tienen 4 combos." },
-                    { label:"12 — como una mano offsuit", correct:false, explanation:"12 es el número de combos OFFSUIT de una mano sin parear. Las suited tienen muchos menos: solo 4." },
                     { label:"16 — sumando suited y offsuit", correct:false, explanation:"16 es el total combinado (suited + offsuit) de AJ. La parte SUITED por sí sola es solo 4 de esos 16." },
+                    { label:"4 — un combo por cada palo", correct:true, explanation:"¡Correcto! Una mano suited tiene exactamente un combo por cada uno de los 4 palos: A♠J♠, A♥J♥, A♦J♦, A♣J♣ → 4 combos." },
+                    { label:"12 — como una mano offsuit", correct:false, explanation:"12 es el número de combos OFFSUIT de una mano sin parear. Las suited tienen muchos menos: solo 4." },
                   ],
                 },
                 {
@@ -1880,9 +1887,9 @@ const content = {
                   context:"Quieres recordar cuántas combinaciones de cartas concretas representa 88 antes del flop.",
                   question:"¿Cuántos combos totales tiene 88?",
                   options:[
+                    { label:"12 — como una mano offsuit", correct:false, explanation:"12 es el número de combos OFFSUIT sin parear (como T9o). Las parejas tienen 6, no 12." },
                     { label:"6 — C(4,2), eliges 2 de los 4 ochos de la baraja", correct:true, explanation:"¡Correcto! Cualquier pareja de bolsillo tiene C(4,2)=6 combos: 8♠8♥, 8♠8♦, 8♠8♣, 8♥8♦, 8♥8♣, 8♦8♣." },
                     { label:"4 — como una mano suited", correct:false, explanation:"4 es el número de combos de una mano SUITED sin parear (como T9s). Las parejas tienen 6." },
-                    { label:"12 — como una mano offsuit", correct:false, explanation:"12 es el número de combos OFFSUIT sin parear (como T9o). Las parejas tienen 6, no 12." },
                     { label:"3 — la mitad de una mano suited", correct:false, explanation:"No hay relación de 'mitad' aquí. Las parejas de bolsillo siempre tienen 6 combos: C(4,2)=6." },
                   ],
                 },
@@ -1892,10 +1899,10 @@ const content = {
                   context:"Quieres recordar cuántas combinaciones totales (suited + offsuit) representa KQ.",
                   question:"¿Cuántos combos totales (suited + offsuit) tiene KQ?",
                   options:[
-                    { label:"16 — 4 suited + 12 offsuit", correct:true, explanation:"¡Correcto! KQs tiene 4 combos y KQo tiene 12 combos. 4+12=16 combos totales — el mismo total que cualquier mano sin parear." },
+                    { label:"6 — como una pareja", correct:false, explanation:"6 es el total de combos de una PAREJA de bolsillo. KQ no es una pareja — al ser dos rangos distintos, su total (suited+offsuit) es 16." },
                     { label:"12 — solo cuenta la versión offsuit", correct:false, explanation:"12 es solo KQo. Si la pregunta pide el total (suited+offsuit), hay que sumar también los 4 combos de KQs → 16." },
                     { label:"20 — 4 suited + 16 offsuit", correct:false, explanation:"Una mano offsuit nunca tiene 16 combos — siempre tiene 12 (C(4,1)·C(3,1)=12). 4 suited + 12 offsuit = 16, no 20." },
-                    { label:"6 — como una pareja", correct:false, explanation:"6 es el total de combos de una PAREJA de bolsillo. KQ no es una pareja — al ser dos rangos distintos, su total (suited+offsuit) es 16." },
+                    { label:"16 — 4 suited + 12 offsuit", correct:true, explanation:"¡Correcto! KQs tiene 4 combos y KQo tiene 12 combos. 4+12=16 combos totales — el mismo total que cualquier mano sin parear." },
                   ],
                 },
                 {
@@ -1905,9 +1912,9 @@ const content = {
                   question:"¿Cuántos combos totales tiene el rango [JJ+, AKs]?",
                   options:[
                     { label:"28 — JJ(6)+QQ(6)+KK(6)+AA(6)+AKs(4)=28", correct:true, explanation:"¡Correcto! Las 4 parejas JJ-AA suman 4×6=24 combos, y AKs aporta 4 combos más → 24+4=28 combos totales." },
+                    { label:"44 — JJ+ con AK completo y AQs", correct:false, explanation:"44 mezclaría JJ+ (24 combos) + AK completo suited y offsuit (16) + AQs (4) = 44 — eso sería el rango [JJ+, AK, AQs], no [JJ+, AKs]. Aquí solo hay 28 combos." },
                     { label:"34 — incluyendo también AKo", correct:false, explanation:"34 sería el total si el rango fuera [QQ+, AK] (con AK completo, suited+offsuit). Pero aquí el rango es [JJ+, AKs] — AK SOLO suited (4 combos), no 16. El total correcto es 28." },
                     { label:"24 — solo las 4 parejas (JJ-AA)", correct:false, explanation:"24 son solo las parejas (JJ, QQ, KK, AA = 4×6). Pero el rango también incluye AKs (4 combos más) → 24+4=28." },
-                    { label:"44 — JJ+ con AK completo y AQs", correct:false, explanation:"44 mezclaría JJ+ (24 combos) + AK completo suited y offsuit (16) + AQs (4) = 44 — eso sería el rango [JJ+, AK, AQs], no [JJ+, AKs]. Aquí solo hay 28 combos." },
                   ],
                 },
                 {
@@ -1916,10 +1923,10 @@ const content = {
                   context:"Quieres estimar cuántos combos de QQ puede tener todavía Villano en este flop.",
                   question:"El flop muestra una dama (Q♣). ¿Cuántos combos de QQ le quedan a Villano?",
                   options:[
-                    { label:"3 — una de las 4 damas ya está en el board, quedan 3 para emparejar con ella", correct:true, explanation:"¡Correcto! De los 6 combos normales de QQ, los que incluyen la Q♣ del board ya no existen para Villano. Quedan 3 combos: Q♠Q♥, Q♠Q♦, Q♥Q♦." },
-                    { label:"6 — el board no afecta los combos de mano de Villano", correct:false, explanation:"El board SÍ afecta: una carta visible en el board reduce los combos de cualquier pareja que la incluya. QQ pasa de 6 a 3 combos cuando una dama está en el board." },
-                    { label:"1 — solo queda una combinación posible", correct:false, explanation:"1 sería el resultado si DOS damas estuvieran ya visibles (board + tu mano). Con solo una dama visible en el board, quedan 3 combos, no 1." },
                     { label:"0 — es imposible que tenga QQ con una dama en el board", correct:false, explanation:"No es imposible, solo menos probable. Aún quedan 3 damas en la baraja, y 3 combos posibles de QQ para Villano (C(3,2)=3)." },
+                    { label:"6 — el board no afecta los combos de mano de Villano", correct:false, explanation:"El board SÍ afecta: una carta visible en el board reduce los combos de cualquier pareja que la incluya. QQ pasa de 6 a 3 combos cuando una dama está en el board." },
+                    { label:"3 — una de las 4 damas ya está en el board, quedan 3 para emparejar con ella", correct:true, explanation:"¡Correcto! De los 6 combos normales de QQ, los que incluyen la Q♣ del board ya no existen para Villano. Quedan 3 combos: Q♠Q♥, Q♠Q♦, Q♥Q♦." },
+                    { label:"1 — solo queda una combinación posible", correct:false, explanation:"1 sería el resultado si DOS damas estuvieran ya visibles (board + tu mano). Con solo una dama visible en el board, quedan 3 combos, no 1." },
                   ],
                 },
                 {
@@ -1928,10 +1935,10 @@ const content = {
                   context:"Hero tiene 9♣9♦ en la mano y el flop trae un tercer 9 (9♠). Entre tu mano y el board hay 3 de los 4 nueves visibles.",
                   question:"¿Cuántos combos de 99 puede tener Villano en este spot?",
                   options:[
-                    { label:"0 — solo queda un 9 en la baraja, y hacen falta dos para formar 99", correct:true, explanation:"¡Correcto! Hero tiene 2 nueves y el board muestra otro más — 3 de los 4 nueves están contabilizados. Solo queda 1 nueve en la baraja, y para formar 99 Villano necesitaría 2. C(1,2)=0 — es matemáticamente imposible que Villano tenga 99 aquí." },
                     { label:"1 — el 9 restante forma un combo por sí solo", correct:false, explanation:"Un solo 9 no puede formar un combo de 99 — hacen falta DOS cartas de ese rango. Con solo 1 nueve disponible, hay 0 combos posibles." },
-                    { label:"3 — como en un bloqueo simple (una sola carta vista)", correct:false, explanation:"3 sería el resultado si solo UNA carta de ese rango estuviera bloqueada (como en la pregunta anterior con QQ). Aquí hay 3 cartas bloqueadas (2 en tu mano + 1 en el board), dejando 0 combos." },
+                    { label:"0 — solo queda un 9 en la baraja, y hacen falta dos para formar 99", correct:true, explanation:"¡Correcto! Hero tiene 2 nueves y el board muestra otro más — 3 de los 4 nueves están contabilizados. Solo queda 1 nueve en la baraja, y para formar 99 Villano necesitaría 2. C(1,2)=0 — es matemáticamente imposible que Villano tenga 99 aquí." },
                     { label:"6 — el board y tu mano no afectan los combos de Villano", correct:false, explanation:"Sí afectan, y mucho: cada carta de un rango que está en tu mano o en el board reduce los combos disponibles de ese rango para Villano. Con 3 de 4 nueves contabilizados, a Villano no le queda ningún combo de 99." },
+                    { label:"3 — como en un bloqueo simple (una sola carta vista)", correct:false, explanation:"3 sería el resultado si solo UNA carta de ese rango estuviera bloqueada (como en la pregunta anterior con QQ). Aquí hay 3 cartas bloqueadas (2 en tu mano + 1 en el board), dejando 0 combos." },
                   ],
                 },
                 {
@@ -1940,10 +1947,10 @@ const content = {
                   context:"Tras contar combos calle por calle, concluyes que el rango de apuesta de Villano en el river tiene 3 combos de valor (que te ganan) y 9 combos de farol (que pierden contra ti).",
                   question:"¿Cuál es la equity de Hero contra ese rango de apuesta?",
                   options:[
-                    { label:"75% — Hero gana los 9 combos de farol de un total de 12", correct:true, explanation:"¡Correcto! Equity = combos que ganas / combos totales = 9/(9+3) = 9/12 = 75%." },
-                    { label:"25% — Hero gana solo los combos de valor", correct:false, explanation:"Al revés: Hero PIERDE contra los combos de valor (3) y GANA contra los de farol (9). La equity de Hero es 9/12=75%, no 3/12=25%." },
                     { label:"33% — comparando solo farol con valor (9/3 invertido)", correct:false, explanation:"33% sería 3/9, una proporción entre los dos grupos, pero no es la equity. La equity se calcula sobre el TOTAL de combos: 9/(9+3)=75%." },
                     { label:"50% — asumiendo que valor y farol pesan igual", correct:false, explanation:"Valor y farol NO pesan igual aquí: hay el triple de combos de farol (9) que de valor (3). Asumir 50/50 es exactamente la falacia de las proporciones iguales del primer capítulo." },
+                    { label:"25% — Hero gana solo los combos de valor", correct:false, explanation:"Al revés: Hero PIERDE contra los combos de valor (3) y GANA contra los de farol (9). La equity de Hero es 9/12=75%, no 3/12=25%." },
+                    { label:"75% — Hero gana los 9 combos de farol de un total de 12", correct:true, explanation:"¡Correcto! Equity = combos que ganas / combos totales = 9/(9+3) = 9/12 = 75%." },
                   ],
                 },
                 {
@@ -1952,9 +1959,9 @@ const content = {
                   context:"Continuando el ejemplo anterior (equity de Hero ≈ 75% por combos), Villano apuesta 2/3 del bote en el river.",
                   question:"Según los milestones de ER de la Lección 7, una apuesta de 2/3 de bote requiere ≈28.6% de equity. ¿Paga Hero?",
                   options:[
-                    { label:"Sí — 75% de equity supera ampliamente el 28.6% requerido", correct:true, explanation:"¡Correcto! ER≈28.6% es lo MÍNIMO que necesitas para que pagar sea +EV. Con un 75% de equity real (calculada por combos), pagar es una decisión clarísima — sobra margen de más del doble." },
-                    { label:"No — 75% es la equity de Villano, no la de Hero", correct:false, explanation:"El 75% fue calculado como 'combos que Hero gana / combos totales' — es la equity de HERO contra el rango de apuesta de Villano, no al revés." },
                     { label:"No — hace falta más del 50% para pagar siempre", correct:false, explanation:"Ese es justamente el error que estas lecciones intentan corregir: la ER casi nunca es 50%. Con una apuesta de 2/3 de bote, la ER es ≈28.6% — muy por debajo del 50%." },
+                    { label:"No — 75% es la equity de Villano, no la de Hero", correct:false, explanation:"El 75% fue calculado como 'combos que Hero gana / combos totales' — es la equity de HERO contra el rango de apuesta de Villano, no al revés." },
+                    { label:"Sí — 75% de equity supera ampliamente el 28.6% requerido", correct:true, explanation:"¡Correcto! ER≈28.6% es lo MÍNIMO que necesitas para que pagar sea +EV. Con un 75% de equity real (calculada por combos), pagar es una decisión clarísima — sobra margen de más del doble." },
                     { label:"Depende del tamaño del stack, no de la equity", correct:false, explanation:"El stack importa para las implied odds en manos sin showdown, pero aquí ya tienes tu equity total por combos (75%) y tu ER (28.6%). Comparar esos dos números es lo que determina la decisión." },
                   ],
                 },
@@ -1965,9 +1972,9 @@ const content = {
                   question:"¿Cuántos combos del rango de shove de Villano le quedan, teniendo en cuenta los bloqueadores de Hero?",
                   options:[
                     { label:"34 — sin cambios, porque 44 no comparte cartas con QQ, KK, AA ni AK", correct:true, explanation:"¡Correcto! Para que haya bloqueo, tu mano debe compartir una carta con las manos del rango de Villano. 4♣4♦ no comparte ninguna carta con Q, K o A — así que los 34 combos siguen intactos. Los bloqueadores solo existen cuando tus cartas 'chocan' con el rango." },
-                    { label:"31 — siempre se bloquean algunos combos por defecto", correct:false, explanation:"No 'siempre' — el bloqueo depende de qué cartas tengas. Si tu mano no comparte rangos con las manos del rango rival, no hay ningún bloqueo. 44 no bloquea nada aquí." },
                     { label:"24 — como con AQs", correct:false, explanation:"24 es el resultado cuando Hero tiene A♠Q♠ (bloquea QQ, AA y AK). 4♣4♦ no tiene esas cartas, así que no se aplica esa reducción — el rango sigue siendo 34." },
                     { label:"10 — el número de combos bloqueados con AQs", correct:false, explanation:"10 es cuántos combos BLOQUEA AQs (3 de QQ + 3 de AA + 4 de AK), no cuántos quedan, y desde luego no aplica a 44, que no bloquea nada." },
+                    { label:"31 — siempre se bloquean algunos combos por defecto", correct:false, explanation:"No 'siempre' — el bloqueo depende de qué cartas tengas. Si tu mano no comparte rangos con las manos del rango rival, no hay ningún bloqueo. 44 no bloquea nada aquí." },
                   ],
                 },
                 {
@@ -1976,10 +1983,10 @@ const content = {
                   context:"El rango de shove de Villano vuelve a ser [QQ+, AK] = 34 combos (QQ6+KK6+AA6+AK16). Esta vez Hero tiene A♠K♠.",
                   question:"¿Cuántos combos le quedan a Villano después de los bloqueadores de A♠K♠? (Pista: A♠K♠ bloquea combos de AA, KK y AK, pero no de QQ)",
                   options:[
-                    { label:"24 — AA 6→3, KK 6→3, AK 16→12, QQ sin cambios (6) → 3+3+12+6=24", correct:true, explanation:"¡Correcto! El A♠ de Hero bloquea 3 combos de AA (de 6 a 3) y 4 combos de AK (de 16 a 12, porque el A♠ aparece en 4 de los 16 AK). El K♠ de Hero bloquea 3 combos de KK (de 6 a 3). QQ no se ve afectada (6 intactos). Total: 3(AA)+3(KK)+12(AK)+6(QQ)=24." },
-                    { label:"21 — bloqueando 13 combos en total", correct:false, explanation:"13 combos bloqueados sería un error de cálculo. La suma correcta de combos bloqueados es 3(AA)+3(KK)+4(AK)=10, no 13. 34-10=24, no 21." },
-                    { label:"31 — solo se bloquean 3 combos", correct:false, explanation:"A♠K♠ bloquea mucho más que 3 combos: 3 de AA, 3 de KK Y 4 de AK = 10 combos bloqueados en total. 34-10=24, no 31." },
                     { label:"18 — bloqueando también combos de QQ", correct:false, explanation:"A♠K♠ no comparte ninguna carta con QQ (no tiene ninguna dama), así que los 6 combos de QQ permanecen intactos. Restar combos de QQ aquí es un error — el total correcto es 24." },
+                    { label:"24 — AA 6→3, KK 6→3, AK 16→12, QQ sin cambios (6) → 3+3+12+6=24", correct:true, explanation:"¡Correcto! El A♠ de Hero bloquea 3 combos de AA (de 6 a 3) y 4 combos de AK (de 16 a 12, porque el A♠ aparece en 4 de los 16 AK). El K♠ de Hero bloquea 3 combos de KK (de 6 a 3). QQ no se ve afectada (6 intactos). Total: 3(AA)+3(KK)+12(AK)+6(QQ)=24." },
+                    { label:"31 — solo se bloquean 3 combos", correct:false, explanation:"A♠K♠ bloquea mucho más que 3 combos: 3 de AA, 3 de KK Y 4 de AK = 10 combos bloqueados en total. 34-10=24, no 31." },
+                    { label:"21 — bloqueando 13 combos en total", correct:false, explanation:"13 combos bloqueados sería un error de cálculo. La suma correcta de combos bloqueados es 3(AA)+3(KK)+4(AK)=10, no 13. 34-10=24, no 21." },
                   ],
                 },
               ]},
@@ -2084,6 +2091,42 @@ const content = {
                     { label:"8BB es siempre el sizing correcto IP contra una apertura de 3x, sin importar la profundidad del stack", correct:false, explanation:"La tabla de sizing general asume 100BB. Con 40BB efectivos, las dinámicas cambian — sobre todo porque un 3-bet grande convierte el 4-bet de Villano en un shove, lo cual no ocurre con 100BB." },
                     { label:"6.75BB es mejor solo porque ahorra fichas a Hero si pierde la mano", correct:false, explanation:"El ahorro de fichas no es el argumento central — lo es la dinámica de RFE: un sizing más pequeño evita convertir el 4-bet de Villano en un shove con RFE enorme, y reconoce que sus implied odds ya están recortadas por el stack de 40BB." },
                     { label:"El sizing no debería cambiar nunca según la profundidad del stack, solo según el sizing de apertura de Villano", correct:false, explanation:"La profundidad del stack es exactamente uno de los factores que cambia la decisión aquí: con 100BB, 8BB sería razonable; con 40BB, ese mismo sizing crea un problema de RFE en el 4-bet de Villano que no existiría con stacks más profundos." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Tablas de Rango: 3-Bet y 4-Bet",
+            body: [
+              { type:"text", content:"Todo lo anterior en este capítulo ha sido teoría y ejemplos puntuales. Las seis tablas de esta sección son la referencia visual completa: rangos de 3-bet contra aperturas tempranas y tardías, tu rango de 4-bet, y cómo responder cuando Villano te 4-betea después de tu 3-bet. Están pensadas para cash 100BB en 6-max." },
+              { type:"callout", label:"Cómo leer estas tablas: rangos por capas", content:"Todas las tablas de esta sección usan el mismo sistema de colores 'por capas'. Cada color representa el punto en el que una mano se vuelve correcta para la acción de la tabla (3-bet, 4-bet o pagar), según lo ANCHO que sea el rango de Villano en ese spot (su rango de apertura o de 3-bet, según la tabla). Las manos de color más oscuro (granate) son correctas SIEMPRE, incluso contra el rango más estrecho posible. A medida que el rango de Villano se hace más ancho, vas añadiendo las manos de los colores más claros, en el orden de la leyenda. En resumen: identifica cómo de ancho juega Villano en ese spot, busca esa franja en la leyenda, y tu rango es la SUMA de esa franja y de todas las franjas más oscuras que ella." },
+              { type:"text", content:"Las dos primeras tablas son tu rango de 3-bet: una para cuando Villano abre desde posición temprana (UTG/MP, rangos típicamente del 8% al 24%) y otra para cuando abre desde posición tardía (CO/BTN/SB, rangos del 33% al 100%). La frontera entre 'temprana' y 'tardía' no es estricta — lo que importa es el % de apertura real de Villano (puedes estimarlo con su stat de Open Raise), no su posición nominal." },
+              { type:"rangeImage", src:threebetEarly, alt:"Rango de 3-bet vs apertura de posición temprana" },
+              { type:"callout", label:"3-Bet vs Early — leyendo la tabla", content:"Si Villano abre con un rango de 0-8% (un Nit extremo), 3-betea SOLO las manos granate: el núcleo de valor puro. Si su apertura es del 8-12%, añade también las rojas. Si abre con el rango típico de un EP estándar (12-17%, naranja), incluye esas también. Contra una apertura más amplia tipo MP (17-24%, salmón) o incluso CO (24-33%, crema), vas sumando capas hacia un rango más lineal y con más farols por bloqueadores. Regla práctica: cuanto más amplio abre Villano, menos selectivo necesitas ser con tus farols — su rango de continuación se diluye y tu fold equity aumenta." },
+              { type:"rangeImage", src:threebetLate, alt:"Rango de 3-bet vs apertura de posición tardía" },
+              { type:"callout", label:"3-Bet vs Late — leyendo la tabla", content:"Aquí la leyenda se desplaza hacia arriba porque las aperturas de CO/BTN/SB son mucho más amplias. Granate = 3-bet siempre, incluso contra un CO/BTN muy tight (33-43% de apertura). Rojo = añade estas manos contra el rango típico de BTN/SB (43-55%). Naranja, salmón y crema cubren aperturas cada vez más amplias (55-67%, 67-80%, hasta 80-100% contra un maniaco que abre casi cualquier cosa). Fíjate en cuántas manos offsuit y conectores bajos entran en juego aquí que nunca aparecerían en la tabla 'vs Early' — es consecuencia directa de que el rango de apertura de Villano es mucho más débil." },
+              { type:"text", content:"La tercera tabla cambia de eje: ya no depende del rango de APERTURA de Villano, sino de su rango de 3-BET. Indica con qué manos 4-betear (por valor, y con farols elegidos por bloqueadores) según con qué frecuencia te 3-betea Villano." },
+              { type:"rangeImage", src:fourbet, alt:"Rango de 4-bet" },
+              { type:"callout", label:"4-Bet — leyendo la tabla", content:"Granate = 4-bet siempre, incluso contra un 3-bet ultra-tight (menos del 5%, prácticamente solo QQ+/AK). A medida que el 3-bet de Villano se vuelve más amplio (6-7%, 8-9%, hasta el 10-11% típico de un BTN 3-beteando vs CO, el 12-14% de SB/BB vs BTN, o el 15-17% de BB vs SB), su rango incluye más farols y manos débiles — así que tu propio 4-bet puede ampliarse con manos de valor más fino y farols con buenos bloqueadores (AQo, ATo, A5s...). Cuanto más amplio 3-betea Villano, más fácil es que tu 4-bet de farol consiga fold equity y que tus manos de 'valor fino' (TT, AQ) estén realmente por delante de su rango de continuación." },
+              { type:"text", content:"Las últimas tres tablas cubren el otro lado de la moneda: tú abriste, Villano te 3-beteó, y ahora él te 4-betea (un '4-bet en frío' desde tu perspectiva, porque no has invertido nada más allá de tu apertura y de tu 3-bet ya sobre la mesa). ¿Con qué manos pagas y con cuáles foldeas?" },
+              { type:"rangeImage", src:vsCold4bet, alt:"Rango de continuación vs 4-bet en frío, según tu posición de apertura" },
+              { type:"callout", label:"Vs Cold 4-Bet — leyendo la tabla", content:"Esta tabla es más simple: solo dos colores. Granate = tu rango de continuación (pagar, o 5-bet con las mejores) si tu apertura original fue desde EP/MP. Salmón = añade estas manos si tu apertura fue desde CO/BTN. La lógica: tu rango de apertura desde CO/BTN es más amplio y más débil de media, así que las manos que sobreviven hasta este punto (porque ya pasaron el filtro de tu 3-bet) tienden a tener algo más de equity relativa contra el 4-bet de Villano que las mismas manos abiertas desde EP/MP — de ahí que el rango de continuación pueda ser algo más amplio." },
+              { type:"text", content:"Las dos últimas tablas afinan esa misma decisión separando de nuevo por el rango de apertura ORIGINAL de Villano (el que tú 3-beteaste), igual que en las dos primeras tablas de esta sección." },
+              { type:"rangeImage", src:call4betEarly, alt:"Rango para pagar el 4-bet, tras 3-betear vs apertura temprana" },
+              { type:"rangeImage", src:call4betLate, alt:"Rango para pagar el 4-bet, tras 3-betear vs apertura tardía" },
+              { type:"callout", label:"Pagar el 4-bet — vs Early y vs Late", content:"Misma lógica de capas que en las tablas de 3-bet: cuanto más amplio fuera el rango de apertura original de Villano (la mano contra la que 3-beteaste), más amplio puede ser tu rango para pagar su 4-bet. Si 3-beteaste contra una apertura UTG muy tight (0-8%), tu rango para pagar el 4-bet es mínimo — su 4-bet es casi siempre nutted y tus manos 'de en medio' (JJ, AQ) deben foldear. Si 3-beteaste contra una apertura amplia de BTN/SB (43-55% o más), su rango de 4-bet incluye muchos más farols y manos especulativas, así que puedes pagar con un rango notablemente más ancho — incluyendo pares medios y manos como ATs o KJs que antes serían fold automático." },
+              { type:"quiz", questions:[
+                {
+                  situation:"Repaso · Cómo leer las tablas de rango por capas",
+                  hand:"A♦ J♠",
+                  context:"Hero 3-betea desde BTN contra una apertura de CO. Hero estima que el Open Raise de este CO concreto es del 38% (muy amplio para un CO).",
+                  question:"Según el sistema de 'rangos por capas' de esta sección, ¿qué franja(s) de la tabla '3-Bet vs Late' debería usar Hero como su rango de 3-bet?",
+                  options:[
+                    { label:"Solo la franja granate (OR 33-43%), porque 38% cae dentro de ese intervalo — y al ser la franja base, no hace falta sumar nada más", correct:true, explanation:"¡Correcto! 38% está dentro de 'OR 33-43%', la franja más oscura/restrictiva de esta tabla. Como es la franja base (la primera), el rango de 3-bet de Hero es exactamente las manos granate — las franjas más claras (rojo, naranja...) están pensadas para cuando Villano abre AÚN más ancho que 43%." },
+                    { label:"Todas las franjas de la tabla, porque cualquier 3-bet vs Late incluye el rango completo", correct:false, explanation:"Eso solo sería correcto si Villano abriera el 80-100% de sus manos (la franja más clara/amplia). Con un 38% de apertura, Hero se queda en la franja granate — usar el rango completo sería 3-betear demasiado ancho para un CO de 38%." },
+                    { label:"La franja salmón (OR 67-80%), porque 38% está 'cerca' de los porcentajes intermedios de la tabla", correct:false, explanation:"El sistema no funciona por cercanía aproximada: hay que ubicar el % EXACTO de Villano dentro del intervalo correcto. 38% cae claramente dentro de 'OR 33-43%' (granate), no dentro de 'OR 67-80%'." },
+                    { label:"Ninguna, porque 38% no aparece literalmente escrito en la leyenda", correct:false, explanation:"No necesitas que el número exacto aparezca en la leyenda — debes situar el % de Villano DENTRO del intervalo correcto. 38% cae dentro de 'OR 33-43%', la primera franja (granate) de la tabla '3-Bet vs Late'." },
                   ],
                 },
               ]},
@@ -3893,10 +3936,10 @@ const content = {
                   context:"You want to remember how many specific card combinations AJs represents (A♣J♣, A♦J♦, A♥J♥, A♠J♠).",
                   question:"How many total combos does AJs have?",
                   options:[
-                    { label:"4 — one combo per suit", correct:true, explanation:"Correct! A suited hand has exactly one combo per suit: A♠J♠, A♥J♥, A♦J♦, A♣J♣ → 4 combos." },
                     { label:"6 — same as a pocket pair", correct:false, explanation:"6 is the number of combos for a PAIR (C(4,2)=6), not a suited hand. Suited hands always have 4 combos." },
-                    { label:"12 — same as an offsuit hand", correct:false, explanation:"12 is the number of OFFSUIT combos of an unpaired hand. Suited hands have far fewer: just 4." },
                     { label:"16 — adding suited and offsuit together", correct:false, explanation:"16 is the combined total (suited + offsuit) for AJ. The SUITED portion alone is only 4 of those 16." },
+                    { label:"4 — one combo per suit", correct:true, explanation:"Correct! A suited hand has exactly one combo per suit: A♠J♠, A♥J♥, A♦J♦, A♣J♣ → 4 combos." },
+                    { label:"12 — same as an offsuit hand", correct:false, explanation:"12 is the number of OFFSUIT combos of an unpaired hand. Suited hands have far fewer: just 4." },
                   ],
                 },
                 {
@@ -3905,9 +3948,9 @@ const content = {
                   context:"You want to remember how many specific card combinations 88 represents before the flop.",
                   question:"How many total combos does 88 have?",
                   options:[
+                    { label:"12 — same as an offsuit hand", correct:false, explanation:"12 is the unpaired OFFSUIT combo count (like T9o). Pairs have 6, not 12." },
                     { label:"6 — C(4,2), choosing 2 of the 4 eights in the deck", correct:true, explanation:"Correct! Any pocket pair has C(4,2)=6 combos: 8♠8♥, 8♠8♦, 8♠8♣, 8♥8♦, 8♥8♣, 8♦8♣." },
                     { label:"4 — same as a suited hand", correct:false, explanation:"4 is the combo count for an unpaired SUITED hand (like T9s). Pairs have 6." },
-                    { label:"12 — same as an offsuit hand", correct:false, explanation:"12 is the unpaired OFFSUIT combo count (like T9o). Pairs have 6, not 12." },
                     { label:"3 — half of a suited hand's count", correct:false, explanation:"There's no 'half' relationship here. Pocket pairs always have 6 combos: C(4,2)=6." },
                   ],
                 },
@@ -3917,10 +3960,10 @@ const content = {
                   context:"You want to remember how many total combinations (suited + offsuit) KQ represents.",
                   question:"How many total combos (suited + offsuit) does KQ have?",
                   options:[
-                    { label:"16 — 4 suited + 12 offsuit", correct:true, explanation:"Correct! KQs has 4 combos and KQo has 12 combos. 4+12=16 total combos — the same total as any unpaired hand." },
+                    { label:"6 — same as a pair", correct:false, explanation:"6 is the combo total for a POCKET PAIR. KQ isn't a pair — being two different ranks, its total (suited+offsuit) is 16." },
                     { label:"12 — counting only the offsuit version", correct:false, explanation:"12 is just KQo. If the question asks for the total (suited+offsuit), you also need the 4 combos of KQs → 16." },
                     { label:"20 — 4 suited + 16 offsuit", correct:false, explanation:"An offsuit hand never has 16 combos — it always has 12 (C(4,1)·C(3,1)=12). 4 suited + 12 offsuit = 16, not 20." },
-                    { label:"6 — same as a pair", correct:false, explanation:"6 is the combo total for a POCKET PAIR. KQ isn't a pair — being two different ranks, its total (suited+offsuit) is 16." },
+                    { label:"16 — 4 suited + 12 offsuit", correct:true, explanation:"Correct! KQs has 4 combos and KQo has 12 combos. 4+12=16 total combos — the same total as any unpaired hand." },
                   ],
                 },
                 {
@@ -3930,9 +3973,9 @@ const content = {
                   question:"How many total combos does the range [JJ+, AKs] have?",
                   options:[
                     { label:"28 — JJ(6)+QQ(6)+KK(6)+AA(6)+AKs(4)=28", correct:true, explanation:"Correct! The 4 pairs JJ-AA add up to 4×6=24 combos, and AKs adds 4 more → 24+4=28 total combos." },
+                    { label:"44 — JJ+ with full AK plus AQs", correct:false, explanation:"44 would mix JJ+ (24 combos) + full AK suited and offsuit (16) + AQs (4) = 44 — that would be the range [JJ+, AK, AQs], not [JJ+, AKs]. Here there are only 28 combos." },
                     { label:"34 — also including AKo", correct:false, explanation:"34 would be the total if the range were [QQ+, AK] (with AK complete, suited+offsuit). But here the range is [JJ+, AKs] — AK is suited ONLY (4 combos), not 16. The correct total is 28." },
                     { label:"24 — just the 4 pairs (JJ-AA)", correct:false, explanation:"24 is only the pairs (JJ, QQ, KK, AA = 4×6). But the range also includes AKs (4 more combos) → 24+4=28." },
-                    { label:"44 — JJ+ with full AK plus AQs", correct:false, explanation:"44 would mix JJ+ (24 combos) + full AK suited and offsuit (16) + AQs (4) = 44 — that would be the range [JJ+, AK, AQs], not [JJ+, AKs]. Here there are only 28 combos." },
                   ],
                 },
                 {
@@ -3941,10 +3984,10 @@ const content = {
                   context:"You want to estimate how many combos of QQ Villain can still have on this flop.",
                   question:"The flop shows a queen (Q♣). How many combos of QQ does Villain have left?",
                   options:[
-                    { label:"3 — one of the 4 queens is already on the board, leaving 3 to pair with it", correct:true, explanation:"Correct! Of the normal 6 combos of QQ, the ones that include the Q♣ on the board no longer exist for Villain. That leaves 3 combos: Q♠Q♥, Q♠Q♦, Q♥Q♦." },
-                    { label:"6 — the board doesn't affect Villain's hand combos", correct:false, explanation:"The board DOES affect it: a visible board card reduces the combos of any pair that includes it. QQ goes from 6 to 3 combos when one queen is on the board." },
-                    { label:"1 — only one combination remains possible", correct:false, explanation:"1 would be the result if TWO queens were already visible (board + your hand). With only one queen visible on the board, 3 combos remain, not 1." },
                     { label:"0 — it's impossible for Villain to have QQ with a queen on the board", correct:false, explanation:"It's not impossible, just less likely. There are still 3 queens left in the deck, and 3 possible combos of QQ for Villain (C(3,2)=3)." },
+                    { label:"6 — the board doesn't affect Villain's hand combos", correct:false, explanation:"The board DOES affect it: a visible board card reduces the combos of any pair that includes it. QQ goes from 6 to 3 combos when one queen is on the board." },
+                    { label:"3 — one of the 4 queens is already on the board, leaving 3 to pair with it", correct:true, explanation:"Correct! Of the normal 6 combos of QQ, the ones that include the Q♣ on the board no longer exist for Villain. That leaves 3 combos: Q♠Q♥, Q♠Q♦, Q♥Q♦." },
+                    { label:"1 — only one combination remains possible", correct:false, explanation:"1 would be the result if TWO queens were already visible (board + your hand). With only one queen visible on the board, 3 combos remain, not 1." },
                   ],
                 },
                 {
@@ -3953,10 +3996,10 @@ const content = {
                   context:"Hero holds 9♣9♦ and the flop brings a third 9 (9♠). Between your hand and the board, 3 of the 4 nines are visible.",
                   question:"How many combos of 99 can Villain have in this spot?",
                   options:[
-                    { label:"0 — only one 9 remains in the deck, and two are needed to make 99", correct:true, explanation:"Correct! Hero has 2 nines and the board shows another one — 3 of the 4 nines are accounted for. Only 1 nine remains in the deck, and Villain would need 2 to make 99. C(1,2)=0 — it's mathematically impossible for Villain to have 99 here." },
                     { label:"1 — the remaining 9 forms a combo by itself", correct:false, explanation:"A single 9 can't form a combo of 99 — that requires TWO cards of that rank. With only 1 nine available, there are 0 possible combos." },
-                    { label:"3 — like a simple block (one card seen)", correct:false, explanation:"3 would be the result if only ONE card of that rank were blocked (as in the previous QQ question). Here 3 cards are blocked (2 in your hand + 1 on the board), leaving 0 combos." },
+                    { label:"0 — only one 9 remains in the deck, and two are needed to make 99", correct:true, explanation:"Correct! Hero has 2 nines and the board shows another one — 3 of the 4 nines are accounted for. Only 1 nine remains in the deck, and Villain would need 2 to make 99. C(1,2)=0 — it's mathematically impossible for Villain to have 99 here." },
                     { label:"6 — the board and your hand don't affect Villain's combos", correct:false, explanation:"They absolutely do: every card of a rank that's in your hand or on the board reduces the combos available for Villain of that rank. With 3 of 4 nines accounted for, Villain has zero combos of 99 left." },
+                    { label:"3 — like a simple block (one card seen)", correct:false, explanation:"3 would be the result if only ONE card of that rank were blocked (as in the previous QQ question). Here 3 cards are blocked (2 in your hand + 1 on the board), leaving 0 combos." },
                   ],
                 },
                 {
@@ -3965,10 +4008,10 @@ const content = {
                   context:"After counting combos street by street, you conclude that Villain's river betting range has 3 value combos (that beat you) and 9 bluff combos (that lose to you).",
                   question:"What is Hero's equity against that betting range?",
                   options:[
-                    { label:"75% — Hero beats the 9 bluff combos out of a total of 12", correct:true, explanation:"Correct! Equity = combos you beat / total combos = 9/(9+3) = 9/12 = 75%." },
-                    { label:"25% — Hero only wins against the value combos", correct:false, explanation:"It's the opposite: Hero LOSES to the value combos (3) and WINS against the bluff combos (9). Hero's equity is 9/12=75%, not 3/12=25%." },
                     { label:"33% — comparing bluffs to value only (9/3 inverted)", correct:false, explanation:"33% would be 3/9, a ratio between the two groups, but that's not equity. Equity is calculated over the TOTAL combos: 9/(9+3)=75%." },
                     { label:"50% — assuming value and bluffs carry equal weight", correct:false, explanation:"Value and bluffs do NOT carry equal weight here: there are three times as many bluff combos (9) as value combos (3). Assuming 50/50 is exactly the equal-proportions fallacy from the first chapter." },
+                    { label:"25% — Hero only wins against the value combos", correct:false, explanation:"It's the opposite: Hero LOSES to the value combos (3) and WINS against the bluff combos (9). Hero's equity is 9/12=75%, not 3/12=25%." },
+                    { label:"75% — Hero beats the 9 bluff combos out of a total of 12", correct:true, explanation:"Correct! Equity = combos you beat / total combos = 9/(9+3) = 9/12 = 75%." },
                   ],
                 },
                 {
@@ -3977,9 +4020,9 @@ const content = {
                   context:"Continuing the previous example (Hero's equity ≈ 75% by combo count), Villain bets 2/3 pot on the river.",
                   question:"Per Lesson 7's RE milestones, a 2/3 pot bet requires ≈28.6% equity. Does Hero call?",
                   options:[
-                    { label:"Yes — 75% equity comfortably exceeds the 28.6% required", correct:true, explanation:"Correct! ER≈28.6% is the MINIMUM equity needed for a call to be +EV. With a real 75% equity (calculated by combos), calling is a clear decision — there's more than double the margin needed." },
-                    { label:"No — 75% is Villain's equity, not Hero's", correct:false, explanation:"The 75% was calculated as 'combos Hero beats / total combos' — it's HERO's equity against Villain's betting range, not the other way around." },
                     { label:"No — you always need more than 50% to call", correct:false, explanation:"That's exactly the misconception these lessons aim to correct: RE is almost never 50%. For a 2/3 pot bet, RE is ≈28.6% — well below 50%." },
+                    { label:"No — 75% is Villain's equity, not Hero's", correct:false, explanation:"The 75% was calculated as 'combos Hero beats / total combos' — it's HERO's equity against Villain's betting range, not the other way around." },
+                    { label:"Yes — 75% equity comfortably exceeds the 28.6% required", correct:true, explanation:"Correct! ER≈28.6% is the MINIMUM equity needed for a call to be +EV. With a real 75% equity (calculated by combos), calling is a clear decision — there's more than double the margin needed." },
                     { label:"It depends on stack size, not equity", correct:false, explanation:"Stack size matters for implied odds on hands without a showdown, but here you already have your total combo equity (75%) and your RE (28.6%). Comparing those two numbers is what determines the decision." },
                   ],
                 },
@@ -3990,9 +4033,9 @@ const content = {
                   question:"How many combos of Villain's shoving range remain, accounting for Hero's blockers?",
                   options:[
                     { label:"34 — unchanged, because 44 shares no cards with QQ, KK, AA, or AK", correct:true, explanation:"Correct! Blocking requires your hand to share a card with the hands in Villain's range. 4♣4♦ shares no card with any Q, K, or A — so all 34 combos remain intact. Blockers only exist when your cards 'collide' with the range." },
-                    { label:"31 — some combos are always blocked by default", correct:false, explanation:"Not 'always' — blocking depends entirely on which cards you hold. If your hand shares no ranks with the villain's range, there's no blocking at all. 44 blocks nothing here." },
                     { label:"24 — same as with AQs", correct:false, explanation:"24 is the result when Hero holds A♠Q♠ (blocking QQ, AA, and AK). 4♣4♦ doesn't have those cards, so that reduction doesn't apply — the range stays at 34." },
                     { label:"10 — the number of combos AQs blocks", correct:false, explanation:"10 is how many combos AQs BLOCKS (3 of QQ + 3 of AA + 4 of AK), not how many remain, and it certainly doesn't apply to 44, which blocks nothing." },
+                    { label:"31 — some combos are always blocked by default", correct:false, explanation:"Not 'always' — blocking depends entirely on which cards you hold. If your hand shares no ranks with the villain's range, there's no blocking at all. 44 blocks nothing here." },
                   ],
                 },
                 {
@@ -4001,10 +4044,10 @@ const content = {
                   context:"Villain's shoving range is again [QQ+, AK] = 34 combos (QQ6+KK6+AA6+AK16). This time Hero holds A♠K♠.",
                   question:"How many combos remain for Villain after A♠K♠'s blockers? (Hint: A♠K♠ blocks combos of AA, KK, and AK, but not QQ)",
                   options:[
-                    { label:"24 — AA 6→3, KK 6→3, AK 16→12, QQ unchanged (6) → 3+3+12+6=24", correct:true, explanation:"Correct! Hero's A♠ blocks 3 combos of AA (from 6 to 3) and 4 combos of AK (from 16 to 12, since A♠ appears in 4 of the 16 AK combos). Hero's K♠ blocks 3 combos of KK (from 6 to 3). QQ is unaffected (6 intact). Total: 3(AA)+3(KK)+12(AK)+6(QQ)=24." },
-                    { label:"21 — blocking 13 combos in total", correct:false, explanation:"13 blocked combos would be a math error. The correct sum of blocked combos is 3(AA)+3(KK)+4(AK)=10, not 13. 34-10=24, not 21." },
-                    { label:"31 — only 3 combos are blocked", correct:false, explanation:"A♠K♠ blocks far more than 3 combos: 3 from AA, 3 from KK, AND 4 from AK = 10 combos blocked in total. 34-10=24, not 31." },
                     { label:"18 — also blocking combos of QQ", correct:false, explanation:"A♠K♠ shares no card with QQ (it has no queen), so QQ's 6 combos remain intact. Subtracting QQ combos here is an error — the correct total is 24." },
+                    { label:"24 — AA 6→3, KK 6→3, AK 16→12, QQ unchanged (6) → 3+3+12+6=24", correct:true, explanation:"Correct! Hero's A♠ blocks 3 combos of AA (from 6 to 3) and 4 combos of AK (from 16 to 12, since A♠ appears in 4 of the 16 AK combos). Hero's K♠ blocks 3 combos of KK (from 6 to 3). QQ is unaffected (6 intact). Total: 3(AA)+3(KK)+12(AK)+6(QQ)=24." },
+                    { label:"31 — only 3 combos are blocked", correct:false, explanation:"A♠K♠ blocks far more than 3 combos: 3 from AA, 3 from KK, AND 4 from AK = 10 combos blocked in total. 34-10=24, not 31." },
+                    { label:"21 — blocking 13 combos in total", correct:false, explanation:"13 blocked combos would be a math error. The correct sum of blocked combos is 3(AA)+3(KK)+4(AK)=10, not 13. 34-10=24, not 21." },
                   ],
                 },
               ]},
@@ -4109,6 +4152,42 @@ const content = {
                     { label:"8BB is always the correct IP sizing against a 3x open, regardless of stack depth", correct:false, explanation:"The general sizing table assumes 100BB. With 40BB effective, the dynamics change — mainly because a large 3-bet turns Villain's 4-bet into a shove, which doesn't happen at 100BB." },
                     { label:"6.75BB is better only because it saves Hero chips if he loses the hand", correct:false, explanation:"Saving chips isn't the central argument — it's the RFE dynamic: a smaller sizing avoids turning Villain's 4-bet into a shove with huge RFE, and recognizes that his implied odds are already cut by the 40BB stack." },
                     { label:"Sizing should never change based on stack depth, only on Villain's opening size", correct:false, explanation:"Stack depth is exactly one of the factors changing the decision here: at 100BB, 8BB would be reasonable; at 40BB, that same sizing creates an RFE problem on Villain's 4-bet that wouldn't exist at deeper stacks." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Range Charts: 3-Betting and 4-Betting",
+            body: [
+              { type:"text", content:"Everything so far in this chapter has been theory and specific examples. The six charts in this section are the complete visual reference: 3-bet ranges against early and late position opens, your 4-bet range, and how to respond when Villain 4-bets you after your 3-bet. They're designed for 100BB 6-max cash games." },
+              { type:"callout", label:"How to read these charts: layered ranges", content:"Every chart in this section uses the same 'layered' color system. Each color represents the point at which a hand becomes correct for that chart's action (3-betting, 4-betting, or calling), based on how WIDE Villain's range is in that spot (his opening range or his 3-betting range, depending on the chart). The darkest-colored hands (maroon) are correct ALWAYS, even against the tightest possible range. As Villain's range gets wider, you add the lighter-colored hands, in the order shown by the legend. In short: figure out how wide Villain plays in that spot, find that band in the legend, and your range is the SUM of that band plus every darker band above it." },
+              { type:"text", content:"The first two charts are your 3-bet range: one for when Villain opens from early position (UTG/MP, typically 8-24% ranges) and one for when he opens from late position (CO/BTN/SB, 33-100% ranges). The line between 'early' and 'late' isn't strict — what matters is Villain's actual opening % in that spot (you can estimate it from his Open Raise stat), not his nominal position." },
+              { type:"rangeImage", src:threebetEarly, alt:"3-bet range vs an early-position open" },
+              { type:"callout", label:"3-Bet vs Early — reading the chart", content:"If Villain opens an 0-8% range (an extreme Nit), 3-bet ONLY the maroon hands — the pure value core. If his open is 8-12%, add the red hands too. If he opens a standard EP-sized range (12-17%, orange), include those as well. Against a wider MP-sized open (17-24%, salmon) or even a CO-sized one (24-33%, cream), you keep stacking layers toward a more linear range with more blocker-based bluffs. Practical rule: the wider Villain opens, the less selective you need to be with your bluffs — his continuing range gets diluted and your fold equity goes up." },
+              { type:"rangeImage", src:threebetLate, alt:"3-bet range vs a late-position open" },
+              { type:"callout", label:"3-Bet vs Late — reading the chart", content:"Here the legend shifts upward because CO/BTN/SB opens are much wider. Maroon = 3-bet always, even against a very tight CO/BTN (33-43% open). Red = add these hands against a typical BTN/SB range (43-55%). Orange, salmon and cream cover progressively wider opens (55-67%, 67-80%, up to 80-100% against a maniac who opens almost anything). Notice how many offsuit hands and low connectors come into play here that would never appear on the 'vs Early' chart — a direct consequence of Villain's opening range being so much weaker." },
+              { type:"text", content:"The third chart switches axes: it no longer depends on Villain's OPENING range, but on his 3-BETTING range. It tells you which hands to 4-bet (for value, plus blocker-based bluffs) based on how often Villain 3-bets you." },
+              { type:"rangeImage", src:fourbet, alt:"4-bet range" },
+              { type:"callout", label:"4-Bet — reading the chart", content:"Maroon = 4-bet always, even against an ultra-tight 3-bet (under 5%, essentially just QQ+/AK). As Villain's 3-bet gets wider (6-7%, 8-9%, up to the 10-11% typical of a BTN 3-betting vs CO, the 12-14% of SB/BB vs BTN, or the 15-17% of BB vs SB), his range includes more bluffs and weaker hands — so your own 4-bet range can expand with thinner value hands and blocker-based bluffs (AQo, ATo, A5s...). The wider Villain 3-bets, the easier it is for your bluff 4-bets to get fold equity, and the more your 'thin value' hands (TT, AQ) are actually ahead of his continuing range." },
+              { type:"text", content:"The last three charts cover the flip side: you opened, Villain 3-bet you, and now he 4-bets you (a 'cold 4-bet' from your perspective, since you haven't put in any money beyond your open and your 3-bet is already on the table). Which hands call, and which fold?" },
+              { type:"rangeImage", src:vsCold4bet, alt:"Continuing range vs a cold 4-bet, based on your opening position" },
+              { type:"callout", label:"Vs Cold 4-Bet — reading the chart", content:"This chart is simpler: just two colors. Maroon = your continuing range (call, or 5-bet with the best of it) if your original open was from EP/MP. Salmon = add these hands if your open was from CO/BTN. The logic: your CO/BTN opening range is wider and weaker on average, so the hands that survive to this point (having already passed the filter of your 3-bet) tend to have somewhat more relative equity against Villain's 4-bet than the same hands opened from EP/MP — hence the continuing range can be a bit wider." },
+              { type:"text", content:"The final two charts refine that same decision by splitting again by Villain's ORIGINAL opening range (the one you 3-bet against), just like the first two charts in this section." },
+              { type:"rangeImage", src:call4betEarly, alt:"Range for calling the 4-bet, after 3-betting vs an early-position open" },
+              { type:"rangeImage", src:call4betLate, alt:"Range for calling the 4-bet, after 3-betting vs a late-position open" },
+              { type:"callout", label:"Calling the 4-bet — vs Early and vs Late", content:"Same layering logic as the 3-bet charts: the wider Villain's original opening range was (the hand you 3-bet against), the wider your range for calling his 4-bet can be. If you 3-bet against a very tight UTG open (0-8%), your calling range is minimal — his 4-bet is almost always nutted and your 'middle' hands (JJ, AQ) should fold. If you 3-bet against a wide BTN/SB open (43-55% or more), his 4-bet range includes far more bluffs and speculative hands, so you can call with a noticeably wider range — including medium pairs and hands like ATs or KJs that would otherwise be an automatic fold." },
+              { type:"quiz", questions:[
+                {
+                  situation:"Review · How to read the layered range charts",
+                  hand:"A♦ J♠",
+                  context:"Hero 3-bets from BTN against a CO open. Hero estimates this specific CO's Open Raise is 38% (very wide for a CO).",
+                  question:"Based on the 'layered range' system from this section, which band(s) of the '3-Bet vs Late' chart should Hero use as his 3-bet range?",
+                  options:[
+                    { label:"Only the maroon band (OR 33-43%), because 38% falls inside that interval — and since it's the base band, nothing else needs to be added", correct:true, explanation:"Correct! 38% falls inside 'OR 33-43%', the darkest/most restrictive band on this chart. Since it's the base (first) band, Hero's 3-bet range is exactly the maroon hands — the lighter bands (red, orange...) are meant for when Villain opens even wider than 43%." },
+                    { label:"Every band on the chart, because any 3-bet vs Late includes the full range", correct:false, explanation:"That would only be correct if Villain opened 80-100% of hands (the lightest/widest band). With a 38% open, Hero stays in the maroon band — using the full range would be 3-betting way too wide for a 38% CO." },
+                    { label:"The salmon band (OR 67-80%), because 38% is 'close' to the middle percentages on the chart", correct:false, explanation:"The system doesn't work by rough proximity — you need to place Villain's EXACT % inside the correct interval. 38% falls clearly inside 'OR 33-43%' (maroon), not inside 'OR 67-80%'." },
+                    { label:"None of them, because 38% doesn't literally appear written in the legend", correct:false, explanation:"You don't need the exact number to appear in the legend — you need to place Villain's % INSIDE the correct interval. 38% falls inside 'OR 33-43%', the first (maroon) band of the '3-Bet vs Late' chart." },
                   ],
                 },
               ]},
@@ -5544,6 +5623,33 @@ function buildOptions(sit, p, lang) {
 
   const correctExp = lang === "es" ? sit.es : sit.en;
 
+  if (sit.type === "3bet") {
+    const raiseLabel = "3-Bet";
+    const callLabel = lang === "es" ? "Pagar (call)" : "Call";
+    if (sit.open) {
+      return [
+        { id:"correct", label: raiseLabel, correct: true,  explanation: correctExp },
+        { id:"call",    label: callLabel,  correct: false, explanation: lang==="es" ? "Pagar aquí cede demasiado valor o te deja en una situación incómoda fuera de posición — el 3-bet es superior." : "Calling here gives up too much value or leaves you in an awkward out-of-position spot — 3-betting is better." },
+        { id:"fold",    label: p.optFold,  correct: false, explanation: lang==="es" ? "Esta mano tiene suficiente valor (o bloqueadores) para 3-betear — foldear es demasiado pasivo." : "This hand has enough value (or blockers) to 3-bet — folding is too passive." },
+        { id:"limp",    label: p.optLimp,  correct: false, explanation: p.wrongLimpExp },
+      ].sort(() => Math.random() - 0.5);
+    } else if (sit.size === "call") {
+      return [
+        { id:"correct", label: callLabel,  correct: true,  explanation: correctExp },
+        { id:"raise",   label: raiseLabel, correct: false, explanation: lang==="es" ? "Un 3-bet aquí es demasiado fino o te expone a un 4-bet en mala posición — pagar es la línea más sólida." : "A 3-bet here is too thin or exposes you to a 4-bet in a bad spot — calling is the soundest line." },
+        { id:"fold",    label: p.optFold,  correct: false, explanation: lang==="es" ? "Esta mano sí es lo bastante buena para pagar aquí." : "This hand is good enough to call here." },
+        { id:"limp",    label: p.optLimp,  correct: false, explanation: p.wrongLimpExp },
+      ].sort(() => Math.random() - 0.5);
+    } else {
+      return [
+        { id:"correct", label: p.optFold,  correct: true,  explanation: correctExp },
+        { id:"raise",   label: raiseLabel, correct: false, explanation: lang==="es" ? "Esta mano no tiene el valor ni los bloqueadores necesarios para un 3-bet rentable aquí." : "This hand doesn't have the value or blockers needed for a profitable 3-bet here." },
+        { id:"call",    label: callLabel,  correct: false, explanation: lang==="es" ? "Pagar aquí te mete en un spot -EV jugando fuera de posición o multiway con una mano débil." : "Calling here puts you in a -EV spot playing out of position or multiway with a weak hand." },
+        { id:"limp",    label: p.optLimp,  correct: false, explanation: p.wrongLimpExp },
+      ].sort(() => Math.random() - 0.5);
+    }
+  }
+
   if (sit.type === "cbet") {
     const correctExp = lang === "es" ? sit.es : sit.en;
     if (sit.open) {
@@ -5677,6 +5783,13 @@ function buildOptions(sit, p, lang) {
 // Cada opción es { open, size, label }. Usado por EditProposalModal para que el usuario
 // elija cuál cree que debería ser la jugada correcta.
 function correctActionOptions(sit, p, lang) {
+  if (sit.type === "3bet") {
+    return [
+      { open: true,  size: "value", label: "3-Bet" },
+      { open: false, size: "call",  label: p.actionCall },
+      { open: false, size: null,    label: p.optFold },
+    ];
+  }
   if (sit.type === "cbet" || sit.type === "vbet") {
     const opts = [
       { open: false, size: null, label: p.optCheck },
@@ -6037,8 +6150,9 @@ function StatsPage({ t, lang, xpData, completed, totalLessons, user }) {
     vbet:   { es:"Value Bet",      en:"Value Bet",      icon:"♦" },
     call:   { es:"Pagar apert.",   en:"Calling Opens",  icon:"⟵" },
     facing: { es:"Facing Bets",    en:"Facing Bets",    icon:"⚡" },
+    "3bet": { es:"3-Bet / Squeeze", en:"3-Bet / Squeeze", icon:"⚔️" },
   };
-  const typeOrder = ["open","iso","cbet","vbet","call","facing"];
+  const typeOrder = ["open","iso","cbet","vbet","call","facing","3bet"];
 
   const StatCard = ({ label, value, sub, color="#c9a84c" }) => (
     <div style={{ background:"#0d0f1a", border:"1px solid #1e2235", borderRadius:12, padding:"14px 18px" }}>
@@ -6439,6 +6553,13 @@ const FACING_SITUATIONS = [
    en:"FOLD. AQ (ace-high, no pair) on J-9-4-2-7 — you don't even have a pair. ER = 60/(60+139) = 30%. You'd need villain bluffing ≥30% across a preflop 3-bet + 2 barrels + river overbet. A reg who 3-bets preflop and fires 3 streets with increasing sizing on a dry, disconnected board has a polarized range: sets/overpairs (JJ, 99, 44, QQ+), AJ/A9 (top pair). With no pair, AQ beats nothing in that range except pure bluffs, which a reg like this rarely runs with 3 barrels. Fold — this is a clear river fold, not a thin call."},
 ];
 
+// ── 3-BET / SQUEEZE SITUATIONS ──────────────────────────────────────────────
+// type:"3bet" — open=true → 3-bet correcto; open=false,size:"call" → pagar correcto;
+// open=false (sin size "call") → foldear correcto. Ver situations/threebet.js para
+// las situaciones extra (36 entradas).
+const THREEBET_SITUATIONS = [
+];
+
 const CATEGORY_DEFS = [
   { key: "open",   icon: "♠", es: "Apertura (OR)", en: "Opening (OR)" },
   { key: "iso",    icon: "♣", es: "ROL / ISO",      en: "ROL / ISO" },
@@ -6446,6 +6567,7 @@ const CATEGORY_DEFS = [
   { key: "vbet",   icon: "♦", es: "Value Bet",      en: "Value Bet" },
   { key: "call",   icon: "⟵", es: "Pagar apert.",   en: "Calling Opens" },
   { key: "facing", icon: "⚡", es: "Facing Bets",    en: "Facing Bets" },
+  { key: "3bet",   icon: "⚔️", es: "3-Bet / Squeeze", en: "3-Bet / Squeeze" },
 ];
 
 // Combina las situaciones base + extra + manos de comunidad aprobadas, por categoría.
@@ -6460,6 +6582,7 @@ function buildCategoryPools(communityHands) {
     vbet:   [...VBET_SITUATIONS,  ...VBET_SITUATIONS_EXTRA, ...byCommunity("vbet")],
     call:   [...CALL_SITUATIONS,  ...CALL_SITUATIONS_EXTRA, ...byCommunity("call")],
     facing: [...FACING_SITUATIONS,...FACING_SITUATIONS_EXTRA, ...byCommunity("facing")],
+    "3bet": [...THREEBET_SITUATIONS,...THREEBET_SITUATIONS_EXTRA, ...byCommunity("3bet")],
   };
 }
 
@@ -6504,7 +6627,7 @@ function SituationCard({ sit, lang, p }) {
           ))}
         </div>
       ) : null}
-      {sit.type === "call" && sit.pos && sit.callPos && (
+      {(sit.type === "call" || sit.type === "3bet") && sit.pos && sit.callPos && (
         <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 14, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
           <span style={{ color: posColors[sit.pos] || "#c9a84c", fontWeight: 800 }}>{sit.pos}</span>
           <span>{lang === "es" ? "vs apertura de" : "vs open from"}</span>
@@ -6793,11 +6916,32 @@ function EditProposalModal({ onClose, sit, lang, user, p }) {
 // ─── PROPOSE NEW HAND MODAL ───────────────────────────────────────────────────
 
 const POSITIONS = ["UTG", "MP", "CO", "BTN", "SB", "BB"];
+const SUITS = ["♠", "♥", "♦", "♣"];
+
+// Selector de rango + palo para una carta (usado en ProposeSituationModal).
+function CardSelect({ rank, suit, onRankChange, onSuitChange, style }) {
+  const suitColors = { "♠": "#e8e8e8", "♣": "#e8e8e8", "♥": "#ef4444", "♦": "#3b82f6" };
+  const selStyle = { background: "#0a0c14", border: "1px solid #1e2235", borderRadius: 8, padding: "8px 6px", color: "#e8e8e8", fontSize: 13, fontFamily: "inherit" };
+  return (
+    <div style={{ display: "flex", gap: 4, ...style }}>
+      <select value={rank} onChange={e => onRankChange(e.target.value)} style={{ ...selStyle, flex: 1 }}>
+        {RANKS.map(r => <option key={r} value={r}>{r}</option>)}
+      </select>
+      <select value={suit} onChange={e => onSuitChange(e.target.value)} style={{ ...selStyle, flex: 1, color: suitColors[suit], fontWeight: 700 }}>
+        {SUITS.map(s => <option key={s} value={s} style={{ color: suitColors[s] }}>{s}</option>)}
+      </select>
+    </div>
+  );
+}
 
 function ProposeSituationModal({ onClose, lang, user, p, defaultCategory }) {
   const [category, setCategory] = useState(defaultCategory || "open");
   const [pos, setPos] = useState("BTN");
-  const [hand, setHand] = useState("");
+  const [card1Rank, setCard1Rank] = useState("A");
+  const [card1Suit, setCard1Suit] = useState("♠");
+  const [card2Rank, setCard2Rank] = useState("K");
+  const [card2Suit, setCard2Suit] = useState("♦");
+  const hand = `${card1Rank}${card1Suit}${card2Rank}${card2Suit}`;
   const [board, setBoard] = useState("");
   const [callPos, setCallPos] = useState("BB");
   const [players, setPlayers] = useState(1); // 1 = HU, 2 = 3-way
@@ -6928,7 +7072,10 @@ function ProposeSituationModal({ onClose, lang, user, p, defaultCategory }) {
             </select>
 
             <div style={labelStyle}>{p.proposeHandLabel}</div>
-            <input type="text" value={hand} onChange={e => setHand(e.target.value)} placeholder="A♠ K♦" style={inputStyle} />
+            <div style={{ display: "flex", gap: 10 }}>
+              <CardSelect rank={card1Rank} suit={card1Suit} onRankChange={setCard1Rank} onSuitChange={setCard1Suit} style={{ flex: 1 }} />
+              <CardSelect rank={card2Rank} suit={card2Suit} onRankChange={setCard2Rank} onSuitChange={setCard2Suit} style={{ flex: 1 }} />
+            </div>
 
             {(category === "cbet" || category === "vbet" || category === "facing") && (
               <>
@@ -7091,6 +7238,7 @@ function PracticePage({ t, lang, onSessionComplete, user, overrides, communityHa
         ...pick(CATEGORIES.vbet,   2),
         ...pick(CATEGORIES.call,   2),
         ...pick(CATEGORIES.facing, 2),
+        ...pick(CATEGORIES["3bet"], 2),
       ];
     } else {
       // Con filtro: 10 manos repartidas entre las categorías elegidas
@@ -7187,8 +7335,9 @@ function PracticePage({ t, lang, onSessionComplete, user, overrides, communityHa
       vbet: { es:"Value Bet",     en:"Value Bet"    },
       call: { es:"Pagar apert.", en:"Calling Opens" },
       facing: { es:"Facing Bets", en:"Facing Bets" },
+      "3bet": { es:"3-Bet / Squeeze", en:"3-Bet / Squeeze" },
     };
-    const typeOrder = ["open","iso","cbet","vbet","call","facing"];
+    const typeOrder = ["open","iso","cbet","vbet","call","facing","3bet"];
     const sessionSize = session.length;
     const scoreColor = score>=sessionSize*0.8?"#10b981":score>=sessionSize*0.5?"#c9a84c":"#f97316";
     const xp = xpEarned || calcXP(score, sessionSize);
@@ -7387,6 +7536,10 @@ function SurvivalPage({ t, lang, user, overrides, communityHands, xpData, onSurv
   const [leaderboardLoading, setLeaderboardLoading] = useState(true);
   const [badges, setBadges] = useState([]);
 
+  // Lleva el registro de qué situaciones ya se han mostrado en esta partida,
+  // para evitar repetir la misma pregunta dos veces antes de agotar el pool.
+  const usedRef = useRef(new Set());
+
   const month = currentMonthStr();
   const today = todayStr();
   const alreadyPlayedToday = xpData?.survivalLastPlayed === today;
@@ -7398,11 +7551,22 @@ function SurvivalPage({ t, lang, user, overrides, communityHands, xpData, onSurv
 
   const pickQuestion = () => {
     const CATEGORIES = buildCategoryPools(communityHands);
-    const keys = Object.keys(CATEGORIES).filter(k => CATEGORIES[k].length > 0);
-    const key = keys[Math.floor(Math.random() * keys.length)];
-    const pool = CATEGORIES[key];
-    const raw = pool[Math.floor(Math.random() * pool.length)];
-    const applied = applyOverride(raw, overrides);
+    const all = [];
+    Object.keys(CATEGORIES).forEach(key => {
+      CATEGORIES[key].forEach(raw => {
+        all.push({ raw, uid: `${raw.type || key}_${raw.id}` });
+      });
+    });
+    if (all.length === 0) return;
+    let available = all.filter(e => !usedRef.current.has(e.uid));
+    if (available.length === 0) {
+      // Se agotó el pool: reiniciar y permitir que vuelvan a salir.
+      usedRef.current = new Set();
+      available = all;
+    }
+    const chosen = available[Math.floor(Math.random() * available.length)];
+    usedRef.current.add(chosen.uid);
+    const applied = applyOverride(chosen.raw, overrides);
     setSit(applied);
     setOpts(buildOptions(applied, p, lang));
     setPicked(null);
@@ -7414,6 +7578,7 @@ function SurvivalPage({ t, lang, user, overrides, communityHands, xpData, onSurv
     setIsPersonalBest(false);
     setIsMonthlyBest(false);
     setPhase("playing");
+    usedRef.current = new Set();
     pickQuestion();
   };
 
@@ -8437,7 +8602,6 @@ function CommunitySituationCard({ situation, lang, user, p }) {
           disabled={!user || voting}
           style={{
             background: myVote === -1 ? "#ef444422" : "transparent",
-            border: `1px solid ${myVote === -1 ? "#ef4444" : "#1e2235"}`,
             borderRadius: 8, padding: "6px 12px", color: "#ef4444", cursor: user ? "pointer" : "default", fontSize: 12, fontWeight: 600,
           }}
         >
