@@ -4,6 +4,13 @@
 //               open=false, size!=="call" → foldear es correcto.
 // ctx: una de las claves threebet_* definidas en CTX (grinders-manual.jsx).
 // IDs: 701-736 (rango reservado para situaciones de 3-bet/squeeze).
+// IDs 737-741: situaciones movidas desde CALL_SITUATIONS (antes "pagar", ahora "3-bet").
+// IDs 742-747: situaciones de 4-BET — facing4bet:true.
+//   facing4bet:true cambia el significado de open/size:
+//     open=true              → 5-bet all-in es correcto.
+//     open=false, size:"call" → pagar el 4-bet es correcto.
+//     open=false (sin size)   → foldear ante el 4-bet es correcto.
+//   ctx: fourbet_value o fourbet_bluff (definidas en CTX, grinders-manual.jsx).
 export const THREEBET_SITUATIONS_EXTRA = [
   // ── THREEBET_VALUE (7) ──────────────────────────────────────────────────
   {id:701,type:"3bet",hand:"A♠A♥",pos:"BB",callPos:"CO",open:true,size:"oop",ctx:"threebet_value",
@@ -124,4 +131,41 @@ export const THREEBET_SITUATIONS_EXTRA = [
   {id:736,type:"3bet",hand:"8♠7♠",pos:"SB",callPos:"MP",open:false,ctx:"threebet_squeeze_6",
    es:"87s en la SB frente a la apertura de MP + call del BTN: no tiene el valor para un squeeze por valor ni los bloqueadores ideales, y pagar fuera de posición multiway con 87s es -EV. Fold.",
    en:"87s in the SB against MP's open + BTN's call: it doesn't have the value for a value squeeze or ideal blockers, and calling out of position multiway with 87s is -EV. Fold."},
+
+  // ── MOVIDAS DESDE CALL_SITUATIONS (antes "pagar", ahora "3-bet") (5) ─────
+  {id:737,type:"3bet",hand:"A♠K♠",pos:"CO",callPos:"MP",open:true,size:"ip",ctx:"threebet_value",
+   es:"AKs vs MP desde CO. Ahora que ya conoces el 3-bet: AKs es una mano de valor clara — 3-betear aísla contra una sola mano, construye el bote con la mejor combinación posible y evita ver flops multiway sin definir tu rango. 3-bet en vez de simplemente pagar.",
+   en:"AKs vs MP from CO. Now that you know about 3-betting: AKs is a clear value hand — 3-betting isolates against a single hand, builds the pot with the best possible combo, and avoids seeing multiway flops with an undefined range. 3-bet instead of just calling."},
+  {id:738,type:"3bet",hand:"J♦J♣",pos:"CO",callPos:"MP",open:true,size:"ip",ctx:"threebet_value",
+   es:"JJ vs MP desde CO. Pagar aquí infla el bote sin definir tu mano y deja entrar barato a los jugadores detrás. 3-betear con JJ aísla contra el abridor, construye el bote con una mano fuerte y, si te pagan o 4-betean, sabrás mucho mejor dónde estás. Mano de valor clara para 3-bet.",
+   en:"JJ vs MP from CO. Calling here bloats the pot without defining your hand and lets players behind in cheaply. 3-betting with JJ isolates the opener, builds the pot with a strong hand, and if called or 4-bet you'll know much better where you stand. A clear value 3-bet."},
+  {id:739,type:"3bet",hand:"A♦Q♣",pos:"BB",callPos:"CO",open:true,size:"oop",ctx:"threebet_value",
+   es:"AQo desde BB vs CO 3BB. Pagar fuera de posición con una mano que domina buena parte del rango de CO cede la iniciativa y deja el bote sin definir. 3-bet por valor: aíslas contra el abridor, tomas la iniciativa y, si te 4-betean, sabrás que estás claramente detrás y podrás foldear sin remordimientos.",
+   en:"AQo from BB vs CO 3BB. Calling out of position with a hand that dominates much of CO's range gives up the initiative and leaves the pot undefined. 3-bet for value: you isolate the opener, take the initiative, and if 4-bet you'll know you're clearly behind and can fold without regret."},
+  {id:740,type:"3bet",hand:"A♥K♣",pos:"HJ",callPos:"UTG",open:true,size:"ip",ctx:"threebet_value",
+   es:"AKo vs UTG desde HJ. AKo es mano de valor para 3-bet incluso frente al rango más fuerte de la mesa — necesitas construir el bote ahora con la mejor combinación posible y evitar ver un flop multiway fuera de control sin haber tomado la iniciativa. 3-bet por valor.",
+   en:"AKo vs UTG from HJ. AKo is a value 3-bet even against the strongest range at the table — you need to build the pot now with the best possible combo and avoid seeing an uncontrolled multiway flop without having taken the initiative. 3-bet for value."},
+  {id:741,type:"3bet",hand:"Q♠Q♣",pos:"CO",callPos:"UTG",open:true,size:"ip",ctx:"threebet_value",
+   es:"QQ vs UTG desde CO. QQ sigue siendo un 3-bet por valor incluso frente al rango más fuerte de la mesa — aísla contra un solo rival, construye el bote con la segunda mejor mano posible y evita que el bote crezca multiway sin que tengas la iniciativa.",
+   en:"QQ vs UTG from CO. QQ is still a value 3-bet even against the strongest range at the table — it isolates against a single opponent, builds the pot with the second-best possible hand, and stops the pot from growing multiway without you having the initiative."},
+
+  // ── FACING 4-BET (6) ──────────────────────────────────────────────────────
+  {id:742,type:"3bet",hand:"A♠A♥",pos:"BTN",callPos:"CO",open:true,facing4bet:true,size:"value",ctx:"fourbet_value",
+   es:"3-beteaste AA desde el BTN frente a la apertura de CO, y CO ha hecho 4-bet. AA es la mejor mano posible — 5-bet all-in por valor máximo. No hay razón para pagar y ceder iniciativa, ni para foldear, con la mejor mano del poker.",
+   en:"You 3-bet AA from the BTN against CO's open, and CO has 4-bet. AA is the best possible hand — 5-bet all-in for maximum value. There's no reason to call and give up initiative, or to fold, with the best hand in poker."},
+  {id:743,type:"3bet",hand:"K♦K♣",pos:"SB",callPos:"BTN",open:true,facing4bet:true,size:"value",ctx:"fourbet_value",
+   es:"3-beteaste KK desde la SB frente a la apertura del BTN, y el BTN ha hecho 4-bet. KK solo pierde frente a AA — sigue siendo un 5-bet all-in claro por valor. Pagar deja demasiado valor sobre la mesa y foldear es absurdo con la segunda mejor mano posible.",
+   en:"You 3-bet KK from the SB against the BTN's open, and the BTN has 4-bet. KK only loses to AA — it's still a clear 5-bet all-in for value. Calling leaves too much value on the table, and folding is absurd with the second-best possible hand."},
+  {id:744,type:"3bet",hand:"A♣K♣",pos:"CO",callPos:"MP",open:false,size:"call",facing4bet:true,ctx:"fourbet_value",
+   es:"3-beteaste AKs desde el CO frente a la apertura de MP, y MP ha hecho 4-bet. AKs es lo bastante fuerte para pagar este 4-bet (su rango incluye manos que dominas como AQ/AK y pares medios/altos a los que aún puedes superar) y jugar postflop con una mano que conecta con muchos flops. Un 5-bet all-in es demasiado y foldear cede demasiado valor.",
+   en:"You 3-bet AKs from the CO against MP's open, and MP has 4-bet. AKs is strong enough to call this 4-bet (their range includes hands you dominate like AQ/AK and medium/high pairs you can still outdraw) and to play postflop with a hand that connects with many boards. 5-betting all-in is too much, and folding gives up too much value."},
+  {id:745,type:"3bet",hand:"K♥9♥",pos:"SB",callPos:"BTN",open:false,facing4bet:true,ctx:"fourbet_bluff",
+   es:"3-beteaste K9s como farol desde la SB frente a la apertura del BTN, y el BTN ha hecho 4-bet. Un farol de 3-bet que recibe un 4-bet debe foldear casi siempre — K9s no tiene ni el valor ni los bloqueadores para continuar contra un rango de 4-bet cargado de manos premium. Fold.",
+   en:"You bluff-3-bet K9s from the SB against the BTN's open, and the BTN has 4-bet. A bluff 3-bet that gets 4-bet should almost always fold — K9s has neither the value nor the blockers to continue against a 4-bet range loaded with premium hands. Fold."},
+  {id:746,type:"3bet",hand:"Q♦Q♠",pos:"BB",callPos:"BTN",open:false,size:"call",facing4bet:true,ctx:"fourbet_value",
+   es:"3-beteaste QQ desde la BB frente a la apertura (agresiva) del BTN, y el BTN ha hecho 4-bet. Contra el 4-bet de un rival muy agresivo (rango más amplio que solo AA/KK), QQ es lo bastante fuerte para pagar y ver un flop — pero un 5-bet all-in te mete en un bote enorme contra un rango que todavía tiene AA/KK con frecuencia. Pagar es la línea más sólida.",
+   en:"You 3-bet QQ from the BB against the BTN's (aggressive) open, and the BTN has 4-bet. Against a 4-bet from a very aggressive opponent (a range wider than just AA/KK), QQ is strong enough to call and see a flop — but a 5-bet all-in puts you in a massive pot against a range that still frequently has AA/KK. Calling is the soundest line."},
+  {id:747,type:"3bet",hand:"A♦5♦",pos:"BTN",callPos:"UTG",open:false,facing4bet:true,ctx:"fourbet_bluff",
+   es:"3-beteaste A5s como farol desde el BTN frente a la apertura de UTG, y UTG ha hecho 4-bet. El rango de 4-bet de UTG (que ya abre muy fuerte) está cargado de valor — A5s no tiene la equity ni los bloqueadores suficientes para continuar. Fold sin dudarlo.",
+   en:"You bluff-3-bet A5s from the BTN against UTG's open, and UTG has 4-bet. UTG's 4-bet range (already opening very strong) is loaded with value — A5s doesn't have enough equity or blockers to continue. Fold without hesitation."},
 ];
