@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -137,7 +137,13 @@ const content = {
   es: {
     nav: { title: "Poker Cash Academy", back: "Inicio" },
     home: { welcome: "Poker Cash Academy", subtitle: "Domina el cash game. Un concepto a la vez." },
-    menu: { academia: "Academy", academiaSubtitle: "Lecciones estructuradas paso a paso", stats: "Estadísticas", statsSubtitle: "Tu progreso, nivel y precisión por categoría", survival: "Supervivencia", survivalSubtitle: "Una racha al día. Compite por el Top 10 mensual", profile: "Perfil", profileSubtitle: "Tu nombre de usuario y datos públicos" },
+    menu: { academia: "Academy", academiaSubtitle: "Lecciones estructuradas paso a paso", stats: "Estadísticas", statsSubtitle: "Tu progreso, nivel y precisión por categoría", survival: "Supervivencia", survivalSubtitle: "Una racha al día. Compite por el Top 10 mensual", profile: "Perfil", profileSubtitle: "Tu nombre de usuario y datos públicos", glossary: "Glosario", glossarySubtitle: "Más de 70 términos de poker explicados" },
+    glossary: {
+      title: "Glosario",
+      subtitle: "Los términos esenciales del poker, explicados de forma sencilla.",
+      searchPlaceholder: "Buscar un término...",
+      noResults: "No se encontraron términos con esa búsqueda.",
+    },
     academia: {
       title: "Academia",
       subtitle: "Aprende paso a paso",
@@ -253,8 +259,8 @@ const content = {
       proposeTitle: "Proponer una mano nueva",
       proposeCategoryLabel: "Categoría",
       proposePosLabel: "Tu posición",
-      proposeHandLabel: "Tu mano (ej: A♠ K♦)",
-      proposeBoardLabel: "Board (ej: A♦ 7♣ 2♥)",
+      proposeHandLabel: "Tu mano",
+      proposeBoardLabel: "Board",
       proposeCallPosLabel: "Posición del rival",
       proposePlayersLabel: "Jugadores en la mano",
       proposeHU: "Heads-up (1 rival)",
@@ -284,6 +290,8 @@ const content = {
       proposeError: "No se pudo enviar la propuesta. Inténtalo de nuevo.",
       proposeLoginRequired: "Inicia sesión para proponer manos nuevas.",
       proposeValidation: "Completa la mano, las 4 opciones y la explicación de por qué es correcta.",
+      proposeValidationBoard: "Completa todas las cartas del board.",
+      proposeValidationDuplicate: "Has repetido la misma carta más de una vez. Cada carta solo puede aparecer una vez entre la mano y el board.",
       newHandsTitle: "Manos propuestas por la comunidad",
       newHandsDesc: "Vota las manos nuevas enviadas por otros usuarios. Con suficientes votos a favor se añaden al banco de práctica para todos.",
       newHandsEmpty: "No hay manos nuevas pendientes ahora mismo.",
@@ -1979,13 +1987,251 @@ const content = {
           },
         ],
       },
+      {
+        id: 9,
+        title: "9. 3-Betting",
+        summary: "Cuándo construir un rango de 3-bet polar y cuándo lineal, cómo squeezear correctamente en multiway, y cómo elegir el sizing según tu posición y el rango de apertura de Villano.",
+        chapters: [
+          {
+            title: "3-Betting Polar",
+            body: [
+              { type:"text", content:"La primera decisión al construir tu rango de 3-bet es si va a ser polar o lineal. Un rango polar 3-betea SOLO con sus mejores manos por valor y con un grupo separado de farols elegidos por bloqueadores y jugabilidad — dejando deliberadamente fuera las manos 'de en medio', que pasan a formar un rango de CALL. Un rango lineal, en cambio, simplemente 3-betea de arriba hacia abajo sin ese hueco intermedio. Esta sección se centra en el enfoque polar: cuándo tiene sentido y cómo construirlo." },
+              { type:"callout", label:"Los tres grupos de un rango polar", content:"Un rango de 3-bet polar bien construido tiene tres partes: (1) 3-Bet Valor — manos por delante del rango con el que Villano CONTINÚA tras tu 3-bet (no solo de su rango de apertura, que es más amplio); (2) Call — manos demasiado buenas para farolear pero no lo bastante fuertes para un 3-bet de valor, que prefieren ver flops baratos en posición; (3) 3-Bet Farol — manos elegidas no por su fuerza bruta, sino por sus bloqueadores (cartas A/K que bloquean combos de AA/KK/QQ/AK/AQ del rango de 4-bet de Villano) y por su jugabilidad post-flop (suited y conectadas, con potencial de flush draw y straight draw si Villano paga)." },
+              { type:"callout", label:"Las dos condiciones para ir polar", content:"Para que un rango polar funcione necesitas dos cosas. (1) Fold equity suficiente: como regla general necesitas que Villano foldee a tu 3-bet preflop alrededor del 50% de las veces tras abrir. Esto se deriva de la RFE (Risk/Reward de Villano si te 4-bet-foldea contra tu 3-bet) ajustada a la baja para tener en cuenta tu propia jugabilidad post-flop y tu equity al c-betear cuando te paga. (2) Un rango de call viable: si no tienes suficientes manos 'de en medio' que prefieran pagar en vez de 3-betear o foldear, tu rango polar colapsa en un rango lineal — el hueco entre valor y farol deja de tener sentido si no hay nada que lo llene." },
+              { type:"callout", label:"Eligiendo tus farols: bloqueadores + jugabilidad", content:"Ejemplo: BU 3-betea a HJ. El rango de valor [QQ+, AK] son 34 combos (~2.5% de los 1326 combos posibles). Si Hero 3-betea a 8BB tras una apertura de 3BB, el 4-bet de Villano (OOP) sería de unas 19BB, dando a Villano una RFE ≈56%. Para que Villano sea indiferente entre pagar y 4-bet-folear, Hero necesita una proporción farol:valor de ~56:44 → 1.27 farols por cada combo de valor → 34×1.27≈43 combos de farol (en la práctica, 44). Esos farols se eligen en tres categorías: (1) Manos con doble bloqueador, como AJo o KQo, que bloquean AA/KK/QQ/JJ/AK/AQ/AJs/KQs simultáneamente; (2) Ases suited, como A9s o A5s, que además de bloquear ases dan flush draws y pares con buen kicker en el flop; (3) Suited connectors/gappers, como QTs, 98s o 87s, elegidos por su cobertura del board y jugabilidad si Villano paga." },
+              { type:"callout", label:"Cuidado con el overbluffing a largo plazo", content:"Es tentador meter manos como 84o como farol 'porque tiene blockers'. El problema es el largo plazo: si sobre-faroleas, tu rival ajustará pagando o 4-beteando más; tú tendrás que contraajustar reduciendo tus farols; y el ciclo se repite — un proceso de ajustes y contraajustes exponenciales entre dos jugadores que, mal gestionado, te deja con un rango de farol explotable en ambas direcciones. La solución es elegir farols que, incluso si Villano ajusta, sigan teniendo equity razonable cuando son pagados — de ahí la importancia de la jugabilidad, no solo de los bloqueadores." },
+              { type:"quiz", questions:[
+                {
+                  situation:"BU 3-bet vs HJ open · construyendo el rango de farol",
+                  hand:"A♣ J♥",
+                  context:"El rango de valor de Hero para 3-bet es [QQ+, AK] = 34 combos. Hero calcula que necesita ~44 combos de farol para mantener una proporción farol:valor de 1.27:1.",
+                  question:"¿Por qué AJo es un candidato mejor para ese hueco de farol que, por ejemplo, 73o?",
+                  options:[
+                    { label:"AJo bloquea combos de AA, AK y AQ del rango de 4-bet de Villano, y conserva más equity si Villano paga", correct:true, explanation:"¡Correcto! AJo comparte el As con AA/AK/AQ y la J con AJs — reduciendo los combos de 4-bet de Villano y mejorando la fold equity. Además, AJ tiene mucha más equity que 73o si Villano sí paga el 3-bet, lo que limita el riesgo del farol." },
+                    { label:"73o también tendría blockers, así que da igual cuál elijas", correct:false, explanation:"73o no comparte cartas con AA, KK, QQ, AK ni AQ — no bloquea nada relevante del rango de 4-bet de Villano. AJo sí, y por eso es un farol muy superior." },
+                    { label:"Ninguna de las dos manos debería ser un farol — solo importan los combos de valor", correct:false, explanation:"Un rango polar NECESITA farols (sección 'Las dos condiciones'): sin ellos, tu 3-bet sería solo valor y Villano podría foldear sin riesgo cada vez que no tenga una mano premium." },
+                    { label:"AJo es mejor solo porque es una mano 'más alta', independientemente de los bloqueadores", correct:false, explanation:"El valor del farol no viene de ser 'una mano alta' en abstracto, sino de los bloqueadores específicos que comparte con el rango de 4-bet de Villano (AA/KK/QQ/AK/AQ) y de su jugabilidad si es pagada." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "3-Betting Lineal y Ejemplos Prácticos",
+            body: [
+              { type:"text", content:"Un rango lineal 3-betea sin el hueco intermedio del polar: simplemente coge tus mejores manos de arriba hacia abajo (con o sin un pequeño rango de call adicional). Tiene sentido lineal en dos situaciones: (a) tienes poca fold equity — menos del ~50% de Fold to 3-Bet After Open, típicamente contra Fish que pagan demasiado; o (b) no quieres tener un rango de call en este spot — por ejemplo en SB (posición horrible post-flop), con stacks efectivos pequeños, o cuando hay squeezers activos detrás que castigarían tus flats." },
+              { type:"callout", label:"Ejemplo: rango lineal vs Fish agresivo", content:"Contra un Fish agresivo con poca fold equity, el rango lineal se divide conceptualmente en dos zonas: manos con fuerza suficiente para sobrevivir aunque Villano pague casi siempre (3-bet), y manos que prefieren ver flops baratos por sus implied odds — por ejemplo 33, que solo flopea un set ~12% de las veces y un underpair el resto, lo cual es malo para 3-betear pero razonable para flatear barato y buscar el set." },
+              { type:"callout", label:"Ejemplo: SB lineal vs CO, con BB agresivo detrás", content:"Si Hero está en SB enfrentando una apertura de CO, con un BB muy agresivo todavía por hablar, flatear es un mal plan: BB squeezeará a menudo y Hero quedará atrapado OOP multiway. La solución es revertir a un rango lineal SIN rango de call — 3-bet o fold, sin término medio. Dentro de ese rango lineal se distingue entre manos de 3-bet/shove (las más fuertes) y manos de 3-bet/fold (que farolean el 3-bet pero se rinden ante un 4-bet). Si Hero foldea a un 4-bet el 68% de las veces con sus manos de 3-bet/fold, está explotando que el rango de 4-bet-farol de CO en este spot suele ser estrecho." },
+              { type:"callout", label:"El flowchart en mesa: aplicándolo a tus cartas", content:"En la mesa no hay tiempo para dibujar rangos completos — necesitas una versión rápida del proceso: (1) ¿Tengo suficiente fold equity para ir polar, o debería ser lineal/fold? (2) Si soy polar, ¿mi mano es de valor, de call, o no encaja en ninguno? (3) Si soy lineal, ¿mi mano alcanza el umbral de fuerza para 3-betear, o me quedo fuera?" },
+              { type:"callout", label:"Tres ejemplos en mesa", content:"(1) A4s en BB vs apertura de un Reg: hay suficiente fold equity poblacional para ir polar, pero A4s no es lo bastante fuerte para 3-bet de valor — sí es un buen call por sus pot odds y por jugar en posición, así que Hero paga 1.5BB. (2) A9o enfrenta a un Reg nitty que sobre-foldea, con un Reg agresivo en BB todavía por hablar: aquí Hero quiere ser lineal (sin rango de call, por el riesgo de squeeze del BB agresivo), pero A9o es demasiado débil para ese rango lineal — domina mal, tiene blockers pobres y juega mal post-flop, así que Hero foldea. (3) AJo vs la apertura de un Fish tight (rango ≈8%, tipo [88+ AJo+ ATs+ KTs+ QJs]): de nuevo lineal, pero AJo ni siquiera llega al ~40% de equity necesario contra ese rango si Villano paga, ni es un buen call (malas pot/implied odds y poca fold equity post-flop contra un Fish fuerte) — Hero foldea." },
+              { type:"quiz", questions:[
+                {
+                  situation:"SB vs CO open · BB Reg muy agresivo todavía por hablar",
+                  hand:"K♦ Q♦",
+                  context:"CO abre 3BB. Hero está en SB con KQs. El BB es un Reg muy agresivo que squeezea con frecuencia cuando hay un flat delante de él.",
+                  question:"¿Por qué tiene más sentido aquí un 3-bet lineal sin rango de call que flatear con KQs?",
+                  options:[
+                    { label:"Flatear deja a Hero expuesto a un squeeze del BB agresivo y a jugar OOP multiway en SB — la peor posición de la mesa", correct:true, explanation:"¡Correcto! En SB, flatear contra una apertura con un agresivo activo detrás suele ser -EV: si BB squeezea, Hero queda OOP en un bote inflado contra dos rangos. Revertir a lineal (3-bet o fold) evita ese escenario por completo." },
+                    { label:"KQs siempre debería ir en el rango de call de un polar, sin excepciones", correct:false, explanation:"El texto explica justo lo contrario: el rango de call solo tiene sentido cuando NO hay un riesgo elevado de squeeze. En SB con un agresivo activo detrás, el rango de call se descarta y se revierte a lineal." },
+                    { label:"Porque KQs es demasiado fuerte para cualquier cosa que no sea 3-bet de valor puro", correct:false, explanation:"La razón no es la fuerza bruta de la mano en el vacío, sino la posición (SB) y la dinámica de mesa (agresivo activo detrás) que hacen que un rango de call sea mal plan en este spot concreto." },
+                    { label:"No importa la posición de Hero, solo el rango de apertura de CO", correct:false, explanation:"La posición de Hero (SB, la peor para flatear) y la presencia de un agresivo sin actuar todavía son exactamente los factores que decantan la decisión hacia lineal sin rango de call." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Squeezing",
+            body: [
+              { type:"text", content:"Un squeeze es un 3-bet después de que uno o más jugadores hayan pagado la apertura, normalmente con un sizing mayor que un 3-bet heads-up para tener en cuenta los callers adicionales. En el vacío, un squeeze puede ser de tres tipos: (1) Farol-Farol — buscas fold equity contra TODOS los jugadores implicados, sin que ninguno sea especialmente 'estación' o combativo; (2) Valor-Farol — vas de valor contra un Fish estación que paga demasiado, y de farol contra el Reg que abrió (aislando al Fish); (3) Valor-Valor — construyes bote con manos por delante de lo que sea que tengan cuando paguen, por ejemplo AJs contra dos Fish, o KK contra dos Regs. El Valor-Valor también puede usarse para aislar, como AQo contra un único oponente." },
+              { type:"callout", label:"Diferencias clave en multiway", content:"Squeezear multiway no es lo mismo que 3-betear heads-up: (1) las manos con potencial de mano hecha (nut potential), como JTs o 55, se APRECIAN multiway — suele ser mejor flatearlas que farolear con ellas, porque te interesa ver el flop con varios rivales para sacar el máximo de un set o una escalera. (2) Las manos altas offsuit grandes, en cambio, se DEPRECIAN multiway — son mejores como farols de doble bloqueador que como calls, porque su equity cae mucho contra varios rangos a la vez. (3) La fold equity suele ser más limitada multiway (cada caller adicional reduce la probabilidad de que TODOS foldeen), así que el squeeze lineal es más habitual que el polar." },
+              { type:"callout", label:"Ejemplo: squeeze muy polar (ambos sobre-foldean)", content:"Si tanto el abridor como el caller sobre-foldean a 3-bets/squeezes, tu rango de Call puede ser muy amplio (cientos de combos) porque tienes poco que temer si te quedas dentro del bote. Tu rango de 3-Bet Valor es moderado, y tu proporción farol:valor puede llegar a 2:1 — para un squeeze a 8BB, la RFE de Villano ronda 7/(7+5)≈58%, reducida un 10-15% por tu jugabilidad post-flop. En la práctica esto se traduce en algo como 102 combos de valor y 204 combos de farol." },
+              { type:"callout", label:"Ejemplo: squeeze lineal (SB vs Fish + HJ Reg)", content:"SB enfrenta una apertura de HJ (Reg) con un Fish semi-whale (VPIP 56%) ya dentro del bote. Aquí conviene un rango lineal de anchura media CON rango de call — las implied odds están potenciadas por el Fish. El rango de squeeze (amarillo) mezcla valor puro (QQ, AKo = valor-valor contra ambos) con manos por delante del Fish aunque no del Reg (AJo, A9s = valor-farol). Para las manos de set-mining: una inversión de 2.5BB necesita un payoff medio de ~25BB para el break-even, es decir, ~17BB extra de media en calles posteriores — viable gracias al Fish, pero hay que vigilar que ese extra realmente esté ahí." },
+              { type:"callout", label:"De vuelta al vacío: dos ejemplos más", content:"(1) JJ contra una apertura tight de UTG con un Fish que paga detrás: squeezear aquí es un error severo — no hay fold equity (UTG tiene un rango fuerte y compacto), y JJ flopea un set raramente, un overpair marginal multiway, y un underpair sin valor. Mejor pagar 2BB y buscar el set barato. (2) KQo en BB con apertura de CO y caller de UTG (UTG con rango uncapped que folda mucho): aquí SÍ tiene sentido ir polar — KQo bloquea 3 combos de KK, 3 de QQ, 4 de AK y 4 de AQ, y tiene buena equity contra el rango de call típico ([88-JJ]) de los rivales. Hero squeezea a 11.5BB como farol-farol." },
+              { type:"quiz", questions:[
+                {
+                  situation:"BB · CO abre, UTG (Reg uncapped, folda mucho a squeezes) paga · squeeze",
+                  hand:"K♦ Q♣",
+                  context:"Hero tiene KQo en BB. CO abre y UTG paga. UTG tiene un rango de apertura amplio (uncapped) pero suele foldear a squeezes. El rango de call típico de los rivales si pagan sería algo como [88-JJ].",
+                  question:"¿Por qué KQo es una buena mano para squeezear aquí como farol-farol a 11.5BB?",
+                  options:[
+                    { label:"KQo bloquea combos de KK, QQ, AK y AQ (reduciendo el 4-bet de los rivales) y tiene buena equity contra [88-JJ] si alguien paga", correct:true, explanation:"¡Correcto! KQo bloquea 3 combos de KK, 3 de QQ, 4 de AK y 4 de AQ — manos que de otro modo 4-betearían o pagarían fuerte. Y contra el rango de call típico [88-JJ], KQ tiene una equity razonable como dos cartas altas vs parejas medias." },
+                    { label:"KQo debería flatear aquí porque es una mano con potencial de nut multiway", correct:false, explanation:"El texto distingue: las manos con nut potential (JTs, 55) se aprecian multiway y prefieren flatear. KQo, como mano alta offsuit, se DEPRECIA multiway — es mejor como farol de doble bloqueador en un squeeze que como call." },
+                    { label:"Squeezear con KQo aquí es un error porque no hay fold equity contra dos rivales", correct:false, explanation:"Es justo lo contrario al ejemplo de JJ: aquí UTG tiene un rango uncapped que folda mucho a squeezes, lo que SÍ da fold equity suficiente para ir polar con KQo." },
+                    { label:"El sizing de 11.5BB es irrelevante; cualquier sizing funcionaría igual", correct:false, explanation:"El sizing en squeezes multiway suele ser mayor que en 3-bets heads-up precisamente para compensar los callers adicionales y mantener la fold equity necesaria — no es un detalle irrelevante." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Sizing del 3-Bet",
+            body: [
+              { type:"text", content:"Elegir el sizing correcto de tu 3-bet es tan importante como elegir las manos que componen el rango. Cuatro ideas guían la decisión: RFE y fold equity, balance entre valor y farol, pot odds/implied odds de Villano, y tu posición." },
+              { type:"callout", label:"1. RFE y Fold Equity", content:"Existe un punto óptimo de sizing que maximiza el EV de tus 3-bets de farol: si subes demasiado poco, Villano tiene poca RFE y paga/4-betea más de lo que te gustaría; si subes demasiado, tu farol arriesga más de lo necesario para la fold equity que realmente ganas a partir de cierto punto. El sizing ideal está en el punto donde la RFE de Villano (lo que arriesga si te 4-bet-folea contra tu posible 4-bet) es alta, sin que tu propio riesgo como faroleador crezca más de lo necesario." },
+              { type:"callout", label:"2. Balance: mismo sizing para valor y farol", content:"Usa SIEMPRE el mismo sizing para tus manos de valor y tus farols — tanto contra Regs (que pueden explotar sizings reveladores) como contra Fish (que no necesitan esa señal pero tampoco te penalizan por ser consistente). Variar el sizing según la fuerza de tu mano es una de las fugas más fáciles de explotar en niveles intermedios." },
+              { type:"callout", label:"3. Pot odds e implied odds de Villano", content:"Evita dos extremos. Si tu 3-bet es DEMASIADO PEQUEÑO, le das a Villano pot odds e implied odds tan buenas que manos como 55 o 76s pueden pagar rentablemente para intentar golpear tu rango de valor con un set o una escalera. Si tu 3-bet es DEMASIADO GRANDE, eliminas TODAS las implied odds de Villano — lo cual, paradójicamente, hace que foldear sea demasiado fácil y +EV para él, reduciendo tu propia fold equity efectiva. Una apertura grande de Villano ya recorta sus implied odds por sí misma (necesitas subir menos); una apertura pequeña deja más implied odds sobre la mesa, así que tu 3-bet debe ser proporcionalmente mayor." },
+              { type:"callout", label:"4. Posición", content:"En posición (IP) consigues más fold equity de forma 'gratuita' simplemente por jugar después — puedes usar sizings algo más pequeños. Fuera de posición (OOP) necesitas compensar esa desventaja con un sizing algo mayor para conseguir la fold equity adecuada. La tabla de sizing general (asumiendo stacks de 100BB) recomienda: sizings mayores contra aperturas pequeñas, estando OOP, o al squeezear; sizings menores contra aperturas grandes, estando IP, o en 3-bets sin squeeze." },
+              { type:"callout", label:"Ejemplo final: stacks de 40BB", content:"CO abre a 3BB con un rango amplio y folda el 70% de las veces a 3-bets — una estrategia mala para esta profundidad de stack. La tabla general sugeriría un 3-bet IP de 8BB contra una apertura de 3x. Pero con 40BB efectivos, 8BB es DEMASIADO grande por dos razones: (a) las implied odds de Villano ya están muy recortadas por lo poco profundo que es el stack — no necesitas subir más para eliminarlas del todo; y (b) un 3-bet a 8BB convertiría el potencial 4-bet de Villano en un shove de los 37BB restantes, dándole a Villano una RFE enorme en un 4-bet de farol (consigue fold equity Y, si Hero paga, realiza su equity con el resto del stack). La solución es reducir el sizing: Hero sube a 6.75BB en su lugar." },
+              { type:"quiz", questions:[
+                {
+                  situation:"CO abre a 3BB (rango amplio, Fold to 3-Bet 70%) · Stacks efectivos: 40BB",
+                  hand:"A♠ Q♠",
+                  context:"La tabla general de sizing sugeriría 8BB IP contra una apertura de 3x con 100BB de stack. Hero está evaluando si usar 8BB o un sizing menor con AQs, dado que los stacks efectivos son solo 40BB.",
+                  question:"¿Por qué 6.75BB es mejor que 8BB en este spot de 40BB efectivos?",
+                  options:[
+                    { label:"8BB convertiría el 4-bet de Villano en un shove de los 37BB restantes, dándole RFE enorme; y los 40BB ya recortan sus implied odds sin necesidad de subir más", correct:true, explanation:"¡Correcto! Con stacks cortos, un 3-bet de 8BB deja a Villano con un 4-bet que es esencialmente un all-in — eso le da una RFE altísima en su farol de 4-bet. Además, 40BB ya limita mucho las implied odds de Villano, así que no necesitas un sizing extra-grande para 'matarlas' del todo." },
+                    { label:"8BB es siempre el sizing correcto IP contra una apertura de 3x, sin importar la profundidad del stack", correct:false, explanation:"La tabla de sizing general asume 100BB. Con 40BB efectivos, las dinámicas cambian — sobre todo porque un 3-bet grande convierte el 4-bet de Villano en un shove, lo cual no ocurre con 100BB." },
+                    { label:"6.75BB es mejor solo porque ahorra fichas a Hero si pierde la mano", correct:false, explanation:"El ahorro de fichas no es el argumento central — lo es la dinámica de RFE: un sizing más pequeño evita convertir el 4-bet de Villano en un shove con RFE enorme, y reconoce que sus implied odds ya están recortadas por el stack de 40BB." },
+                    { label:"El sizing no debería cambiar nunca según la profundidad del stack, solo según el sizing de apertura de Villano", correct:false, explanation:"La profundidad del stack es exactamente uno de los factores que cambia la decisión aquí: con 100BB, 8BB sería razonable; con 40BB, ese mismo sizing crea un problema de RFE en el 4-bet de Villano que no existiría con stacks más profundos." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Práctica: 3-Betting",
+            body: [
+              { type:"text", content:"Esta sección es un bloque de práctica pura: 10 preguntas que repasan polar vs lineal, squeezing y sizing del 3-bet. No aparecerán en el Test ni en Supervivencia — son para consolidar los conceptos del capítulo." },
+              { type:"quiz", questions:[
+                {
+                  situation:"Repaso · La condición de fold equity para ir polar",
+                  hand:"—",
+                  context:"Como regla general para decidir entre un rango polar o lineal de 3-bet, el capítulo menciona un umbral aproximado de Fold to 3-Bet After Open.",
+                  question:"¿Cuál es ese umbral aproximado, y qué significa estar por debajo de él?",
+                  options:[
+                    { label:"≈50% — por debajo de ese umbral, no tienes suficiente fold equity para justificar un rango polar y conviene ir lineal", correct:true, explanation:"¡Correcto! Si Villano foldea menos del ~50% de las veces a tu 3-bet tras abrir, tus farols polares no generan suficiente fold equity — mejor concentrarse en un rango lineal de valor (ajustado para sobrevivir a los calls)." },
+                    { label:"≈90% — por debajo de eso, siempre deberías foldear sin 3-betear nunca", correct:false, explanation:"90% es un umbral excesivamente alto y el texto no sugiere 'nunca 3-betear' por debajo de él. El umbral relevante para la decisión polar/lineal es ≈50%." },
+                    { label:"≈25% — por encima de eso, siempre conviene ir polar", correct:false, explanation:"El umbral mencionado es ≈50%, no 25%, y la dirección es la contraria: NECESITAS al menos ≈50% de fold equity para que un rango polar tenga sentido." },
+                    { label:"No existe un umbral — la decisión depende solo de tus cartas", correct:false, explanation:"El capítulo es explícito: la decisión polar/lineal depende en gran parte de la fold equity disponible (≈50% Fold to 3-Bet After Open), no únicamente de la fuerza de tus cartas." },
+                  ],
+                },
+                {
+                  situation:"Repaso · RFE en un 3-bet",
+                  hand:"—",
+                  context:"Villano abre a 3BB. Hero 3-betea a 9BB. Si Villano 4-bet-foldea, arriesga 8BB adicionales (R) para ganar un bote de PG=4.5BB ya construido (su apertura + el 3-bet de Hero antes de su propia acción).",
+                  question:"Usando RFE = R/(R+PG), ¿cuál es la RFE de Villano en este ejemplo?",
+                  options:[
+                    { label:"64% — RFE = 8/(8+4.5) ≈ 0.64", correct:true, explanation:"¡Correcto! RFE = R/(R+PG) = 8/(8+4.5) = 8/12.5 ≈ 64%. Esa cifra se ajusta luego a la baja (hasta ≈50%) para tener en cuenta la jugabilidad post-flop y la equity al c-betear de Hero." },
+                    { label:"36% — el complementario de 64%", correct:false, explanation:"36% sería 1-64%, pero la fórmula RFE=R/(R+PG) da directamente 64%, no su complementario." },
+                    { label:"8% — usando solo el riesgo (R=8) como porcentaje", correct:false, explanation:"8 es el valor de R en unidades de BB, no un porcentaje. La fórmula requiere dividir R entre (R+PG), no usar R aislado." },
+                    { label:"50% — el umbral final usado para construir el rango, sin necesidad de calcular nada más", correct:false, explanation:"El 50% es el umbral AJUSTADO final (tras reducir por jugabilidad post-flop), pero el cálculo bruto de RFE con la fórmula da 64%. Hay que calcular antes de ajustar." },
+                  ],
+                },
+                {
+                  situation:"Repaso · Bloqueadores de AJo en un 3-bet polar",
+                  hand:"A♣ J♥",
+                  context:"El rango de valor de Villano para 4-bet/shove es [QQ+, AK].",
+                  question:"¿Qué manos del rango de 4-bet de Villano bloquea parcialmente AJo?",
+                  options:[
+                    { label:"AA, AK y (en menor medida) AJs — porque comparte el As con AA/AK y la J con AJs", correct:true, explanation:"¡Correcto! El As de AJo reduce los combos de AA y AK; la J reduce combos de AJs. QQ y KK no comparten ninguna carta con AJo, así que no se ven afectadas por esta mano." },
+                    { label:"QQ y KK, porque son las manos más fuertes del rango", correct:false, explanation:"AJo no comparte ninguna carta (A o J) con QQ ni KK — esas parejas no se ven reducidas en absoluto por tener AJo." },
+                    { label:"Todas las manos del rango por igual, sin distinción", correct:false, explanation:"El bloqueo depende de qué cartas específicas comparte tu mano con cada combo del rango rival. AJo afecta a AA/AK/AJs pero NO a QQ/KK — no es un efecto uniforme." },
+                    { label:"Ninguna — AJo no tiene blockers relevantes en un 3-bet polar", correct:false, explanation:"AJo es precisamente uno de los ejemplos de 'doble bloqueador' del capítulo (junto a KQo), por su capacidad de reducir combos de AA/AK/AJs (y, en el caso de KQo, también KK/QQ/AQ/KQs)." },
+                  ],
+                },
+                {
+                  situation:"Repaso · Por qué un rango polar necesita un rango de call",
+                  hand:"—",
+                  context:"Hero está construyendo un rango polar de 3-bet: arriba, manos de valor; abajo, farols con bloqueadores y jugabilidad.",
+                  question:"¿Qué ocurre si Hero no tiene suficientes manos 'de en medio' para formar un rango de call viable?",
+                  options:[
+                    { label:"El rango polar colapsa en lineal — sin manos intermedias que flateen, el hueco entre valor y farol deja de tener sentido", correct:true, explanation:"¡Correcto! La segunda condición para ir polar es tener un rango de call viable (Figura 52, 'Polar Spectrum'). Sin él, no hay razón para mantener el hueco — el rango se vuelve efectivamente lineal." },
+                    { label:"No cambia nada — el rango de call es opcional y no afecta a la estructura polar", correct:false, explanation:"El texto lo presenta como una de las DOS condiciones necesarias para ir polar, no como algo opcional. Sin rango de call viable, la estructura polar no se sostiene." },
+                    { label:"Hero debería aumentar el número de farols para compensar", correct:false, explanation:"Aumentar farols no soluciona el problema estructural: el hueco 'de en medio' sigue sin tener sentido si no hay manos que lo ocupen pagando. La solución es pasar a lineal, no añadir más farols." },
+                    { label:"Hero debería jugar fit-or-fold con todo lo que no sea de valor", correct:false, explanation:"Esa sería una tercera opción posible en algunos spots, pero el texto específicamente dice que sin rango de call el resultado es que el rango polar 'colapsa en lineal', no en fit-or-fold." },
+                  ],
+                },
+                {
+                  situation:"Repaso · Tipos de squeeze en el vacío",
+                  hand:"A♠ J♠",
+                  context:"BU abre. Un Fish estación en HJ paga. Hero en BB tiene AJs y squeezea: tiene valor genuino contra el rango de call del Fish, pero también busca fold equity contra BU.",
+                  question:"¿Qué tipo de squeeze describe mejor este escenario?",
+                  options:[
+                    { label:"Valor-Farol — valor contra el Fish que paga demasiado, farol contra el Reg que abrió", correct:true, explanation:"¡Correcto! Este es el patrón clásico de Valor-Farol: AJs tiene equity real contra el rango amplio de call del Fish (valor), mientras que contra BU el squeeze busca principalmente fold equity (farol)." },
+                    { label:"Farol-Farol — porque Hero no tiene ninguna mano premium", correct:false, explanation:"AJs SÍ tiene valor genuino contra el rango de call de un Fish estación — no es un farol puro contra ambos jugadores, como exigiría la categoría Farol-Farol." },
+                    { label:"Valor-Valor — porque Hero quiere construir bote contra ambos rivales por igual", correct:false, explanation:"Valor-Valor requeriría que Hero esté por delante de los rangos de AMBOS jugadores cuando paguen. Aquí, contra BU el objetivo es principalmente fold equity (componente de farol), no construir bote." },
+                    { label:"No existe esa categoría — los squeezes solo pueden ser polares o lineales", correct:false, explanation:"Polar/lineal es un eje distinto (estructura del rango completo). Bluff-Bluff / Value-Bluff / Value-Value es la clasificación específica de los TIPOS de squeeze 'en el vacío' que da el capítulo." },
+                  ],
+                },
+                {
+                  situation:"Repaso · Manos con nut potential en squeezes multiway",
+                  hand:"J♠ T♠",
+                  context:"BU abre, CO paga. Hero en BB tiene JTs y se plantea squeezear como farol o simplemente pagar.",
+                  question:"Según el capítulo, ¿qué es generalmente mejor para una mano como JTs en un spot multiway?",
+                  options:[
+                    { label:"Flatear — las manos con nut potential se APRECIAN multiway, y JTs prefiere ver el flop con varios rivales para sacar el máximo de una escalera o dos parejas", correct:true, explanation:"¡Correcto! El texto distingue explícitamente: manos con nut potential (JTs, 55) se aprecian multiway y es mejor flatearlas; las manos altas offsuit grandes se deprecian multiway y son mejores como farols de doble bloqueador." },
+                    { label:"Squeezear como farol-farol, igual que con cualquier mano suited", correct:false, explanation:"JTs no es un buen candidato a farol de doble bloqueador (no bloquea AA/KK/QQ/AK como sí hacen AJo o KQo) — y además, como mano con nut potential, se beneficia más de ver el flop multiway que de farolear." },
+                    { label:"Foldear siempre, porque multiway las manos suited pierden todo su valor", correct:false, explanation:"Es lo contrario: las manos con nut potential como JTs GANAN valor relativo multiway (más botes grandes potenciales si conectan), no lo pierden." },
+                    { label:"Squeezear por valor puro, como si fuera QQ+", correct:false, explanation:"JTs no tiene la fuerza bruta de un squeeze de valor puro (QQ+, AK). Su mejor uso multiway es como call para explotar su potencial de mano hecha, no como squeeze de valor." },
+                  ],
+                },
+                {
+                  situation:"Repaso · Posición y sizing del 3-bet",
+                  hand:"—",
+                  context:"Hero está decidiendo el sizing de un 3-bet. En un caso está IP contra el abridor; en otro está OOP.",
+                  question:"Según el capítulo, ¿cómo debería ajustar Hero el sizing según su posición?",
+                  options:[
+                    { label:"Sizing algo menor cuando está IP (la posición ya aporta fold equity); sizing algo mayor cuando está OOP (para compensar y conseguir fold equity adecuada)", correct:true, explanation:"¡Correcto! Jugar en posición ya genera fold equity 'gratis' por actuar después — permite sizings algo más pequeños. OOP necesita compensar esa desventaja con un sizing mayor." },
+                    { label:"El sizing debe ser idéntico sin importar la posición, solo varía con el rango de apertura de Villano", correct:false, explanation:"La posición es uno de los CUATRO factores explícitos del capítulo (junto a RFE/FE, balance, y pot/implied odds) — no es irrelevante para el sizing." },
+                    { label:"Sizing mayor cuando está IP, porque tiene más información", correct:false, explanation:"Es al revés: estar IP ya proporciona fold equity adicional 'gratis', lo que permite sizings MENORES, no mayores. El sizing mayor es para compensar la desventaja de jugar OOP." },
+                    { label:"La posición solo afecta a si el rango debe ser polar o lineal, nunca al sizing", correct:false, explanation:"La posición afecta a ambas cosas: a la decisión polar/lineal (vía fold equity disponible) Y, de forma independiente, al sizing concreto del 3-bet (Figura 62)." },
+                  ],
+                },
+                {
+                  situation:"Repaso · 3-bet demasiado pequeño",
+                  hand:"—",
+                  context:"Hero 3-betea con un sizing inusualmente pequeño contra una apertura estándar.",
+                  question:"¿Qué problema crea esto, según la sección de pot odds e implied odds?",
+                  options:[
+                    { label:"Le da a Villano pot odds e implied odds tan buenas que manos especulativas como 55 o 76s pueden pagar rentablemente para golpear el rango de valor de Hero", correct:true, explanation:"¡Correcto! Un 3-bet demasiado pequeño deja el bote barato de pagar en relación al stack restante — Villano puede flatear manos especulativas con buenas implied odds para intentar conectar contra el rango fuerte de Hero." },
+                    { label:"Elimina por completo la fold equity de Hero, igual que un 3-bet demasiado grande", correct:false, explanation:"Un 3-bet pequeño no elimina la fold equity de Hero de la misma manera que uno excesivamente grande elimina las implied odds de Villano — son problemas distintos en extremos opuestos." },
+                    { label:"No tiene ningún inconveniente — más pequeño siempre es mejor porque arriesga menos", correct:false, explanation:"El capítulo describe dos extremos problemáticos: demasiado pequeño (regala implied odds a Villano) y demasiado grande (mata las implied odds de Villano y reduce la fold equity efectiva). Ninguno de los dos extremos es ideal." },
+                    { label:"Hace que Villano 4-betee con un rango más amplio de farols", correct:false, explanation:"El problema descrito no es sobre el rango de 4-bet de Villano, sino sobre las pot odds/implied odds que recibe para PAGAR el 3-bet con manos especulativas." },
+                  ],
+                },
+                {
+                  situation:"Repaso · Squeeze severo error (JJ vs UTG tight + caller)",
+                  hand:"J♣ J♦",
+                  context:"UTG (rango muy tight) abre. Un Fish paga detrás. Hero en BB tiene JJ.",
+                  question:"¿Por qué squeezear con JJ aquí es descrito como un 'error severo'?",
+                  options:[
+                    { label:"No hay fold equity contra el rango fuerte y compacto de UTG, y JJ rara vez flopea un set, frecuentemente queda con un overpair marginal multiway o un underpair sin valor", correct:true, explanation:"¡Correcto! Contra una apertura tight, UTG sigue jugando la mayoría de su rango tras el squeeze (poca fold equity), y post-flop JJ tiene un perfil de equity pobre multiway: rara vez set, overpair marginal, o underpair. La jugada correcta es pagar barato (2BB) y buscar el set." },
+                    { label:"JJ es demasiado fuerte para squeezear — debería ir directo a 4-bet/shove preflop", correct:false, explanation:"El texto no sugiere 4-bet/shove; sugiere PAGAR (set-mine barato a 2BB), precisamente porque JJ no tiene ni la fold equity ni el perfil post-flop adecuado para un squeeze, pero sí tiene valor como mano de set-mining." },
+                    { label:"Squeezear con JJ nunca es correcto en ningún contexto", correct:false, explanation:"El propio capítulo muestra ejemplos donde manos similares de pareja media SÍ pueden ser parte de rangos de valor en squeezes (p. ej. KK vs dos Regs en Valor-Valor). El error aquí es específico de ESTE contexto: UTG tight + Fish caller." },
+                    { label:"Es un error porque el Fish detrás siempre 4-beteará el squeeze", correct:false, explanation:"El razonamiento del texto se centra en la falta de fold equity de UTG y en el mal perfil post-flop de JJ multiway — no en una supuesta tendencia del Fish a 4-betear." },
+                  ],
+                },
+                {
+                  situation:"Repaso · Balance de sizing entre valor y farol",
+                  hand:"—",
+                  context:"Hero tiene tanto manos de valor (QQ+, AK) como farols (AJo, A9s, 98s) en su rango de 3-bet.",
+                  question:"Según el principio de balance del capítulo, ¿qué debería hacer Hero con el sizing de estas manos?",
+                  options:[
+                    { label:"Usar el mismo sizing para las manos de valor y para los farols, tanto contra Regs como contra Fish", correct:true, explanation:"¡Correcto! Variar el sizing según la fuerza de la mano (subir más grande con valor, más pequeño con farol, o viceversa) es una fuga explotable. El sizing debe ser consistente independientemente de si la mano es de valor o de farol." },
+                    { label:"Usar un sizing mayor con las manos de valor para maximizar el bote cuando Villano paga", correct:false, explanation:"Esto es exactamente la fuga que el principio de balance busca evitar — un Reg atento notaría que los 3-bets grandes de Hero son casi siempre valor y ajustaría sus folds/calls en consecuencia." },
+                    { label:"Usar un sizing menor con los farols para arriesgar menos si Villano paga", correct:false, explanation:"De nuevo, esto crea una señal explotable: un sizing más pequeño señalaría 'esto es probablemente un farol', permitiendo a Villano pagar más selectivamente contra los farols de Hero y foldear más contra su valor." },
+                    { label:"El sizing solo importa contra Regs; contra Fish se puede variar libremente", correct:false, explanation:"El texto dice explícitamente que el sizing consistente importa tanto contra Regs como contra Fish — no se exime a ningún tipo de rival de este principio." },
+                  ],
+                },
+              ]},
+            ],
+          },
+        ],
+      },
 
     ],
   },
   en: {
     nav: { title: "Poker Cash Academy", back: "Home" },
     home: { welcome: "Poker Cash Academy", subtitle: "Master cash game. One concept at a time." },
-    menu: { academia: "Academy", academiaSubtitle: "Structured lessons step by step", stats: "Statistics", statsSubtitle: "Your progress, level and accuracy by category", survival: "Survival", survivalSubtitle: "One run per day. Compete for the monthly Top 10", profile: "Profile", profileSubtitle: "Your username and public info" },
+    menu: { academia: "Academy", academiaSubtitle: "Structured lessons step by step", stats: "Statistics", statsSubtitle: "Your progress, level and accuracy by category", survival: "Survival", survivalSubtitle: "One run per day. Compete for the monthly Top 10", profile: "Profile", profileSubtitle: "Your username and public info", glossary: "Glossary", glossarySubtitle: "70+ poker terms explained" },
+    glossary: {
+      title: "Glossary",
+      subtitle: "The essential poker terms, explained simply.",
+      searchPlaceholder: "Search for a term...",
+      noResults: "No terms found for that search.",
+    },
     academia: {
       title: "Academia",
       subtitle: "Learn step by step",
@@ -2101,8 +2347,8 @@ const content = {
       proposeTitle: "Propose a new hand",
       proposeCategoryLabel: "Category",
       proposePosLabel: "Your position",
-      proposeHandLabel: "Your hand (e.g. A♠ K♦)",
-      proposeBoardLabel: "Board (e.g. A♦ 7♣ 2♥)",
+      proposeHandLabel: "Your hand",
+      proposeBoardLabel: "Board",
       proposeCallPosLabel: "Opponent's position",
       proposePlayersLabel: "Players in the hand",
       proposeHU: "Heads-up (1 opponent)",
@@ -2132,6 +2378,8 @@ const content = {
       proposeError: "Could not submit the proposal. Please try again.",
       proposeLoginRequired: "Sign in to propose new hands.",
       proposeValidation: "Fill in the hand, all 4 options, and the explanation of why it's correct.",
+      proposeValidationBoard: "Fill in all the board cards.",
+      proposeValidationDuplicate: "The same card was used more than once. Each card can only appear once across the hand and board.",
       newHandsTitle: "Hands proposed by the community",
       newHandsDesc: "Vote on new hands submitted by other users. Once a hand gets enough upvotes it's added to the practice pool for everyone.",
       newHandsEmpty: "No pending new hands right now.",
@@ -3764,6 +4012,238 @@ const content = {
           },
         ],
       },
+      {
+        id: 9,
+        title: "9. 3-Betting",
+        summary: "When to build a polar 3-bet range versus a linear one, how to squeeze correctly in multiway pots, and how to choose your sizing based on your position and Villain's opening range.",
+        chapters: [
+          {
+            title: "Polar 3-Betting",
+            body: [
+              { type:"text", content:"The first decision when building your 3-bet range is whether it's going to be polar or linear. A polar range 3-bets ONLY with its best hands for value and with a separate bluffing group chosen for blockers and playability — deliberately leaving out the 'middling' hands, which become a calling range instead. A linear range, on the other hand, simply 3-bets from the top down without that gap in the middle. This section focuses on the polar approach: when it makes sense and how to build it." },
+              { type:"callout", label:"The three groups of a polar range", content:"A well-built polar 3-bet range has three parts: (1) 3-Bet Value — hands ahead of the range Villain CONTINUES with after your 3-bet (not just his opening range, which is wider); (2) Call — hands too good to bluff but not strong enough for a value 3-bet, which prefer to see cheap flops in position; (3) 3-Bet Bluff — hands chosen not for their raw strength, but for their blockers (A/K cards that block combos of AA/KK/QQ/AK/AQ in Villain's 4-bet range) and for their post-flop playability (suited and connected, with flush-draw and straight-draw potential if Villain calls)." },
+              { type:"callout", label:"The two conditions for going polar", content:"For a polar range to work you need two things. (1) Enough fold equity: as a general rule you need Villain to fold to your pre-flop 3-bet After Open around 50% of the time. This is derived from RFE (Villain's Risk/Reward if he 4-bet-folds against your 3-bet), adjusted down to account for your own post-flop playability and your c-betting equity when he calls. (2) A viable calling range: if you don't have enough hands 'in the middle' that prefer calling over 3-betting or folding, your polar range collapses into a linear one — the gap between value and bluff stops making sense if nothing fills it." },
+              { type:"callout", label:"Choosing your bluffs: blockers + playability", content:"Example: BU 3-bets against HJ. The value range [QQ+, AK] is 34 combos (~2.5% of the 1326 possible combos). If Hero 3-bets to 8BB after a 3BB open, Villain's 4-bet (OOP) would be around 19BB, giving Villain an RFE ≈56%. For Villain to be indifferent between calling and 4-bet-folding, Hero needs a bluff:value ratio of ~56:44 → 1.27 bluffs per value combo → 34×1.27≈43 bluff combos (in practice, 44). Those bluffs are chosen across three categories: (1) Double-blocker hands, like AJo or KQo, which simultaneously block AA/KK/QQ/JJ/AK/AQ/AJs/KQs; (2) Suited aces, like A9s or A5s, which besides blocking aces also give flush draws and good-kicker pairs on the flop; (3) Suited connectors/gappers, like QTs, 98s, or 87s, chosen for board coverage and playability if Villain calls." },
+              { type:"callout", label:"Watch out for long-term overbluffing", content:"It's tempting to add hands like 84o as a bluff 'because it has blockers'. The problem is the long run: if you overbluff, your opponent will adjust by calling or 4-betting more; you'll need to counter-adjust by trimming your bluffs; and the cycle repeats — an exponential adjustment-and-counter-adjustment process between two players that, mismanaged, leaves you with an exploitable bluffing range in both directions. The solution is to choose bluffs that, even if Villain adjusts, still retain reasonable equity when called — hence the importance of playability, not just blockers." },
+              { type:"quiz", questions:[
+                {
+                  situation:"BU 3-bet vs HJ open · building the bluffing range",
+                  hand:"A♣ J♥",
+                  context:"Hero's value range for 3-betting is [QQ+, AK] = 34 combos. Hero calculates that he needs ~44 bluff combos to maintain a bluff:value ratio of 1.27:1.",
+                  question:"Why is AJo a better candidate for that bluffing slot than, say, 73o?",
+                  options:[
+                    { label:"AJo blocks combos of AA, AK, and AQ from Villain's 4-bet range, and retains more equity if Villain calls", correct:true, explanation:"Correct! AJo shares the ace with AA/AK/AQ and the jack with AJs — reducing Villain's 4-betting combos and improving fold equity. AJ also has far more equity than 73o if Villain does call the 3-bet, which limits the bluff's risk." },
+                    { label:"73o also has blockers, so it doesn't matter which one you pick", correct:false, explanation:"73o shares no cards with AA, KK, QQ, AK, or AQ — it blocks nothing relevant in Villain's 4-bet range. AJo does, which is exactly why it's a far superior bluff." },
+                    { label:"Neither hand should be a bluff — only the value combos matter", correct:false, explanation:"A polar range NEEDS bluffs (see 'The two conditions' section): without them, your 3-bet would be value-only and Villain could fold without risk every time he doesn't have a premium hand." },
+                    { label:"AJo is better simply because it's a 'higher' hand, regardless of blockers", correct:false, explanation:"The bluff's value doesn't come from being 'a high hand' in the abstract, but from the specific blockers it shares with Villain's 4-bet range (AA/KK/QQ/AK/AQ) and its playability if called." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Linear 3-Betting and Practical Examples",
+            body: [
+              { type:"text", content:"A linear range 3-bets without the polar's middle gap: it simply takes your best hands from the top down (with or without a small additional calling range). Linear makes sense in two situations: (a) you have limited fold equity — less than ~50% Fold to 3-Bet After Open, typically against Fish who call too much; or (b) you don't want a calling range in this spot at all — for example in the SB (terrible post-flop position), with small effective stacks, or when there are active squeezers behind who would punish your flats." },
+              { type:"callout", label:"Example: linear range vs an aggressive Fish", content:"Against an aggressive Fish with little fold equity, the linear range splits conceptually into two zones: hands strong enough to survive even if Villain calls almost always (3-bet), and hands that prefer to see cheap flops for their implied odds — for example 33, which flops a set only ~12% of the time and an underpair the rest, which is bad for 3-betting but reasonable for a cheap flat looking to hit the set." },
+              { type:"callout", label:"Example: linear SB vs CO, with an aggressive BB behind", content:"If Hero is in the SB facing a CO open, with a very aggressive BB still to act, flatting is a bad plan: BB will squeeze often and Hero will get stuck OOP multiway. The solution is to revert to a linear range with NO calling range — 3-bet or fold, nothing in between. Within that linear range, distinguish between 3-bet/shove hands (the strongest) and 3-bet/fold hands (which bluff the 3-bet but give up against a 4-bet). If Hero folds to a 4-bet 68% of the time with his 3-bet/fold hands, he's exploiting the fact that CO's 4-bet-bluffing range in this spot tends to be narrow." },
+              { type:"callout", label:"The in-game flowchart: applying it to your hand", content:"At the table there's no time to draw out full ranges — you need a fast version of the process: (1) Do I have enough fold equity to go polar, or should I be linear/fold? (2) If I'm polar, is my hand value, call, or does it fit neither? (3) If I'm linear, does my hand clear the strength threshold to 3-bet, or am I out?" },
+              { type:"callout", label:"Three at-the-table examples", content:"(1) A4s in the BB vs a Reg's open: there's enough population fold equity to go polar, but A4s isn't strong enough for a value 3-bet — it IS a good call given its pot odds and being in position, so Hero calls 1.5BB. (2) A9o facing an overfolding nitty Reg, with an aggressive Reg still to act in the BB: here Hero wants to be linear (no calling range, due to the aggressive BB's squeeze risk), but A9o is too weak for that linear range — it dominates poorly, has poor blockers, and plays badly post-flop, so Hero folds. (3) AJo vs a tight Fish's open (range ≈8%, something like [88+ AJo+ ATs+ KTs+ QJs]): again linear, but AJo doesn't even reach the ~40% equity needed against that range if Villain calls, nor is it a good call (bad pot/implied odds and little post-flop fold equity against a strong Fish range) — Hero folds." },
+              { type:"quiz", questions:[
+                {
+                  situation:"SB vs CO open · very aggressive BB Reg still to act",
+                  hand:"K♦ Q♦",
+                  context:"CO opens 3BB. Hero is in the SB with KQs. The BB is a very aggressive Reg who squeezes frequently when there's a flat in front of him.",
+                  question:"Why does a linear 3-bet with no calling range make more sense here than flatting with KQs?",
+                  options:[
+                    { label:"Flatting leaves Hero exposed to a squeeze from the aggressive BB and to playing OOP multiway from the SB — the worst position at the table", correct:true, explanation:"Correct! From the SB, flatting against an open with an active aggressor behind is usually -EV: if BB squeezes, Hero is stuck OOP in an inflated pot against two ranges. Reverting to linear (3-bet or fold) avoids that scenario entirely." },
+                    { label:"KQs should always go in the calling range of a polar structure, no exceptions", correct:false, explanation:"The text says the opposite: a calling range only makes sense when there ISN'T a high squeeze risk. From the SB with an active aggressor behind, the calling range is scrapped in favor of linear." },
+                    { label:"Because KQs is too strong for anything other than a pure value 3-bet", correct:false, explanation:"The reasoning isn't about the hand's raw strength in a vacuum, but about position (SB) and table dynamics (active aggressor behind) that make a calling range a bad plan in this specific spot." },
+                    { label:"Hero's position doesn't matter, only CO's opening range", correct:false, explanation:"Hero's position (SB, the worst for flatting) and the presence of an aggressor still to act are exactly the factors that tip the decision toward linear with no calling range." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Squeezing",
+            body: [
+              { type:"text", content:"A squeeze is a 3-bet after one or more players have already called the open, usually with a sizing larger than a heads-up 3-bet to account for the extra callers. In a vacuum, a squeeze can be one of three types: (1) Bluff-Bluff — you're looking for fold equity against EVERYONE involved, with neither player being especially sticky or combative; (2) Value-Bluff — you go for value against a sticky Fish who calls too much, and as a bluff against the Reg who opened (isolating the Fish); (3) Value-Value — you build the pot with hands ahead of whatever they're likely to have when they call, e.g. AJs against two Fish, or KK against two Regs. Value-Value can also be used to isolate, e.g. AQo against a single opponent." },
+              { type:"callout", label:"Key differences multiway", content:"Squeezing multiway isn't the same as 3-betting heads-up: (1) hands with nut potential, like JTs or 55, APPRECIATE multiway — it's usually better to flat them than to bluff with them, because you want to see the flop with multiple opponents to extract the most from a set or a straight. (2) Big offsuit hands, on the other hand, DEPRECIATE multiway — they're better as double-blocker bluffs than as calls, because their equity drops a lot against multiple ranges at once. (3) Fold equity is usually more limited multiway (each extra caller reduces the probability that EVERYONE folds), so linear squeezes are more common than polar ones." },
+              { type:"callout", label:"Example: a very polar squeeze (both overfold)", content:"If both the opener and the caller overfold to 3-bets/squeezes, your Call range can be very wide (hundreds of combos) because you have little to fear by staying in the pot. Your 3-Bet Value range is moderate, and your bluff:value ratio can run as high as 2:1 — for an 8BB squeeze, Villain's RFE is around 7/(7+5)≈58%, reduced by 10-15% for your post-flop playability. In practice this works out to something like 102 value combos and 204 bluff combos." },
+              { type:"callout", label:"Example: a linear squeeze (SB vs Fish + HJ Reg)", content:"SB faces an HJ (Reg) open with a semi-whale Fish (56% VPIP) already in the pot. Here a medium-width linear range WITH a calling range makes sense — implied odds are boosted by the Fish. The squeeze range (yellow) mixes pure value (QQ, AKo = value-value against both) with hands ahead of the Fish but not the Reg (AJo, A9s = value-bluff). For set-mining hands: a 2.5BB investment needs an average payoff of ~25BB to break even, i.e. ~17BB extra on average on later streets — achievable thanks to the Fish, but worth checking that the extra is actually there." },
+              { type:"callout", label:"Back to the vacuum: two more examples", content:"(1) JJ facing a tight UTG open with a Fish calling behind: squeezing here is a severe error — there's no fold equity (UTG has a strong, compact range), and JJ rarely flops a set, often ends up with a marginal overpair multiway, or a worthless underpair. Better to call 2BB and look for a cheap set. (2) KQo in the BB with a CO open and a UTG caller (UTG has an uncapped range but folds a lot): here going polar DOES make sense — KQo blocks 3 combos of KK, 3 of QQ, 4 of AK, and 4 of AQ, and has decent equity against the typical calling range ([88-JJ]) of the opponents. Hero squeezes to 11.5BB as a bluff-bluff." },
+              { type:"quiz", questions:[
+                {
+                  situation:"BB · CO opens, UTG (uncapped Reg, folds a lot to squeezes) calls · squeeze",
+                  hand:"K♦ Q♣",
+                  context:"Hero has KQo in the BB. CO opens and UTG calls. UTG has a wide (uncapped) opening range but tends to fold to squeezes. The opponents' typical calling range if they call would be something like [88-JJ].",
+                  question:"Why is KQo a good hand to squeeze here as a bluff-bluff to 11.5BB?",
+                  options:[
+                    { label:"KQo blocks combos of KK, QQ, AK, and AQ (reducing opponents' 4-bets) and has decent equity against [88-JJ] if someone calls", correct:true, explanation:"Correct! KQo blocks 3 combos of KK, 3 of QQ, 4 of AK, and 4 of AQ — hands that would otherwise 4-bet or call strongly. And against the typical calling range [88-JJ], KQ has reasonable equity as two big cards vs medium pairs." },
+                    { label:"KQo should flat here because it's a hand with multiway nut potential", correct:false, explanation:"The text distinguishes: hands with nut potential (JTs, 55) appreciate multiway and prefer flatting. KQo, as a big offsuit hand, DEPRECIATES multiway — it's better as a double-blocker bluff in a squeeze than as a call." },
+                    { label:"Squeezing with KQo here is a mistake because there's no fold equity against two opponents", correct:false, explanation:"This is the opposite of the JJ example: here UTG has an uncapped range that folds a lot to squeezes, which DOES provide enough fold equity to go polar with KQo." },
+                    { label:"The 11.5BB sizing is irrelevant; any sizing would work the same", correct:false, explanation:"Sizing in multiway squeezes is usually larger than in heads-up 3-bets precisely to compensate for the extra callers and maintain the needed fold equity — it's not an irrelevant detail." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "3-Bet Sizing",
+            body: [
+              { type:"text", content:"Choosing the right sizing for your 3-bet is as important as choosing which hands make up the range. Four ideas guide the decision: RFE and fold equity, balance between value and bluffs, Villain's pot/implied odds, and your position." },
+              { type:"callout", label:"1. RFE and Fold Equity", content:"There's a sweet spot sizing that maximizes the EV of your bluff 3-bets: if you size too small, Villain has little RFE and calls/4-bets more than you'd like; if you size too big, your bluff risks more than necessary for the fold equity you actually gain past a certain point. The ideal sizing sits where Villain's RFE (what he risks if he 4-bet-folds against your potential 4-bet) is high, without your own risk as the bluffer growing more than needed." },
+              { type:"callout", label:"2. Balance: same sizing for value and bluffs", content:"ALWAYS use the same sizing for your value hands and your bluffs — both against Regs (who can exploit revealing sizings) and against Fish (who don't need that tell but also won't punish you for being consistent). Varying your sizing based on hand strength is one of the easiest leaks to exploit at intermediate levels." },
+              { type:"callout", label:"3. Villain's pot odds and implied odds", content:"Avoid two extremes. If your 3-bet is TOO SMALL, you give Villain pot odds and implied odds good enough that hands like 55 or 76s can profitably call hoping to hit your value range with a set or a straight. If your 3-bet is TOO BIG, you eliminate ALL of Villain's implied odds — which, paradoxically, makes folding too easy and +EV for him, reducing your own effective fold equity. A big open from Villain already cuts his implied odds on its own (you need to raise less); a small open leaves more implied odds on the table, so your 3-bet should be proportionally bigger." },
+              { type:"callout", label:"4. Position", content:"In position (IP) you get extra fold equity 'for free' simply by acting later — you can use somewhat smaller sizings. Out of position (OOP) you need to compensate for that disadvantage with a somewhat larger sizing to get adequate fold equity. The general sizing table (assuming 100BB stacks) recommends: bigger sizings against small opens, while OOP, or when squeezing; smaller sizings against big opens, while IP, or in non-squeeze 3-bets." },
+              { type:"callout", label:"Final example: 40BB stacks", content:"CO opens to 3BB with a wide range and folds 70% of the time to 3-bets — a poor strategy for this stack depth. The general table would suggest an 8BB IP 3-bet against a 3x open. But with 40BB effective, 8BB is TOO BIG for two reasons: (a) Villain's implied odds are already heavily cut by how shallow the stack is — you don't need to size up further to remove them entirely; and (b) an 8BB 3-bet would turn Villain's potential 4-bet into a shove of the remaining 37BB, giving Villain enormous RFE on a 4-bet bluff (he gets fold equity AND, if Hero calls, realizes his equity with the rest of the stack). The fix is to size down: Hero raises to 6.75BB instead." },
+              { type:"quiz", questions:[
+                {
+                  situation:"CO opens to 3BB (wide range, Fold to 3-Bet 70%) · Effective stacks: 40BB",
+                  hand:"A♠ Q♠",
+                  context:"The general sizing table would suggest 8BB IP against a 3x open with 100BB stacks. Hero is deciding whether to use 8BB or a smaller sizing with AQs, given that effective stacks here are only 40BB.",
+                  question:"Why is 6.75BB better than 8BB in this 40BB-effective spot?",
+                  options:[
+                    { label:"8BB would turn Villain's 4-bet into a shove of the remaining 37BB, giving him huge RFE; and 40BB already cuts his implied odds without needing to size up more", correct:true, explanation:"Correct! With short stacks, an 8BB 3-bet leaves Villain a 4-bet that's essentially all-in — that gives him a very high RFE on his 4-bet bluff. Plus, 40BB already heavily limits Villain's implied odds, so you don't need an extra-large sizing to 'kill' them completely." },
+                    { label:"8BB is always the correct IP sizing against a 3x open, regardless of stack depth", correct:false, explanation:"The general sizing table assumes 100BB. With 40BB effective, the dynamics change — mainly because a large 3-bet turns Villain's 4-bet into a shove, which doesn't happen at 100BB." },
+                    { label:"6.75BB is better only because it saves Hero chips if he loses the hand", correct:false, explanation:"Saving chips isn't the central argument — it's the RFE dynamic: a smaller sizing avoids turning Villain's 4-bet into a shove with huge RFE, and recognizes that his implied odds are already cut by the 40BB stack." },
+                    { label:"Sizing should never change based on stack depth, only on Villain's opening size", correct:false, explanation:"Stack depth is exactly one of the factors changing the decision here: at 100BB, 8BB would be reasonable; at 40BB, that same sizing creates an RFE problem on Villain's 4-bet that wouldn't exist at deeper stacks." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Practice: 3-Betting",
+            body: [
+              { type:"text", content:"This section is a pure practice block: 10 questions reviewing polar vs. linear, squeezing, and 3-bet sizing. These won't appear in the Test or Survival — they're here to help you consolidate the chapter's concepts." },
+              { type:"quiz", questions:[
+                {
+                  situation:"Review · The fold equity condition for going polar",
+                  hand:"—",
+                  context:"As a general rule for deciding between a polar or linear 3-bet range, the chapter mentions an approximate Fold to 3-Bet After Open threshold.",
+                  question:"What is that approximate threshold, and what does it mean to be below it?",
+                  options:[
+                    { label:"≈50% — below that threshold, you don't have enough fold equity to justify a polar range, and linear is better", correct:true, explanation:"Correct! If Villain folds less than ~50% of the time to your 3-bet after opening, your polar bluffs aren't generating enough fold equity — better to focus on a linear value range (adjusted to survive calls)." },
+                    { label:"≈90% — below that, you should always fold and never 3-bet", correct:false, explanation:"90% is an excessively high threshold and the text doesn't suggest 'never 3-betting' below it. The relevant threshold for the polar/linear decision is ≈50%." },
+                    { label:"≈25% — above that, you should always go polar", correct:false, explanation:"The threshold mentioned is ≈50%, not 25%, and the direction is the opposite: you NEED at least ≈50% fold equity for a polar range to make sense." },
+                    { label:"There is no threshold — the decision depends only on your cards", correct:false, explanation:"The chapter is explicit: the polar/linear decision depends largely on available fold equity (≈50% Fold to 3-Bet After Open), not solely on hand strength." },
+                  ],
+                },
+                {
+                  situation:"Review · RFE on a 3-bet",
+                  hand:"—",
+                  context:"Villain opens to 3BB. Hero 3-bets to 9BB. If Villain 4-bet-folds, he risks an additional 8BB (R) to win a pot of PG=4.5BB already built (his open plus Hero's 3-bet before his own action).",
+                  question:"Using RFE = R/(R+PG), what is Villain's RFE in this example?",
+                  options:[
+                    { label:"64% — RFE = 8/(8+4.5) ≈ 0.64", correct:true, explanation:"Correct! RFE = R/(R+PG) = 8/(8+4.5) = 8/12.5 ≈ 64%. That figure is later adjusted down (to ≈50%) to account for post-flop playability and Hero's c-betting equity." },
+                    { label:"36% — the complement of 64%", correct:false, explanation:"36% would be 1-64%, but the formula RFE=R/(R+PG) directly gives 64%, not its complement." },
+                    { label:"8% — using only the risk (R=8) as a percentage", correct:false, explanation:"8 is the value of R in BB, not a percentage. The formula requires dividing R by (R+PG), not using R alone." },
+                    { label:"50% — the final threshold used to build the range, with no further calculation needed", correct:false, explanation:"50% is the final ADJUSTED threshold (after reducing for post-flop playability), but the raw RFE calculation with the formula gives 64%. You need to calculate before adjusting." },
+                  ],
+                },
+                {
+                  situation:"Review · AJo's blockers in a polar 3-bet",
+                  hand:"A♣ J♥",
+                  context:"Villain's 4-bet/shove value range is [QQ+, AK].",
+                  question:"Which hands in Villain's 4-bet range does AJo partially block?",
+                  options:[
+                    { label:"AA, AK, and (to a lesser extent) AJs — because it shares the ace with AA/AK and the jack with AJs", correct:true, explanation:"Correct! AJo's ace reduces combos of AA and AK; the jack reduces combos of AJs. QQ and KK share no card with AJo, so they're unaffected by this hand." },
+                    { label:"QQ and KK, because they're the strongest hands in the range", correct:false, explanation:"AJo shares no card (A or J) with QQ or KK — those pairs aren't reduced at all by holding AJo." },
+                    { label:"All hands in the range equally, with no distinction", correct:false, explanation:"Blocking depends on which specific cards your hand shares with each combo in Villain's range. AJo affects AA/AK/AJs but NOT QQ/KK — it's not a uniform effect." },
+                    { label:"None — AJo has no relevant blockers in a polar 3-bet", correct:false, explanation:"AJo is precisely one of the chapter's 'double blocker' examples (alongside KQo), thanks to its ability to reduce combos of AA/AK/AJs (and, for KQo, also KK/QQ/AQ/KQs)." },
+                  ],
+                },
+                {
+                  situation:"Review · Why a polar range needs a calling range",
+                  hand:"—",
+                  context:"Hero is building a polar 3-bet range: at the top, value hands; at the bottom, bluffs chosen for blockers and playability.",
+                  question:"What happens if Hero doesn't have enough hands 'in the middle' to form a viable calling range?",
+                  options:[
+                    { label:"The polar range collapses into linear — without intermediate hands flatting, the gap between value and bluff stops making sense", correct:true, explanation:"Correct! The second condition for going polar is having a viable calling range (Figure 52, 'Polar Spectrum'). Without it, there's no reason to keep the gap — the range effectively becomes linear." },
+                    { label:"Nothing changes — the calling range is optional and doesn't affect the polar structure", correct:false, explanation:"The text presents this as one of the TWO necessary conditions for going polar, not as optional. Without a viable calling range, the polar structure doesn't hold up." },
+                    { label:"Hero should increase the number of bluffs to compensate", correct:false, explanation:"Adding more bluffs doesn't fix the structural problem: the gap 'in the middle' still doesn't make sense if no hands occupy it by calling. The fix is shifting to linear, not adding more bluffs." },
+                    { label:"Hero should play fit-or-fold with everything that isn't value", correct:false, explanation:"That might be a third possible option in some spots, but the text specifically says that without a calling range, the polar range 'collapses into linear', not into fit-or-fold." },
+                  ],
+                },
+                {
+                  situation:"Review · Squeeze types in a vacuum",
+                  hand:"A♠ J♠",
+                  context:"BU opens. A sticky Fish in HJ calls. Hero in the BB has AJs and squeezes: he has genuine value against the Fish's calling range, but is also looking for fold equity against BU.",
+                  question:"Which squeeze type best describes this scenario?",
+                  options:[
+                    { label:"Value-Bluff — value against the Fish who calls too much, bluff against the Reg who opened", correct:true, explanation:"Correct! This is the classic Value-Bluff pattern: AJs has real equity against the sticky Fish's wide calling range (value), while against BU the squeeze is mainly looking for fold equity (bluff)." },
+                    { label:"Bluff-Bluff — because Hero doesn't have a premium hand", correct:false, explanation:"AJs DOES have genuine value against a sticky Fish's calling range — it's not a pure bluff against both players, as Bluff-Bluff would require." },
+                    { label:"Value-Value — because Hero wants to build the pot against both opponents equally", correct:false, explanation:"Value-Value would require Hero to be ahead of BOTH players' ranges when they call. Here, against BU the goal is mainly fold equity (the bluff component), not building the pot." },
+                    { label:"That category doesn't exist — squeezes can only be polar or linear", correct:false, explanation:"Polar/linear is a different axis (overall range structure). Bluff-Bluff / Value-Bluff / Value-Value is the chapter's specific classification of squeeze TYPES 'in a vacuum'." },
+                  ],
+                },
+                {
+                  situation:"Review · Nut-potential hands in multiway squeezes",
+                  hand:"J♠ T♠",
+                  context:"BU opens, CO calls. Hero in the BB has JTs and is considering squeezing as a bluff or simply calling.",
+                  question:"According to the chapter, what's generally better for a hand like JTs in a multiway spot?",
+                  options:[
+                    { label:"Call — hands with nut potential APPRECIATE multiway, and JTs prefers to see the flop with multiple opponents to extract the most from a straight or two pair", correct:true, explanation:"Correct! The text explicitly distinguishes: hands with nut potential (JTs, 55) appreciate multiway and are better flatted; big offsuit hands depreciate multiway and are better as double-blocker bluffs." },
+                    { label:"Squeeze as bluff-bluff, just like any suited hand", correct:false, explanation:"JTs isn't a good double-blocker bluff candidate (it doesn't block AA/KK/QQ/AK like AJo or KQo do) — and as a hand with nut potential, it benefits more from seeing the flop multiway than from bluffing." },
+                    { label:"Always fold, because suited hands lose all their value multiway", correct:false, explanation:"It's the opposite: hands with nut potential like JTs GAIN relative value multiway (bigger potential pots if they connect), not lose it." },
+                    { label:"Squeeze for pure value, as if it were QQ+", correct:false, explanation:"JTs doesn't have the raw strength of a pure value squeeze (QQ+, AK). Its best multiway use is as a call to exploit its made-hand potential, not as a value squeeze." },
+                  ],
+                },
+                {
+                  situation:"Review · Position and 3-bet sizing",
+                  hand:"—",
+                  context:"Hero is deciding on 3-bet sizing. In one case he's IP against the opener; in another he's OOP.",
+                  question:"According to the chapter, how should Hero adjust his sizing based on position?",
+                  options:[
+                    { label:"Somewhat smaller sizing when IP (position already provides fold equity); somewhat larger sizing when OOP (to compensate and get adequate fold equity)", correct:true, explanation:"Correct! Playing in position already generates fold equity 'for free' by acting later — allowing somewhat smaller sizings. OOP needs to compensate for that disadvantage with a larger sizing." },
+                    { label:"Sizing should be identical regardless of position, only varying with Villain's opening range", correct:false, explanation:"Position is one of the FOUR explicit factors in the chapter (alongside RFE/FE, balance, and pot/implied odds) — it's not irrelevant to sizing." },
+                    { label:"Larger sizing when IP, because Hero has more information", correct:false, explanation:"It's the opposite: being IP already provides extra fold equity 'for free', which allows SMALLER sizings, not larger. The larger sizing is to compensate for the disadvantage of playing OOP." },
+                    { label:"Position only affects whether the range should be polar or linear, never the sizing", correct:false, explanation:"Position affects both: the polar/linear decision (via available fold equity) AND, independently, the specific 3-bet sizing (Figure 62)." },
+                  ],
+                },
+                {
+                  situation:"Review · A 3-bet that's too small",
+                  hand:"—",
+                  context:"Hero 3-bets with an unusually small sizing against a standard open.",
+                  question:"What problem does this create, according to the pot odds/implied odds section?",
+                  options:[
+                    { label:"It gives Villain pot odds and implied odds good enough that speculative hands like 55 or 76s can profitably call hoping to hit Hero's value range", correct:true, explanation:"Correct! A 3-bet that's too small leaves the pot cheap to call relative to the remaining stack — Villain can flat speculative hands with good implied odds, hoping to connect against Hero's strong range." },
+                    { label:"It completely eliminates Hero's fold equity, just like a 3-bet that's too big", correct:false, explanation:"A small 3-bet doesn't eliminate Hero's fold equity the way an excessively large one eliminates Villain's implied odds — these are different problems at opposite extremes." },
+                    { label:"It has no downside — smaller is always better because it risks less", correct:false, explanation:"The chapter describes two problematic extremes: too small (gives Villain implied odds) and too big (kills Villain's implied odds and reduces effective fold equity). Neither extreme is ideal." },
+                    { label:"It makes Villain 4-bet with a wider range of bluffs", correct:false, explanation:"The problem described isn't about Villain's 4-betting range, but about the pot/implied odds he gets to CALL the 3-bet with speculative hands." },
+                  ],
+                },
+                {
+                  situation:"Review · Severe squeeze error (JJ vs tight UTG + caller)",
+                  hand:"J♣ J♦",
+                  context:"UTG (very tight range) opens. A Fish calls behind. Hero in the BB has JJ.",
+                  question:"Why is squeezing with JJ here described as a 'severe error'?",
+                  options:[
+                    { label:"There's no fold equity against UTG's strong, compact range, and JJ rarely flops a set, often ends up with a marginal overpair multiway, or a worthless underpair", correct:true, explanation:"Correct! Against a tight open, UTG continues with most of his range after the squeeze (little fold equity), and post-flop JJ has a poor multiway equity profile: rarely a set, marginal overpair, or worthless underpair. The correct play is to call cheaply (2BB) and look for the set." },
+                    { label:"JJ is too strong to squeeze — it should go straight to 4-bet/shove preflop", correct:false, explanation:"The text doesn't suggest 4-bet/shove; it suggests CALLING (cheap set-mine at 2BB), precisely because JJ has neither the fold equity nor the post-flop profile for a squeeze, but does have value as a set-mining hand." },
+                    { label:"Squeezing with JJ is never correct in any context", correct:false, explanation:"The chapter itself shows examples where similar medium-pair hands CAN be part of value ranges in squeezes (e.g. KK vs two Regs in Value-Value). The error here is specific to THIS context: tight UTG + Fish caller." },
+                    { label:"It's an error because the Fish behind will always 4-bet the squeeze", correct:false, explanation:"The text's reasoning centers on UTG's lack of fold equity and JJ's poor multiway post-flop profile — not on any supposed tendency of the Fish to 4-bet." },
+                  ],
+                },
+                {
+                  situation:"Review · Sizing balance between value and bluffs",
+                  hand:"—",
+                  context:"Hero has both value hands (QQ+, AK) and bluffs (AJo, A9s, 98s) in his 3-bet range.",
+                  question:"According to the chapter's balance principle, what should Hero do with the sizing of these hands?",
+                  options:[
+                    { label:"Use the same sizing for value hands and bluffs, both against Regs and against Fish", correct:true, explanation:"Correct! Varying sizing based on hand strength (raising bigger with value, smaller with bluffs, or vice versa) is an exploitable leak. Sizing should be consistent regardless of whether the hand is value or a bluff." },
+                    { label:"Use a larger sizing with value hands to maximize the pot when Villain calls", correct:false, explanation:"This is exactly the leak the balance principle aims to prevent — an observant Reg would notice that Hero's large 3-bets are almost always value and adjust his folds/calls accordingly." },
+                    { label:"Use a smaller sizing with bluffs to risk less if Villain calls", correct:false, explanation:"Again, this creates an exploitable tell: a smaller sizing would signal 'this is probably a bluff', letting Villain call more selectively against Hero's bluffs and fold more against his value." },
+                    { label:"Sizing only matters against Regs; against Fish it can vary freely", correct:false, explanation:"The text explicitly says consistent sizing matters both against Regs and against Fish — no opponent type is exempt from this principle." },
+                  ],
+                },
+              ]},
+            ],
+          },
+        ],
+      },
 
     ],
   },
@@ -4027,18 +4507,210 @@ function QuizBlock({ questions, lang = "es" }) {
   );
 }
 
+// ─── GLOSARIO ────────────────────────────────────────────────────────────────
+
+const GLOSSARY = [
+  { id: "hero_villain", es: { term: "Hero y Villain", aliases: ["Villain"], def: "Hero es el jugador desde cuya perspectiva se analiza una mano (nosotros); Villain es su rival. Son etiquetas neutras que permiten describir situaciones sin revelar el resultado." }, en: { term: "Hero and Villain", aliases: ["Villain"], def: "Hero is the player whose perspective we analyze a hand from (us); Villain is the opponent. These are neutral labels that let us describe situations without revealing the outcome." } },
+  { id: "fish_reg", es: { term: "Fish y Reg", aliases: ["Fish", "Reg", "Regular"], def: "Un Fish (recreativo) es un jugador que pierde dinero de forma crónica por errores sistemáticos. Un Reg (regular) es un jugador competente que aplica una estrategia consistente y ganadora." }, en: { term: "Fish and Reg", aliases: ["Fish", "Reg", "Regular"], def: "A Fish (recreational player) is someone who loses money chronically due to systematic mistakes. A Reg (regular) is a competent player who applies a consistent, winning strategy." } },
+  { id: "nuts", es: { term: "Las Nuts", aliases: ["nuts"], def: "Las nuts son la mejor mano posible dado un tablero concreto. Es un concepto relativo al tablero: cambia con cada carta que cae." }, en: { term: "The Nuts", aliases: ["nuts"], def: "The nuts are the best possible hand given a specific board. It's a board-relative concept that changes with every card that falls." } },
+  { id: "draw", es: { term: "Draw (Proyecto)", aliases: ["draw", "proyecto de mano", "backdoor draw"], def: "Un draw es una mano incompleta que necesita mejorar para ganar: un flush draw, una escalera (OESD o gutshot) o un backdoor draw, que necesita dos cartas más para completarse." }, en: { term: "Draw", aliases: ["draw", "backdoor draw"], def: "A draw is an incomplete hand that needs to improve to win: a flush draw, a straight draw (open-ended or gutshot), or a backdoor draw, which needs two more cards to complete." } },
+  { id: "ip_oop", es: { term: "IP / OOP", aliases: ["IP", "OOP", "fuera de posición", "en posición"], def: "IP (in position) significa actuar después que el rival en las calles postflop, una gran ventaja. OOP (out of position) es lo contrario: actuar primero, sin información sobre la acción del rival." }, en: { term: "IP / OOP", aliases: ["IP", "OOP", "in position", "out of position"], def: "IP (in position) means acting after your opponent on postflop streets — a big advantage. OOP (out of position) is the opposite: acting first, without information about your opponent's action." } },
+  { id: "open", es: { term: "Open / Open Raise", aliases: ["open raise", "abrir el bote"], def: "Abrir (open) es hacer la primera subida voluntaria preflop cuando nadie ha entrado aún al bote. Es un raise, no un limp: la filosofía básica es 'o subes o foldeas'." }, en: { term: "Open / Open Raise", aliases: ["open raise"], def: "To open is to make the first voluntary raise pre-flop when no one else has entered the pot. It's a raise, not a limp — the basic philosophy is 'raise or fold'." } },
+  { id: "open_limp", es: { term: "Open-Limp", aliases: ["open limp"], def: "Hacer open-limp es pagar la ciega grande (1BB) siendo el primer jugador en entrar al bote, sin subir. Casi siempre es un error porque cede la iniciativa." }, en: { term: "Open-Limp", aliases: ["open limp"], def: "An open-limp is calling the big blind (1BB) as the first player to enter the pot, without raising. It's almost always a mistake because it gives up the initiative." } },
+  { id: "limp_behind", es: { term: "Limp Behind", aliases: ["limpear detrás"], def: "Limpear detrás (limp behind) es pagar 1BB después de que uno o más jugadores ya hayan limpeado, en lugar de subir (ISO) o foldear." }, en: { term: "Limp Behind", aliases: [], def: "To limp behind is to call 1BB after one or more players have already limped, instead of raising (ISO) or folding." } },
+  { id: "range", es: { term: "Rango (Range)", aliases: ["rangos"], def: "El rango de un jugador es el conjunto de todas las manos con las que tomaría una acción determinada. Pensar en rangos en lugar de manos concretas es el salto conceptual más importante del poker moderno." }, en: { term: "Range", aliases: ["ranges"], def: "A player's range is the full set of hands with which they would take a given action. Thinking in ranges rather than specific hands is the most important conceptual leap in modern poker." } },
+  { id: "equity", es: { term: "Equidad (Equity)", aliases: ["equidad"], def: "La equidad de una mano es su probabilidad de ganar el bote si llegara a showdown con todas las cartas repartidas. Tener equidad no significa que siempre convenga apostar." }, en: { term: "Equity", aliases: [], def: "A hand's equity is its probability of winning the pot if all cards were dealt out to showdown. Having equity doesn't always mean betting is correct." } },
+  { id: "sdv", es: { term: "SDV — Showdown Value", aliases: ["showdown value", "valor en showdown"], def: "El Showdown Value es la capacidad de una mano de ganar en showdown sin mejorar. Una mano con SDV alto a veces prefiere no apostar para llegar tranquila al showdown." }, en: { term: "SDV — Showdown Value", aliases: ["showdown value"], def: "Showdown Value is a hand's ability to win at showdown unimproved. A hand with high SDV sometimes prefers not to bet, so it can reach showdown safely." } },
+  { id: "bluff_value_semibluff", es: { term: "Bluff / Value Bet / Semi-Bluff", aliases: ["value bet", "semi-bluff", "semi bluff"], def: "Value bet: apostar esperando que te llamen manos peores. Bluff: apostar sin mano fuerte para forzar un fold. Semi-bluff: apostar con un draw, combinando ambas ideas." }, en: { term: "Bluff / Value Bet / Semi-Bluff", aliases: ["value bet", "semi-bluff", "semi bluff"], def: "Value bet: betting expecting to be called by worse hands. Bluff: betting with a weak hand to make opponents fold. Semi-bluff: betting with a draw, combining both ideas." } },
+  { id: "cbet", es: { term: "C-Bet — Continuation Bet", aliases: ["c-bet", "cbet", "continuation bet"], def: "La c-bet es la apuesta del agresor preflop en el flop. Una value c-bet busca que te llamen manos peores; una light c-bet se hace sin mano fuerte esperando que el rival foldee." }, en: { term: "C-Bet — Continuation Bet", aliases: ["c-bet", "cbet"], def: "The c-bet is the bet made by the pre-flop aggressor on the flop. A value c-bet wants calls from worse hands; a light c-bet is made without a strong hand, hoping the opponent folds." } },
+  { id: "effective_stack", es: { term: "Stack Efectivo (Effective Stack)", aliases: ["stack efectivo", "effective stack"], def: "El stack efectivo es el más pequeño de los stacks en juego en una mano: es todo lo que realmente puede apostarse entre los jugadores implicados." }, en: { term: "Effective Stack", aliases: [], def: "The effective stack is the smallest stack in play in a hand — it's the maximum amount that can actually be wagered between the players involved." } },
+  { id: "pot_implied_odds", es: { term: "Pot Odds / Implied Odds", aliases: ["pot odds", "implied odds"], def: "Pot odds comparan el tamaño del bote con lo que cuesta continuar. Implied odds añaden el dinero extra que podrías ganar en calles futuras si completas tu mano." }, en: { term: "Pot Odds / Implied Odds", aliases: ["pot odds", "implied odds"], def: "Pot odds compare the size of the pot to the cost of continuing. Implied odds add the extra money you could win on future streets if you complete your hand." } },
+  { id: "threebet", es: { term: "3-Bet", aliases: ["3bet", "3-betting", "resubida"], def: "Hacer 3-bet preflop es re-subir una subida anterior. Un 3-bet light se hace con un rango más amplio que el puramente de valor, incluyendo bluffs." }, en: { term: "3-Bet", aliases: ["3bet", "3-betting"], def: "To 3-bet pre-flop is to re-raise a previous raise. A light 3-bet is made with a wider range than pure value, including bluffs." } },
+  { id: "fourbet", es: { term: "4-Bet", aliases: ["4bet"], def: "Un 4-bet es la respuesta a un 3-bet: la segunda re-subida preflop. Suele ser un rango muy estrecho, casi siempre orientado a valor." }, en: { term: "4-Bet", aliases: ["4bet"], def: "A 4-bet is the response to a 3-bet — the second pre-flop re-raise. It's usually a very narrow range, almost always value-oriented." } },
+  { id: "squeeze", es: { term: "Squeeze", aliases: [], def: "Hacer squeeze es 3-betear después de que uno o más jugadores hayan pagado (call) una apertura. Aprovecha que esos callers suelen tener rangos débiles, dando fold equity extra." }, en: { term: "Squeeze", aliases: [], def: "To squeeze is to 3-bet after one or more players have called an open. It exploits the fact that those callers usually have weak ranges, giving extra fold equity." } },
+  { id: "iso", es: { term: "ISO (Isolation Raise)", aliases: ["iso raise", "isolation"], def: "ISO es subir después de uno o más limpers, normalmente para reducir el número de rivales y jugar el bote heads-up contra un jugador más débil." }, en: { term: "ISO (Isolation Raise)", aliases: ["iso raise", "isolation"], def: "ISO is raising after one or more limpers, usually to thin the field and play the pot heads-up against a weaker player." } },
+  { id: "cold_call", es: { term: "Cold Call", aliases: [], def: "Hacer cold call a una subida es pagarla sin haber metido dinero extra en el bote previamente (a diferencia del jugador que abrió y se enfrenta a un 3-bet)." }, en: { term: "Cold Call", aliases: [], def: "A cold call is calling a raise without having previously put extra money into the pot — unlike the original raiser facing a 3-bet." } },
+  { id: "complete", es: { term: "Completar (Complete)", aliases: ["completar"], def: "Completar es pagar la media ciega que falta desde la SB. Normalmente solo tiene sentido cuando ya hay uno o más limpers en el bote." }, en: { term: "Complete", aliases: [], def: "To complete is to call the remaining half-blind from the SB. It generally only makes sense when there are already one or more limpers in the pot." } },
+  { id: "gap_concept", es: { term: "Gap Concept", aliases: [], def: "El Gap Concept dice que, en la mayoría de situaciones, necesitas un rango más fuerte para jugar contra una apertura que para abrir tú mismo desde esa posición." }, en: { term: "Gap Concept", aliases: [], def: "The Gap Concept states that, in most situations, you need a stronger range to play against an open than you would need to open yourself from that position." } },
+  { id: "set_mine", es: { term: "Set Mine", aliases: ["set-mine"], def: "Set mining es pagar una subida con una pareja pequeña con el objetivo principal de hacer un set y ganar un bote grande las veces que lo consigas." }, en: { term: "Set Mine", aliases: ["set-mine"], def: "Set mining is calling a raise with a small pocket pair with the main goal of hitting a set and winning a big pot when you do." } },
+  { id: "polarized", es: { term: "Rango Polarizado (Polarised)", aliases: ["polarizado", "polarizada", "polar"], def: "Un rango polarizado contiene dos partes claramente diferenciadas: manos fuertes de valor y bluffs débiles, sin manos medias entre ambos extremos." }, en: { term: "Polarised Range", aliases: ["polarized", "polar"], def: "A polarised range contains two clearly different parts: strong value hands and weak bluffs, with no medium-strength hands in between." } },
+  { id: "linear", es: { term: "Rango Lineal (Linear)", aliases: ["lineal"], def: "Un rango lineal incluye todas las manos por encima de un umbral de fuerza, de la mejor a la peor, sin huecos. Es habitual en 3-bets puramente de valor." }, en: { term: "Linear Range", aliases: [], def: "A linear range includes every hand above a strength threshold, from best to worst, with no gaps. It's common for purely value-oriented 3-bets." } },
+  { id: "depolarized", es: { term: "Rango Despolarizado (Depolarised)", aliases: ["despolarizado"], def: "Un rango despolarizado no tiene dos partes diferenciadas: puede contener cualquier cosa, desde las nuts hasta aire total, con todo lo intermedio." }, en: { term: "Depolarised Range", aliases: ["depolarized"], def: "A depolarised range has no two clearly distinct parts — it can contain anything from the nuts down to complete air, with everything in between." } },
+  { id: "capped_range", es: { term: "Rango Capeado (Capped Range)", aliases: ["capeado", "capped"], def: "Un rango está capeado cuando no contiene las manos más fuertes posibles, normalmente porque la línea tomada hace improbable tener algo por encima de cierta fuerza." }, en: { term: "Capped Range", aliases: ["capped"], def: "A range is capped when it doesn't contain the strongest possible hands — usually because the line taken makes it unlikely the player has anything above a certain strength." } },
+  { id: "uncapped_range", es: { term: "Rango Sin Capear (Uncapped Range)", aliases: ["uncapped", "sin capear"], def: "Un rango sin capear (uncapped) no tiene esa limitación y puede incluir las manos más fuertes posibles en ese spot." }, en: { term: "Uncapped Range", aliases: ["uncapped"], def: "An uncapped range has no such limitation and can still include the strongest possible hands in that spot." } },
+  { id: "range_advantage", es: { term: "Ventaja de Rango (Range Advantage)", aliases: ["ventaja de rango"], def: "Tener ventaja de rango significa que tu rango contiene más manos fuertes que el de tu rival en ese tablero. El jugador con ventaja suele querer aplicar presión y tomar la iniciativa." }, en: { term: "Range Advantage", aliases: [], def: "Having range advantage means your range contains more strong hands than your opponent's on that board. The player with the advantage usually wants to apply pressure and take the lead." } },
+  { id: "board_coverage", es: { term: "Board Coverage", aliases: [], def: "Un rango tiene buen board coverage cuando puede conectar bien con muchas texturas de flop distintas, lo que ayuda a construir estrategias equilibradas." }, en: { term: "Board Coverage", aliases: [], def: "A range has good board coverage when it can connect well with many different flop textures, which helps build balanced strategies." } },
+  { id: "versatility", es: { term: "Versatilidad (Versatility)", aliases: ["versatilidad"], def: "Una mano versátil puede conectar con el flop de varias formas (flush draw, escalera, pareja decente), lo que le da más caminos para mejorar en calles futuras." }, en: { term: "Versatility", aliases: [], def: "A versatile hand can connect with the flop in several ways (flush draw, straight draw, decent pair), giving it more paths to improve on later streets." } },
+  { id: "combo", es: { term: "Combo", aliases: ["combos"], def: "Un combo es una combinación concreta de 2 cartas de la baraja — una mano inicial exacta. AKs, por ejemplo, tiene 4 combos distintos." }, en: { term: "Combo", aliases: ["combos"], def: "A combo is a specific combination of 2 cards from the deck — an exact starting hand. AKs, for example, has 4 distinct combos." } },
+  { id: "blocker", es: { term: "Blocker", aliases: ["blockers"], def: "Un blocker es una carta en tu mano (o en el tablero) que reduce las combinaciones posibles de ciertas manos en el rango del rival, lo cual puede hacer un bluff más efectivo." }, en: { term: "Blocker", aliases: ["blockers"], def: "A blocker is a card in your hand (or on the board) that reduces the number of combos of certain hands in your opponent's range, which can make a bluff more effective." } },
+  { id: "barrel", es: { term: "Barrel (Double/Triple Barrel)", aliases: ["double barrel", "triple barrel", "barrel"], def: "Un barrel es una apuesta adicional del agresor en una calle posterior. Double barrel es apostar flop y turn; triple barrel añade también el river." }, en: { term: "Barrel (Double/Triple Barrel)", aliases: ["double barrel", "triple barrel"], def: "A barrel is a further bet by the aggressor on a later street. A double barrel means betting flop and turn; a triple barrel adds the river too." } },
+  { id: "donk_bet", es: { term: "Donk Bet", aliases: ["donk"], def: "Un donk bet es una apuesta del jugador que pagó preflop, hecha antes de que el agresor preflop tenga oportunidad de c-betear." }, en: { term: "Donk Bet", aliases: ["donk"], def: "A donk bet is a bet made by the pre-flop caller before the pre-flop raiser has had a chance to c-bet." } },
+  { id: "float", es: { term: "Float", aliases: [], def: "Hacer float es pagar una apuesta sin mano hecha, con la intención de aprovechar fold equity en una calle posterior si el rival no vuelve a apostar." }, en: { term: "Float", aliases: [], def: "To float is to call a bet with a non-made hand, intending to take advantage of fold equity on a later street if the opponent doesn't bet again." } },
+  { id: "chase", es: { term: "Chase", aliases: [], def: "Hacer chase es pagar con un draw confiando únicamente en tener suficientes pot odds o implied odds, sin contar con fold equity adicional." }, en: { term: "Chase", aliases: [], def: "To chase is to call with a draw relying solely on having sufficient pot odds or implied odds, without counting on extra fold equity." } },
+  { id: "lead", es: { term: "Lead", aliases: [], def: "Tomar el lead (liderar) es apostar en un bote multiway como pagador preflop, antes de que actúe el agresor original." }, en: { term: "Lead", aliases: [], def: "To lead is to take the betting initiative in a multiway pot as the pre-flop caller, before the original aggressor acts." } },
+  { id: "turn_probe", es: { term: "Turn Probe", aliases: [], def: "Un turn probe es una apuesta del pagador preflop fuera de posición en el turn, después de que el agresor checkeara el flop. Puede ser por valor, protección o bluff." }, en: { term: "Turn Probe", aliases: [], def: "A turn probe is a bet made by the pre-flop caller out of position on the turn, after the aggressor checked the flop. It can be for value, protection, or as a bluff." } },
+  { id: "delayed_cbet", es: { term: "Delayed C-Bet", aliases: ["delayed cbet"], def: "Un delayed c-bet es una apuesta del agresor preflop hecha en el turn, después de haber checkeado el flop, en lugar de c-betear directamente." }, en: { term: "Delayed C-Bet", aliases: ["delayed cbet"], def: "A delayed c-bet is a bet made by the pre-flop aggressor on the turn, after having checked the flop instead of c-betting directly." } },
+  { id: "light_cbet", es: { term: "Light C-Bet", aliases: ["light cbet"], def: "Un light c-bet es una c-bet sin mano de valor: aunque tengas un draw o una pareja débil, no esperas estar por delante del rango que te paga." }, en: { term: "Light C-Bet", aliases: ["light cbet"], def: "A light c-bet is a c-bet made without a value hand. Even with a draw or weak pair, you don't expect to be ahead of the range that calls you." } },
+  { id: "slowplay", es: { term: "Slowplay", aliases: [], def: "Slowplayear es jugar una mano muy fuerte de forma pasiva: checkear en vez de apostar, o pagar en vez de subir, para no asustar al rival." }, en: { term: "Slowplay", aliases: [], def: "To slowplay is to play a very strong hand passively: checking instead of betting, or calling instead of raising, so as not to scare off the opponent." } },
+  { id: "scare_card", es: { term: "Scare Card", aliases: [], def: "Una scare card es una carta que parece mejorar el rango de un jugador, lo que hace más probable que su rival foldee." }, en: { term: "Scare Card", aliases: [], def: "A scare card is a card that appears to improve a player's range, making their opponent more likely to fold." } },
+  { id: "board_texture", es: { term: "Textura de Tablero (Board Texture)", aliases: ["textura de tablero", "board texture"], def: "La textura del tablero describe cómo conecta el flop con los rangos de ambos jugadores. Los tableros secos ofrecen pocas conexiones; los húmedos, muchas (draws, escaleras, flushes posibles)." }, en: { term: "Board Texture", aliases: [], def: "Board texture describes how the flop connects with both players' ranges. Dry boards offer few connections; wet boards offer many (possible draws, straights, flushes)." } },
+  { id: "absolute_hand_strength", es: { term: "Fuerza Absoluta de Mano", aliases: ["absolute hand strength", "fuerza absoluta"], def: "La fuerza absoluta de una mano es simplemente su rango: por ejemplo, 'escalera al 8' o 'flush de ases', sin considerar el contexto." }, en: { term: "Absolute Hand Strength", aliases: [], def: "Absolute hand strength is simply the rank of a hand — e.g. 'eight-high straight' or 'nut flush' — without considering context." } },
+  { id: "relative_hand_strength", es: { term: "Fuerza Relativa de Mano", aliases: ["relative hand strength", "fuerza relativa"], def: "La fuerza relativa de una mano depende del contexto: la textura del tablero, las acciones del rival, su tipo de jugador y la profundidad de stack. Es la que realmente importa para decidir." }, en: { term: "Relative Hand Strength", aliases: [], def: "Relative hand strength depends on context — board texture, the opponent's actions, their player type, and stack depth. This is the strength that actually matters for decisions." } },
+  { id: "made_nonmade", es: { term: "Made-Hand / Non-Made-Hand", aliases: ["made hand", "non-made hand", "non made hand"], def: "Una made-hand es cualquier mano que ya es al menos una pareja con una carta propia o mejor, sin necesitar mejorar. Una non-made-hand (como aire o un draw puro) necesita cartas futuras para superar 'carta alta'." }, en: { term: "Made-Hand / Non-Made-Hand", aliases: ["made hand", "non-made hand", "non made hand"], def: "A made-hand is anything from a pair using a hole card upward — it doesn't need to improve. A non-made-hand (like air or a pure draw) needs future cards to beat 'high card'." } },
+  { id: "thin_thick_value", es: { term: "Thin Value / Thick Value", aliases: ["thin value", "thick value"], def: "Thick value es cuando vas claramente por delante del rango que te paga. Thin value es cuando tu mano es bastante débil pero aún tiene más del 50% de equidad frente a ese rango." }, en: { term: "Thin Value / Thick Value", aliases: ["thin value", "thick value"], def: "Thick value is when you're comfortably ahead of the range that calls you. Thin value is when your hand is fairly weak but still has over 50% equity against that range." } },
+  { id: "value_own", es: { term: "Value Own", aliases: [], def: "Hacerte un value own es intentar apostar por valor con una mano que en realidad es demasiado débil para ello, dando equidad gratis al rango que te paga o sube." }, en: { term: "Value Own", aliases: [], def: "To value own yourself is to bet for value with a hand that's actually too weak for it, giving free equity to the range that calls or raises you." } },
+  { id: "nut_potential", es: { term: "Nut Potential", aliases: [], def: "Las manos con alto nut potential pueden convertirse en manos muy fuertes (como un set) con cierta frecuencia, siendo la mejor mano la inmensa mayoría de las veces que lo logran." }, en: { term: "Nut Potential", aliases: [], def: "Hands with high nut potential can turn into very strong hands (like a set) with meaningful frequency, and are the best hand the vast majority of the time they do." } },
+  { id: "good_pair_potential", es: { term: "Good Pair Potential", aliases: [], def: "Las manos con buen good pair potential hacen con frecuencia parejas fuertes (top pair con buen kicker o sobrepareja) que ganan la mayoría de los enfrentamientos contra una sola pareja." }, en: { term: "Good Pair Potential", aliases: [], def: "Hands with good pair potential frequently make strong pairs (top pair good kicker, or overpairs) that beat most one-pair hands." } },
+  { id: "vulnerable_sdv", es: { term: "Vulnerable SDV", aliases: [], def: "Una mano tiene SDV vulnerable cuando puede ganar en showdown sin mejorar, pero las cartas de turn y river pueden debilitarla y el rival tiene muchas formas de superarla." }, en: { term: "Vulnerable SDV", aliases: [], def: "A hand has vulnerable SDV when it can win at showdown unimproved, but turn and river cards can weaken it further and the opponent has many ways to outdraw it." } },
+  { id: "small_pp_curse", es: { term: "Small Pocket Pair Curse", aliases: [], def: "Una pareja pequeña que falla el flop y va por detrás solo tiene dos outs para mejorar; pero si falla el flop y va por delante, casi siempre tiene al menos seis outs en su contra." }, en: { term: "Small Pocket Pair Curse", aliases: [], def: "A small pocket pair that misses the flop while behind only has two outs to improve, but when it misses while ahead, it usually faces at least six outs against it." } },
+  { id: "dominated", es: { term: "Dominado (Dominated)", aliases: ["dominado", "dominada"], def: "Una mano o rango está dominado cuando es probable que, al mejorar, siga por detrás de la mano o rango del rival (por ejemplo, AJ frente a un rango de AK-AQ)." }, en: { term: "Dominated", aliases: [], def: "A hand or range is dominated when, even after improving, it's likely to remain behind the opponent's hand or range (e.g. AJ vs. a range of AK-AQ)." } },
+  { id: "crush_deck", es: { term: "Crush the Deck", aliases: [], def: "Crush the deck describe tener una mano muy fuerte en un tablero donde tus propias cartas hacen mucho menos probable que el rival haya conectado nada decente." }, en: { term: "Crush the Deck", aliases: [], def: "Crushing the deck describes having a very strong hand on a board where your hole cards make it much less likely the opponent has flopped anything decent." } },
+  { id: "balanced_exploit", es: { term: "Estrategia Balanceada vs. Explotativa", aliases: ["balanced strategy", "exploitative strategy", "estrategia balanceada", "estrategia explotativa"], def: "Una estrategia balanceada no está sesgada hacia manos fuertes ni débiles y no tiene fugas explotables. Una estrategia explotativa se desvía a propósito para aprovechar los errores de un rival concreto, aunque crea sus propias debilidades." }, en: { term: "Balanced vs. Exploitative Strategy", aliases: ["balanced strategy", "exploitative strategy"], def: "A balanced strategy isn't skewed toward strong or weak hands and has no exploitable leaks. An exploitative strategy deliberately deviates to attack a specific opponent's mistakes, at the cost of creating its own weaknesses." } },
+  { id: "mdf", es: { term: "MDF — Minimum Defense Frequency", aliases: ["mdf", "minimum defense frequency"], def: "El MDF es el porcentaje mínimo de tu rango que debes defender frente a una apuesta para que al rival no le sea rentable apostar con cualquier mano." }, en: { term: "MDF — Minimum Defense Frequency", aliases: ["mdf"], def: "MDF is the minimum percentage of your range you must defend against a bet so that your opponent can't profitably bet with any hand." } },
+  { id: "fold_equity", es: { term: "Fold Equity", aliases: [], def: "La fold equity es el porcentaje de las veces que ganas el bote simplemente porque el rival foldea, sin necesidad de tener la mejor mano." }, en: { term: "Fold Equity", aliases: [], def: "Fold equity is the percentage of the time you win the pot simply because your opponent folds, without needing the best hand." } },
+  { id: "ghost_equity", es: { term: "Ghost Equity", aliases: [], def: "La ghost equity es la equidad que tienes frente al rango de apuesta o subida del rival en una calle anterior, pero que no llegarás a materializar del todo porque tendrás que foldear en alguna calle futura." }, en: { term: "Ghost Equity", aliases: [], def: "Ghost equity is the equity you have against an opponent's betting or raising range on an earlier street that won't fully be realized, because you'll have to fold on some later street." } },
+  { id: "reverse_implied_odds", es: { term: "Reverse Implied Odds", aliases: [], def: "Los reverse implied odds son lo contrario de los implied odds: ocurren cuando, al mejorar tu mano, sigues perdiendo el bote (y apuestas adicionales) frente a una mano todavía mejor del rival." }, en: { term: "Reverse Implied Odds", aliases: [], def: "Reverse implied odds are the opposite of implied odds: they occur when, even after improving your hand, you still lose the pot (and extra bets) to an even better hand." } },
+  { id: "elasticity", es: { term: "Elasticity (Elasticidad)", aliases: ["elasticidad"], def: "La elasticidad mide cuánto cambia el rango de pago del rival según el tamaño de tu apuesta. Un rango elástico es muy sensible al sizing; uno inelástico, poco." }, en: { term: "Elasticity", aliases: [], def: "Elasticity measures how much an opponent's calling range changes based on your bet size. An elastic range is very sensitive to sizing; an inelastic range is not." } },
+  { id: "pyramidal", es: { term: "Estrategia Piramidal (Pyramidal Strategy)", aliases: ["pyramidal strategy", "estrategia piramidal"], def: "Una estrategia piramidal reduce progresivamente, calle a calle, la parte de tu rango que sigue apostando o subiendo — del preflop al río — para mantener el equilibrio." }, en: { term: "Pyramidal Strategy", aliases: [], def: "A pyramidal strategy progressively shrinks the portion of your range that keeps betting or raising, street by street from pre-flop to the river, to maintain balance." } },
+  { id: "procedural_range_check", es: { term: "Procedural Check / Range Check", aliases: ["procedural check", "range check"], def: "Un procedural check (o range check) es un check hecho con todo tu rango por motivos de equilibrio, antes de que actúe el agresor de la calle anterior, sin importar la fuerza real de tu mano." }, en: { term: "Procedural Check / Range Check", aliases: ["procedural check", "range check"], def: "A procedural check (or range check) is a check made with your entire range for balance reasons, before the previous street's aggressor acts — regardless of your hand's actual strength." } },
+  { id: "action_spots", es: { term: "Open / End of Action Spot", aliases: ["open action spot", "end of action spot"], def: "Un Open Action Spot es una situación donde, si pagas, todavía puede haber más apuestas o subidas. Un End of Action Spot es donde, si pagas, la mano termina ahí (por ejemplo, un all-in o el river)." }, en: { term: "Open / End of Action Spot", aliases: ["open action spot", "end of action spot"], def: "An Open Action Spot is one where, if you call, there can still be further bets or raises. An End of Action Spot is one where, if you call, the hand is over (e.g. an all-in or a river bet)." } },
+  { id: "tilt", es: { term: "Tilt", aliases: [], def: "El tilt es cualquier desviación de tu proceso de decisión óptimo causada por interferencia emocional, que te lleva a tomar decisiones de menor EV." }, en: { term: "Tilt", aliases: [], def: "Tilt is any deviation from your optimal decision-making process caused by emotional interference, leading to lower-EV plays." } },
+  { id: "metagame", es: { term: "Meta-Game", aliases: ["metagame"], def: "El meta-game es el entendimiento dinámico entre Hero y su rival: lo que cada uno piensa del otro y cómo eso afecta a las decisiones futuras de ambos." }, en: { term: "Meta-Game", aliases: ["metagame"], def: "Meta-game is the dynamically evolving understanding between Hero and an opponent: what each thinks of the other, and how that shapes future decisions for both." } },
+  { id: "results_orientation", es: { term: "Results Orientation", aliases: [], def: "La results orientation es la tendencia a juzgar una jugada por el resultado de una muestra insuficiente de manos, en lugar de por si era lógicamente correcta." }, en: { term: "Results Orientation", aliases: [], def: "Results orientation is the tendency to judge a play based on the outcome of an insufficient sample of hands, rather than on whether it was logically correct." } },
+  { id: "ev_types", es: { term: "Long-Term EV / Vacuum EV", aliases: ["long-term ev", "vacuum ev"], def: "El Long-Term EV evalúa una jugada como parte de una estrategia repetida muchas veces. El Vacuum EV evalúa el EV de una jugada en una mano aislada, sin considerar el patrón general." }, en: { term: "Long-Term EV / Vacuum EV", aliases: ["long-term ev", "vacuum ev"], def: "Long-Term EV evaluates a play as part of a strategy repeated many times. Vacuum EV evaluates the EV of a play in an isolated hand, without considering the broader pattern." } },
+  { id: "card_dead", es: { term: "Card Dead", aliases: [], def: "Estar card dead es pasar por un periodo en el que no te llegan buenas manos ni flopeas bien — algo normal y temporal, no una señal de que algo va mal." }, en: { term: "Card Dead", aliases: [], def: "Being card dead refers to a stretch where you're not dealt good hands and don't flop well — a normal, temporary phase, not a sign that something's wrong." } },
+  { id: "reverse_player", es: { term: "Reverse Player", aliases: [], def: "Un reverse player tiende a jugar agresivo con manos débiles y pasivo con manos fuertes: su rango de apuestas grandes está lleno de aire, y su rango de calls/checks es más fuerte de lo normal." }, en: { term: "Reverse Player", aliases: [], def: "A reverse player tends to play aggressively with weak hands and passively with strong hands: their big-bet range is air-heavy, while their calling/checking range is stronger than usual." } },
+  { id: "nit", es: { term: "Nit", aliases: [], def: "Un nit es un jugador que foldea demasiado en general, especialmente preflop. Sus rangos de apertura, 3-bet y defensa son mucho más estrechos de lo óptimo." }, en: { term: "Nit", aliases: [], def: "A nit is a player who folds too much in general, especially pre-flop. Their opening, 3-betting, and defending ranges are much tighter than optimal." } },
+];
+
+function escapeRegExp(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// Construye, para un idioma dado, un regex que detecta términos del glosario (y sus alias),
+// priorizando coincidencias más largas, junto a un mapa texto-en-minúsculas -> id de término.
+function buildGlossaryMatcher(lang) {
+  const entries = [];
+  GLOSSARY.forEach((g) => {
+    const data = g[lang] || g.es;
+    [data.term, ...(data.aliases || [])].forEach((pattern) => {
+      if (pattern) entries.push({ pattern, id: g.id });
+    });
+  });
+  entries.sort((a, b) => b.pattern.length - a.pattern.length);
+  const map = new Map();
+  entries.forEach((e) => map.set(e.pattern.toLowerCase(), e.id));
+  const regex = new RegExp("\\b(" + entries.map((e) => escapeRegExp(e.pattern)).join("|") + ")\\b", "gi");
+  return { regex, map };
+}
+
+const GLOSSARY_MATCHERS = { es: buildGlossaryMatcher("es"), en: buildGlossaryMatcher("en") };
+
+// Icono ⓘ clicable que muestra la definición de un término del glosario.
+function GlossaryTermIcon({ id, lang }) {
+  const [open, setOpen] = useState(false);
+  const entry = GLOSSARY.find((g) => g.id === id);
+  if (!entry) return null;
+  const data = entry[lang] || entry.es;
+  return (
+    <span style={{ position: "relative", display: "inline-block" }}>
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); setOpen((o) => !o); }}
+        title={data.term}
+        style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 15, height: 15, marginLeft: 3, borderRadius: "50%", border: "1px solid #c9a84c99", background: "#c9a84c22", color: "#c9a84c", fontSize: 10, fontWeight: 800, fontStyle: "italic", cursor: "pointer", verticalAlign: "middle", lineHeight: 1, padding: 0 }}
+      >
+        i
+      </button>
+      {open && (
+        <>
+          <div onClick={() => setOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 39, background: "transparent" }} />
+          <div style={{ position: "absolute", zIndex: 40, top: "130%", left: 0, minWidth: 220, maxWidth: 300, background: "#1e2030", border: "1px solid #c9a84c55", borderRadius: 10, padding: "10px 12px", boxShadow: "0 8px 24px #00000088" }}>
+            <div style={{ fontSize: 12, fontWeight: 800, color: "#c9a84c", marginBottom: 4, textTransform: "uppercase", letterSpacing: 0.6 }}>{data.term}</div>
+            <div style={{ fontSize: 13, color: "#dde1f5", lineHeight: 1.5 }}>{data.def}</div>
+          </div>
+        </>
+      )}
+    </span>
+  );
+}
+
+// Detecta términos del glosario en un texto y añade un ⓘ tras su primera aparición (por lección).
+function RichText({ text, lang = "es", shownRef }) {
+  if (typeof text !== "string" || !text) return text ?? null;
+  const matcher = GLOSSARY_MATCHERS[lang] || GLOSSARY_MATCHERS.es;
+  const re = new RegExp(matcher.regex.source, matcher.regex.flags);
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+  while ((match = re.exec(text)) !== null) {
+    const id = matcher.map.get(match[0].toLowerCase());
+    const isFirst = !!shownRef && id && !shownRef.current.has(id);
+    if (isFirst) shownRef.current.add(id);
+    parts.push(text.slice(lastIndex, match.index));
+    parts.push(
+      <React.Fragment key={`${match.index}-${id}`}>
+        {match[0]}
+        {isFirst && <GlossaryTermIcon id={id} lang={lang} />}
+      </React.Fragment>
+    );
+    lastIndex = match.index + match[0].length;
+  }
+  parts.push(text.slice(lastIndex));
+  return <>{parts.map((p, i) => <React.Fragment key={i}>{p}</React.Fragment>)}</>;
+}
+
+// Página independiente con todos los términos del glosario, buscable.
+function GlossaryPage({ t, lang = "es" }) {
+  const [search, setSearch] = useState("");
+  const q = search.trim().toLowerCase();
+  const items = GLOSSARY
+    .map((g) => ({ id: g.id, ...(g[lang] || g.es) }))
+    .filter((it) => !q || it.term.toLowerCase().includes(q) || it.def.toLowerCase().includes(q))
+    .sort((a, b) => a.term.localeCompare(b.term, lang));
+
+  return (
+    <div style={{ maxWidth: 720, margin: "0 auto", padding: "28px 16px 60px" }}>
+      <div style={{ marginBottom: 20 }}>
+        <div style={{ fontSize: 22, fontWeight: 700, color: "#fff" }}>{t.glossary.title}</div>
+        <div style={{ fontSize: 13, color: "#8b8fa8", marginTop: 4 }}>{t.glossary.subtitle}</div>
+      </div>
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder={t.glossary.searchPlaceholder}
+        style={{ width: "100%", boxSizing: "border-box", background: "#0a0c14", border: "1px solid #1e2235", borderRadius: 10, padding: "12px 14px", color: "#e8e8e8", fontSize: 14, fontFamily: "inherit", marginBottom: 20 }}
+      />
+      {items.length === 0 ? (
+        <div style={{ color: "#8b8fa8", fontSize: 14, textAlign: "center", padding: "30px 0" }}>{t.glossary.noResults}</div>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {items.map((it) => (
+            <div key={it.id} style={{ background: "#0d0f1a", border: "1px solid #1e2235", borderRadius: 12, padding: "14px 18px" }}>
+              <div style={{ fontSize: 14, fontWeight: 800, color: "#c9a84c", marginBottom: 4 }}>{it.term}</div>
+              <div style={{ fontSize: 13, color: "#b0b4cc", lineHeight: 1.6 }}>{it.def}</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── RENDERERS ───────────────────────────────────────────────────────────────
 
 function RenderBody({ blocks, lang = "es" }) {
+  const shownRef = useRef(new Set());
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       {blocks.map((block, i) => {
-        if (block.type === "text") return <p key={i} style={{ margin: 0, color: "#c8cce0", fontSize: 15, lineHeight: 1.75 }}>{block.content}</p>;
+        if (block.type === "text") return <p key={i} style={{ margin: 0, color: "#c8cce0", fontSize: 15, lineHeight: 1.75 }}><RichText text={block.content} lang={lang} shownRef={shownRef} /></p>;
 
         if (block.type === "callout") return (
           <div key={i} style={{ background: "#1e2030", border: "1px solid #c9a84c44", borderLeft: "3px solid #c9a84c", borderRadius: 10, padding: "14px 18px" }}>
             <div style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>{block.label}</div>
-            <div style={{ color: "#b0b4cc", fontSize: 14, lineHeight: 1.7 }}>{block.content}</div>
+            <div style={{ color: "#b0b4cc", fontSize: 14, lineHeight: 1.7 }}><RichText text={block.content} lang={lang} shownRef={shownRef} /></div>
           </div>
         );
 
@@ -4195,7 +4867,7 @@ function RenderBody({ blocks, lang = "es" }) {
 
 // ─── LESSON READER ───────────────────────────────────────────────────────────
 
-function LessonReader({ lesson, t, onComplete, onBack }) {
+function LessonReader({ lesson, t, onComplete, onBack, lang = "es" }) {
   const [chapterIdx, setChapterIdx] = useState(0);
   const chapters = lesson.chapters;
   const chapter = chapters[chapterIdx];
@@ -4227,7 +4899,7 @@ function LessonReader({ lesson, t, onComplete, onBack }) {
       {/* Chapter content */}
       <div style={{ marginBottom: 32 }}>
         <h2 style={{ fontSize: 20, fontWeight: 700, color: "#fff", marginBottom: 24, marginTop: 0 }}>{chapter.title}</h2>
-        <RenderBody blocks={chapter.body} lang={t.academia.lockedMsg === "Completa las lecciones anteriores para desbloquear." ? "es" : "en"} />
+        <RenderBody blocks={chapter.body} lang={lang} />
       </div>
 
       {/* Navigation */}
@@ -4265,6 +4937,7 @@ function AcademiaPage({ t, completed, onComplete, lang }) {
       <LessonReader
         lesson={lesson}
         t={t}
+        lang={lang}
         onComplete={() => { onComplete(lesson.id); setOpenLesson(null); }}
         onBack={() => setOpenLesson(null)}
       />
@@ -4410,6 +5083,20 @@ function HomePage({ t, onNavigate, onPropose }) {
         </button>
 
         <button
+          onClick={() => onNavigate("glossary")}
+          style={{ display: "flex", alignItems: "center", gap: 16, background: "linear-gradient(135deg, #111320 0%, #0d0f1a 100%)", border: "1px solid #3b82f644", borderRadius: 16, padding: "20px 24px", color: "#f0f0f5", cursor: "pointer", fontSize: 16, fontWeight: 700, width: "100%", transition: "border-color 0.2s, box-shadow 0.2s", boxShadow: "0 4px 24px #00000066" }}
+          onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#3b82f6"; e.currentTarget.style.boxShadow = "0 4px 32px #3b82f622"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#3b82f644"; e.currentTarget.style.boxShadow = "0 4px 24px #00000066"; }}
+        >
+          <div style={{ width: 44, height: 44, borderRadius: 12, background: "linear-gradient(135deg, #3b82f622, #3b82f611)", border: "1px solid #3b82f644", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }}>📖</div>
+          <div style={{ textAlign: "left" }}>
+            <div style={{ fontSize: 16, fontWeight: 700, color: "#f0f0f5" }}>{t.menu.glossary}</div>
+            <div style={{ fontSize: 12, color: "#8b8fa8", marginTop: 2 }}>{t.menu.glossarySubtitle}</div>
+          </div>
+          <span style={{ marginLeft: "auto", color: "#3b82f6", fontSize: 20 }}>→</span>
+        </button>
+
+        <button
           onClick={onPropose}
           style={{ display: "flex", alignItems: "center", gap: 16, background: "transparent", border: "1px solid #1e2235", borderRadius: 16, padding: "16px 24px", color: "#c9a84c", cursor: "pointer", fontSize: 14, fontWeight: 700, width: "100%", transition: "border-color 0.2s" }}
           onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#c9a84c"; }}
@@ -4465,6 +5152,17 @@ const CTX = {
   facing_river:     { es: "El rival apuesta en el river. Evalúa su rango, calcula la ER y decide si tienes suficiente equidad para pagar.", en: "Villain bets on the river. Evaluate their range, calculate required equity and decide if you have enough to call." },
   facing_turn:      { es: "El rival apuesta en el turn (double barrel). Evalúa tu equidad, el SPR restante y el rango del rival.", en: "Villain bets on the turn (double barrel). Evaluate your equity, remaining SPR and villain's range." },
   facing_allin:     { es: "El rival va all-in. No quedan más calles — calcula tu equidad real vs su rango probable.", en: "Villain goes all-in. No more streets — calculate your real equity vs their likely range." },
+  threebet_value:   { es: "Decide si esta mano tiene suficiente valor (o, como farol, los bloqueadores y la jugabilidad necesarios) para 3-betear frente a esta apertura, o si conviene pagar o foldear.", en: "Decide whether this hand has enough value (or, as a bluff, the right blockers and playability) to 3-bet against this open, or whether calling or folding is better." },
+  threebet_bluff:   { es: "Decide si esta mano es un buen candidato para 3-betear como farol, evaluando sus bloqueadores y su jugabilidad postflop si te pagan.", en: "Decide whether this hand is a good bluff 3-bet candidate, evaluating its blockers and postflop playability if called." },
+  threebet_linear:  { es: "Tu rango de pago en esta posición es débil frente a este rival — decide si conviene ir lineal (3-bet) en vez de simplemente pagar.", en: "Your calling range from this position is weak against this opponent — decide whether going linear (3-betting) is better than just calling." },
+  threebet_vs_agg:  { es: "El jugador relevante en esta mano tiene tendencias muy agresivas (3-bet/4-bet con frecuencia) — ajusta tu decisión teniendo esto en cuenta.", en: "The relevant player in this hand has very aggressive tendencies (3-bets/4-bets often) — adjust your decision accordingly." },
+  threebet_sizing:  { es: "Stacks efectivos de 40BB. Decide la jugada correcta teniendo en cuenta cómo cambia el sizing del 3-bet a esta profundidad.", en: "40BB effective stacks. Decide the correct play considering how 3-bet sizing changes at this depth." },
+  threebet_squeeze_1: { es: "UTG abre y MP paga. Estás en el BTN con QQ — decides si hacer squeeze, pagar o foldear.", en: "UTG opens and MP calls. You're on the BTN with QQ — decide whether to squeeze, call, or fold." },
+  threebet_squeeze_2: { es: "CO abre y BTN paga. Estás en la BB con AKo — decides si hacer squeeze, pagar o foldear.", en: "CO opens and BTN calls. You're in the BB with AKo — decide whether to squeeze, call, or fold." },
+  threebet_squeeze_3: { es: "UTG (tight) abre y MP (tight) paga. Estás en el CO con A5o — decides si hacer squeeze, pagar o foldear.", en: "UTG (tight) opens and MP (tight) calls. You're in the CO with A5o — decide whether to squeeze, call, or fold." },
+  threebet_squeeze_4: { es: "MP abre y CO paga. Estás en la SB con JJ — decides si hacer squeeze, pagar o foldear.", en: "MP opens and CO calls. You're in the SB with JJ — decide whether to squeeze, call, or fold." },
+  threebet_squeeze_5: { es: "HJ abre a 2.5BB y CO paga. Estás en el BTN con KQo — decides si hacer squeeze, pagar o foldear.", en: "HJ opens to 2.5BB and CO calls. You're on the BTN with KQo — decide whether to squeeze, call, or fold." },
+  threebet_squeeze_6: { es: "MP abre y BTN paga. Estás en la SB con 87s — decides si hacer squeeze, pagar o foldear.", en: "MP opens and BTN calls. You're in the SB with 87s — decide whether to squeeze, call, or fold." },
 };
 
 // { id, pos, hand, code, open, size, ctx, es, en }
@@ -8116,6 +8814,7 @@ export default function App() {
       {page === "home" && <HomePage t={t} onNavigate={setPage} onPropose={() => setProposeOpen(true)} />}
       {page === "stats" && <StatsPage t={t} lang={lang} xpData={xpData} completed={completed} totalLessons={t.lessons.length} user={user} />}
       {page === "academia" && <AcademiaPage t={t} completed={completed} onComplete={handleComplete} lang={lang} />}
+      {page === "glossary" && <GlossaryPage t={t} lang={lang} />}
       {page === "practice" && <PracticePage t={t} lang={lang} onSessionComplete={handleSessionComplete} user={user} overrides={overrides} communityHands={communityHands} />}
       {page === "survival" && <SurvivalPage t={t} lang={lang} user={user} overrides={overrides} communityHands={communityHands} xpData={xpData} onSurvivalComplete={handleSurvivalComplete} onNavigate={setPage} />}
       {page === "profile" && <ProfilePage t={t} lang={lang} user={user} xpData={xpData} onProfileSaved={(data) => setXpData(prev => ({ ...prev, ...data }))} />}
