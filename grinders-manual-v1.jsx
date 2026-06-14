@@ -4,6 +4,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
@@ -4781,6 +4782,11 @@ function GlossaryPage({ t, lang = "es" }) {
 
 function RenderBody({ blocks, lang = "es" }) {
   const shownRef = useRef(new Set());
+  const prevLangRef = useRef(lang);
+  if (prevLangRef.current !== lang) {
+    shownRef.current = new Set();
+    prevLangRef.current = lang;
+  }
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       {blocks.map((block, i) => {
@@ -5242,6 +5248,8 @@ const CTX = {
   threebet_squeeze_4: { es: "MP abre y CO paga. Estás en la SB con JJ — decides si hacer squeeze, pagar o foldear.", en: "MP opens and CO calls. You're in the SB with JJ — decide whether to squeeze, call, or fold." },
   threebet_squeeze_5: { es: "HJ abre a 2.5BB y CO paga. Estás en el BTN con KQo — decides si hacer squeeze, pagar o foldear.", en: "HJ opens to 2.5BB and CO calls. You're on the BTN with KQo — decide whether to squeeze, call, or fold." },
   threebet_squeeze_6: { es: "MP abre y BTN paga. Estás en la SB con 87s — decides si hacer squeeze, pagar o foldear.", en: "MP opens and BTN calls. You're in the SB with 87s — decide whether to squeeze, call, or fold." },
+  fourbet_value: { es: "Hiciste 3-bet por valor y el rival ha respondido con un 4-bet. Decide si esta mano tiene suficiente valor para ir a por todo (5-bet all-in), si es mejor pagar el 4-bet y ver un flop, o si debes foldear.", en: "You made a value 3-bet and villain has responded with a 4-bet. Decide whether this hand has enough value to go all-in (5-bet), whether it's better to call the 4-bet and see a flop, or whether you should fold." },
+  fourbet_bluff: { es: "Tu 3-bet era un farol y el rival ha respondido con un 4-bet. Decide si esta mano tiene los bloqueadores y la equity necesarios para continuar (pagar o ir all-in), o si lo correcto es foldear.", en: "Your 3-bet was a bluff and villain has responded with a 4-bet. Decide whether this hand has the blockers and equity needed to continue (call or go all-in), or whether the correct play is to fold." },
 };
 
 // { id, pos, hand, code, open, size, ctx, es, en }
@@ -5624,27 +5632,37 @@ function buildOptions(sit, p, lang) {
   const correctExp = lang === "es" ? sit.es : sit.en;
 
   if (sit.type === "3bet") {
-    const raiseLabel = "3-Bet";
+    const raiseLabel = sit.facing4bet ? (lang==="es" ? "5-Bet (all-in)" : "5-Bet (all-in)") : "3-Bet";
     const callLabel = lang === "es" ? "Pagar (call)" : "Call";
     if (sit.open) {
       return [
         { id:"correct", label: raiseLabel, correct: true,  explanation: correctExp },
-        { id:"call",    label: callLabel,  correct: false, explanation: lang==="es" ? "Pagar aquí cede demasiado valor o te deja en una situación incómoda fuera de posición — el 3-bet es superior." : "Calling here gives up too much value or leaves you in an awkward out-of-position spot — 3-betting is better." },
-        { id:"fold",    label: p.optFold,  correct: false, explanation: lang==="es" ? "Esta mano tiene suficiente valor (o bloqueadores) para 3-betear — foldear es demasiado pasivo." : "This hand has enough value (or blockers) to 3-bet — folding is too passive." },
+        { id:"call",    label: callLabel,  correct: false, explanation: sit.facing4bet
+            ? (lang==="es" ? "Pagar aquí cede demasiado valor — esta mano es lo bastante fuerte para ir a por todo (5-bet all-in)." : "Calling here gives up too much value — this hand is strong enough to go all-in (5-bet).")
+            : (lang==="es" ? "Pagar aquí cede demasiado valor o te deja en una situación incómoda fuera de posición — el 3-bet es superior." : "Calling here gives up too much value or leaves you in an awkward out-of-position spot — 3-betting is better.") },
+        { id:"fold",    label: p.optFold,  correct: false, explanation: sit.facing4bet
+            ? (lang==="es" ? "Esta mano tiene demasiado valor para foldear aquí — foldear cede una mano ganadora con mucha frecuencia." : "This hand has too much value to fold here — folding gives up a winning hand far too often.")
+            : (lang==="es" ? "Esta mano tiene suficiente valor (o bloqueadores) para 3-betear — foldear es demasiado pasivo." : "This hand has enough value (or blockers) to 3-bet — folding is too passive.") },
         { id:"limp",    label: p.optLimp,  correct: false, explanation: p.wrongLimpExp },
       ].sort(() => Math.random() - 0.5);
     } else if (sit.size === "call") {
       return [
         { id:"correct", label: callLabel,  correct: true,  explanation: correctExp },
-        { id:"raise",   label: raiseLabel, correct: false, explanation: lang==="es" ? "Un 3-bet aquí es demasiado fino o te expone a un 4-bet en mala posición — pagar es la línea más sólida." : "A 3-bet here is too thin or exposes you to a 4-bet in a bad spot — calling is the soundest line." },
+        { id:"raise",   label: raiseLabel, correct: false, explanation: sit.facing4bet
+            ? (lang==="es" ? "Un 5-bet all-in aquí es demasiado — pagar el 4-bet y ver el flop es la línea más sólida con esta mano." : "A 5-bet all-in here is too much — calling the 4-bet and seeing a flop is the soundest line with this hand.")
+            : (lang==="es" ? "Un 3-bet aquí es demasiado fino o te expone a un 4-bet en mala posición — pagar es la línea más sólida." : "A 3-bet here is too thin or exposes you to a 4-bet in a bad spot — calling is the soundest line.") },
         { id:"fold",    label: p.optFold,  correct: false, explanation: lang==="es" ? "Esta mano sí es lo bastante buena para pagar aquí." : "This hand is good enough to call here." },
         { id:"limp",    label: p.optLimp,  correct: false, explanation: p.wrongLimpExp },
       ].sort(() => Math.random() - 0.5);
     } else {
       return [
         { id:"correct", label: p.optFold,  correct: true,  explanation: correctExp },
-        { id:"raise",   label: raiseLabel, correct: false, explanation: lang==="es" ? "Esta mano no tiene el valor ni los bloqueadores necesarios para un 3-bet rentable aquí." : "This hand doesn't have the value or blockers needed for a profitable 3-bet here." },
-        { id:"call",    label: callLabel,  correct: false, explanation: lang==="es" ? "Pagar aquí te mete en un spot -EV jugando fuera de posición o multiway con una mano débil." : "Calling here puts you in a -EV spot playing out of position or multiway with a weak hand." },
+        { id:"raise",   label: raiseLabel, correct: false, explanation: sit.facing4bet
+            ? (lang==="es" ? "Esta mano no tiene el valor ni los bloqueadores necesarios para un 5-bet all-in rentable aquí." : "This hand doesn't have the value or blockers needed for a profitable 5-bet all-in here.")
+            : (lang==="es" ? "Esta mano no tiene el valor ni los bloqueadores necesarios para un 3-bet rentable aquí." : "This hand doesn't have the value or blockers needed for a profitable 3-bet here.") },
+        { id:"call",    label: callLabel,  correct: false, explanation: sit.facing4bet
+            ? (lang==="es" ? "Pagar aquí te mete en un bote enorme con una mano que no aguanta bien el rango de 4-bet del rival." : "Calling here puts you in a huge pot with a hand that doesn't hold up well against villain's 4-bet range.")
+            : (lang==="es" ? "Pagar aquí te mete en un spot -EV jugando fuera de posición o multiway con una mano débil." : "Calling here puts you in a -EV spot playing out of position or multiway with a weak hand.") },
         { id:"limp",    label: p.optLimp,  correct: false, explanation: p.wrongLimpExp },
       ].sort(() => Math.random() - 0.5);
     }
@@ -5785,7 +5803,7 @@ function buildOptions(sit, p, lang) {
 function correctActionOptions(sit, p, lang) {
   if (sit.type === "3bet") {
     return [
-      { open: true,  size: "value", label: "3-Bet" },
+      { open: true,  size: "value", label: sit.facing4bet ? "5-Bet (all-in)" : "3-Bet" },
       { open: false, size: "call",  label: p.actionCall },
       { open: false, size: null,    label: p.optFold },
     ];
@@ -6284,9 +6302,7 @@ const CALL_SITUATIONS = [
   {id:509,type:"call",hand:"A♥ J♠",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"AJo vs CO 2.5BB desde BTN. Rango CO ~27% incluye muchas manos que AJo domina. Frequent strength, IP, tamaño pequeño. Paga.",en:"AJo vs CO 2.5BB from BTN. CO range ~27% includes many hands AJo dominates. Frequent strength, IP, small sizing. Call."},
   {id:510,type:"call",hand:"K♣ Q♦",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"KQo vs CO desde BTN. Frequent strength clara vs rango amplio CO — flopeá top pair que domina mucho del rango. Estás IP. Paga.",en:"KQo vs CO from BTN. Clear frequent strength vs wide CO range — flops top pair that dominates much of the range. You're IP. Call."},
   {id:511,type:"call",hand:"8♦ 7♦",board:null,open:true,ctx:"call_ip_fish",pos:"HJ",callPos:"UTG",es:"87s vs UTG con fish en blinds. Normalmente fold, pero fish en BB o SB añaden implied odds para suited connectors especulativos. Paga.",en:"87s vs UTG with fish in blinds. Normally fold, but fish in BB or SB add implied odds for speculative suited connectors. Call."},
-  {id:512,type:"call",hand:"A♠ K♠",board:null,open:true,ctx:"call_ip_reg",pos:"CO",callPos:"MP",es:"AKs vs MP desde CO. Mano premium que juega muy bien IP. Pagar mantiene el bote controlado y entras al flop con la mejor mano y posición — la línea más sólida aquí.",en:"AKs vs MP from CO. Premium hand that plays great IP. Calling keeps the pot controlled and you enter the flop with the best hand and position — the soundest line here."},
   {id:513,type:"call",hand:"9♥ 8♥",board:null,open:true,ctx:"call_ip_fish",pos:"BTN",callPos:"SB",es:"98s vs SB open con fish en BB. Fish en BB asegura bote multiway y implied odds extra. 98s conecta bien multiway. Paga.",en:"98s vs SB open with fish in BB. Fish in BB ensures multiway pot and extra implied odds. 98s connects well multiway. Call."},
-  {id:514,type:"call",hand:"J♦ J♣",board:null,open:true,ctx:"call_ip_reg",pos:"CO",callPos:"MP",es:"JJ vs MP desde CO. Pagar IP es la línea más sólida: mantienes el bote controlado, evitas inflarlo contra una mano que te domine (QQ+), y postflop juegas con posición y una mano fuerte.",en:"JJ vs MP from CO. Calling IP is the soundest line: keep the pot controlled, avoid bloating it against a hand that dominates you (QQ+), and postflop you play with position and a strong hand."},
   {id:515,type:"call",hand:"6♠ 5♠",board:null,open:true,ctx:"call_ip_fish",pos:"BTN",callPos:"CO",es:"65s vs CO con fish en blinds. Suited connector bajo con buenos implied odds cuando hay fish. Multiway potencial alto. Paga desde BTN.",en:"65s vs CO with fish in blinds. Low suited connector with good implied odds when fish are present. High multiway potential. Call from BTN."},
   {id:516,type:"call",hand:"A♦ T♦",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"ATs vs CO desde BTN. Suited ace con frequent strength (flopeá top pair bueno) y implied odds (flush draw). Paga IP.",en:"ATs vs CO from BTN. Suited ace with frequent strength (flops good top pair) and implied odds (flush draw). Call IP."},
   {id:517,type:"call",hand:"K♥ J♥",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"KJs vs CO. Suited broadway con frecuente strength vs rango CO amplio. IP desde BTN hace este pago cómodo.",en:"KJs vs CO. Suited broadway with frequent strength vs wide CO range. IP from BTN makes this call comfortable."},
@@ -6322,7 +6338,6 @@ const CALL_SITUATIONS = [
   {id:545,type:"call",hand:"6♥ 6♣",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"66 desde BB vs BTN 2.5BB. Set mining con buenos pot odds BB. 66 tiene implied odds decentes vs rango amplio BTN. Paga.",en:"66 from BB vs BTN 2.5BB. Set mining with good BB pot odds. 66 has decent implied odds vs wide BTN range. Call."},
   {id:546,type:"call",hand:"K♠ Q♦",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"CO",es:"KQo desde BB vs CO 3BB. Frequent strength excelente — KQo domina mucho del rango CO. OOP pero mano muy fuerte que justifica el pago. Paga.",en:"KQo from BB vs CO 3BB. Excellent frequent strength — KQo dominates much of CO range. OOP but very strong hand that justifies the call. Call."},
   {id:547,type:"call",hand:"J♣ T♦",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"JTo desde BB vs BTN 2.5BB. Broadway offsuit con frequent strength vs rango amplio BTN. Pot odds BB hacen este pago rentable. Paga.",en:"JTo from BB vs BTN 2.5BB. Offsuit broadway with frequent strength vs wide BTN range. BB pot odds make this call profitable. Call."},
-  {id:548,type:"call",hand:"A♦ Q♣",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"CO",es:"AQo desde BB vs CO 3BB. Mano muy fuerte. AQo tiene frequent strength excelente vs cualquier rango. OOP pero claramente rentable pagar. Paga.",en:"AQo from BB vs CO 3BB. Very strong hand. AQo has excellent frequent strength vs any range. OOP but clearly profitable to call. Call."},
   {id:549,type:"call",hand:"5♠ 4♠",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"54s desde BB vs BTN 2BB (min-raise). Pot odds excelentes (casi 3:1). 54s tiene muy buenos implied odds multiway y flopeá draws poderosos. Paga vs min-raise.",en:"54s from BB vs BTN 2BB (min-raise). Excellent pot odds (almost 3:1). 54s has very good multiway implied odds and flops powerful draws. Call vs min-raise."},
   {id:550,type:"call",hand:"Q♥ 7♥",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"Q7s desde BB vs BTN 2BB (min-raise). Normalmente fold, pero vs min-raise los pot odds son tan buenos que hasta Q7s se convierte en pago. Paga solo vs min-raise.",en:"Q7s from BB vs BTN 2BB (min-raise). Normally fold, but vs min-raise pot odds are so good that even Q7s becomes a call. Call only vs min-raise."},
   {id:551,type:"call",hand:"8♠ 6♠",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"86s desde BB vs BTN 2.5BB. Suited connector con buenos draws. Pot odds BB razonables, rango BTN muy amplio. Paga.",en:"86s from BB vs BTN 2.5BB. Suited connector with good draws. Reasonable BB pot odds, very wide BTN range. Call."},
@@ -6361,9 +6376,7 @@ const CALL_SITUATIONS = [
   {id:584,type:"call",hand:"J♥ T♣",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"CO",es:"JTo desde SB vs CO con BB desconocido. Offsuit y con riesgo de squeeze — desde SB 3-bet o fold. JTo no tiene suficiente valor para arriesgarse OOP con amenaza de squeeze.",en:"JTo from SB vs CO with unknown BB. Offsuit and with squeeze risk — from SB 3-bet or fold. JTo doesn't have enough value to risk going OOP with squeeze threat."},
   {id:585,type:"call",hand:"7♠ 6♠",board:null,open:false,ctx:"call_sb_reg",pos:"SB",callPos:"BTN",es:"76s desde SB vs BTN con BB agresivo. Aunque tiene buenos implied odds, el squeeze de BB agresivo destruye el EV del pago. Foldea.",en:"76s from SB vs BTN with aggressive BB. Even though it has good implied odds, aggressive BB squeeze destroys call EV. Fold."},
   // ── MIXED SPOTS — tricky decisions (15) ──────────────────────────────────────
-  {id:586,type:"call",hand:"A♥ K♣",board:null,open:true,ctx:"call_ip_reg",pos:"HJ",callPos:"UTG",es:"AKo vs UTG desde HJ. Mano premium. Pagar mantiene el bote controlado frente al rango más fuerte de la mesa (UTG) y postflop tendrás la mejor mano con frecuencia. La línea más sólida aquí es pagar.",en:"AKo vs UTG from HJ. Premium hand. Calling keeps the pot controlled against the strongest range at the table (UTG) and postflop you'll frequently have the best hand. Calling is the soundest line here."},
   {id:587,type:"call",hand:"3♠ 3♣",board:null,open:true,ctx:"call_ip_fish",pos:"BTN",callPos:"CO",es:"33 vs CO con fish en BB. Fish en BB transforma 33 en pago rentable — sus errores postflop cuando flopeás set compensan el riesgo. Paga.",en:"33 vs CO with fish in BB. Fish in BB transforms 33 into a profitable call — their postflop mistakes when you flop a set compensate the risk. Call."},
-  {id:588,type:"call",hand:"Q♠ Q♣",board:null,open:true,ctx:"call_ip_reg",pos:"CO",callPos:"UTG",es:"QQ vs UTG desde CO. Mano fuerte, pero UTG tiene el rango más fuerte de la mesa (más combos de KK/AA). Pagar mantiene el bote pequeño, limitando el daño en los spots donde estás dominado, y juegas postflop con posición. La línea más sólida aquí es pagar.",en:"QQ vs UTG from CO. Strong hand, but UTG has the strongest range at the table (more KK/AA combos). Calling keeps the pot small, limiting the damage in spots where you're dominated, and you play postflop with position. Calling is the soundest line here."},
   {id:589,type:"call",hand:"A♠ Q♦",board:null,open:true,ctx:"call_ip_reg",pos:"BTN",callPos:"CO",es:"AQo vs CO desde BTN. Frequent strength excelente vs rango CO. IP con mano fuerte — pagar mantiene el bote controlado y juegas postflop con posición frente a un rango amplio. La línea más sólida aquí es pagar.",en:"AQo vs CO from BTN. Excellent frequent strength vs CO range. IP with a strong hand — calling keeps the pot controlled and you play postflop with position against a wide range. Calling is the soundest line here."},
   {id:590,type:"call",hand:"2♠ 2♦",board:null,open:true,ctx:"call_ip_fish",pos:"BTN",callPos:"UTG",es:"22 vs UTG con dos fish en blinds. Normalmente fold 22 vs UTG, pero con dos fish en los blinds los implied odds son excelentes. Flopeás set el 12% — fish pagarán generosamente. Paga.",en:"22 vs UTG with two fish in blinds. Normally fold 22 vs UTG, but with two fish in the blinds implied odds are excellent. You flop a set 12% — fish will pay generously. Call."},
   {id:591,type:"call",hand:"A♦ 4♦",board:null,open:true,ctx:"call_bb_reg",pos:"BB",callPos:"BTN",es:"A4s desde BB vs BTN 2BB. Min-raise da pot odds excelentes. A4s tiene wheel straight, flush draw y top pair potencial. Con rango BTN amplio y pot odds de casi 3:1, paga.",en:"A4s from BB vs BTN 2BB. Min-raise gives excellent pot odds. A4s has wheel straight, flush draw and top pair potential. With wide BTN range and almost 3:1 pot odds, call."},
@@ -8019,11 +8032,12 @@ function ProfilePage({ t, lang, user, xpData, onProfileSaved }) {
 // ─── LOGIN SCREEN ─────────────────────────────────────────────────────────────
 
 function LoginScreen({ lang }) {
-  const [mode, setMode] = useState("login"); // "login" | "register"
+  const [mode, setMode] = useState("login"); // "login" | "register" | "reset"
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
 
   const isEs = lang === "es";
   const txt = {
@@ -8036,6 +8050,13 @@ function LoginScreen({ lang }) {
     toRegister:    isEs ? "¿No tienes cuenta? Regístrate" : "No account? Register",
     toLogin:       isEs ? "¿Ya tienes cuenta? Inicia sesión" : "Already have an account? Sign in",
     passHint:      isEs ? "Mínimo 6 caracteres"  : "Minimum 6 characters",
+    forgotPass:    isEs ? "¿Olvidaste tu contraseña?" : "Forgot your password?",
+    resetTitle:    isEs ? "Recuperar contraseña"  : "Reset password",
+    resetBtn:      isEs ? "Enviar correo de recuperación" : "Send reset email",
+    resetSending:  isEs ? "Enviando..."           : "Sending...",
+    resetSent:     isEs ? "Te hemos enviado un correo para restablecer tu contraseña. Revisa también la carpeta de spam."
+                         : "We've sent you an email to reset your password. Check your spam folder too.",
+    backToLogin:   isEs ? "Volver a iniciar sesión" : "Back to sign in",
   };
 
   const firebaseErrorMsg = (code) => {
@@ -8056,7 +8077,10 @@ function LoginScreen({ lang }) {
     setError("");
     setLoading(true);
     try {
-      if (mode === "register") {
+      if (mode === "reset") {
+        await sendPasswordResetEmail(auth, email);
+        setResetSent(true);
+      } else if (mode === "register") {
         await createUserWithEmailAndPassword(auth, email, password);
       } else {
         await signInWithEmailAndPassword(auth, email, password);
@@ -8066,6 +8090,12 @@ function LoginScreen({ lang }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  const switchMode = (newMode) => {
+    setMode(newMode);
+    setError("");
+    setResetSent(false);
   };
 
   const inputStyle = {
@@ -8095,7 +8125,7 @@ function LoginScreen({ lang }) {
 
       <form onSubmit={handleSubmit} style={{ width: "100%", maxWidth: 360, background: "linear-gradient(135deg, #0e1018 0%, #0a0c14 100%)", border: "1px solid #c9a84c33", borderRadius: 18, padding: "28px 24px", display: "flex", flexDirection: "column", gap: 16, boxShadow: "0 8px 48px #00000088" }}>
         <div style={{ fontSize: 18, fontWeight: 700, color: "#f0f0f5", marginBottom: 4 }}>
-          {mode === "login" ? txt.loginTitle : txt.registerTitle}
+          {mode === "login" ? txt.loginTitle : mode === "register" ? txt.registerTitle : txt.resetTitle}
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -8106,14 +8136,24 @@ function LoginScreen({ lang }) {
           />
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          <label style={{ fontSize: 12, color: "#8b8fa8", fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.6 }}>{txt.passLabel}</label>
-          <input
-            type="password" value={password} onChange={e => setPassword(e.target.value)}
-            required style={inputStyle} autoComplete={mode === "register" ? "new-password" : "current-password"}
-          />
-          {mode === "register" && <span style={{ fontSize: 11, color: "#8b8fa8" }}>{txt.passHint}</span>}
-        </div>
+        {mode !== "reset" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <label style={{ fontSize: 12, color: "#8b8fa8", fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.6 }}>{txt.passLabel}</label>
+            <input
+              type="password" value={password} onChange={e => setPassword(e.target.value)}
+              required style={inputStyle} autoComplete={mode === "register" ? "new-password" : "current-password"}
+            />
+            {mode === "register" && <span style={{ fontSize: 11, color: "#8b8fa8" }}>{txt.passHint}</span>}
+            {mode === "login" && (
+              <button
+                type="button" onClick={() => switchMode("reset")}
+                style={{ alignSelf: "flex-end", background: "transparent", border: "none", color: "#8b8fa8", fontSize: 12, cursor: "pointer", textDecoration: "underline", padding: 0, marginTop: 2 }}
+              >
+                {txt.forgotPass}
+              </button>
+            )}
+          </div>
+        )}
 
         {error && (
           <div style={{ background: "#ef444415", border: "1px solid #ef444433", borderRadius: 8, padding: "10px 14px", fontSize: 13, color: "#fca5a5" }}>
@@ -8121,19 +8161,36 @@ function LoginScreen({ lang }) {
           </div>
         )}
 
-        <button
-          type="submit" disabled={loading}
-          style={{ background: loading ? "#8a6d1e" : "linear-gradient(135deg, #e8c96a 0%, #c9a84c 100%)", border: "none", borderRadius: 10, padding: "13px", color: "#0a0c14", fontWeight: 800, fontSize: 15, cursor: loading ? "default" : "pointer", letterSpacing: 0.3 }}
-        >
-          {loading ? "..." : mode === "login" ? txt.loginBtn : txt.registerBtn}
-        </button>
+        {resetSent && (
+          <div style={{ background: "#22c55e15", border: "1px solid #22c55e33", borderRadius: 8, padding: "10px 14px", fontSize: 13, color: "#86efac" }}>
+            {txt.resetSent}
+          </div>
+        )}
 
-        <button
-          type="button" onClick={() => { setMode(mode === "login" ? "register" : "login"); setError(""); }}
-          style={{ background: "transparent", border: "none", color: "#c9a84c", fontSize: 13, cursor: "pointer", textDecoration: "underline", padding: 0 }}
-        >
-          {mode === "login" ? txt.toRegister : txt.toLogin}
-        </button>
+        {!(mode === "reset" && resetSent) && (
+          <button
+            type="submit" disabled={loading}
+            style={{ background: loading ? "#8a6d1e" : "linear-gradient(135deg, #e8c96a 0%, #c9a84c 100%)", border: "none", borderRadius: 10, padding: "13px", color: "#0a0c14", fontWeight: 800, fontSize: 15, cursor: loading ? "default" : "pointer", letterSpacing: 0.3 }}
+          >
+            {loading ? (mode === "reset" ? txt.resetSending : "...") : mode === "login" ? txt.loginBtn : mode === "register" ? txt.registerBtn : txt.resetBtn}
+          </button>
+        )}
+
+        {mode === "reset" ? (
+          <button
+            type="button" onClick={() => switchMode("login")}
+            style={{ background: "transparent", border: "none", color: "#c9a84c", fontSize: 13, cursor: "pointer", textDecoration: "underline", padding: 0 }}
+          >
+            {txt.backToLogin}
+          </button>
+        ) : (
+          <button
+            type="button" onClick={() => switchMode(mode === "login" ? "register" : "login")}
+            style={{ background: "transparent", border: "none", color: "#c9a84c", fontSize: 13, cursor: "pointer", textDecoration: "underline", padding: 0 }}
+          >
+            {mode === "login" ? txt.toRegister : txt.toLogin}
+          </button>
+        )}
       </form>
     </div>
   );

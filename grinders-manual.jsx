@@ -6619,6 +6619,100 @@ function isOOP(sit) {
   return false;
 }
 
+// ─── Mesa visual (mesa de poker con posiciones, mano del héroe y board) ─────────
+// Compartida entre el Test (PracticePage) y Supervivencia (SurvivalPage), vía SituationCard.
+function PokerTableMiniCard({ rank, suit, size = 26 }) {
+  const suitColors = { "♠": "#16181f", "♣": "#16181f", "♥": "#dc2626", "♦": "#2563eb" };
+  return (
+    <div style={{
+      width: size, height: size * 1.38, background: "#f4f1e8", borderRadius: size * 0.14,
+      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+      boxShadow: "0 2px 5px #00000066", border: "1px solid #00000022", flexShrink: 0,
+    }}>
+      <div style={{ fontSize: size * 0.46, fontWeight: 800, color: suitColors[suit] || "#16181f", lineHeight: 1.1 }}>{rank}</div>
+      <div style={{ fontSize: size * 0.46, color: suitColors[suit] || "#16181f", lineHeight: 1 }}>{suit}</div>
+    </div>
+  );
+}
+
+// Coloca los 6 puestos alrededor de una mesa ovalada (orden = POSITIONS, sentido horario empezando arriba).
+const TABLE_SEAT_POS = {
+  UTG: { top: "4%",  left: "50%" },
+  MP:  { top: "26%", left: "94%" },
+  CO:  { top: "76%", left: "85%" },
+  BTN: { top: "96%", left: "50%" },
+  SB:  { top: "76%", left: "15%" },
+  BB:  { top: "26%", left: "6%" },
+};
+
+function PokerTable({ sit, lang }) {
+  // Solo tiene sentido si conocemos la posición del héroe.
+  if (!sit.pos) return null;
+
+  const parseCards = (str) => {
+    if (!str) return [];
+    const cards = [];
+    for (let i = 0; i < str.length; i += 2) {
+      const rank = str[i];
+      const suit = str[i + 1];
+      if (rank && suit) cards.push({ rank, suit });
+    }
+    return cards;
+  };
+
+  const heroCards = parseCards(sit.hand);
+  const boardCards = parseCards(sit.board);
+
+  return (
+    <div style={{ position: "relative", width: "100%", maxWidth: 380, aspectRatio: "16/10", margin: "0 auto 16px" }}>
+      {/* Tapete */}
+      <div style={{
+        position: "absolute", inset: "14% 8%", borderRadius: "50%",
+        background: "radial-gradient(ellipse at 50% 40%, #1c4d34 0%, #0e2e1f 100%)",
+        border: "5px solid #4a3320", boxShadow: "inset 0 0 24px #00000099",
+      }} />
+
+      {/* Cartas del board en el centro */}
+      {boardCards.length > 0 && (
+        <div style={{
+          position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+          display: "flex", gap: 3,
+        }}>
+          {boardCards.map((c, i) => <PokerTableMiniCard key={i} rank={c.rank} suit={c.suit} size={24} />)}
+        </div>
+      )}
+
+      {/* Puestos */}
+      {POSITIONS.map(posKey => {
+        const isHero = posKey === sit.pos;
+        const isVillain = !isHero && posKey === sit.callPos;
+        const seat = TABLE_SEAT_POS[posKey];
+        return (
+          <div key={posKey} style={{
+            position: "absolute", top: seat.top, left: seat.left, transform: "translate(-50%, -50%)",
+            display: "flex", flexDirection: "column", alignItems: "center", gap: 4, zIndex: isHero ? 2 : 1,
+          }}>
+            {isHero && heroCards.length > 0 && (
+              <div style={{ display: "flex", gap: 2 }}>
+                {heroCards.map((c, i) => <PokerTableMiniCard key={i} rank={c.rank} suit={c.suit} size={26} />)}
+              </div>
+            )}
+            <div style={{
+              padding: "3px 9px", borderRadius: 8, fontSize: 11, fontWeight: 800, whiteSpace: "nowrap",
+              background: isHero ? (posColors[posKey] || "#c9a84c") : isVillain ? "#ef444433" : "#161823",
+              color: isHero ? "#0a0c14" : isVillain ? "#fca5a5" : (posColors[posKey] || "#8b8fa8"),
+              border: isHero ? "1px solid #fff5" : isVillain ? "1px solid #ef4444" : "1px solid #1e2235",
+              boxShadow: isHero ? "0 0 10px #c9a84c66" : "none",
+            }}>
+              {posKey}{posKey === "BTN" ? " 🔘" : ""}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 // ─── Tarjeta de situación (mano, posición, board, contexto) ─────────────────────
 // Compartida entre el Test (PracticePage) y Supervivencia (SurvivalPage).
 function SituationCard({ sit, lang, p }) {
@@ -6630,6 +6724,7 @@ function SituationCard({ sit, lang, p }) {
           👥 {lang === "es" ? "Mano de la comunidad" : "Community hand"}
         </div>
       )}
+      <PokerTable sit={sit} lang={lang} />
       {((sit.type === "vbet" || sit.type === "facing") && sit.descEs) || (sit.community && (sit.descEs || sit.descEn)) ? (
         <div style={{ background:"#0a0c14", border:"1px solid #1e2235", borderRadius:10, padding:"12px 14px", marginBottom:14 }}>
           <div style={{ fontSize:11, fontWeight:700, color:"#c9a84c", textTransform:"uppercase", letterSpacing:1, marginBottom:6 }}>
@@ -6955,7 +7050,14 @@ function ProposeSituationModal({ onClose, lang, user, p, defaultCategory }) {
   const [card2Rank, setCard2Rank] = useState("K");
   const [card2Suit, setCard2Suit] = useState("♦");
   const hand = `${card1Rank}${card1Suit}${card2Rank}${card2Suit}`;
-  const [board, setBoard] = useState("");
+  const [boardCards, setBoardCards] = useState([
+    { rank: "A", suit: "♦" },
+    { rank: "7", suit: "♣" },
+    { rank: "2", suit: "♥" },
+    { rank: "K", suit: "♠" },
+    { rank: "Q", suit: "♣" },
+  ]);
+  const setBoardCard = (i, field, val) => setBoardCards(prev => prev.map((c, idx) => idx === i ? { ...c, [field]: val } : c));
   const [callPos, setCallPos] = useState("BB");
   const [players, setPlayers] = useState(1); // 1 = HU, 2 = 3-way
   const [street, setStreet] = useState("flop");
@@ -6968,6 +7070,12 @@ function ProposeSituationModal({ onClose, lang, user, p, defaultCategory }) {
   const [wrongExplain, setWrongExplain] = useState("");
   const [comment, setComment] = useState("");
   const [status, setStatus] = useState("idle"); // idle | sending | success | error | invalid
+  const [validationMsg, setValidationMsg] = useState("");
+
+  const needsBoard = category === "cbet" || category === "vbet" || category === "facing";
+  const boardCount = category === "facing" ? (street === "flop" ? 3 : street === "turn" ? 4 : 5) : 3;
+  const activeBoardCards = boardCards.slice(0, boardCount);
+  const board = activeBoardCards.map(c => `${c.rank}${c.suit}`).join("");
 
   // Versión opcional en el otro idioma
   const otherLang = lang === "es" ? "en" : "es";
@@ -6984,6 +7092,19 @@ function ProposeSituationModal({ onClose, lang, user, p, defaultCategory }) {
     if (!user) return;
     const filledOptions = options.map(o => o.trim());
     if (!hand.trim() || filledOptions.some(o => !o) || !correctExplain.trim()) {
+      setValidationMsg(p.proposeValidation);
+      setStatus("invalid");
+      return;
+    }
+    // Cada carta (mano + board) solo puede aparecer una vez
+    const allCards = [
+      { rank: card1Rank, suit: card1Suit },
+      { rank: card2Rank, suit: card2Suit },
+      ...(needsBoard ? activeBoardCards : []),
+    ];
+    const cardKeys = allCards.map(c => `${c.rank}${c.suit}`);
+    if (new Set(cardKeys).size !== cardKeys.length) {
+      setValidationMsg(p.proposeValidationDuplicate);
       setStatus("invalid");
       return;
     }
@@ -7029,8 +7150,8 @@ function ProposeSituationModal({ onClose, lang, user, p, defaultCategory }) {
         }
       }
 
-      if (category === "cbet" || category === "vbet" || category === "facing") {
-        data.board = board.trim() || null;
+      if (needsBoard) {
+        data.board = board || null;
       }
       if (category === "cbet" || category === "vbet" || category === "call" || category === "facing") {
         data.callPos = callPos;
@@ -7090,10 +7211,17 @@ function ProposeSituationModal({ onClose, lang, user, p, defaultCategory }) {
               <CardSelect rank={card2Rank} suit={card2Suit} onRankChange={setCard2Rank} onSuitChange={setCard2Suit} style={{ flex: 1 }} />
             </div>
 
-            {(category === "cbet" || category === "vbet" || category === "facing") && (
+            {needsBoard && (
               <>
                 <div style={labelStyle}>{p.proposeBoardLabel}</div>
-                <input type="text" value={board} onChange={e => setBoard(e.target.value)} placeholder="A♦ 7♣ 2♥" style={inputStyle} />
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  {Array.from({ length: boardCount }).map((_, i) => (
+                    <CardSelect key={i} rank={boardCards[i].rank} suit={boardCards[i].suit}
+                      onRankChange={r => setBoardCard(i, "rank", r)}
+                      onSuitChange={s => setBoardCard(i, "suit", s)}
+                      style={{ flex: "1 0 30%", minWidth: 90 }} />
+                  ))}
+                </div>
               </>
             )}
 
@@ -7200,7 +7328,7 @@ function ProposeSituationModal({ onClose, lang, user, p, defaultCategory }) {
             <div style={labelStyle}>{p.proposeCommentLabel}</div>
             <textarea value={comment} onChange={e => setComment(e.target.value)} rows={2} style={{ ...inputStyle, resize: "vertical" }} />
 
-            {status === "invalid" && <div style={{ color: "#ef4444", fontSize: 12, marginTop: 10 }}>{p.proposeValidation}</div>}
+            {status === "invalid" && <div style={{ color: "#ef4444", fontSize: 12, marginTop: 10 }}>{validationMsg || p.proposeValidation}</div>}
             {status === "error" && <div style={{ color: "#ef4444", fontSize: 12, marginTop: 10 }}>{p.proposeError}</div>}
           </>
         )}
