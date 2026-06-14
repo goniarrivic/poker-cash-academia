@@ -6627,12 +6627,86 @@ function PokerTableMiniCard({ rank, suit, size = 26 }) {
     <div style={{
       width: size, height: size * 1.38, background: "#f4f1e8", borderRadius: size * 0.14,
       display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-      boxShadow: "0 2px 5px #00000066", border: "1px solid #00000022", flexShrink: 0,
+      boxShadow: "0 2px 5px #00000066", border: "1px solid #00000022", flexShrink: 0, gap: 1,
     }}>
-      <div style={{ fontSize: size * 0.46, fontWeight: 800, color: suitColors[suit] || "#16181f", lineHeight: 1.1 }}>{rank}</div>
-      <div style={{ fontSize: size * 0.46, color: suitColors[suit] || "#16181f", lineHeight: 1 }}>{suit}</div>
+      <div style={{ fontSize: size * 0.5, fontWeight: 800, color: suitColors[suit] || "#16181f", lineHeight: 1 }}>{rank}</div>
+      <div style={{ fontSize: size * 0.5, color: suitColors[suit] || "#16181f", lineHeight: 1 }}>{suit}</div>
     </div>
   );
+}
+
+// Carta boca abajo (otro jugador activo en la mano, sin revelar su mano).
+function PokerTableCardBack({ size = 26 }) {
+  return (
+    <div style={{
+      width: size, height: size * 1.38, borderRadius: size * 0.14,
+      background: "repeating-linear-gradient(135deg, #5b3a8a 0px, #5b3a8a 4px, #432a66 4px, #432a66 8px)",
+      boxShadow: "0 2px 5px #00000066", border: "1px solid #00000044", flexShrink: 0,
+      display: "flex", alignItems: "center", justifyContent: "center",
+    }}>
+      <div style={{ width: "60%", height: "70%", border: "1px solid #ffffff44", borderRadius: size * 0.08 }} />
+    </div>
+  );
+}
+
+// Ficha de apuesta — bote en el centro o apuesta delante de un jugador.
+function PokerChip({ amount, label }) {
+  return (
+    <div style={{
+      display: "flex", alignItems: "center", gap: 4, padding: "2px 8px", borderRadius: 20,
+      background: "#0a0c14cc", border: "1px solid #c9a84c66", fontSize: 10, fontWeight: 800,
+      color: "#e8c96a", whiteSpace: "nowrap", boxShadow: "0 2px 4px #00000066",
+    }}>
+      <span style={{
+        display: "inline-block", width: 9, height: 9, borderRadius: "50%", flexShrink: 0,
+        background: "repeating-conic-gradient(#e8c96a 0deg 45deg, #8b1e1e 45deg 90deg)",
+        border: "1px solid #ffffff88",
+      }} />
+      {label ? `${label}: ` : ""}{amount}BB
+    </div>
+  );
+}
+
+// Calcula el bote y las apuestas en mesa a partir de los campos existentes de la situación
+// (type, size, players, street, open, limpers) — convenciones estándar usadas en toda la app:
+// ciegas 0.5/1BB (bote inicial 1.5BB), apertura estándar 2.5BB, c-bet/v-bet "small"=33%,
+// "medium"/"large"=66-67%, "pot"=100%, e ISO = 3BB base + 1BB por limper.
+// Línea estándar postflop (apertura + call, bote single-raised): flop 5.5BB, turn 12.5BB, river 28.5BB
+// (la misma que usan las descripciones de mano de las situaciones "facing").
+function computeTableMoney(sit) {
+  const BLINDS_POT = 1.5;
+  const OPEN_SIZE = 2.5;
+  const SIZE_PCT = { small: 0.33, medium: 0.66, large: 0.67, pot: 1 };
+
+  switch (sit.type) {
+    case "open":
+      return { pot: BLINDS_POT };
+    case "iso": {
+      const limpers = sit.limpers || 1;
+      return { pot: BLINDS_POT + limpers, heroBet: 3 + limpers };
+    }
+    case "call":
+    case "3bet":
+      return { pot: BLINDS_POT + OPEN_SIZE, villainBet: OPEN_SIZE };
+    case "cbet": {
+      const potPre = sit.players === 2 ? 8 : 5.5;
+      const pct = SIZE_PCT[sit.size];
+      return pct ? { pot: potPre, heroBet: Math.round(potPre * pct * 10) / 10 } : { pot: potPre };
+    }
+    case "vbet": {
+      const streetPot = { flop: 5.5, turn: 12.5, river: 28.5 };
+      const pot = streetPot[sit.street] || 5.5;
+      const pct = SIZE_PCT[sit.size] || 0.66;
+      return { pot, heroBet: Math.round(pot * pct * 10) / 10 };
+    }
+    case "facing": {
+      const streetData = { flop: { pot: 5.5, bet: 3.5 }, turn: { pot: 12.5, bet: 8 }, river: { pot: 28.5, bet: 18 } };
+      const d = streetData[sit.street] || streetData.flop;
+      return { pot: d.pot, villainBet: d.bet };
+    }
+    default:
+      return { pot: BLINDS_POT };
+  }
 }
 
 // Coloca los 6 puestos alrededor de una mesa ovalada (orden = POSITIONS, sentido horario empezando arriba).
@@ -6651,10 +6725,11 @@ function PokerTable({ sit, lang }) {
 
   const parseCards = (str) => {
     if (!str) return [];
+    const clean = str.replace(/\s+/g, "");
     const cards = [];
-    for (let i = 0; i < str.length; i += 2) {
-      const rank = str[i];
-      const suit = str[i + 1];
+    for (let i = 0; i < clean.length; i += 2) {
+      const rank = clean[i];
+      const suit = clean[i + 1];
       if (rank && suit) cards.push({ rank, suit });
     }
     return cards;
@@ -6662,6 +6737,7 @@ function PokerTable({ sit, lang }) {
 
   const heroCards = parseCards(sit.hand);
   const boardCards = parseCards(sit.board);
+  const money = computeTableMoney(sit);
 
   return (
     <div style={{ position: "relative", width: "100%", maxWidth: 380, aspectRatio: "16/10", margin: "0 auto 16px" }}>
@@ -6672,21 +6748,27 @@ function PokerTable({ sit, lang }) {
         border: "5px solid #4a3320", boxShadow: "inset 0 0 24px #00000099",
       }} />
 
-      {/* Cartas del board en el centro */}
-      {boardCards.length > 0 && (
-        <div style={{
-          position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
-          display: "flex", gap: 3,
-        }}>
-          {boardCards.map((c, i) => <PokerTableMiniCard key={i} rank={c.rank} suit={c.suit} size={24} />)}
-        </div>
-      )}
+      {/* Centro: cartas del board y bote */}
+      <div style={{
+        position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+        display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
+      }}>
+        {boardCards.length > 0 && (
+          <div style={{ display: "flex", gap: 3 }}>
+            {boardCards.map((c, i) => <PokerTableMiniCard key={i} rank={c.rank} suit={c.suit} size={24} />)}
+          </div>
+        )}
+        {money.pot != null && (
+          <PokerChip amount={money.pot} label={lang === "es" ? "Bote" : "Pot"} />
+        )}
+      </div>
 
       {/* Puestos */}
       {POSITIONS.map(posKey => {
         const isHero = posKey === sit.pos;
         const isVillain = !isHero && posKey === sit.callPos;
         const seat = TABLE_SEAT_POS[posKey];
+        const betAmount = isHero ? money.heroBet : isVillain ? money.villainBet : null;
         return (
           <div key={posKey} style={{
             position: "absolute", top: seat.top, left: seat.left, transform: "translate(-50%, -50%)",
@@ -6697,6 +6779,13 @@ function PokerTable({ sit, lang }) {
                 {heroCards.map((c, i) => <PokerTableMiniCard key={i} rank={c.rank} suit={c.suit} size={26} />)}
               </div>
             )}
+            {isVillain && (
+              <div style={{ display: "flex", gap: 2 }}>
+                <PokerTableCardBack size={26} />
+                <PokerTableCardBack size={26} />
+              </div>
+            )}
+            {betAmount != null && <PokerChip amount={betAmount} />}
             <div style={{
               padding: "3px 9px", borderRadius: 8, fontSize: 11, fontWeight: 800, whiteSpace: "nowrap",
               background: isHero ? (posColors[posKey] || "#c9a84c") : isVillain ? "#ef444433" : "#161823",
