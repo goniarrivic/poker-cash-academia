@@ -127,7 +127,7 @@ export const THREEBET_SITUATIONS_EXTRA = [
    en:"JJ in the SB against MP's open + CO's call: a value squeeze. You don't want to play JJ out of position multiway by just calling — the squeeze isolates and builds the pot with a strong hand."},
   {id:735,type:"3bet",hand:"K♠Q♦",pos:"BTN",callPos:"MP",open:false,size:"call",ctx:"threebet_squeeze_5",
    es:"KQo en el BTN frente a una apertura del HJ y call del CO: tiene buena equity y posición, pero contra dos rangos ya comprometidos, pagar y ver el flop con posición y un bote más grande es preferible a un squeeze marginal.",
-   en:"KQo on the BTN against an HJ open and a CO call: it has good equity and position, but against two already-committed ranges, calling and seeing the flop with position and a bigger pot is preferable to a marginal squeeze."}
+   en:"KQo on the BTN against an HJ open and a CO call: it has good equity and position, but against two already-committed ranges, calling and seeing the flop with position and a bigger pot is preferable to a marginal squeeze."},
   // ── DEFENDING VS 3-BET — Lección 10 ─────────────────────────────────────────
   // defending3bet:true → Hero abrió y el rival hizo un 3-bet — Hero decide cómo defender.
   // open=true → 4-bet es correcto
