@@ -185,6 +185,10 @@ const content = {
       contextLabel: "Contexto",
       filterTitle: "Elige las categorías a practicar",
       filterRandom: "Aleatorio (todas)",
+      topicFilterTitle: "Filtrar por tema (lecciones recientes)",
+      topicFilterAll: "Todos los temas",
+      topicFilterCh10: "Cap. 10: Defendiendo vs 3-Bet",
+      topicFilterCh11: "Cap. 11: Faroles en Turn/River",
       optFold: "Foldear",
       optOpen3: "Abrir a 3x BB",
       optOpen25: "Abrir a 2.5x BB",
@@ -2263,6 +2267,405 @@ const content = {
           },
         ],
       },
+      {
+        id: 10,
+        title: "10. Defendiéndote de los 3-Bets",
+        summary: "Qué manos vale la pena pagar ante un 3-bet, cómo construir rangos de defensa balanceados con la MDF, ajustes preventivos contra 3-bettores activos, cómo defenderte de un squeeze y qué hacer cuando un 3-bet te llega 'en frío'.",
+        chapters: [
+          {
+            title: "Flatear 3-Bets: ¿Cuándo vale la pena pagar?",
+            body: [
+              { type:"text", content:"Cuando Hero abre 3BB y luego foldea ante un 3-bet de 9BB, el resultado de esa mano es -3BB. Para que pagar ese 3-bet sea correcto, pagar NO necesita ser +EV para la mano completa — solo necesita perder MENOS que esas -3BB desde el punto de decisión en el que Hero ya invirtió esas fichas. Muchas manos de la parte baja del rango de apertura están 'condenadas' a perder dinero cuando son 3-beteadas; la pregunta no es si vamos a perder EV, sino si pagar pierde menos que foldear." },
+              { type:"callout", label:"Figura 63 — Los 5 factores para flatear (de arriba a abajo)", content:"(1) Posición: jugar IP facilita flotar, llegar a showdown, proteger equity y ganar botes donde ambos fallan — un factor enorme. (2) Frequent Strength relativa al rango de 3-bet de Villano (no es lo mismo que equity bruta: 44 tiene un 44% de equity contra un rango lineal del 18%, pero flopa algo útil rarísima vez; KQo, con apenas 3% más de equity, flopa algo jugable mucho más a menudo y por eso defiende mejor). (3) Versatilidad: manos como 98s o A4s aportan equity de no-mano-hecha para no quedarse fit-or-fold. (4) Debilidades de Villano: más floats si Villano c-betea y se rinde demasiado, más implied odds si es spewy postflop, más manos especulativas si juega fit-or-fold. (5) Implied Odds: el último recurso — a 100BB de profundidad, invertir 6-8BB para ver el flop rara vez deja por sí solo suficientes implied odds." },
+              { type:"callout", label:"Ejemplo: A8s en BB paga un 3-bet del BU", content:"Posición a favor de Hero. Frequent strength razonable (el 3-bet global de Villano es 9%, pero en una guerra de posiciones tardías BB vs BU suele ser más amplio, quizá ~15%). Versatilidad alta: A8s no solo flopa top pair, también flopa nut flush draws, backdoors con dos overcards o backdoor straight draw. Los ases suited dan además ese pequeño extra de implied odds por flopear flush de las nuts de vez en cuando. Conclusión: Hero paga 5BB." },
+              { type:"callout", label:"Ejemplo: 77 fuera de posición — fold", content:"Posición en contra: cualquier error de información se magnifica en un bote más grande, y es Villano quien se beneficia. Frequent strength pésima: el 88% de las veces 77 flopa un underpair, second pair o como mucho un overpair débil — eso es el 88% de una inversión de 6BB (≈5.28BB) entrando bajo condiciones muy negativas. Versatilidad nula: 77 es una mano completamente rígida, o flopa el mundo o no flopa nada, sin equity de farol. Implied odds: invirtiendo 6BB para ver el flop con un bote de 19.5BB, Hero necesitaría ganar ~40BB extra de Villano cada vez que flopa el set para llegar al break-even — objetivo demasiado optimista OOP contra un rango potencialmente fuerte. Con los cinco factores en contra, 77 es un fold claro." },
+              { type:"callout", label:"Convirtiendo una mano 'demasiado buena para foldear' en un farol de 4-bet — AQo desde UTG", content:"UTG abre y recibe un 3-bet del SB/BB con un stat de 3-bet global del 9% — pero contra un open de UTG ese mismo jugador suele 3-betear mucho más tight (quizá 5-6%, no 9%). Contra ese rango más fuerte, AQo sufre mucho de reverse implied odds (KK+ en flops con Q, AK en flops con A): es demasiado buena para simplemente foldear toda esa parte del rango de apertura, pero no es un buen call. La solución es convertirla en un farol de 4-bet: AQo bloquea dos cartas de [QQ+ AK], el rango de valor de Villano para defender. Calculando la RFE de Villano: RFE = R/(R+PG) = 19/(19+13.5) = 58% — un objetivo de fold muy alcanzable contra un 3-bettor del 9%. Hero sube a 22BB. Incluso si el EV total acaba siendo negativo, subir es mejor que foldear o pagar." },
+              { type:"quiz", questions:[
+                {
+                  situation:"BB vs 3-bet de BU · comparando A8s y 77",
+                  hand:"A♠ 8♠",
+                  context:"Ambas manos podrían parecer 'manos de implied odds' a primera vista (suited ace y pareja pequeña), pero el libro las trata de forma muy distinta: A8s es un call claro y 77 (OOP) es un fold claro.",
+                  question:"¿Cuál es la diferencia clave entre A8s y 77 que explica por qué una es un call fácil y la otra un fold fácil?",
+                  options:[
+                    { label:"A8s tiene posición, frequent strength razonable y mucha versatilidad (top pair + nut flush draws + backdoors); 77 OOP no tiene nada de esto y sus implied odds tampoco son suficientes", correct:true, explanation:"¡Correcto! A8s acumula varios de los 5 factores de la Figura 63 — sobre todo posición y versatilidad. 77 OOP no tiene ninguno de los primeros 4 factores a favor, y sus implied odds (necesitaría ~40BB extra de Villano cada vez que flopa el set) no bastan para compensar por sí solas." },
+                    { label:"Ambas son manos de implied odds, pero A8s tiene mejor equity bruta y por eso se paga", correct:false, explanation:"El libro insiste en que equity bruta NO es lo mismo que frequent strength. La diferencia no es 'cuánta equity tienen', sino cuántas veces flopan algo CON LO QUE PUEDEN SEGUIR jugando postflop, y en eso A8s es muy superior a 77." },
+                    { label:"77 debería pagarse igual porque las parejas pequeñas siempre tienen suficientes implied odds a 100BB", correct:false, explanation:"Justo lo contrario: invirtiendo 6BB para ver el flop con un bote de 19.5BB, Hero necesitaría ganar ~40BB extra cada vez que flopa el set — un objetivo poco realista OOP, así que aquí las implied odds NO bastan." },
+                    { label:"La posición no influye en esta decisión, solo importa la fuerza de la mano en el vacío", correct:false, explanation:"La posición es el primer factor de la Figura 63 y es enorme: A8s la tiene a favor (IP) y 77 en contra (OOP), lo cual magnifica la diferencia entre ambas manos." },
+                  ],
+                },
+                {
+                  situation:"UTG vs 3-bet del SB/BB (stat global 9%) · AQo",
+                  hand:"A♥ Q♦",
+                  context:"Hero abre UTG y es 3-beteado. El 3-bet global de Villano es 9%, pero contra aperturas de UTG su rango de 3-bet suele ser más estrecho (≈5-6%). Hero decide subir a 22BB con AQo en vez de pagar o foldear.",
+                  question:"¿Qué representa el 58% del cálculo RFE = 19/(19+13.5) y por qué justifica el 4-bet con AQo?",
+                  options:[
+                    { label:"Es el % de veces que Villano necesita foldear para que el 4-bet sea automáticamente +EV en el vacío, y es un objetivo realista porque AQo bloquea su rango de valor [QQ+ AK]", correct:true, explanation:"¡Correcto! RFE = Riesgo/(Riesgo+Ganancia). 58% es alcanzable contra un 3-bettor de un solo dígito, y AQo reduce los combos de valor de Villano gracias al bloqueo de A y Q." },
+                    { label:"Es la equity de AQo contra el rango de 3-bet de Villano si llegan a showdown", correct:false, explanation:"El 58% no es una cifra de equity — es un cálculo de Riesgo/Recompensa (RFE) que determina cuánto debe foldear Villano para que el 4-bet-farol sea +EV en el vacío, independientemente de la equity de AQo." },
+                    { label:"Es el porcentaje del rango de apertura de Hero que debería convertirse en 4-bet bluff", correct:false, explanation:"El 58% es la RFE de ESTE 4-bet concreto, no una proporción del rango de apertura de Hero. La construcción de rangos completos con ratios farol:valor se trata en el siguiente capítulo (MDF)." },
+                    { label:"AQo debería pagar el 3-bet en vez de subir, porque domina el rango de 3-bet de Villano", correct:false, explanation:"Es justo lo contrario: contra el rango más tight que usa Villano al 3-betear un open de UTG, AQo sufre de reverse implied odds (vs KK+ y AK) y no es un buen call — por eso se recicla como farol de 4-bet." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Rangos de Defensa Completos y la MDF",
+            body: [
+              { type:"text", content:"La MDF (Mínima Frecuencia de Defensa) es el porcentaje mínimo del rango de apertura que Hero debe continuar (pagar + 4-bet) para que los farols de 3-bet de Villano no sean automáticamente +EV. Se calcula como MDF = 1 - RFE de Villano, ajustada hacia abajo un 10-15% para reflejar que pagar también aporta equity y jugabilidad postflop. El objetivo de la MDF no es castigar a Villano más allá de hacer sus farols 0EV — castigarlo más obligaría a Hero a pagar con manos tan débiles que Villano podría explotarlas infra-faroleando. Este tipo de balance importa sobre todo contra Regs agresivos y competentes." },
+              { type:"callout", label:"Defensa Balanceada — modelo CO vs SB", content:"Rango de apertura de 338 combos; Villano 3-betea a 8BB tras un open a 3BB → RFE bruta = 8.5/(8.5+4) = 68%; reducimos 10-15% por la jugabilidad postflop y la equity al pagar → MDF ≈ 45%. Defender el 45% de 338 ≈ 152 combos: 4-bet/call de valor [QQ+ AK] = 34 combos, flat = 78 combos, 4-bet/fold de farol = 40 combos → ratio farol:valor ≈ 1.18:1." },
+              { type:"callout", label:"Defensa Desbalanceada Explotativa — BU vs BB (Hand 95/96)", content:"Villano tiene un Fold to PF 4Bet After 3Bet muy alto → escalamos el sizing 2BB→8BB→18BB (open→3-bet→4-bet) para explotarlo; RFE de Villano al 3-betear = 16/(16+10.5) ≈ 60.4%; usamos un ratio 2:1 farol:valor: 4-bet/call de valor = 40 combos, flat = 224 combos, 4-bet/fold de farol = 88 combos. Total foldeado = 266/618 ≈ 43% — por debajo de la MDF del 45%, pero intencionado: como Villano paga demasiados 4-bets, a Hero le conviene más 4-betear/pagar/flotar de valor y faroleará agresivamente que jugar balanceado." },
+              { type:"callout", label:"Defensa Completamente Desbalanceada — vs Fish pasivo con rango [KK+]", content:"Ante un 3-bettor pasivo que casi solo 3-betea [KK+], Hero tira la balanceada por la ventana: 4-bet SOLO con AA por valor (sin farols — serían un desperdicio contra un rango tan tight que casi nunca se rinde a un 4-bet), call solo con parejas pequeñas y suited connectors selectos con implied odds reales, fold todo lo demás. La MDF deja de ser relevante porque este Villano nunca explotará un desequilibrio: simplemente no reacciona a la frecuencia con la que Hero defiende." },
+              { type:"quiz", questions:[
+                {
+                  situation:"CO vs SB · construcción de un rango de defensa balanceado",
+                  hand:"—",
+                  context:"Villano 3-betea a 8BB tras el open a 3BB de Hero. RFE bruta de Villano = 8.5/(8.5+4) = 68%, pero el libro la ajusta a la baja un 10-15% antes de fijar la MDF en ~45%.",
+                  question:"¿Por qué se ajusta la RFE bruta hacia abajo en vez de usar el 68% directamente como MDF?",
+                  options:[
+                    { label:"Porque pagar también aporta equity y jugabilidad postflop, lo que hace que Hero necesite continuar con menos combos de los que indicaría la RFE bruta para que Villano siga indiferente", correct:true, explanation:"¡Correcto! La RFE bruta asume que un fold de Hero es 'puro' — pero un call real tiene equity de showdown y de farol, así que Hero puede permitirse foldear algo más que el 32% (1-68%) puro y aun así mantener a Villano indiferente." },
+                    { label:"Porque la RFE bruta solo aplica a 4-bets, no a la decisión global de defensa", correct:false, explanation:"La RFE sí es la base del cálculo de MDF (MDF = 1 - RFE). El ajuste del 10-15% es por la equity/jugabilidad adicional del call, no porque la RFE 'no aplique'." },
+                    { label:"Porque Villano nunca alcanzará realmente el 68% de éxito, así que el número es irrelevante", correct:false, explanation:"El 68% sigue siendo el punto de partida del cálculo — el ajuste es una corrección hacia abajo basada en el valor adicional de pagar, no un descarte del número." },
+                    { label:"Porque el ratio farol:valor de Hero ya compensa cualquier ajuste de MDF", correct:false, explanation:"El ratio farol:valor (1.18:1 en este ejemplo) se construye DESPUÉS de fijar la MDF en ~45% — es una consecuencia del tamaño del rango defendido, no un sustituto del ajuste de RFE." },
+                  ],
+                },
+                {
+                  situation:"BU vs BB (Hand 95/96) · defensa intencionadamente por debajo de la MDF",
+                  hand:"—",
+                  context:"Contra un Villano con un Fold to PF 4Bet After 3Bet muy alto, Hero escala el sizing (2BB→8BB→18BB) y termina defendiendo solo el 43% de su rango — por debajo de la MDF del 45% calculada para un spot 'normal'.",
+                  question:"¿Por qué está bien que Hero defienda menos del MDF en este caso?",
+                  options:[
+                    { label:"Porque Villano paga 4-bets con demasiada frecuencia: como sus 3-bets no son rentables incluso cuando Hero foldea un poco más de lo 'balanceado', Hero gana más jugando un ratio farol:valor más agresivo (2:1) que preocupándose por el equilibrio puro", correct:true, explanation:"¡Correcto! El balance (MDF) protege a Hero de un Villano que explota los folds. Pero si Villano nunca va a explotar esa frecuencia de fold (porque paga demasiado los 4-bets), a Hero le conviene más una estrategia explotativa que el balance estricto." },
+                    { label:"Porque la MDF solo se aplica cuando el sizing del 3-bet es de 8BB, y aquí Villano sube a 18BB", correct:false, explanation:"La MDF se recalcula para cada sizing concreto (de hecho, escalar el sizing es parte de la explotación), pero la razón de fondo es el comportamiento explotable de Villano al pagar 4-bets, no el tamaño en sí." },
+                    { label:"Porque defender por debajo de la MDF siempre es un error, y este es un ejemplo de mal juego que el libro usa como advertencia", correct:false, explanation:"Al contrario — el libro presenta este 43% como una decisión EXPLOTATIVA correcta, no como un error. La MDF es la referencia para el juego balanceado, no una regla absoluta." },
+                    { label:"Porque 618 combos es un rango demasiado grande para calcular la MDF con precisión", correct:false, explanation:"El tamaño del rango no afecta a si la MDF aplica — el punto es que, dado el comportamiento de Villano, infra-defender intencionadamente es +EV." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Ajustes Preventivos y Defendiendo Squeezes",
+            body: [
+              { type:"text", content:"A veces la mejor solución a 'me 3-betean demasiado' no es cómo reaccionar al 3-bet, sino evitar el spot desde el principio. Esto es especialmente relevante cuando hay uno o varios 3-bettores muy activos con posición sobre Hero." },
+              { type:"callout", label:"Tres ajustes preventivos", content:"(1) Abrir más tight: cuando Hero no tiene una explotación claramente +EV de abrir ancho y defender ancho (sobre todo OOP) frente a 3-bettores activos. Ejemplo: si BU 3-betea 15% y SB 13%, la probabilidad de que un open de Hero sea 3-beteado por al menos uno de los dos es 1-((1-0.15)×(1-0.13)) = 1-(0.85×0.87) = 26% — sin contar al BB. Con ese riesgo, abrir el fondo del rango estándar pierde su EV. (2) Abrir más pequeño: con un open de 3BB y un 3-bet a 8BB, foldear cuesta 3BB; con un open de 2BB, foldear cuesta solo 2BB — y si Villano sube su sizing para mantener la presión, su propia RFE empeora (por ejemplo, de 65% a 70% al pasar de 6.5BB a 8BB de 3-bet). Abrir más pequeño pone a Villano en un dilema: o le da a Hero más implied odds manteniendo su RFE baja, o empeora su propia RFE para reducirlas. (3) Cambiar de mesa: cuando un Reg agresivo y sólido tiene posición sobre Hero y la mesa no compensa con suficientes Fish, levantarse y buscar otro asiento no es cobardía — es maximizar EV a largo plazo." },
+              { type:"callout", label:"Squeeze como Pre-Flop Raiser (PFR) — dos enfoques balanceados", content:"(a) Rango de 4-bet polarizado + rango de call capado, o (b) sin rango de 4-bet en absoluto, flateando todo lo que se continúa con un rango de call sin capar. Ejemplo (b) — Hand 103: con un Fish muy pasivo en el bote, el valor postflop de flotar sube tanto que Hero flatea con casi todo, desde AA/KK hasta KQs o TT, sin necesidad de farolear con un 4-bet. Ejemplo (a) — Hand 104: BB squeezeado por un BU agresivo con un SB tímido en medio — la RFE bruta de Villano es 8/13 ≈ 61.5%, ajustada a 45-50% (parcialmente cubierta por los folds del SB); Hero defiende ~31.5% de su rango con un enfoque polar de valor + farol que hace indiferente a Villano frente a un 5-bet shove con sus manos marginales." },
+              { type:"callout", label:"Squeeze como Pre-Flop Caller (PFC)", content:"Aquí el peso de la defensa recae en el PFR (rango sin capar detrás), no en Hero — el rango de 3-bet/call de Hero ya está capado a sus mejores manos, así que normalmente no necesita NINGÚN rango de 4-bet. Foldear mucho aquí es normal y no explotable. Ejemplo — rango de flat CO vs MP en Hand 105: [TT-JJ] sí se puede pagar (algo de frequent strength compensa malas implied odds pagando 8BB); [66-99] no (implied odds insuficientes, Hero necesitaría ~55BB extra de Villano cada vez que flopa el set); AQo/AJo/ATo se foldean por estar demasiado dominados frente a un rango squeezeador; AQs/AJs/KQs sí se pagan 'por poco' gracias a su capacidad de flotar y semi-farolear postflop." },
+              { type:"quiz", questions:[
+                {
+                  situation:"Mesa con dos 3-bettores activos a la izquierda de Hero (15% y 13%)",
+                  hand:"—",
+                  context:"Hero calcula que la probabilidad combinada de ser 3-beteado por al menos uno de los dos jugadores (sin contar al BB) es 1-((1-0.15)×(1-0.13)) = 26%.",
+                  question:"¿Qué implica este 26% para la estrategia de apertura de Hero?",
+                  options:[
+                    { label:"Que abrir las manos más débiles del rango estándar pierde su EV, porque la probabilidad de enfrentar un 3-bet (y tener que defenderse con manos débiles) es mucho mayor de lo normal — Hero debería abrir más tight", correct:true, explanation:"¡Correcto! Un 26% de probabilidad de 3-bet es muy alto. Las manos del fondo del rango que dependían de robar el bote sin oposición ahora se enfrentan demasiado a menudo a una decisión post-3-bet difícil, lo que destruye su EV de apertura." },
+                    { label:"Que Hero debería 4-betear con un rango más amplio para anticiparse a los 3-bets", correct:false, explanation:"El 26% es información sobre la FRECUENCIA de los 3-bets, no sobre su composición. La respuesta correcta es ajustar el rango DE APERTURA (abrir más tight), no necesariamente cambiar el rango de 4-bet." },
+                    { label:"Que Hero debería ignorar el cálculo porque el BB todavía puede 3-betear también", correct:false, explanation:"El cálculo deliberadamente excluye al BB porque el libro se centra en los dos 3-bettores activos conocidos; el BB añadiría aún más presión, reforzando (no anulando) la conclusión de abrir más tight." },
+                    { label:"Que Hero debería cambiar de mesa inmediatamente sin considerar otras opciones", correct:false, explanation:"Cambiar de mesa es UNA de las tres opciones preventivas, pero el libro presenta abrir más tight y abrir más pequeño como ajustes igualmente válidos antes de recurrir a levantarse." },
+                  ],
+                },
+                {
+                  situation:"Squeeze como PFR · comparando Hand 103 y Hand 104",
+                  hand:"—",
+                  context:"En Hand 103 (un Fish pasivo está en el bote) Hero flatea prácticamente todo su rango de continuación sin 4-bets. En Hand 104 (BB squeezeado por un BU agresivo con un SB tímido en medio) Hero usa un rango polar de 4-bet de valor + farol y defiende solo ~31.5%.",
+                  question:"¿Por qué Hero usa enfoques tan distintos en estas dos manos?",
+                  options:[
+                    { label:"En Hand 103, la presencia de un Fish pasivo aumenta tanto el valor postflop de flotar que flatear todo es mejor que farolear; en Hand 104, sin ese Fish y con un squeezeador agresivo, Hero necesita un rango de 4-bet para defenderse correctamente con un porcentaje menor del rango", correct:true, explanation:"¡Correcto! Ambos son enfoques balanceados válidos (opciones (a) y (b) de la Figura), pero la composición del bote (un Fish pasivo vs. un squeezeador agresivo con dinámica distinta) determina cuál es mejor en cada caso." },
+                    { label:"Hand 103 es un error del libro: siempre se debería usar un rango polar de 4-bet ante un squeeze", correct:false, explanation:"El libro presenta ambos enfoques (a) y (b) como estrategias balanceadas válidas — la elección depende del contexto de la mesa, especialmente de si hay un Fish pasivo cuyo valor de flotar aumenta." },
+                    { label:"En Hand 104 Hero defiende menos (31.5%) porque tiene una mano más débil que en Hand 103", correct:false, explanation:"El 31.5% no refleja la fuerza de una mano concreta, sino la MDF ajustada (45-50% de RFE bruta de 61.5%) para todo el rango de defensa de Hero en ese spot." },
+                    { label:"La diferencia se debe únicamente a la posición: PFR siempre defiende menos que PFC", correct:false, explanation:"Ambas manos son ejemplos de Hero como PFR — la diferencia entre ellas es la composición del bote (Fish pasivo vs. squeezeador agresivo), no el rol de PFR vs PFC." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Defendiéndote de un 3-Bet en Frío",
+            body: [
+              { type:"text", content:"'En frío' significa que Hero ha invertido como máximo una ciega cuando llega el 3-bet — no es SU open el que está siendo atacado. Por eso (salvo un detalle matemático menor que se ignora a efectos prácticos) Hero no tiene aquí ninguna obligación de MDF: la carga de la defensa recae en el abridor original. Esto cambia por completo cómo Hero debería construir su rango de reacción." },
+              { type:"callout", label:"Spots de robo (Steal) — ejemplo: SB 3-betea un open de BU", content:"Los rangos de apertura tardía son anchos, así que el 3-bet de SB suele ser ligero (≈7%) y BU tendrá que foldear mucho a un 4-bet en frío. Esto da a Hero (BU) tres conclusiones: (1) debería tener un rango de 4-bet de FAROL en frío (hay FE suficiente); (2) por balance, también un rango de 4-bet de VALOR; (3) NO debería tener un rango de CALL en frío — paga mal precio, no cierra la acción, y queda con un rango capado contra el rango sin capar de SB actuando detrás. Mejor 4-bet-or-fold. Hand 106 ilustra un ratio de ≈40 combos de valor por 48 de farol, eligiendo los farols sobre todo por bloqueadores." },
+              { type:"callout", label:"Spots fuera de robo (Non-steal) — ejemplo: 3-bet contra un open de UTG/HJ", content:"Los rangos de apertura temprana son fuertes y los 3-bets contra ellos suelen ser casi puro valor — Hero necesitaría ≈60% de FE para un 4-bet-farol contra un rango que a menudo es solo manos nutted, algo poco realista. La solución es 4-BETEAR NADA (Hand 107): deja el rango de call sin capar para proteger JJ/QQ/AK con sus combos de KK+, y solo considera un 4-bet de valor con AA — un rango tan estrecho que ni vale la pena por balance." },
+              { type:"callout", label:"Resumen — dos filosofías opuestas", content:"En spots de robo hay suficiente FE para farolear, los rangos de valor pueden ser más anchos (los rangos en general son más agresivos en ambos lados), y no hace falta un rango de call porque ya existe un rango de 4-bet-farol que cubre ese hueco. En spots fuera de robo la FE es mala así que el farol no compensa; conseguir que entre el dinero con AK o QQ deja a Hero en muy mala forma contra un rango más nutted; y como no hay rango de 4-bet de valor amplio, el rango de call queda sin capar para cumplir esa función protectora." },
+              { type:"quiz", questions:[
+                {
+                  situation:"BU vs 3-bet en frío del SB (Hand 106) vs. UTG vs 3-bet en frío del BB (Hand 107)",
+                  hand:"—",
+                  context:"En Hand 106, BU adopta una estrategia 4-bet-or-fold (≈40 combos de valor, ≈48 de farol, sin rango de call). En Hand 107, UTG no 4-betea nada y mantiene su rango de call sin capar.",
+                  question:"¿Qué explica la diferencia entre estas dos estrategias?",
+                  options:[
+                    { label:"En Hand 106 el 3-bet de SB suele ser ligero (rango de apertura tardía), dando suficiente FE para 4-bet-farolear y haciendo que pagar sea malo (no cierra acción, rango capado vs. rango sin capar detrás); en Hand 107 el 3-bet contra UTG suele ser casi puro valor, sin FE suficiente para farolear, así que el rango de call sin capar protege JJ/QQ/AK", correct:true, explanation:"¡Correcto! La clave es la composición esperada del rango de 3-bet de Villano en cada spot: ligero en el robo (favorece 4-bet-farol), pesado fuera de robo (favorece mantener un rango de call sin capar y casi no 4-betear)." },
+                    { label:"La diferencia se debe a que BU tiene mejores manos que UTG en estos ejemplos concretos", correct:false, explanation:"La diferencia no es sobre las cartas específicas de Hero, sino sobre el ROL ESTRUCTURAL del spot (robo vs. no-robo) y lo que eso implica sobre el rango de 3-bet de Villano." },
+                    { label:"En Hand 107, UTG debería tener un rango de call sin capar PORQUE tiene un rango de 4-bet de farol amplio que lo compensa", correct:false, explanation:"Es al revés: UTG NO tiene un rango de 4-bet de farol amplio (la FE es mala), por eso necesita que el rango de call sin capar haga el trabajo de proteger las manos fuertes." },
+                    { label:"Ambas manos deberían usar la misma estrategia, ya que ambas son situaciones de 3-bet 'en frío'", correct:false, explanation:"Aunque ambas son técnicamente 'en frío' (Hero no es el abridor), el libro distingue explícitamente entre spots de robo y no-robo precisamente porque las estrategias correctas son opuestas." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Práctica: Defendiéndote de los 3-Bets",
+            body: [
+              { type:"text", content:"Cinco preguntas de repaso sobre los conceptos clave del capítulo: los 5 factores para flatear, la MDF, los ajustes preventivos, los squeezes y los 3-bets en frío. No cuentan para el Test ni para Supervivencia." },
+              { type:"quiz", questions:[
+                {
+                  situation:"Repaso · Los 5 factores para flatear un 3-bet (Figura 63)",
+                  hand:"K♠ Q♥",
+                  context:"Hero abre desde CO y recibe un 3-bet del BB (rango de 3-bet ≈ 10%). KQo tiene equity razonable, pero juega OOP, no tiene flush draw y tiene poca versatilidad.",
+                  question:"¿Cuál de los 5 factores es el más importante en contra de Hero aquí, y qué conclusión se desprende?",
+                  options:[
+                    { label:"La posición (OOP) es el factor decisivo en contra: sin poder actuar después de Villano, cualquier error de lectura postflop se magnifica en un bote más grande — KQo es un fold o un 4-bet, no un call", correct:true, explanation:"¡Correcto! La posición es el Factor 1 de la Figura 63 y el más penalizador. KQo OOP sufre de reverse implied odds (domina poco del rango del BB, pierde a manos fuertes que pagará en flops buenos) y no tiene la versatilidad de un suited connector para compensar." },
+                    { label:"Las implied odds son el factor más negativo: KQo no puede flopar el flush, así que tiene las peores implied odds posibles", correct:false, explanation:"Las implied odds (Factor 5) son 'el último recurso' según el libro — no son el factor principal aquí. El problema central de KQo OOP es la posición y el reverse implied odds (rango de 3-bet del BB frecuentemente domina parcialmente a KQo)." },
+                    { label:"La frequent strength es el factor clave: KQo flopa algo jugable mucho más a menudo que 77, así que debería pagarse siempre", correct:false, explanation:"KQo sí tiene buena frequent strength relativa, pero eso no compensa la posición en contra. El libro muestra explícitamente que los 5 factores se evalúan juntos — uno positivo no rescata la decisión si la posición está en contra." },
+                    { label:"La versatilidad es neutral para KQo — puede convertirse en farol fácilmente en el flop si falla", correct:false, explanation:"La versatilidad del libro se refiere a equity de no-mano-hecha (flush draws, straight draws). KQo offsuit tiene poca versatilidad de ese tipo y depende casi totalmente de conectar directamente, lo que es un punto negativo, no neutral." },
+                  ],
+                },
+                {
+                  situation:"Repaso · MDF y ratio farol:valor",
+                  hand:"—",
+                  context:"En el modelo CO vs SB, RFE bruta = 68%, MDF ajustada ≈ 45% de 338 combos = 152 a defender. Hero distribuye: 34 combos de 4-bet/call de valor, 78 combos de flat, 40 combos de 4-bet/fold de farol.",
+                  question:"¿Cuál es el ratio farol:valor resultante y qué garantiza ese ratio?",
+                  options:[
+                    { label:"≈1.18:1 (40 farols / 34 valor) — hace que Villano sea indiferente entre defender o no al 4-bet de Hero, sin darle un exploit claro", correct:true, explanation:"¡Correcto! Con 40 farols y 34 combos de valor, el ratio es 40/34 ≈ 1.18:1. Este ratio equidistante hace que el rango de 4-bet de Hero sea lo suficientemente balanceado como para que a Villano no le compense simplemente 5-bet/foldear ni 5-bet/llamar siempre." },
+                    { label:"2:1 (farol:valor) — porque siempre se farola el doble de lo que se va por valor", correct:false, explanation:"El ratio 2:1 aparece en el ejemplo EXPLOTATIVO de la Hand 95/96 (BU vs BB), donde Villano tiene un Fold to 4Bet alto. En el modelo balanceado (CO vs SB) el ratio resultante es ≈1.18:1, no 2:1." },
+                    { label:"El ratio farol:valor no es relevante cuando se usa la MDF — solo importa el total de combos defendidos", correct:false, explanation:"Ambos importan: el total de combos defendidos determina que Hero no sea foldeado en exceso (MDF), y el ratio farol:valor dentro de esos combos determina que el rango de 4-bet sea balanceado." },
+                    { label:"0.5:1 (valor:farol) — porque siempre hay más valor que farols en un rango de 4-bet polar", correct:false, explanation:"Es al revés en este ejemplo: hay 40 combos de farol (4-bet/fold) y 34 de valor (4-bet/call), así que el ratio farol:valor es >1, no <1. Tener algo más de farols que valor en el rango de 4-bet es normal en spots balanceados." },
+                  ],
+                },
+                {
+                  situation:"Repaso · Ajuste preventivo — abrir más pequeño",
+                  hand:"—",
+                  context:"Hero abre habitualmente a 3BB. Dos 3-bettores activos con posición tienen una tasa combinada de 3-bet del ≈26%. Hero considera abrir a 2BB en su lugar.",
+                  question:"¿Qué dilema crea para Villano un open más pequeño de Hero?",
+                  options:[
+                    { label:"Si Villano mantiene su sizing de 3-bet, empeora su propia RFE (sube de ~65% a ~70%); si lo reduce para no empeorar su RFE, da a Hero más implied odds por pagar más barato", correct:true, explanation:"¡Correcto! Bajar el open de 3BB a 2BB reduce el coste del fold para Hero y pone a Villano en un dilema: mantener sizing = peor RFE para él, bajar sizing = mejores implied odds para Hero. En ambos casos Hero sale ganando en el margen." },
+                    { label:"No crea ningún dilema — un open más pequeño siempre es peor porque da a Villano más implied odds para pagar", correct:false, explanation:"El libro ve el open más pequeño como un ajuste válido precisamente porque el dilema que crea para Villano (peor RFE o mejores implied odds de Hero) lo pone en una posición incómoda, no a Hero." },
+                    { label:"Obliga a Villano a usar siempre un rango lineal de 3-bet en lugar de polar", correct:false, explanation:"El libro no hace esa conexión directa. El efecto del open más pequeño es sobre el dilema de RFE/implied odds de Villano, no sobre su estructura polar/lineal." },
+                    { label:"Elimina completamente la FE de Hero porque el bote es demasiado pequeño para generar fold equity suficiente", correct:false, explanation:"La FE no desaparece por abrir más pequeño — de hecho, un bote más pequeño significa que Hero arriesga menos cuando foldea a un 3-bet, lo que es una ventaja, no una desventaja." },
+                  ],
+                },
+                {
+                  situation:"Repaso · Squeeze como PFC — Hand 105",
+                  hand:"T♣ T♦",
+                  context:"CO abre. MP paga. Hero en BB se enfrenta a un squeeze externo. El capítulo analiza qué manos puede pagar Hero y cuáles debe foldear.",
+                  question:"¿Por qué TT-JJ sí se pagan en este spot, mientras que 66-99 se foldean?",
+                  options:[
+                    { label:"TT-JJ tienen suficiente frequent strength para compensar las malas implied odds de pagar 8BB; 66-99 necesitarían ~55BB extra de Villano cada vez que flopan el set, lo que es irreal", correct:true, explanation:"¡Correcto! Las parejas medianas-altas (TT-JJ) tienen frequent strength real (pueden ser overpair en boards comunes), mientras que las parejas pequeñas dependen casi exclusivamente de flopear el set — y las implied odds de ese set no bastan para justificar la inversión de 8BB como PFC." },
+                    { label:"TT-JJ se pagan porque tienen más outs que 66-99 si Villano tiene AA o KK", correct:false, explanation:"El razonamiento no es sobre outs específicos — es sobre frequent strength (cuántas veces la mano flopa algo jugable en sí misma, más allá de los outs contra manos específicas de Villano)." },
+                    { label:"66-99 se foldean porque un Fish podría pagar el squeeze con A9 y dominarlas", correct:false, explanation:"El capítulo no usa ese razonamiento aquí. El factor decisivo es las implied odds insuficientes de set-mining a 8BB de profundidad como PFC, no el riesgo de dominación por un Fish." },
+                    { label:"Todas las parejas por debajo de QQ se foldean — TT y JJ también deben foldearse", correct:false, explanation:"El capítulo es explícito: TT-JJ 'sí se pueden pagar' porque su frequent strength (como overpair en muchos boards) compensa las implied odds mediocres. Solo las parejas pequeñas (66-99) carecen de esa compensación." },
+                  ],
+                },
+                {
+                  situation:"Repaso · 3-bet en frío en spot de no-robo",
+                  hand:"Q♣ Q♦",
+                  context:"UTG abre. Hero en HJ recibe ese open con QQ. CO también 3-betea en frío. Hero no es el abridor, por lo que la carga de la MDF no recae en él.",
+                  question:"Según el capítulo, ¿qué debería hacer Hero con QQ como PFC en este spot de no-robo, y por qué?",
+                  options:[
+                    { label:"Pagar con un rango de call sin capar (QQ incluido), porque la FE es insuficiente para un 4-bet de farol y 'quemar' dinero con QQ vs el rango fuerte del 3-bet hace más daño que bien", correct:true, explanation:"¡Correcto! En spots de no-robo, el 3-bet es casi puro valor y la FE para un 4-bet de farol es mínima. Mantener el rango de call sin capar (con QQ como parte de él) protege las manos fuertes y deja al PFR la responsabilidad de la MDF." },
+                    { label:"4-betear con QQ por valor, ya que es una mano premium", correct:false, explanation:"El libro desaconseja 4-betear ampliamente en spots de no-robo: el rango del 3-bettor es tan fuerte que QQ suele estar en desventaja o a lo mejor levemente por delante, y al 4-betear Hero pierde el carácter 'sin capar' de su rango de call que protege a JJ/AK detrás." },
+                    { label:"Foldear QQ porque como PFC nunca tiene la obligación de defender", correct:false, explanation:"No tener obligación de MDF no significa foldear todo — significa que Hero puede ser más selectivo. QQ tiene suficiente valor como para pagar en la mayoría de spots de no-robo, aunque el spot sea difícil." },
+                    { label:"4-betear como farol para aprovechar la falta de obligación de MDF del PFC", correct:false, explanation:"La falta de obligación de MDF no es un incentivo para farolear más — es lo contrario. El libro explica que en spots de no-robo la FE para farols es muy baja, así que 4-bet/foldear con QQ como farol es una mala aplicación del concepto." },
+                  ],
+                },
+              ]},
+            ],
+          },
+        ],
+      },
+      {
+        id: 11,
+        title: "11. Faroleando el Turn y el River",
+        summary: "Los factores que hacen bueno un double o triple barrel, cuándo retrasar el c-bet o sondear el turn sin valor, y cómo y cuándo convertir un float en un bluff-raise en el turn o el river.",
+        chapters: [
+          {
+            title: "Double Barrel Bluffing",
+            body: [
+              { type:"text", content:"Al igual que con los floats de flop, hay dos formas de evaluar un double barrel: el EV en el vacío (útil contra un Fish desatento o en un spot raro que no se repetirá) y la estrategia a largo plazo (necesaria contra un Reg competente o en un spot que se repite constantemente). Este capítulo cubre los seis factores que determinan si un segundo barril en el turn es una buena idea." },
+              { type:"callout", label:"Factor 1 — La carta de turn", content:"Un Reg entiende que el rango de c-bet de Hero también puede FORTALECERSE en el turn de formas no obvias (por ejemplo, un 9d en un board con JT convierte a JT en escalera, dándole SDV a manos como J9/T9 y reduciendo el 'aire' real de Hero) — así que la FE de Hero puede aumentar incluso en turns que no parecen scare cards para un Fish. Un Fish, en cambio, casi nunca actualiza así: solo foldea más en (a) overcards obviamente scary o (b) cartas que completan un flush (especialmente si Hero bloquea combos de ese palo). En turns 'neutros', un Fish casi nunca foldea su rango de call de flop — pero un Reg sabe que el rango de apuesta de Hero se ha contraído de todos modos, y reacciona en consecuencia." },
+              { type:"callout", label:"Factor 2 — Equity", content:"Apostar con equity (no solo con FE) logra tres cosas: (1) si Hero llega al river con la mejor mano, gana el bote MÁS una apuesta extra en un bote ya inflado; (2) Hero se gana el derecho a ver el river y realizar su equity con manos que tendría que check/foldear OOP por falta de pot odds o SDV; (3) la cantidad de equity sirve como filtro natural para mantener la frecuencia de farol balanceada. Ejemplo: sin equity, la RFE necesaria en el vacío sería 8/(8+11)=42%; pero si 12 de los 46 outs (≈26%) convierten a Hero en una mano casi nutted en el river, la FE realmente necesaria cae muy por debajo del 42% — el valor implícito de esos rivers hace casi innecesaria la FE en el turn." },
+              { type:"callout", label:"Factor 3 — FE futura en el river (según la textura del turn)", content:"En boards secos donde pocos rivers cambian la textura, el rango de call de turn de Villano sigue siendo fuerte en la mayoría de rivers → menos margen para farolear el turn ligeramente (y contra poblaciones estacionarias, incluso infra-farolear). En boards donde el turn deja muchos draws (flush draws, pair+draw) en el rango de call de Villano, muchos rivers (carta de flush, segundo overcard) debilitan ese rango → Hero puede tener un rango de turn más amplio sabiendo que tendrá FE futura. En boards donde el rango de call de turn de Villano está lleno de pair+draw, los rivers 'feos' (otra pareja, overcard) lo convierten en una mano fuerte, pero los rivers BLANCOS lo dejan en un solo par asustado — aquí Hero debería farolear MÁS en los rivers seguros, justo lo opuesto al caso anterior." },
+              { type:"callout", label:"Factor 4 — Tipo de rival", content:"(A) Reg fit-or-fold (ej. 19/16, Fold to PF 3Bet After Raise alto ~65-75%, WTSD bajo <25%) → ensancha tus farols, incluso convierte algo de SDV marginal en farol. (B) Reg guerrero (3-bet alto, WTSD 27%+, WWSF 50%+, paga mucho por miedo a ser faroleado) → NO luches fuego con fuego: aprieta tus farols y ve a un rango de valor pesado — basta con dejar de farolear para explotarlo. (C) Fish tímido (gran gap VPIP/PFR, ej. 41/9, fold to cbet ~60%+) → hay algo más de FE de la esperada en overcards y cartas de flush, pero no esperes que foldee manos como 88 o A9 solo por dos apuestas en un board tipo 4422. (D) Fish no-tímido (ej. 80/45, 55/7, 49/36) → odian el botón de fold; incluso turns que empeoran la textura dan poca FE. Aviso de meta-juego: los Fish reaccionan de forma predecible al historial reciente — si Hero acaba de ganar un farol grande, espera menos FE poco después." },
+              { type:"callout", label:"Factores 5 y 6 — Fold to F CBet y SDV", content:"Un Villano con Fold to F CBet alto suele llegar al turn con un rango más débil incluso en cartas neutras → Hero necesita menos de los otros factores para farolear (pero también debe seguir faroleando suficiente en el turn contra esos floaters anchos de flop). Y la regla de oro del manual: cuanta menos SDV tenga Hero, más debería inclinarse a farolear (siempre con algo de FE esperada) — porque una mano que ya gana el 40% al showdown no gana mucho convirtiéndose en farol (ese 40% suele ser justo la parte del rango de Villano que ya foldea), mientras que pierde más contra la parte que no foldea." },
+              { type:"quiz", questions:[
+                {
+                  situation:"Bluff de double barrel con equity de respaldo",
+                  hand:"—",
+                  context:"En el vacío, la RFE necesaria para que un farol de turn sea +EV es 8/(8+11)=42%. Pero el 26% de los rivers convierten la mano de Hero en algo casi nutted.",
+                  question:"¿Cómo cambia ese 26% de 'rivers buenos' la frecuencia de fold-equity (FE) que Hero realmente necesita en el turn?",
+                  options:[
+                    { label:"La FE necesaria cae muy por debajo del 42%, porque en una buena parte de los rivers Hero ya no necesita que Villano foldee — gana de todas formas con una mano fuerte", correct:true, explanation:"¡Correcto! Apostar con equity no solo añade valor cuando Hero gana al showdown; también reduce la FE NECESARIA, porque parte de los 'no-folds' de Villano terminan siendo botes que Hero gana igual en el river." },
+                    { label:"La FE necesaria sigue siendo 42%, porque la equity y la fold equity son cálculos independientes que no interactúan", correct:false, explanation:"Sí interactúan: el libro explica explícitamente que la equity adicional (outs que llegan al river) reduce la FE realmente necesaria por debajo del 42% del cálculo en el vacío." },
+                    { label:"La FE necesaria sube por encima del 42%, porque Hero ahora tiene más que perder si Villano no foldea", correct:false, explanation:"Es lo contrario — tener más equity hace que un 'no fold' de Villano sea menos costoso para Hero (a veces Hero gana igual en el river), por lo que la FE necesaria BAJA, no sube." },
+                    { label:"El 26% solo es relevante si Hero decide farolear también el river", correct:false, explanation:"El 26% es relevante para la decisión del TURN en sí — reduce la FE necesaria para que el barril de turn sea correcto, independientemente de lo que Hero haga después en el river." },
+                  ],
+                },
+                {
+                  situation:"Eligiendo cuándo NO farolear según el tipo de rival",
+                  hand:"—",
+                  context:"Hero tiene un farol marginal en el turn en un board que no cambia mucho de textura (sin scare cards obvias).",
+                  question:"¿Contra cuál de estos tipos de rival este farol probablemente generará MENOS fold equity?",
+                  options:[
+                    { label:"Un Fish no-tímido (ej. 80/45 o 55/7) que odia foldear, incluso en turns que empeoran su rango", correct:true, explanation:"¡Correcto! El tipo (D), el Fish no-tímido, es descrito explícitamente como alguien que da 'poca FE incluso en turns que empeoran la textura' — el peor candidato para un farol marginal sin scare card." },
+                    { label:"Un Reg fit-or-fold con Fold to PF 3Bet After Raise alto y WTSD bajo", correct:false, explanation:"El Reg fit-or-fold (tipo A) es justo el rival contra el que el libro recomienda ENSANCHAR los farols, incluyendo convertir algo de SDV marginal en farol — debería dar MÁS FE, no menos." },
+                    { label:"Un Villano con Fold to F CBet muy alto", correct:false, explanation:"Un Fold to F CBet alto sugiere un rango de turn más débil en general, lo que normalmente significa MÁS fold equity disponible para Hero, no menos." },
+                    { label:"Un Reg cuyo rango se fortalece de forma no obvia en este turn", correct:false, explanation:"Esto describe el Factor 1 con un Reg — aunque el rango se fortalezca de forma 'invisible' para un Fish, el Reg sigue reaccionando porque sabe que el rango de Hero también se ha contraído; esto no garantiza poca FE." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Triple Barrel Bluffing",
+            body: [
+              { type:"text", content:"Los triple barrels en el river son un juego puro de fold equity: no quedan más cartas, así que ya no existe el concepto de 'apostar por protección'. Un error común a stakes bajos es construir rangos de river solo con manos de valor — muy explotable contra jugadores observadores." },
+              { type:"callout", label:"Toda la SDV es buena SDV en el river", content:"En el flop o el turn, una mano vulnerable a veces se apuesta por protección incluso sin mucha FE, porque todavía hay cartas por venir que podrían arruinarla. En el river ya no existe esa razón: con cero cartas pendientes, cualquier valor de showdown (SDV) es un argumento para CHECKEAR en vez de farolear — si Hero tiene SDV, esa mano probablemente pertenece al rango de check/showdown, no al rango de farol." },
+              { type:"callout", label:"El factor de los bloqueadores — AhJs vs 8c5c", content:"En un river que completa flush, ¿qué mano es mejor farol con la misma SDV (cero) contra el rango de call de turn de Villano (casi seguro una pareja o mejor)? AhJs, por mucho: bloquea gran parte de los posibles flushes de Villano además de combos de KJ — precisamente las manos que casi nunca van a foldear. 8c5c no bloquea nada de eso. La pregunta clave no es solo '¿cuánta SDV tengo?' sino '¿cuántos combos del rango de CALL de Villano estoy bloqueando, y cuántos de su rango de FOLD estoy dejando intactos?'." },
+              { type:"callout", label:"Cómo cambia el rango de call de turn de Villano en el river", content:"En el vacío, conviene farolear más los rivers que DEBILITAN el rango de call de turn de Villano más de lo que lo fortalecen. Ejemplo: si el rango de call de turn de Villano está lleno de draws y pares bajos que en su mayoría fallan en el river, esos rivers fortalecen mucho el rango de farol de Hero (que viene desde el flop) — ahí Hero puede permitirse un rango de river muy cargado de farols con poca SDV (e incluso algunas value bets finas, porque el rango de Villano puede estar capado y débil)." },
+              { type:"callout", label:"Dos ejemplos contrastados: cuándo NO farolear y cuándo SÍ", content:"(1) Ac7c en un river que completa el flush (vs. un Reg, tras dos calles): tiene algo de SDV (gana a otros flush draws fallidos y a JTs) y el As bloquea AQ — pero AQ es justo una mano que Villano YA estaba foldeando, mientras que 7c no bloquea nada del rango que SÍ paga. Con solo 33 combos de valor disponibles ([AA KK QQ AK KQ]), convertir Ac7c en farol sería sobre-farolear severamente: Hero checkea. (2) Contra un Fish tímido y fit-or-fold tras dos apuestas estándar en flop/turn, un river A: la RFE en el vacío es 25/(25+40.5)≈38% — Villano probablemente foldea mucho más que eso ante este river, así que el balance no importa: Hero farolea cualquier mano sin SDV." },
+              { type:"quiz", questions:[
+                {
+                  situation:"River que completa un flush · elegir el mejor farol",
+                  hand:"AhJs vs 8c5c",
+                  context:"Ambas manos tienen exactamente cero SDV en este river. AhJs bloquea muchos de los posibles flushes de Villano y combos de KJ; 8c5c no bloquea nada relevante del rango de Villano.",
+                  question:"¿Por qué AhJs es un farol muy superior a 8c5c aquí, a pesar de que ninguna de las dos gana al showdown?",
+                  options:[
+                    { label:"AhJs bloquea combos del rango de Villano que NUNCA van a foldear (flushes, KJ), dejando intacto el rango que SÍ foldea; 8c5c no hace nada de esto", correct:true, explanation:"¡Correcto! El valor de un bloqueador en el river no es 'cuánta equity tengo', sino a qué parte del rango de Villano se lo quito. Quitar combos de SU RANGO DE CALL (sin tocar su rango de fold) aumenta directamente la FE efectiva del farol." },
+                    { label:"AhJs es mejor porque tiene más equity bruta contra el rango de Villano", correct:false, explanation:"El contexto especifica que ambas manos tienen CERO SDV en este river — la diferencia no es de equity bruta, sino de qué combos del rango de Villano bloquea cada una." },
+                    { label:"8c5c es en realidad la mejor opción porque no bloquea las manos que Villano foldearía, dejándolas disponibles para farolear más veces en el futuro", correct:false, explanation:"Esto invierte la lógica del libro: lo que se busca es bloquear el rango de CALL de Villano (lo que reduce sus combos para pagar), no preservar su rango de fold." },
+                    { label:"No hay diferencia real entre las dos manos porque en el river solo importa el tamaño de la apuesta, no las cartas de Hero", correct:false, explanation:"El capítulo dedica una sección entera al 'factor de los bloqueadores' precisamente porque las cartas específicas de Hero SÍ importan para elegir farols de river, más allá del tamaño de apuesta." },
+                  ],
+                },
+                {
+                  situation:"Ac7c en un river de flush tras dos calles (vs. Reg)",
+                  hand:"A♣ 7♣",
+                  context:"Ac7c tiene algo de SDV (gana a draws fallidos) y el As bloquea combos de AQ. El rango de valor de Villano en este river son solo 33 combos ([AA KK QQ AK KQ]).",
+                  question:"¿Por qué el libro concluye que Hero debe checkear Ac7c en lugar de farolear, a pesar del bloqueador al As?",
+                  options:[
+                    { label:"Porque AQ es una mano que Villano ya estaba foldeando de todos modos, así que bloquearla no aumenta la FE real; además, con solo 33 combos de valor, convertir Ac7c en farol desbalancearía el rango de river hacia demasiados farols", correct:true, explanation:"¡Correcto! Un bloqueador solo ayuda si reduce el rango de CALL de Villano. Bloquear una mano que ya foldea no cambia nada — y con un rango de valor tan estrecho (33 combos), Hero no tiene 'espacio' para añadir más farols sin sobre-farolear." },
+                    { label:"Porque Ac7c no tiene ningún valor de showdown en absoluto", correct:false, explanation:"El propio contexto indica que Ac7c SÍ tiene algo de SDV (gana a otros flush draws fallidos y a JTs) — esa SDV es justamente parte de la razón para checkear en vez de farolear, no la ausencia de ella." },
+                    { label:"Porque checkear siempre es mejor que apostar en el river cuando se tiene un As en la mano", correct:false, explanation:"No hay tal regla general — el segundo ejemplo del capítulo (Fish tímido, river A) muestra precisamente lo contrario: farolear libremente con un As cuando el rango de valor del rival es amplio y la FE es alta." },
+                    { label:"Porque Villano es un Reg, y nunca se debe farolear el river contra Regs", correct:false, explanation:"El libro no dice eso — los Regs simplemente requieren un análisis más cuidadoso de bloqueadores y proporciones de valor:farol, no la eliminación total de los farols de river." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Retrasar el C-Bet y Sondear el Turn",
+            body: [
+              { type:"text", content:"Como Pre-Flop Caller, tanto 'checkear el flop detrás' como 'checkear el turn después de que el flop quedó en check' son acciones que LIMITAN EL RANGO de ambos jugadores — no son checks 'de procedimiento' neutros. Esta idea es la base de por qué un c-bet retrasado puede ser +EV en spots donde un c-bet inmediato no lo era (o no era la mejor opción)." },
+              { type:"callout", label:"Razón 1 — El c-bet de flop es -EV, pero el retrasado no", content:"Cuando el rango de Villano conecta demasiado bien con el flop y Hero no tiene suficiente equity para compensar, el check de Hero en el flop hace que sea VILLANO quien tiende a apostar el turn con sus manos buenas si las tiene — y si Villano CHECKEA una segunda vez, su rango queda mucho más capado y débil. Hero debería priorizar este farol retrasado con manos que tengan algo de equity (no cero) y poca SDV. A nivel poblacional, la mayoría sub-balancea esto (foldea demasiado en el turn tras el doble check), así que sobre-farolear aquí suele ser +EV explotativo — salvo contra Villanos con un Float Flop muy alto, donde conviene infra-farolear." },
+              { type:"callout", label:"Razón 2 — El c-bet de flop ya es +EV, pero retrasarlo es AÚN MEJOR", content:"Contra rivales rígidamente fit-or-fold con poco o ningún rango de farol en el turn, Hero puede checkear el flop para 'comprar información gratis': si Villano apuesta el turn, Hero simplemente foldea (se ahorró un c-bet que de todos modos iba a ser pagado); si Villano checkea otra vez, la luz verde de FE brilla más fuerte. Esta línea es aún mejor cuando el rango de fold de Villano en el flop tiene pocas formas de mejorar en el turn (la protección importa poco). Cuidado: esta línea SOLO funciona si Hero está realmente seguro de que Villano juega fit-or-fold en el turn — si no, ceder un c-bet de flop +EV para luego foldear ante un lead de farol es un desastre." },
+              { type:"callout", label:"Razón 3 — Hero planeaba rendirse, pero el turn mejora su rango (y su FE)", content:"Hero checkea el flop con una mano sin equity para farolear y poca SDV, planeando ir a showdown si se puede o foldear sin más. Si el TURN mejora muchísimo el rango de check de Hero (mientras Villano, que ya está checkeando su rango entero por balance en esta carta, no se beneficia igual), esa mano marginal se convierte en un farol tentador — la FE no viene de un segundo check de Villano, sino directamente de la CARTA del turn. Cambios extremos de textura deben hacer que Hero reconsidere su plan original de 'voy a rendirme'." },
+              { type:"callout", label:"Sondeando el turn (light turn probing) sin valor", content:"Factores clave: (1) el rango de check-back de Villano en el flop (textura + tipo de jugador — un Reg que c-betea mucho el aire en un flop favorable, si checkea, deja un rango pesado en SDV con planes de pagar el turn → poca FE para Hero; el mismo Reg checkeando un flop húmedo deja un rango más equilibrado entre SDV y aire → más FE); (2) la equity propia de Hero (ayuda pero no es obligatoria); (3) la SDV propia (no hace falta farolear lo que ya gana contra todo lo que foldearía, salvo por protección si esa SDV es vulnerable); (4) la carta de turn (algunas cartas reaniman tanto el rango de check de Villano que lo correcto es range-checkear ese turn entero, igual que se hizo en el flop)." },
+              { type:"quiz", questions:[
+                {
+                  situation:"BB vs un min-raise de BU · Hero checkea un flop con gutshot, Villano (Nit) también checkea",
+                  hand:"—",
+                  context:"Hero tiene un gutshot y checkea el flop detrás. Villano, un Nit con poco rango de farol en el turn, checkea también. Según las 4 razones del capítulo, esta situación corresponde a la Razón 2 (Hero apuesta 2.5BB en el turn tras el segundo check de Villano).",
+                  question:"¿Por qué este es un ejemplo de la Razón 2 ('el c-bet de flop ya era +EV, pero retrasarlo es aún mejor') y no de la Razón 1?",
+                  options:[
+                    { label:"Porque Villano es un Nit rígidamente fit-or-fold con poco rango de farol en el turn: el check de flop de Hero 'compra información gratis' (foldea si Villano apuesta el turn) y, tras el segundo check, Hero apuesta con más confianza sabiendo que el rango de Villano está muy capado", correct:true, explanation:"¡Correcto! La Razón 2 aplica específicamente a rivales fit-or-fold donde checkear el flop no cuesta EV (un c-bet ya habría sido +EV) pero retrasarlo permite a Hero recibir información gratuita antes de comprometer fichas." },
+                    { label:"Porque el gutshot de Hero no tiene ninguna equity, lo que descarta automáticamente la Razón 1", correct:false, explanation:"Un gutshot SÍ tiene algo de equity, pero esa no es la distinción entre Razón 1 y Razón 2 — la distinción es si el c-bet de flop habría sido -EV (Razón 1) o ya era +EV pero retrasar es mejor todavía (Razón 2)." },
+                    { label:"Porque la Razón 1 solo se aplica cuando Villano es un Fish, nunca cuando es un Reg o un Nit", correct:false, explanation:"La Razón 1 puede aplicarse contra cualquier tipo de rival cuyo rango conecte muy bien con el flop — la clasificación no depende de si Villano es Fish o Reg/Nit, sino de si el c-bet de flop habría sido -EV o +EV." },
+                    { label:"Porque Hero planeaba rendirse desde el principio, lo cual es la definición de la Razón 3", correct:false, explanation:"La Razón 3 trata sobre manos donde Hero planeaba rendirse y la CARTA del turn (no un segundo check de Villano) mejora drásticamente su rango. Aquí la clave es el comportamiento fit-or-fold de Villano, no la carta del turn." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Bluff-Raising el Turn y el River",
+            body: [
+              { type:"text", content:"Esto se conecta con el float de flop (visto en un capítulo anterior): la fold equity futura que Hero se ganó al flotar a veces debe realizarse mediante un RAISE en el turn (o el river), no solo con una apuesta de seguimiento. Conviene raisear más en el turn cuando Hero está OOP (donde simplemente pagar es menos rentable); IP, a menudo es mejor retrasar todo el rango de raise hasta el river. Importa mucho el tipo de rival: reserva estas líneas para Villanos que de verdad puedan foldear — un Fish pasivo rara vez barrelea el turn ancho, y cuando lo hace, rara vez foldea a un raise." },
+              { type:"callout", label:"Ejemplo explotativo — leyendo el rango de un Reg tight-pasivo (Hand 122)", content:"Villano abre un rango tight desde HJ, apuesta el flop mayormente por valor (con algunos farols), y luego hace una apuesta de turn pequeña y 'asustada' justo en una carta que completa un draw obvio. Con un alto grado de confianza, ese patrón sugiere un rango capado en AA — algo como [99 ATs KTs JJ QQ KK AA], que le gana a Hero en la mayoría de rivers. En vez de pagar el turn, brickear el river y disparar solo una vez más contra ese rango ya convertido en bluff-catcher, Hero debería RAISEAR el turn ahora, maximizando la FE mientras tiene el déficit de equity más fresco. Conclusión: ¡Raise! (Toma esta lectura con pinzas: información limitada no la justifica siempre igual de bien.)" },
+              { type:"callout", label:"Ejemplo balanceado — construyendo el rango de raise del turn (Hand 123)", content:"Las combinaciones de raise por valor de Hero pueden ser cualquier two pair o mejor — por ejemplo [66, 77, 76s, KQ] = 17 combos. Para estar balanceado, Hero necesita un poco MENOS de farols que de valor en este spot. Pocas manos son mejores farols aquí que un semi-farol de alta equity como 98s, ya que escasean los candidatos de alta equity en esta carta. Conclusión: el turn es claramente un bluff-raise con 98s. Contra un Villano con stats agresivos (alto c-bet de flop y turn), Hero puede incluso desbalancearse hacia más raises (de valor y de farol) que lo estrictamente balanceado." },
+              { type:"callout", label:"Esperando al río para el juego de raises (Hand 124)", content:"Cuando Hero está IP con buenas pot odds + implied odds + SDV + FE futura en el river, simplemente pagar el turn mantiene su rango sin capar y más fuerte de cara al river — especialmente útil contra Villanos que triple-barrelean mucho, porque Hero no necesita hacer calls absurdamente livianos en el river si Villano resulta ser más tight de lo esperado. En el river, con una carta de corazones, Hero arma un shove de farol con una pareja de 4s: bloquea combos de valor (44) que Villano podría tener, y no comparte cartas con los draws de corazones abundantes en el rango de Villano — el shove apunta a sacar [Qx KK AA] del bote. Conclusión: cuando bluffear o subir de valor puede retrasarse al river sin urgencia, prefiere el juego de raises del river al del turn — mantiene el rango del river más fuerte y versátil." },
+              { type:"quiz", questions:[
+                {
+                  situation:"Comparando Hand 122 (raise explotativo en el turn) y Hand 124 (esperar al river)",
+                  hand:"—",
+                  context:"En Hand 122, Hero raisea el turn basándose en una lectura de que el rango de Villano está capado por debajo de AA. En Hand 124, Hero (IP, con buenas pot odds/implied odds/SDV/FE futura) simplemente paga el turn y planea su jugada de raise para el river.",
+                  question:"¿Qué principio general explica por qué Hero elige raisear ya en el turn en un caso, pero esperar al river en el otro?",
+                  options:[
+                    { label:"Cuando Hero tiene una lectura fuerte de que el rango de Villano está capado AHORA (Hand 122), es mejor maximizar la FE de inmediato; cuando Hero está IP con suficientes razones para pagar el turn sin urgencia (Hand 124), esperar al river mantiene el rango sin capar y más fuerte", correct:true, explanation:"¡Correcto! No hay una regla única 'siempre raisea el turn' o 'siempre espera al river' — depende de si existe una ventaja de información/EV que se pierde por esperar (Hand 122) o si pagar el turn no tiene coste de oportunidad real y preserva opciones (Hand 124)." },
+                    { label:"Hero siempre debería raisear el turn cuando está fuera de posición, y siempre esperar al river cuando está en posición — la posición es lo único que importa", correct:false, explanation:"La posición es relevante (el texto menciona que OOP favorece raisear más en el turn), pero el factor decisivo en estos dos ejemplos es la LECTURA del rango de Villano y si pagar el turn cuesta algo, no solo la posición." },
+                    { label:"En Hand 122 Hero tiene una mano de valor, mientras que en Hand 124 Hero tiene un farol puro, y por eso las líneas son distintas", correct:false, explanation:"Ambos ejemplos involucran decisiones de farol/semi-farol con fold equity como motor principal — la diferencia no es 'valor vs. farol', sino CUÁNDO conviene más realizar esa fold equity (ahora vs. en el river)." },
+                    { label:"Hand 124 es un error: Hero debería haber raiseado el turn igual que en Hand 122", correct:false, explanation:"El libro presenta Hand 124 como la línea CORRECTA dado el contexto (IP, buenas odds, rival que triple-barrelea) — no es un error, sino un ejemplo de cuándo 'esperar al river' es la mejor opción." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Práctica: Faroleando el Turn y el River",
+            body: [
+              { type:"text", content:"Cinco preguntas de repaso sobre los seis factores del double barrel, el triple barrel, el c-bet retrasado y el bluff-raise. No cuentan para el Test ni para Supervivencia." },
+              { type:"quiz", questions:[
+                {
+                  situation:"Repaso · Factor 1 — La carta de turn y el tipo de rival",
+                  hand:"—",
+                  context:"Hero tiene un posible double barrel en un board seco con una carta de turn 'inofensiva' (sin overcard, sin flush card).",
+                  question:"¿Por qué un Reg puede foldar más que un Fish ante este turn 'neutro', y qué implica eso para la estrategia de Hero?",
+                  options:[
+                    { label:"El Reg actualiza su lectura del rango de Hero aunque la carta sea neutral (sabe que el rango de c-bet de Hero se contrajo); el Fish solo foldea en cartas visualmente scary — el double barrel funciona mejor contra Regs en turns neutros", correct:true, explanation:"¡Correcto! El Factor 1 distingue explícitamente entre Reg y Fish: el Reg razona sobre cómo el turn afecta al rango de Hero (aunque la carta parezca inofensiva), mientras que el Fish necesita overcards o flush cards para reaccionar. Un barrel neutro es más eficaz contra Regs." },
+                    { label:"En turns neutros, ambos tipos de rival foldan por igual — solo importa el sizing del barrel", correct:false, explanation:"El libro diferencia explícitamente entre Reg y Fish en turns neutros. La reacción de cada tipo de rival es el Factor 4, pero el Factor 1 (la carta en sí) determina cuánta diferencia hay entre ambos." },
+                    { label:"El Fish foldea más que el Reg en turns neutros porque los Fish son más tímidos ante cualquier apuesta", correct:false, explanation:"Es al revés: el Reg entiende que el rango de Hero se contrajo incluso en una carta neutra; el Fish no reacciona a razonamientos de rango — solo a triggers visuales. Fish no-tímidos odian el fold incluso en turns que los perjudican." },
+                    { label:"La carta de turn no importa — lo único relevante es el tipo de rival", correct:false, explanation:"El capítulo dedica un factor entero a la carta de turn precisamente porque sí importa, y su efecto VARÍA según el tipo de rival. La interacción entre el Factor 1 y el Factor 4 es el punto central de este repaso." },
+                  ],
+                },
+                {
+                  situation:"Repaso · Factor 2 — Equity y RFE del double barrel",
+                  hand:"J♥ T♥",
+                  context:"Hero tiene JTh con un flush draw en el turn (9 outs). RFE en el vacío: 8/(8+11)=42%. Aproximadamente el 20% de los rivers completarán el flush de Hero.",
+                  question:"¿Cómo afecta ese 20% de 'rivers buenos' a la FE que Hero realmente necesita en el turn?",
+                  options:[
+                    { label:"La FE necesaria cae por debajo del 42%, porque en esos rivers Hero gana sin necesitar que Villano foldee ahora — la equity reduce el threshold de FE requerida en el turn", correct:true, explanation:"¡Correcto! Apostar con equity logra tres cosas clave: si Hero completa en el river gana el bote aunque Villano no haya foldeado en el turn; Hero se 'compra' el derecho a ver esa carta; y la ecuación hace que la FE necesaria en el turn sea menor que el 42% del vacío." },
+                    { label:"La FE necesaria sube por encima del 42%, porque ahora Hero tiene más que perder si Villano paga el turn", correct:false, explanation:"Es lo contrario: tener equity implica que parte de los 'calls' de Villano en el turn no son derrotas para Hero — los rivers buenos los recupera. Eso REDUCE la FE necesaria, no la aumenta." },
+                    { label:"La FE y la equity son independientes — el 20% de rivers buenos no cambia la RFE del turn", correct:false, explanation:"El capítulo explica explícitamente que sí interactúan: 'la cantidad de equity sirve como filtro natural' y 'la FE realmente necesaria cae muy por debajo del 42%' cuando Hero tiene outs relevantes." },
+                    { label:"Con un flush draw, Hero siempre debe apostar el turn independientemente de la FE disponible", correct:false, explanation:"El libro no da reglas absolutas. La equity reduce la FE necesaria, pero no la elimina — si Hero tiene cero FE esperada (ej. Fish no-tímido que nunca foldea), apostar solo con draws pierde dinero a largo plazo." },
+                  ],
+                },
+                {
+                  situation:"Repaso · Triple barrel — el factor de los bloqueadores",
+                  hand:"A♠ J♦",
+                  context:"River que completa una posible flush de corazones. Hero tiene AJo (sin corazones). El rango de call de turn de Villano incluye muchos corazones (flush completo) y AQ.",
+                  question:"¿Por qué AJo es un buen candidato a bluff en el river aquí, a pesar de no tener flush?",
+                  options:[
+                    { label:"AJo bloquea AQ (combos que casi nunca foldan y podrían pagar el bluff) y reduce combos de AA — sin embargo, NO bloquea los flushes de Villano, lo que deja intacto el rango que SÍ foldea", correct:true, explanation:"¡Correcto! El valor del bloqueador no es eliminar combos del rango que foldea (eso sería contraproducente), sino eliminar combos del rango que PAGA. Bloquear AQ hace que Villano tenga menos hands con las que pagar el river, aumentando la FE efectiva del bluff." },
+                    { label:"AJo es un buen bluff porque no tiene valor de showdown y por eso es 'gratis' de usar como farol", correct:false, explanation:"No tener SDV es una CONDICIÓN para considerar el bluff (no perde showdown value al convertirlo en farol), pero no es la RAZÓN por la que es buen candidato. La razón son los bloqueadores al rango de call de Villano (AQ, AA)." },
+                    { label:"AJo bloquea los flushes de Villano (corazones) gracias al As, reduciendo su rango de manos fuertes", correct:false, explanation:"El As de AJo no bloquea flushes de corazones (el As no es corazón aquí). AJo bloquea AQ y AA — manos que pueden PAGAR el river, no flushes. La distinción es fundamental: bloquear manos del rango de call es lo valioso." },
+                    { label:"Cualquier mano con un As es automáticamente un buen bluff de river en cualquier textura", correct:false, explanation:"El bloqueador del As es valioso solo si AQ o AA están en el rango de call del rival. En texturas donde el rango de call de Villano no incluye manos con As (ej. solo flushes completados), el As es irrelevante como bloqueador." },
+                  ],
+                },
+                {
+                  situation:"Repaso · Retrasar el c-bet — Razón 1 vs. Razón 2",
+                  hand:"K♦ 9♣",
+                  context:"Hero abre desde el BU. BB (Reg fit-or-fold, poco rango de farol en turn) paga. Flop: T♠ 8♣ 6♦. Hero checkea detrás. BB checkea el turn (carta blank: 2♥). Hero tiene K9o sin par ni draw.",
+                  question:"¿A cuál razón del capítulo corresponde apostar el turn aquí con K9o, y por qué no es la Razón 3?",
+                  options:[
+                    { label:"Razón 2 — el c-bet de flop habría sido +EV (board bajo que conecta poco con el BB), pero retrasar 'compró información gratis'; tras el segundo check de Villano (fit-or-fold, sin rango de farol), la FE es aún mayor y Hero apuesta aprovechando eso", correct:true, explanation:"¡Correcto! La Razón 2 aplica cuando el c-bet inmediato era +EV pero retrasar es mejor contra rivales fit-or-fold. La Razón 3 requiere que Hero PLANEARA rendirse Y que la carta de turn cambie el rango dramáticamente. Aquí Hero simplemente eligió información gratuita — nunca planeó rendirse." },
+                    { label:"Razón 3 — Hero planeaba rendirse con K9o y el 2♥ del turn mejoró su rango", correct:false, explanation:"La Razón 3 requiere dos cosas: (1) Hero planeaba rendirse, y (2) la carta del turn mejora drásticamente el rango de check de Hero. El 2♥ no mejora especialmente el rango de K9o ni de Hero en general — la Razón 3 no aplica aquí." },
+                    { label:"Razón 1 — el c-bet de flop habría sido -EV en este board porque el BB conecta mucho con T-8-6", correct:false, explanation:"T-8-6 es un board que conecta bastante con el BB (OESD, pares medios, dos pares), lo que podría hacer el c-bet -EV. Pero el contexto dice que el BB es fit-or-fold, lo que normalmente hace el c-bet +EV incluso en boards conectados. La Razón 2 es más apropiada." },
+                    { label:"Ninguna razón aplica — con K9o Hero siempre debería haber c-beteado el flop directamente", correct:false, explanation:"El capítulo muestra que retrasar el c-bet puede ser superior al c-bet inmediato en múltiples escenarios, incluyendo con manos sin par ni draw que sirven de puro farol. La Razón 2 aplica aquí." },
+                  ],
+                },
+                {
+                  situation:"Repaso · Bluff-raise en el turn — Hand 123",
+                  hand:"9♣ 8♣",
+                  context:"Hero floteó el flop con 98s. Turn: carta que da a Hero un draw de alta equity (OESD, ≈8 outs). Villano (stats agresivos, alto c-bet) apuesta el turn. El rango de raise por valor de Hero es [66, 77, 76s, KQ] = 17 combos.",
+                  question:"¿Cuántos combos de farol puede añadir Hero como bluff-raise para estar balanceado, y qué hace a 98s el candidato ideal?",
+                  options:[
+                    { label:"Menos de 17 combos de farol (ligeramente por debajo de 1:1); 98s es ideal porque es el semi-farol de mayor equity disponible en esta carta — escasean los candidatos de alta equity", correct:true, explanation:"¡Correcto! En un rango de raise de turn el ratio valor:farol balanced suele estar cerca de 1:1 o ligeramente más valor que farol. 98s tiene alta equity (OESD) lo que la convierte en el semi-farol natural: si Villano llama, Hero puede ganar el river con su draw. La escasez de otros candidatos de alta equity también la señala como la elección obvia." },
+                    { label:"El doble de combos de farol que de valor (≈34 farols) para maximizar la presión sobre Villano", correct:false, explanation:"El ratio 2:1 farol:valor se menciona en el contexto de squeezes y 4-bets explotatives, no en bluff-raises de turn. En raises de turn, el ratio balanced tiende a ser más cercano a 1:1 — demasiados farols sería sobre-bluffear." },
+                    { label:"98s es mal candidato porque tiene SDV (puede ganar al showdown con los draws completados)", correct:false, explanation:"Al contrario: que 98s tenga equity es la razón para bluff-raisear con ella, no en contra. El capítulo no usa 98s como bluff porque sea 'aire puro', sino precisamente porque su alta equity como draw hace el raise mucho más fuerte que un bluff con cero equity." },
+                    { label:"Con 17 combos de valor, Hero no puede hacer bluff-raise porque necesitaría exactamente 17 farols y no los tiene disponibles", correct:false, explanation:"17 farols (para un ratio 1:1) no es un mínimo absoluto — el libro dice 'un poco menos de farols que de valor'. Incluso con pocos candidatos, 98s (y potencialmente otra mano) bastan para construir un rango de raise balanceado y creíble." },
+                  ],
+                },
+              ]},
+            ],
+          },
+        ],
+      },
 
     ],
   },
@@ -2309,6 +2712,10 @@ const content = {
       contextLabel: "Context",
       filterTitle: "Choose categories to practice",
       filterRandom: "Random (all)",
+      topicFilterTitle: "Filter by topic (recent lessons)",
+      topicFilterAll: "All topics",
+      topicFilterCh10: "Ch. 10: Defending vs 3-Bet",
+      topicFilterCh11: "Ch. 11: Bluffing Turn/River",
       optFold: "Fold",
       optOpen3: "Open to 3x BB",
       optOpen25: "Open to 2.5x BB",
@@ -4324,6 +4731,405 @@ const content = {
           },
         ],
       },
+      {
+        id: 10,
+        title: "10. Facing 3-Bets",
+        summary: "Which hands are worth calling against a 3-bet, how to build balanced defence ranges using the MDF, preemptive adjustments against active 3-bettors, how to defend against a squeeze, and what to do when a 3-bet hits you cold.",
+        chapters: [
+          {
+            title: "Flatting 3-Bets: When Is Calling Worth It?",
+            body: [
+              { type:"text", content:"When Hero opens for 3BB and then folds to a 9BB 3-bet, the result of that hand is -3BB. For calling that 3-bet to be correct, calling does NOT need to be +EV for the whole hand — it just needs to lose LESS than that -3BB from the decision point where Hero has already committed those chips. Many hands at the bottom of an opening range are 'doomed' to lose money once they're 3-bet; the question isn't whether we'll lose EV, but whether calling loses less than folding." },
+              { type:"callout", label:"Figure 63 — The 5 factors for flatting (top to bottom)", content:"(1) Position: playing IP makes it easier to float, reach showdown, realize equity, and win pots where both players miss — a huge factor. (2) Frequent Strength relative to Villain's 3-betting range (not the same as raw equity: 44 has 44% equity against an 18% linear range, but it almost never flops something usable, whereas KQo, with barely 3% more equity, flops something playable far more often and therefore defends much better). (3) Versatility: hands like 98s or A4s contribute non-made-hand equity so Hero isn't purely fit-or-fold. (4) Villain Weaknesses: more floats if Villain c-bets and gives up too often, more implied odds if he's spewy postflop, more speculative hands if he plays fit-or-fold. (5) Implied Odds: the last resort — 100bb deep, investing 6-8BB to see a flop rarely leaves enough implied odds on its own." },
+              { type:"callout", label:"Example: A8s in the BB calls a BU 3-bet", content:"Position favours Hero. Frequent strength is reasonable (Villain's overall 3-bet stat is 9%, but in a late-position war BB vs BU it's likely wider, perhaps ~15%). Versatility is high: A8s doesn't just flop top pair, it also flops nut flush draws, backdoors with two overcards, or a backdoor straight draw. Suited aces also add that small extra of implied odds from occasionally flopping the nut flush. Conclusion: Hero calls 5BB." },
+              { type:"callout", label:"Example: 77 out of position — fold", content:"Position is against Hero: any information error gets magnified in a bigger pot, and Villain benefits. Frequent strength is poor: 88% of the time 77 flops an underpair, second pair, or at best a weak overpair — that's 88% of a 6BB investment (≈5.28BB) going in under very unfavourable conditions. Versatility is zero: 77 is a completely rigid hand, either it flops the world or it flops nothing, with no bluffing equity. Implied odds: investing 6BB to see the flop with a 19.5BB pot, Hero would need to win an extra ~40BB from Villain every time he flops the set just to break even — far too optimistic OOP against a potentially strong range. With all five factors against it, 77 is a clear fold." },
+              { type:"callout", label:"Turning a 'too good to fold' hand into a 4-bet bluff — AQo from UTG", content:"UTG opens and faces a 3-bet from the SB/BB with an overall 3-bet stat of 9% — but against a UTG open, that same player typically 3-bets much tighter (maybe 5-6%, not 9%). Against that stronger range, AQo suffers badly from reverse implied odds (KK+ on Q-high flops, AK on A-high flops): it's too good to simply fold this part of the opening range, but it's not a good call either. The fix is to recycle it as a 4-bet bluff: AQo blocks two cards of [QQ+ AK], Villain's value range for defending. Calculating Villain's RFE: RFE = R/(R+PG) = 19/(19+13.5) = 58% — a very achievable fold target against a single-digit 3-bettor. Hero raises to 22BB. Even if the overall EV ends up negative, raising beats folding or calling here." },
+              { type:"quiz", questions:[
+                {
+                  situation:"BB vs a BU 3-bet · comparing A8s and 77",
+                  hand:"A♠ 8♠",
+                  context:"Both hands might look like 'implied odds hands' at first glance (a suited ace and a small pair), but the book treats them very differently: A8s is a clear call and 77 (OOP) is a clear fold.",
+                  question:"What's the key difference between A8s and 77 that explains why one is an easy call and the other an easy fold?",
+                  options:[
+                    { label:"A8s has position, reasonable frequent strength, and a lot of versatility (top pair + nut flush draws + backdoors); 77 OOP has none of this and its implied odds aren't enough either", correct:true, explanation:"Correct! A8s stacks up several of the Figure 63 factors — especially position and versatility. 77 OOP has none of the first four factors in its favour, and its implied odds (needing ~40BB extra from Villain every time it flops a set) aren't enough to compensate on their own." },
+                    { label:"Both are implied-odds hands, but A8s has better raw equity, which is why it's calling-correct", correct:false, explanation:"The book insists raw equity is NOT the same as frequent strength. The difference isn't 'how much equity they have', but how often they flop something they can actually CONTINUE with postflop — and A8s is far better than 77 in that regard." },
+                    { label:"77 should also be called because small pairs always have enough implied odds at 100bb", correct:false, explanation:"Quite the opposite: investing 6BB to see the flop with a 19.5BB pot, Hero would need to win an extra ~40BB every time he flops a set — an unrealistic target OOP, so implied odds simply aren't enough here." },
+                    { label:"Position doesn't matter for this decision, only raw hand strength in a vacuum", correct:false, explanation:"Position is the first factor in Figure 63 and it's huge: A8s has it (IP) and 77 doesn't (OOP), which magnifies the gap between the two hands." },
+                  ],
+                },
+                {
+                  situation:"UTG vs a 3-bet from SB/BB (overall stat 9%) · AQo",
+                  hand:"A♥ Q♦",
+                  context:"Hero opens UTG and gets 3-bet. Villain's overall 3-bet stat is 9%, but against UTG opens his 3-bet range is typically narrower (≈5-6%). Hero decides to raise to 22BB with AQo instead of calling or folding.",
+                  question:"What does the 58% in RFE = 19/(19+13.5) represent, and why does it justify the 4-bet with AQo?",
+                  options:[
+                    { label:"It's the % of the time Villain needs to fold for the 4-bet to be automatically +EV in a vacuum, and it's a realistic target because AQo blocks his [QQ+ AK] value range", correct:true, explanation:"Correct! RFE = Risk/(Risk+Gain). 58% is achievable against a single-digit 3-bettor, and AQo reduces Villain's value combos thanks to the A and Q blockers." },
+                    { label:"It's AQo's equity against Villain's 3-betting range if they get to showdown", correct:false, explanation:"The 58% isn't an equity figure — it's a Risk/Reward (RFE) calculation that determines how often Villain must fold for the 4-bet bluff to be +EV in a vacuum, independent of AQo's equity." },
+                    { label:"It's the percentage of Hero's opening range that should be turned into 4-bet bluffs", correct:false, explanation:"The 58% is the RFE for THIS specific 4-bet, not a proportion of Hero's opening range. Building whole ranges with bluff:value ratios is covered in the next chapter (MDF)." },
+                    { label:"AQo should call the 3-bet instead of raising, since it dominates Villain's 3-bet range", correct:false, explanation:"It's the opposite: against the tighter range Villain uses to 3-bet a UTG open, AQo suffers from reverse implied odds (vs KK+ and AK) and isn't a good call — that's exactly why it's recycled as a 4-bet bluff." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Complete Defence Ranges and the MDF",
+            body: [
+              { type:"text", content:"The MDF (Minimum Defence Frequency) is the minimum percentage of an opening range that Hero must continue with (calling + 4-betting) so that Villain's 3-bet bluffs aren't automatically +EV. It's calculated as MDF = 1 - Villain's RFE, adjusted downward by 10-15% to account for the fact that calling also brings equity and postflop playability. The goal of the MDF is NOT to punish Villain beyond making his bluffs 0EV — punishing him further would force Hero to call with hands so weak that Villain could exploit them by under-bluffing. This kind of balance matters most against aggressive, competent Regs." },
+              { type:"callout", label:"Balanced Defending — CO vs SB model", content:"Opening range of 338 combos; Villain 3-bets to 8BB after a 3BB open → raw RFE = 8.5/(8.5+4) = 68%; we reduce it by 10-15% for postflop playability and calling equity → MDF ≈ 45%. Defending 45% of 338 ≈ 152 combos: value 4-bet/call [QQ+ AK] = 34 combos, flat = 78 combos, 4-bet/fold bluffs = 40 combos → bluff:value ratio ≈ 1.18:1." },
+              { type:"callout", label:"Unbalanced Exploitative Defending — BU vs BB (Hand 95/96)", content:"Villain has a very high Fold to PF 4Bet After 3Bet → we escalate the sizing 2BB→8BB→18BB (open→3-bet→4-bet) to exploit it; Villain's RFE when 3-betting = 16/(16+10.5) ≈ 60.4%; we use a 2:1 bluff:value ratio: value 4-bet/call = 40 combos, flat = 224 combos, 4-bet/fold bluffs = 88 combos. Total folded = 266/618 ≈ 43% — below the 45% MDF, but intentional: since Villain pays off too many 4-bets, Hero gains more from 4-betting/calling/flatting more value and bluffing aggressively than from playing strictly balanced." },
+              { type:"callout", label:"Completely Unbalanced Defending — vs a passive Fish with a [KK+] range", content:"Against a passive 3-bettor who 3-bets almost only [KK+], Hero throws balance out the window: 4-bet ONLY AA for value (no bluffs — they'd be wasted against a range this tight that almost never folds to a 4-bet), call only with small pairs and select suited connectors that have real implied odds, fold everything else. The MDF stops mattering because this Villain will never exploit an imbalance — he simply doesn't react to how often Hero defends." },
+              { type:"quiz", questions:[
+                {
+                  situation:"CO vs SB · building a balanced defence range",
+                  hand:"—",
+                  context:"Villain 3-bets to 8BB after Hero's 3BB open. Villain's raw RFE = 8.5/(8.5+4) = 68%, but the book adjusts it down by 10-15% before setting the MDF at ~45%.",
+                  question:"Why is the raw RFE adjusted downward instead of using 68% directly as the MDF?",
+                  options:[
+                    { label:"Because calling also brings equity and postflop playability, which lets Hero continue with fewer combos than the raw RFE would suggest while still keeping Villain indifferent", correct:true, explanation:"Correct! The raw RFE assumes a 'pure' fold from Hero — but a real call has showdown and bluffing equity, so Hero can afford to fold somewhat more than the pure 32% (1-68%) and still keep Villain indifferent." },
+                    { label:"Because the raw RFE only applies to 4-bets, not to the overall defence decision", correct:false, explanation:"The RFE IS the basis of the MDF calculation (MDF = 1 - RFE). The 10-15% adjustment is for the extra equity/playability of calling, not because the RFE 'doesn't apply'." },
+                    { label:"Because Villain will never actually achieve the 68% success rate, so the number is irrelevant", correct:false, explanation:"The 68% remains the starting point of the calculation — the adjustment is a downward correction based on the additional value of calling, not a dismissal of the number." },
+                    { label:"Because Hero's bluff:value ratio already compensates for any MDF adjustment", correct:false, explanation:"The bluff:value ratio (1.18:1 in this example) is built AFTER setting the MDF at ~45% — it's a consequence of the size of the defended range, not a substitute for the RFE adjustment." },
+                  ],
+                },
+                {
+                  situation:"BU vs BB (Hand 95/96) · intentionally defending below MDF",
+                  hand:"—",
+                  context:"Against a Villain with a very high Fold to PF 4Bet After 3Bet, Hero escalates sizing (2BB→8BB→18BB) and ends up defending only 43% of his range — below the 45% MDF calculated for a 'normal' spot.",
+                  question:"Why is it fine for Hero to defend below the MDF here?",
+                  options:[
+                    { label:"Because Villain pays off 4-bets too often: since his 3-bets aren't profitable even when Hero folds a bit more than 'balanced', Hero gains more from a more aggressive 2:1 bluff:value ratio than from worrying about pure balance", correct:true, explanation:"Correct! Balance (MDF) protects Hero from a Villain who exploits folds. But if Villain will never exploit that fold frequency (because he calls 4-bets too much), Hero is better served by an exploitative strategy than strict balance." },
+                    { label:"Because the MDF only applies when the 3-bet sizing is 8BB, and here Villain raises to 18BB", correct:false, explanation:"The MDF is recalculated for each specific sizing (in fact, escalating the sizing is part of the exploit), but the underlying reason is Villain's exploitable 4-bet-calling tendency, not the size itself." },
+                    { label:"Because defending below the MDF is always a mistake, and this is an example of bad play the book uses as a warning", correct:false, explanation:"On the contrary — the book presents this 43% as a correct EXPLOITATIVE decision, not a mistake. The MDF is the reference point for balanced play, not an absolute rule." },
+                    { label:"Because 618 combos is too large a range to calculate the MDF precisely", correct:false, explanation:"Range size doesn't affect whether the MDF applies — the point is that, given Villain's behaviour, intentionally under-defending is +EV." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Preemptive Adjustments and Defending Squeezes",
+            body: [
+              { type:"text", content:"Sometimes the best fix for 'I'm getting 3-bet too much' isn't how to react to the 3-bet, but avoiding the spot in the first place. This matters most when one or more very active 3-bettors have position on Hero." },
+              { type:"callout", label:"Three preemptive adjustments", content:"(1) Open Tighter: when Hero doesn't have a clearly +EV exploit of opening wide and defending wide (especially OOP) against active 3-bettors. Example: if BU 3-bets 15% and SB 13%, the probability that Hero's open faces a 3-bet from at least one of them is 1-((1-0.15)×(1-0.13)) = 1-(0.85×0.87) = 26% — not even counting the BB. With that much risk, opening the bottom of a standard range loses its EV. (2) Open Smaller: with a 3BB open and an 8BB 3-bet, folding costs 3BB; with a 2BB open, folding costs only 2BB — and if Villain raises his sizing to keep up the pressure, his own RFE worsens (e.g. from 65% to 70% going from a 6.5BB to an 8BB 3-bet). Opening smaller puts Villain in a dilemma: either he gives Hero more implied odds by keeping his RFE low, or he worsens his own RFE to reduce them. (3) Move Table: when a solid, aggressive Reg has position on Hero and the table doesn't compensate with enough weak players, getting up and finding another seat isn't cowardice — it's maximizing long-term EV." },
+              { type:"callout", label:"Squeezes as the Pre-Flop Raiser (PFR) — two balanced approaches", content:"(a) A polarized 4-bet range plus a capped calling range, or (b) no 4-bet range at all, flatting everything that continues with an uncapped calling range. Example (b) — Hand 103: with a very passive Fish in the pot, the postflop value of floating rises so much that Hero flats almost everything, from AA/KK down to KQs or TT, with no need for a 4-bet bluff range. Example (a) — Hand 104: BB squeezed by an aggressive BU with a timid SB in between — Villain's raw RFE is 8/13 ≈ 61.5%, adjusted to 45-50% (partially covered by the SB's folds); Hero defends ~31.5% of his range with a polar value+bluff approach that makes Villain indifferent to a 5-bet shove with his marginal hands." },
+              { type:"callout", label:"Squeezes as the Pre-Flop Caller (PFC)", content:"Here the burden of defence falls on the PFR (whose range remains uncapped behind), not on Hero — Hero's 3-bet/call range is already capped to his best hands, so he typically needs NO 4-bet range at all. Folding a lot here is normal and not exploitable. Example — CO vs MP flatting range in Hand 105: [TT-JJ] can be called (some frequent strength offsets the poor implied odds of calling 8BB); [66-99] cannot (insufficient implied odds — Hero would need ~55BB extra from Villain every time he flops a set); AQo/AJo/ATo are folded as too dominated against a squeezing range; AQs/AJs/KQs are 'just barely' callable thanks to their ability to float and semi-bluff postflop." },
+              { type:"quiz", questions:[
+                {
+                  situation:"A table with two active 3-bettors to Hero's left (15% and 13%)",
+                  hand:"—",
+                  context:"Hero calculates that the combined probability of facing a 3-bet from at least one of the two players (not counting the BB) is 1-((1-0.15)×(1-0.13)) = 26%.",
+                  question:"What does this 26% imply for Hero's opening strategy?",
+                  options:[
+                    { label:"That opening the weakest hands of a standard range loses its EV, because the probability of facing a 3-bet (and having to navigate a difficult post-3-bet decision with weak hands) is far higher than normal — Hero should open tighter", correct:true, explanation:"Correct! A 26% chance of facing a 3-bet is very high. The bottom-of-range hands that relied on stealing the pot uncontested now face a tough post-3-bet decision too often, which destroys their opening EV." },
+                    { label:"That Hero should 4-bet a wider range to preempt the 3-bets", correct:false, explanation:"The 26% is information about the FREQUENCY of 3-bets, not their composition. The correct response is adjusting the OPENING range (tighter), not necessarily the 4-bet range." },
+                    { label:"That Hero should ignore the calculation because the BB can also 3-bet", correct:false, explanation:"The calculation deliberately excludes the BB because the book focuses on the two known active 3-bettors; the BB would only add more pressure, reinforcing (not negating) the conclusion to open tighter." },
+                    { label:"That Hero should immediately move tables without considering other options", correct:false, explanation:"Moving tables is ONE of the three preemptive options, but the book presents opening tighter and opening smaller as equally valid adjustments before resorting to getting up." },
+                  ],
+                },
+                {
+                  situation:"Squeeze as PFR · comparing Hand 103 and Hand 104",
+                  hand:"—",
+                  context:"In Hand 103 (a passive Fish is in the pot) Hero flats almost his entire continuing range with no 4-bets. In Hand 104 (BB squeezed by an aggressive BU with a timid SB in between) Hero uses a polar value+bluff 4-bet range and defends only ~31.5%.",
+                  question:"Why does Hero use such different approaches in these two hands?",
+                  options:[
+                    { label:"In Hand 103, the presence of a passive Fish raises the postflop value of floating so much that flatting everything beats bluffing; in Hand 104, without that Fish and against an aggressive squeezer, Hero needs a 4-bet range to defend correctly with a smaller share of his range", correct:true, explanation:"Correct! Both are valid balanced approaches (options (a) and (b) from the Figure), but the composition of the pot (a passive Fish vs. an aggressive squeezer with different dynamics) determines which is better in each case." },
+                    { label:"Hand 103 is a mistake in the book: a polar 4-bet range should always be used against a squeeze", correct:false, explanation:"The book presents both approaches (a) and (b) as valid balanced strategies — the choice depends on table context, especially whether a passive Fish is in the pot raising the value of floating." },
+                    { label:"Hero defends less (31.5%) in Hand 104 because he holds a weaker hand than in Hand 103", correct:false, explanation:"The 31.5% doesn't reflect the strength of one specific hand — it reflects the adjusted MDF (45-50% off a raw RFE of 61.5%) for Hero's entire defending range in that spot." },
+                    { label:"The difference is purely about position: the PFR always defends less than the PFC", correct:false, explanation:"Both hands are examples of Hero as the PFR — the difference between them is the composition of the pot (passive Fish vs. aggressive squeezer), not the PFR vs PFC role." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Reacting to a 3-Bet Cold",
+            body: [
+              { type:"text", content:"'Cold' means Hero has invested at most one blind when the 3-bet arrives — it's not HIS open being attacked. Because of this (aside from a minor mathematical detail that's ignored in practice), Hero has no MDF obligation here at all: the burden of defence sits with the original opener. This completely changes how Hero should build his reaction range." },
+              { type:"callout", label:"Steal spots — example: SB 3-bets a BU open", content:"Late-position opening ranges are wide, so SB's 3-bet is typically light (≈7%) and BU will have to fold a lot to a cold 4-bet. This gives Hero (BU) three conclusions: (1) he should have a cold 4-bet BLUFF range (there's enough FE); (2) for balance, also a cold 4-bet VALUE range; (3) he should NOT have a cold CALLING range — it pays a bad price, doesn't close the action, and leaves him with a capped range against SB's uncapped range acting behind. Better to play 4-bet-or-fold. Hand 106 illustrates a ratio of ≈40 value combos to 48 bluff combos, with bluffs chosen mainly by blockers." },
+              { type:"callout", label:"Non-steal spots — example: 3-bet against a UTG/HJ open", content:"Early opening ranges are strong and 3-bets against them tend to be almost pure value — Hero would need ≈60% FE for a cold 4-bet bluff against a range that's often just nutted hands, which isn't realistic. The fix is to 4-BET NOTHING (Hand 107): keep the calling range uncapped to protect JJ/QQ/AK with their KK+ combos behind, and only consider a value 4-bet with AA — a range so narrow it isn't even worth it for balance." },
+              { type:"callout", label:"Summary — two opposing philosophies", content:"In steal spots there's enough FE to bluff, value ranges can be wider (ranges in general are more aggressive on both sides), and there's no need for a calling range because a cold 4-bet bluff range already fills that gap. In non-steal spots FE is poor so bluffing doesn't pay off; getting money in with AK or QQ leaves Hero in very bad shape against a more nutted range; and since there's no wide value 4-bet range, the calling range stays uncapped to fill that protective role." },
+              { type:"quiz", questions:[
+                {
+                  situation:"BU vs a cold 3-bet from SB (Hand 106) vs. UTG vs a cold 3-bet from BB (Hand 107)",
+                  hand:"—",
+                  context:"In Hand 106, BU adopts a 4-bet-or-fold strategy (≈40 value combos, ≈48 bluff combos, no calling range). In Hand 107, UTG 4-bets nothing and keeps his calling range uncapped.",
+                  question:"What explains the difference between these two strategies?",
+                  options:[
+                    { label:"In Hand 106, SB's 3-bet tends to be light (late-position opening range), giving enough FE to cold 4-bet bluff and making calling bad (doesn't close action, capped range vs. an uncapped range behind); in Hand 107, the 3-bet against UTG tends to be near pure value, with no FE for bluffing, so the uncapped calling range protects JJ/QQ/AK", correct:true, explanation:"Correct! The key is the expected composition of Villain's 3-bet range in each spot: light in a steal spot (favouring cold 4-bet bluffs), heavy in a non-steal spot (favouring an uncapped calling range and almost no 4-betting)." },
+                    { label:"The difference is because BU holds better cards than UTG in these specific examples", correct:false, explanation:"The difference isn't about Hero's specific cards — it's about the STRUCTURAL ROLE of the spot (steal vs. non-steal) and what that implies about Villain's 3-betting range." },
+                    { label:"In Hand 107, UTG should have an uncapped calling range BECAUSE he has a wide 4-bet bluff range that compensates for it", correct:false, explanation:"It's the opposite: UTG does NOT have a wide 4-bet bluff range (FE is poor), which is exactly why the uncapped calling range needs to do the job of protecting the strong hands." },
+                    { label:"Both hands should use the same strategy, since both are technically 'cold' 3-bet situations", correct:false, explanation:"Although both are technically 'cold' (Hero isn't the opener), the book explicitly distinguishes steal vs. non-steal spots precisely because the correct strategies are opposite." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Practice: Facing 3-Bets",
+            body: [
+              { type:"text", content:"Five review questions covering the key concepts of the chapter: the 5 factors for flatting, the MDF, preemptive adjustments, squeezes, and cold 3-bets. These don't count toward the Test or Survival mode." },
+              { type:"quiz", questions:[
+                {
+                  situation:"Review · The 5 factors for flatting a 3-bet (Figure 63)",
+                  hand:"K♠ Q♥",
+                  context:"Hero opens from CO and faces a 3-bet from the BB (3-bet range ≈ 10%). KQo has reasonable equity, but Hero plays OOP, has no flush draw, and low versatility.",
+                  question:"Which of the 5 factors is most against Hero here, and what conclusion does it lead to?",
+                  options:[
+                    { label:"Position (OOP) is the decisive factor against: without acting after Villain postflop, any information error is magnified in a bigger pot — KQo is a fold or a 4-bet, not a call", correct:true, explanation:"Correct! Position is Factor 1 of Figure 63 and the most penalizing. KQo OOP suffers from reverse implied odds (it rarely dominates the BB's 3-betting range while often being dominated) and lacks the versatility of a suited connector to compensate." },
+                    { label:"Implied odds are the most negative factor: KQo can't flop a flush, giving it the worst implied odds possible", correct:false, explanation:"Implied odds (Factor 5) are 'the last resort' per the book — not the main factor here. The core problem with KQo OOP is position combined with reverse implied odds." },
+                    { label:"Frequent strength is the key factor: KQo flops something playable far more often than 77, so it should always be called", correct:false, explanation:"KQo does have good relative frequent strength, but that doesn't compensate for being out of position. The book evaluates all 5 factors together — one positive doesn't rescue the decision when position is strongly against you." },
+                    { label:"Versatility is neutral for KQo since it can easily become a bluff on the flop if it misses", correct:false, explanation:"The book's versatility refers to non-made-hand equity (flush draws, straight draws). KQo offsuit has almost none of that and depends almost entirely on directly connecting, which is a negative, not neutral." },
+                  ],
+                },
+                {
+                  situation:"Review · MDF and bluff-to-value ratio",
+                  hand:"—",
+                  context:"In the CO vs SB model: raw RFE = 68%, adjusted MDF ≈ 45% of 338 combos = 152 to defend. Hero distributes: 34 combos value 4-bet/call, 78 combos flat, 40 combos 4-bet/fold bluff.",
+                  question:"What is the resulting bluff:value ratio and what does it guarantee?",
+                  options:[
+                    { label:"≈1.18:1 (40 bluffs / 34 value) — makes Villain roughly indifferent between defending and not defending against Hero's 4-bet, with no clear exploit", correct:true, explanation:"Correct! With 40 bluffs and 34 value combos, the ratio is 40/34 ≈ 1.18:1. This near-balanced ratio makes Hero's 4-bet range balanced enough that Villain can't profitably always 5-bet/fold or always 5-bet/call." },
+                    { label:"2:1 (bluff:value) — because you always bluff twice as much as you go for value", correct:false, explanation:"The 2:1 ratio appears in the EXPLOITATIVE example of Hand 95/96 (BU vs BB), where Villain has a high Fold to 4Bet. In the balanced model (CO vs SB) the resulting ratio is ≈1.18:1, not 2:1." },
+                    { label:"The bluff:value ratio doesn't matter when using the MDF — only the total number of combos defended matters", correct:false, explanation:"Both matter: the total combos defended ensures Hero isn't over-folded (MDF), and the bluff:value ratio within those combos ensures the 4-bet range itself is balanced." },
+                    { label:"0.5:1 (value:bluff) — because there are always more value combos than bluffs in a polar 4-bet range", correct:false, explanation:"In this example there are 40 bluff combos (4-bet/fold) vs 34 value combos (4-bet/call), so the bluff:value ratio is >1, not <1. Having slightly more bluffs than value in the 4-bet range is normal in balanced spots." },
+                  ],
+                },
+                {
+                  situation:"Review · Preemptive adjustment — opening smaller",
+                  hand:"—",
+                  context:"Hero normally opens to 3BB. Two active 3-bettors in position have a combined 3-bet rate of ≈26%. Hero considers opening to 2BB instead.",
+                  question:"What dilemma does a smaller open create for Villain?",
+                  options:[
+                    { label:"If Villain keeps his 3-bet sizing, his own RFE worsens (rises from ~65% to ~70%); if he lowers it to avoid worsening his RFE, he gives Hero better implied odds for flatting the smaller bet", correct:true, explanation:"Correct! Lowering the open from 3BB to 2BB reduces Hero's fold cost and puts Villain in a no-win dilemma: keep sizing = his own RFE worsens, lower sizing = better implied odds for Hero. Hero gains on the margin either way." },
+                    { label:"No dilemma — a smaller open is always worse because it gives Villain better implied odds to flat", correct:false, explanation:"The book treats opening smaller as a valid adjustment precisely because the dilemma it creates for Villain (worse RFE or better implied odds for Hero) puts Villain in an uncomfortable position, not Hero." },
+                    { label:"It forces Villain to always use a linear 3-bet range instead of a polar one", correct:false, explanation:"The book doesn't draw that direct connection. The effect of opening smaller is about Villain's RFE/implied odds dilemma, not about his polar vs. linear structure." },
+                    { label:"It eliminates Hero's fold equity entirely because the pot is too small to generate enough FE", correct:false, explanation:"FE doesn't disappear from opening smaller — in fact a smaller pot means Hero risks less when folding to a 3-bet, which is an advantage, not a disadvantage." },
+                  ],
+                },
+                {
+                  situation:"Review · Squeeze as PFC — Hand 105",
+                  hand:"T♣ T♦",
+                  context:"CO opens. MP calls. Hero in BB faces an external squeeze. The chapter analyzes which hands Hero can call and which to fold.",
+                  question:"Why can TT-JJ be called here while 66-99 are folded?",
+                  options:[
+                    { label:"TT-JJ have enough frequent strength to compensate for the poor implied odds of calling 8BB; 66-99 would need ~55BB extra from Villain every time they flop a set, which is unrealistic", correct:true, explanation:"Correct! Mid-high pairs (TT-JJ) have real frequent strength (they can be an overpair on common boards), while small pairs rely almost exclusively on flopping a set — and the implied odds for that set don't justify the 8BB investment as a PFC." },
+                    { label:"TT-JJ are called because they have more outs than 66-99 if Villain holds AA or KK", correct:false, explanation:"The reasoning isn't about specific outs — it's about frequent strength (how often the hand flops something playable on its own, beyond outs against specific Villain holdings)." },
+                    { label:"66-99 are folded because a Fish might call the squeeze with A9 and dominate them", correct:false, explanation:"The chapter doesn't use that reasoning here. The deciding factor is the insufficient implied odds of set-mining at 8BB depth as a PFC, not the risk of domination by a Fish." },
+                    { label:"All pairs below QQ are folded — TT and JJ should also be folded", correct:false, explanation:"The chapter is explicit: TT-JJ 'can be called' because their frequent strength (as overpair on many boards) compensates for mediocre implied odds. Only small pairs (66-99) lack that compensation." },
+                  ],
+                },
+                {
+                  situation:"Review · Cold 3-bet in a non-steal spot",
+                  hand:"Q♣ Q♦",
+                  context:"UTG opens. Hero in HJ faces that open with QQ. CO also 3-bets cold. Hero is not the opener, so the MDF burden doesn't fall on him.",
+                  question:"What should Hero do with QQ as a PFC in this non-steal spot, and why?",
+                  options:[
+                    { label:"Call with an uncapped calling range (QQ included), because FE is insufficient for a 4-bet bluff and 'wasting' QQ against the 3-bettor's strong value range does more harm than good", correct:true, explanation:"Correct! In non-steal spots, the 3-bet is near pure value and FE for a bluff 4-bet is minimal. Keeping the calling range uncapped (with QQ as part of it) protects strong hands and leaves the MDF responsibility to the PFR." },
+                    { label:"4-bet QQ for value, since it's a premium hand", correct:false, explanation:"The book advises against 4-betting widely in non-steal spots: the 3-bettor's range is so strong that QQ is often at a disadvantage, and 4-betting loses the uncapped character of Hero's calling range that protects JJ/AK behind." },
+                    { label:"Fold QQ because as a PFC Hero has no obligation to defend", correct:false, explanation:"Having no MDF obligation doesn't mean folding everything — it means Hero can be more selective. QQ has enough value to call in most non-steal spots even though the spot is difficult." },
+                    { label:"4-bet as a bluff to take advantage of the PFC's lack of MDF obligation", correct:false, explanation:"The lack of MDF obligation is not an incentive to bluff more — it's the opposite. The book explains that in non-steal spots FE for bluffs is very low, so a 4-bet/fold bluff with QQ is a misapplication of the concept." },
+                  ],
+                },
+              ]},
+            ],
+          },
+        ],
+      },
+      {
+        id: 11,
+        title: "11. Bluffing the Turn and River",
+        summary: "The factors that make a double or triple barrel good, when to delay the c-bet or probe the turn with no value, and how and when to turn a float into a bluff-raise on the turn or river.",
+        chapters: [
+          {
+            title: "Double Barrel Bluffing",
+            body: [
+              { type:"text", content:"Just like with flop floats, there are two ways to evaluate a double barrel: vacuum EV (useful against an inattentive Fish or in a rare spot that won't repeat) and long-term strategy (necessary against a competent Reg or in a spot that recurs constantly). This chapter covers the six factors that determine whether a second barrel on the turn is a good idea." },
+              { type:"callout", label:"Factor 1 — The Turn Card Itself", content:"A Reg understands that Hero's flop c-betting range can also STRENGTHEN on the turn in non-obvious ways (for example, a 9d turn on a JT board turns JT into a straight, giving showdown value to hands like J9/T9 and reducing Hero's real 'air') — so Hero's FE can increase even on turns that don't look like scare cards to a Fish. A Fish, by contrast, almost never updates this way: he folds more only on (a) obviously scary overcards or (b) cards that complete a flush (especially if Hero blocks combos of that suit). On 'neutral' turns, a Fish almost never folds his flop-calling range — but a Reg knows Hero's betting range has narrowed regardless, and reacts accordingly." },
+              { type:"callout", label:"Factor 2 — Equity", content:"Betting with equity (not just FE) accomplishes three things: (1) if Hero reaches the river with the best hand, he wins the pot PLUS an extra bet in an already-inflated pot; (2) Hero earns the right to see the river and realize his equity with hands he'd otherwise have to check/fold OOP for lack of pot odds or showdown value; (3) the amount of equity acts as a natural filter to keep bluffing frequency balanced. Example: without equity, the RFE needed in a vacuum would be 8/(8+11)=42%; but if 12 of 46 outs (≈26%) of rivers turn Hero into a near-nutted hand, the FE actually needed drops well below 42% — the implied value of those rivers makes turn FE almost unnecessary." },
+              { type:"callout", label:"Factor 3 — Future River Fold Equity (based on turn texture)", content:"On dry boards where few rivers change the texture, Villain's turn-calling range stays strong on most rivers → less room to lightly bluff the turn (and against stationary populations, even under-bluff). On boards where the turn leaves many draws (flush draws, pair+draw) in Villain's calling range, many rivers (a flush card, a second overcard) weaken that range → Hero can have a wider turn range knowing he'll have future FE. On boards where Villain's turn-calling range is full of pair+draw hands, 'ugly' rivers (another pair, an overcard) turn it into a strong hand, but BLANK rivers leave it as a scared one pair — here Hero should bluff MORE on the safe rivers, the exact opposite of the previous case." },
+              { type:"callout", label:"Factor 4 — Villain Type", content:"(A) Fit-or-fold Reg (e.g. 19/16, high Fold to PF 3Bet After Raise ~65-75%, low WTSD <25%) → widen your bluffs, even convert some marginal showdown value into bluffs. (B) Warring Reg (high 3-bet %, WTSD 27%+, WWSF 50%+, calls a lot for fear of being bluffed) → don't fight fire with fire: tighten your bluffs and go value-heavy — simply stopping bluffing is enough to exploit him. (C) Timid Fish (large VPIP/PFR gap, e.g. 41/9, fold to cbet ~60%+) → there's somewhat more FE than average on overcards and flush cards, but don't expect him to fold hands like 88 or A9 to a double barrel on a board like 4422. (D) Non-timid Fish (e.g. 80/45, 55/7, 49/36) → they hate the fold button; even turns that worsen the texture give little FE. Meta-game note: Fish react predictably to recent history — if Hero just won a big bluff, expect less FE soon after." },
+              { type:"callout", label:"Factors 5 and 6 — Fold to F CBet and Showdown Value", content:"A Villain with a high Fold to F CBet usually arrives at the turn with a weaker range even on neutral cards → Hero needs less of the other factors to bluff (but must also keep bluffing enough on the turn against these wide flop floaters). And the manual's golden rule: the less showdown value Hero has, the more he should lean toward bluffing (with at least some expected FE) — because a hand that already wins 40% at showdown doesn't gain much from becoming a bluff (that 40% is usually exactly the part of Villain's range that already folds), while it loses more against the part that doesn't fold." },
+              { type:"quiz", questions:[
+                {
+                  situation:"A double-barrel bluff backed by equity",
+                  hand:"—",
+                  context:"In a vacuum, the RFE needed for a turn bluff to be +EV is 8/(8+11)=42%. But 26% of rivers turn Hero's hand into something near-nutted.",
+                  question:"How does that 26% of 'good rivers' change the fold equity (FE) Hero actually needs on the turn?",
+                  options:[
+                    { label:"The FE needed drops well below 42%, because on a good chunk of rivers Hero no longer needs Villain to fold — he wins anyway with a strong hand", correct:true, explanation:"Correct! Betting with equity doesn't just add value when Hero wins at showdown; it also reduces the FE NEEDED, because some of Villain's 'non-folds' end up being pots Hero wins anyway on the river." },
+                    { label:"The FE needed stays at 42%, because equity and fold equity are independent calculations that don't interact", correct:false, explanation:"They do interact: the book explicitly explains that the extra equity (outs that arrive on the river) reduces the FE actually needed below the 42% vacuum calculation." },
+                    { label:"The FE needed rises above 42%, because Hero now has more to lose if Villain doesn't fold", correct:false, explanation:"It's the opposite — having more equity makes a 'non-fold' from Villain less costly for Hero (sometimes Hero wins anyway on the river), so the FE needed goes DOWN, not up." },
+                    { label:"The 26% is only relevant if Hero also plans to bluff the river", correct:false, explanation:"The 26% is relevant to the TURN decision itself — it reduces the FE needed for the turn barrel to be correct, regardless of what Hero does afterwards on the river." },
+                  ],
+                },
+                {
+                  situation:"Choosing when NOT to bluff based on villain type",
+                  hand:"—",
+                  context:"Hero has a marginal turn bluff on a board that doesn't change texture much (no obvious scare card).",
+                  question:"Against which of these villain types will this bluff likely generate the LEAST fold equity?",
+                  options:[
+                    { label:"A non-timid Fish (e.g. 80/45 or 55/7) who hates folding, even on turns that worsen his range", correct:true, explanation:"Correct! Type (D), the non-timid Fish, is explicitly described as giving 'little FE even on turns that worsen the texture' — the worst candidate for a marginal bluff with no scare card." },
+                    { label:"A fit-or-fold Reg with a high Fold to PF 3Bet After Raise and low WTSD", correct:false, explanation:"The fit-or-fold Reg (type A) is exactly the opponent the book recommends WIDENING bluffs against, including converting some marginal showdown value into bluffs — he should give MORE FE, not less." },
+                    { label:"A Villain with a very high Fold to F CBet", correct:false, explanation:"A high Fold to F CBet suggests a generally weaker turn range, which usually means MORE fold equity available to Hero, not less." },
+                    { label:"A Reg whose range strengthens in a non-obvious way on this turn", correct:false, explanation:"This describes Factor 1 with a Reg — even though the range strengthens 'invisibly' to a Fish, the Reg still reacts because he knows Hero's range has also narrowed; this doesn't guarantee low FE." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Triple Barrel Bluffing",
+            body: [
+              { type:"text", content:"River triple barrels are a pure fold-equity play: no more cards are coming, so the concept of 'betting for protection' no longer exists. A common low-stakes mistake is building river ranges with value only — very exploitable against observant players." },
+              { type:"callout", label:"All Showdown Value Is Good Showdown Value on the River", content:"On the flop or turn, a vulnerable hand is sometimes bet for protection even without much FE, because there are still cards to come that could ruin it. On the river that reason no longer exists: with zero cards left, any showdown value (SDV) is an argument for CHECKING instead of bluffing — if Hero has SDV, that hand probably belongs in the check/showdown range, not the bluffing range." },
+              { type:"callout", label:"The Blocker Factor — AhJs vs 8c5c", content:"On a river that completes a flush, which hand is the better bluff with the same SDV (zero) against Villain's turn-calling range (almost certainly a pair or better)? AhJs, by far: it blocks a large chunk of Villain's possible flushes plus KJ combos — exactly the hands that almost never fold. 8c5c blocks none of that. The key question isn't just 'how much SDV do I have?' but 'how many combos of Villain's CALLING range am I blocking, and how many of his FOLDING range am I leaving untouched?'" },
+              { type:"callout", label:"How the River Card Changes Villain's Turn-Calling Range", content:"In a vacuum, it pays to bluff more on rivers that WEAKEN Villain's turn-calling range more than they strengthen it. Example: if Villain's turn-calling range is full of draws and low pairs that mostly miss on the river, those rivers greatly strengthen Hero's bluffing range (carried over from the flop) — there, Hero can afford a river range loaded with low-SDV bluffs (and even some thin value bets, since Villain's range may be capped and weak)." },
+              { type:"callout", label:"Two Contrasting Examples: When NOT to Bluff and When TO Bluff", content:"(1) Ac7c on a flush-completing river (vs. a Reg, after two streets): it has some SDV (it beats other busted flush draws and JTs) and the Ace blocks AQ combos — but AQ is exactly a hand Villain was ALREADY folding, while 7c blocks nothing in his calling range. With only 33 value combos available ([AA KK QQ AK KQ]), turning Ac7c into a bluff would badly over-bluff: Hero checks. (2) Against a timid, fit-or-fold Fish after two standard bets on flop/turn, a river Ace: the vacuum RFE is 25/(25+40.5)≈38% — Villain probably folds far more than that to this river, so balance doesn't matter: Hero bluffs any hand without SDV." },
+              { type:"quiz", questions:[
+                {
+                  situation:"A flush-completing river · choosing the better bluff",
+                  hand:"AhJs vs 8c5c",
+                  context:"Both hands have exactly zero showdown value on this river. AhJs blocks many of Villain's possible flushes and KJ combos; 8c5c blocks nothing relevant in Villain's range.",
+                  question:"Why is AhJs a far superior bluff to 8c5c here, even though neither hand wins at showdown?",
+                  options:[
+                    { label:"AhJs blocks combos from Villain's range that will NEVER fold (flushes, KJ), leaving his folding range untouched; 8c5c does none of this", correct:true, explanation:"Correct! The value of a river blocker isn't 'how much equity do I have' — it's which part of Villain's range you're removing. Removing combos from his CALLING range (without touching his folding range) directly increases the bluff's effective FE." },
+                    { label:"AhJs is better because it has more raw equity against Villain's range", correct:false, explanation:"The context specifies both hands have ZERO SDV on this river — the difference isn't raw equity, it's which combos of Villain's range each hand blocks." },
+                    { label:"8c5c is actually the better choice because it doesn't block the hands Villain would fold, leaving them available to be bluffed out in the future", correct:false, explanation:"This inverts the book's logic: the goal is to block Villain's CALLING range (reducing his combos to pay you off), not to preserve his folding range." },
+                    { label:"There's no real difference between the two hands because on the river only bet sizing matters, not Hero's cards", correct:false, explanation:"The chapter devotes an entire section to the 'blocker factor' precisely because Hero's specific cards DO matter for choosing river bluffs, beyond bet sizing." },
+                  ],
+                },
+                {
+                  situation:"Ac7c on a flush river after two streets (vs. a Reg)",
+                  hand:"A♣ 7♣",
+                  context:"Ac7c has some SDV (it beats busted draws) and the Ace blocks AQ combos. Villain's value range on this river is only 33 combos ([AA KK QQ AK KQ]).",
+                  question:"Why does the book conclude Hero should check Ac7c instead of bluffing, despite the Ace blocker?",
+                  options:[
+                    { label:"Because AQ is a hand Villain was already folding anyway, so blocking it doesn't increase real FE; and with such a narrow value range (33 combos), turning Ac7c into a bluff would unbalance the river range toward too many bluffs", correct:true, explanation:"Correct! A blocker only helps if it reduces Villain's CALLING range. Blocking a hand that already folds changes nothing — and with such a narrow value range (33 combos), Hero has no 'room' to add more bluffs without over-bluffing." },
+                    { label:"Because Ac7c has no showdown value at all", correct:false, explanation:"The context itself states Ac7c DOES have some SDV (it beats other busted flush draws and JTs) — that SDV is actually part of the reason to check rather than bluff, not the absence of it." },
+                    { label:"Because checking is always better than betting the river when holding an Ace", correct:false, explanation:"There's no such general rule — the chapter's second example (timid Fish, river Ace) shows the opposite: bluffing freely with an Ace when Villain's value range is wide and FE is high." },
+                    { label:"Because Villain is a Reg, and you should never bluff the river against Regs", correct:false, explanation:"The book doesn't say that — Regs simply require more careful analysis of blockers and value:bluff ratios, not the total elimination of river bluffs." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Delaying The C-Bet and Probing The Turn",
+            body: [
+              { type:"text", content:"As the Pre-Flop Caller, both 'checking the flop behind' and 'checking the turn after the flop went check-check' are range-LIMITING actions for both players — they aren't neutral 'procedural' checks. This idea underlies why a delayed c-bet can be +EV in spots where an immediate c-bet wasn't (or wasn't the best option)." },
+              { type:"callout", label:"Reason 1 — The Flop C-Bet Is -EV, But the Delayed One Isn't", content:"When Villain's range connects too well with the flop and Hero doesn't have enough equity to compensate, Hero's flop check makes VILLAIN the one who tends to bet the turn with his good hands if he has them — and if Villain checks a SECOND time, his range is much more capped and weak. Hero should prioritize this delayed bluff with hands that have some equity (not zero) and little showdown value. At the population level, most players under-balance this (folding too much on the turn after a double check), so over-bluffing here tends to be exploitatively +EV — except against Villains with a very high Float Flop stat, where under-bluffing is correct." },
+              { type:"callout", label:"Reason 2 — The Flop C-Bet Is Already +EV, But Delaying It Is EVEN BETTER", content:"Against rigidly fit-or-fold opponents with little or no turn bluffing range, Hero can check the flop to 'buy free information': if Villain bets the turn, Hero simply folds (saving a c-bet that would've been called anyway); if Villain checks again, the green light for FE shines even brighter. This line is even better when Villain's flop-folding range has few ways to improve on the turn (protection matters little). Caveat: this line ONLY works if Hero is genuinely confident Villain plays fit-or-fold on the turn — otherwise, giving up a +EV flop c-bet only to fold to a bluff lead is a disaster." },
+              { type:"callout", label:"Reason 3 — Hero Planned to Give Up, But the Turn Improves His Range (and FE)", content:"Hero checks the flop with a hand that has no bluffing equity and little SDV, planning to reach showdown if possible or simply fold. If the TURN card dramatically improves Hero's checking range (while Villain, who's already checking his entire range for balance on this card, doesn't benefit the same way), that marginal hand becomes a tempting bluff — the FE doesn't come from a second check from Villain, but directly from the TURN CARD itself. Extreme texture changes should make Hero reconsider his original 'I'm giving up' plan." },
+              { type:"callout", label:"Probing The Turn (Light Turn Probing) With No Value", content:"Key factors: (1) Villain's flop check-back range (texture + player type — a Reg who c-bets air heavily on a favourable flop, if he checks, leaves a range weighted toward SDV with plans to call the turn → little FE for Hero; the same Reg checking back a wet flop leaves a range more balanced between SDV and air → more FE); (2) Hero's own equity (helps but isn't mandatory); (3) Hero's own SDV (no need to bluff something that already beats everything that would fold, unless betting for protection if that SDV is vulnerable); (4) the turn card (some cards reinvigorate Villain's checking range so much that the correct play is to range-check that entire turn, just as was done on the flop)." },
+              { type:"quiz", questions:[
+                {
+                  situation:"BB vs a BU min-raise · Hero checks back a flop with a gutshot, Villain (a Nit) also checks",
+                  hand:"—",
+                  context:"Hero has a gutshot and checks the flop behind. Villain, a Nit with little turn bluffing range, also checks. Per the chapter's 4 reasons, this situation matches Reason 2 (Hero bets 2.5BB on the turn after Villain's second check).",
+                  question:"Why is this an example of Reason 2 ('the flop c-bet was already +EV, but delaying it is even better') and not Reason 1?",
+                  options:[
+                    { label:"Because Villain is a rigidly fit-or-fold Nit with little turn bluffing range: Hero's flop check 'buys free information' (folding if Villain bets the turn), and after the second check, Hero bets with more confidence knowing Villain's range is heavily capped", correct:true, explanation:"Correct! Reason 2 applies specifically to fit-or-fold opponents where checking the flop doesn't cost EV (a c-bet was already +EV) but delaying lets Hero get free information before committing chips." },
+                    { label:"Because Hero's gutshot has zero equity, which automatically rules out Reason 1", correct:false, explanation:"A gutshot DOES have some equity, but that's not the distinction between Reason 1 and Reason 2 — the distinction is whether the flop c-bet would have been -EV (Reason 1) or was already +EV but delaying is even better (Reason 2)." },
+                    { label:"Because Reason 1 only applies when Villain is a Fish, never when he's a Reg or a Nit", correct:false, explanation:"Reason 1 can apply against any opponent type whose range connects very well with the flop — the classification doesn't depend on Fish vs Reg/Nit, but on whether the flop c-bet would've been -EV or +EV." },
+                    { label:"Because Hero planned to give up from the start, which is the definition of Reason 3", correct:false, explanation:"Reason 3 is about hands where Hero planned to give up and the TURN CARD itself (not a second check from Villain) dramatically improves his range. Here the key is Villain's fit-or-fold tendency, not the turn card." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Bluff Raising the Turn and River",
+            body: [
+              { type:"text", content:"This connects back to flop floating (covered in an earlier chapter): the future fold equity Hero earned by floating sometimes needs to be realized via a RAISE on the turn (or river), not just a follow-up bet. It pays to raise more on the turn when Hero is OOP (where simply calling is less profitable); IP, it's often better to delay the entire raising range to the river. Villain type matters a lot: reserve these lines for Villains who can actually fold — a passive Fish rarely barrels the turn wide, and when he does, he rarely folds to a raise." },
+              { type:"callout", label:"Exploitative Example — Reading a Tight-Passive Reg's Range (Hand 122)", content:"Villain opens a tight range from the HJ, bets the flop mostly for value (with some bluffs), and then makes a small, 'scared' turn bet on a card that completes an obvious draw. With a high degree of confidence, that pattern suggests a range capped below AA — something like [99 ATs KTs JJ QQ KK AA], which beats Hero on most rivers. Instead of calling the turn, bricking the river, and firing just one more bet into a range that's now a bluff-catcher, Hero should RAISE the turn now, maximizing FE while the equity deficit is freshest. Conclusion: Raise! (Take this read with a grain of salt — limited information doesn't always justify it equally well.)" },
+              { type:"callout", label:"Balanced Example — Building the Turn Raising Range (Hand 123)", content:"Hero's value raising combos can be any two pair or better — for example [66, 77, 76s, KQ] = 17 combos. To be balanced, Hero needs slightly FEWER bluffs than value here. Few hands make better bluffs than a high-equity semi-bluff like 98s, since high-equity candidates are scarce on this card. Conclusion: the turn is clearly a bluff-raise with 98s. Against a Villain with aggressive stats (high flop and turn c-bet), Hero can even unbalance toward more raises (both value and bluffs) than the strictly balanced amount." },
+              { type:"callout", label:"Waiting for the River for the Raising Game (Hand 124)", content:"When Hero is IP with good pot odds + implied odds + SDV + future river FE, simply calling the turn keeps his range uncapped and stronger heading into the river — especially useful against Villains who triple-barrel a lot, since Hero won't need to make absurdly light river calls if Villain turns out tighter than expected. On the river, with a heart card landing, Hero builds a bluff shove with a pair of 4s: it blocks value combos (44) Villain might hold, and shares no cards with the abundant heart draws in Villain's range — the shove targets folding out [Qx KK AA]. Conclusion: when bluffing or value-raising can be delayed to the river without urgency, prefer the river raising game over the turn raising game — it keeps the river range stronger and more versatile." },
+              { type:"quiz", questions:[
+                {
+                  situation:"Comparing Hand 122 (exploitative turn raise) and Hand 124 (waiting for the river)",
+                  hand:"—",
+                  context:"In Hand 122, Hero raises the turn based on a read that Villain's range is capped below AA. In Hand 124, Hero (IP, with good pot odds/implied odds/SDV/future FE) simply calls the turn and plans his raising play for the river.",
+                  question:"What general principle explains why Hero raises on the turn in one case but waits for the river in the other?",
+                  options:[
+                    { label:"When Hero has a strong read that Villain's range is capped RIGHT NOW (Hand 122), it's best to maximize FE immediately; when Hero is IP with enough reasons to call the turn without urgency (Hand 124), waiting for the river keeps his range uncapped and stronger", correct:true, explanation:"Correct! There's no single rule of 'always raise the turn' or 'always wait for the river' — it depends on whether there's an information/EV edge that's lost by waiting (Hand 122) or whether calling the turn has no real opportunity cost and preserves options (Hand 124)." },
+                    { label:"Hero should always raise the turn when out of position, and always wait for the river when in position — position is the only thing that matters", correct:false, explanation:"Position is relevant (the text notes OOP favours raising more on the turn), but the deciding factor in these two examples is the READ on Villain's range and whether calling the turn costs anything, not position alone." },
+                    { label:"In Hand 122 Hero has a value hand, while in Hand 124 Hero has a pure bluff, which is why the lines differ", correct:false, explanation:"Both examples involve bluff/semi-bluff decisions driven mainly by fold equity — the difference isn't 'value vs. bluff', but WHEN it's better to realize that fold equity (now vs. on the river)." },
+                    { label:"Hand 124 is a mistake: Hero should have raised the turn just like in Hand 122", correct:false, explanation:"The book presents Hand 124 as the CORRECT line given the context (IP, good odds, an opponent who triple-barrels a lot) — it's not a mistake, but an example of when 'waiting for the river' is the better choice." },
+                  ],
+                },
+              ]},
+            ],
+          },
+          {
+            title: "Practice: Bluffing the Turn and River",
+            body: [
+              { type:"text", content:"Five review questions covering the six double-barrel factors, triple barreling, the delayed c-bet, and bluff-raising. These don't count toward the Test or Survival mode." },
+              { type:"quiz", questions:[
+                {
+                  situation:"Review · Factor 1 — The turn card and villain type",
+                  hand:"—",
+                  context:"Hero is considering a double barrel on a dry board with an innocuous turn card (no overcard, no flush card).",
+                  question:"Why might a Reg fold more than a Fish on this 'neutral' turn, and what does that imply for Hero's strategy?",
+                  options:[
+                    { label:"The Reg updates his read on Hero's range even when the card seems neutral (he knows Hero's c-betting range has narrowed); the Fish only folds on visually scary cards — a neutral barrel works better against Regs", correct:true, explanation:"Correct! Factor 1 explicitly distinguishes between Reg and Fish: the Reg reasons about how the turn affects Hero's range (even if the card seems harmless), while the Fish needs overcards or flush cards to react. A neutral barrel is more effective against Regs." },
+                    { label:"On neutral turns both villain types fold equally — only bet sizing matters", correct:false, explanation:"The book explicitly differentiates between Reg and Fish on neutral turns. The villain type reaction is Factor 4, but Factor 1 (the card itself) determines how much difference there is between the two." },
+                    { label:"Fish fold more than Regs on neutral turns because Fish are more scared of any bet", correct:false, explanation:"It's the opposite: the Reg understands that Hero's range has narrowed even on a neutral card; the Fish doesn't reason about ranges — only reacts to visual triggers. Non-timid Fish hate folding even on turns that weaken their hand." },
+                    { label:"The turn card doesn't matter — only the villain type is relevant", correct:false, explanation:"The chapter dedicates an entire factor to the turn card precisely because it does matter, and its effect VARIES by villain type. The interaction between Factor 1 and Factor 4 is the whole point of this review question." },
+                  ],
+                },
+                {
+                  situation:"Review · Factor 2 — Equity and the double-barrel RFE",
+                  hand:"J♥ T♥",
+                  context:"Hero has JTh with a flush draw on the turn (9 outs). Vacuum RFE: 8/(8+11)=42%. Roughly 20% of rivers will complete Hero's flush.",
+                  question:"How does that 20% of 'good rivers' affect the FE Hero actually needs on the turn?",
+                  options:[
+                    { label:"The FE needed falls below 42%, because on those rivers Hero wins without needing Villain to fold now — equity reduces the FE threshold required on the turn", correct:true, explanation:"Correct! Betting with equity accomplishes three things: if Hero completes on the river he wins the pot even if Villain didn't fold on the turn; Hero earns the right to see that card; and the equation means the FE needed on the turn is less than the 42% vacuum figure." },
+                    { label:"The FE needed rises above 42%, because now Hero has more to lose if Villain calls the turn", correct:false, explanation:"It's the opposite: having equity means some of Villain's 'calls' on the turn aren't losses for Hero — he recovers them on good rivers. That REDUCES the FE needed, not increases it." },
+                    { label:"FE and equity are independent — the 20% of good rivers doesn't change the turn RFE", correct:false, explanation:"The chapter explicitly states they do interact: 'the amount of equity acts as a natural filter' and 'the FE actually needed drops well below 42%' when Hero has relevant outs." },
+                    { label:"With a flush draw, Hero should always bet the turn regardless of available FE", correct:false, explanation:"The book gives no absolute rules. Equity reduces the FE needed, but doesn't eliminate it — if Hero has zero expected FE (e.g. a non-timid Fish who never folds), betting with only a draw still loses money long-term." },
+                  ],
+                },
+                {
+                  situation:"Review · Triple barrel — the blocker factor",
+                  hand:"A♠ J♦",
+                  context:"A heart-completing river. Hero has AJo (no hearts). Villain's turn-calling range includes many hearts (completed flushes) and AQ combos.",
+                  question:"Why is AJo a strong bluff candidate on this river despite having no flush?",
+                  options:[
+                    { label:"AJo blocks AQ combos (hands that almost never fold and might call the bluff) and reduces AA combos — and it does NOT block Villain's flushes, leaving his folding range intact", correct:true, explanation:"Correct! The value of a blocker isn't removing combos from the folding range (that would be counterproductive), but removing combos from the CALLING range. Blocking AQ means Villain has fewer hands to call the river with, directly increasing the bluff's effective FE." },
+                    { label:"AJo is a good bluff because it has no showdown value and is therefore 'free' to use as a bluff", correct:false, explanation:"Having no SDV is a CONDITION for considering the bluff (no showdown value is lost), but it's not the REASON it's a good candidate. The reason is the blockers to Villain's calling range (AQ, AA)." },
+                    { label:"AJo blocks Villain's flushes (hearts) thanks to the Ace, reducing his range of strong hands", correct:false, explanation:"The Ace of AJo doesn't block heart flushes (the Ace isn't a heart here). AJo blocks AQ and AA — hands that might CALL the river, not flushes. The distinction is fundamental: blocking calling-range hands is what's valuable." },
+                    { label:"Any hand with an Ace is automatically a good river bluff on any texture", correct:false, explanation:"The Ace blocker is only valuable if AQ or AA are in Villain's calling range. On textures where Villain's calling range doesn't include Ace-high hands (e.g. only completed flushes), the Ace is irrelevant as a blocker." },
+                  ],
+                },
+                {
+                  situation:"Review · Delayed c-bet — Reason 1 vs. Reason 2",
+                  hand:"K♦ 9♣",
+                  context:"Hero opens from the BU. BB (fit-or-fold Reg, little turn bluffing range) calls. Flop: T♠ 8♣ 6♦. Hero checks behind. BB checks the turn (blank: 2♥). Hero has K9o with no pair and no draw.",
+                  question:"Which of the chapter's three reasons does betting the turn with K9o correspond to, and why isn't it Reason 3?",
+                  options:[
+                    { label:"Reason 2 — the flop c-bet would have been +EV (low board that connects poorly with the BB), but delaying 'bought free information'; after Villain's second check (fit-or-fold, no bluffing range), FE is even higher and Hero bets exploiting that", correct:true, explanation:"Correct! Reason 2 applies when the immediate c-bet was +EV but delaying is better against fit-or-fold opponents. Reason 3 requires Hero to have PLANNED to give up AND the turn card to dramatically improve Hero's range. Here Hero simply chose free information — he never planned to give up." },
+                    { label:"Reason 3 — Hero planned to give up with K9o and the 2♥ on the turn improved his range", correct:false, explanation:"Reason 3 requires two things: (1) Hero planned to give up, and (2) the turn card dramatically improves Hero's checking range. The 2♥ doesn't especially improve K9o or Hero's range in general — Reason 3 doesn't apply here." },
+                    { label:"Reason 1 — the flop c-bet would have been -EV on this board because the BB connects well with T-8-6", correct:false, explanation:"T-8-6 is a board that does connect with the BB (OESDs, mid pairs, two pair), which could make the c-bet -EV. But the context says the BB is fit-or-fold, which normally makes the c-bet +EV even on connected boards. Reason 2 is more appropriate." },
+                    { label:"None of the three reasons apply — with K9o Hero should always c-bet the flop directly", correct:false, explanation:"The chapter shows that delaying the c-bet can be superior to the immediate bet in multiple scenarios, including with no-pair no-draw hands used as pure bluffs. Reason 2 applies here." },
+                  ],
+                },
+                {
+                  situation:"Review · Turn bluff-raise — Hand 123",
+                  hand:"9♣ 8♣",
+                  context:"Hero floated the flop with 98s. Turn card gives Hero a high-equity draw (OESD, ≈8 outs). Villain (aggressive stats, high c-bet) bets the turn. Hero's value raising combos: [66, 77, 76s, KQ] = 17 combos.",
+                  question:"How many bluff combos can Hero add to be balanced, and what makes 98s the ideal candidate?",
+                  options:[
+                    { label:"Slightly fewer than 17 bluff combos (just below 1:1); 98s is ideal because it's the highest-equity semi-bluff available on this card — high-equity candidates are scarce", correct:true, explanation:"Correct! In a turn raising range the balanced value:bluff ratio is close to 1:1 or slightly more value than bluffs. 98s has high equity (OESD) making it the natural semi-bluff: if Villain calls, Hero can still win the river. The scarcity of other high-equity candidates also makes it the obvious choice." },
+                    { label:"Double the bluff combos compared to value (≈34 bluffs) to maximize pressure on Villain", correct:false, explanation:"The 2:1 bluff:value ratio appears in the context of exploitative squeezes and 4-bets, not turn bluff-raises. In turn raises the balanced ratio is closer to 1:1 — using twice as many bluffs would be over-bluffing." },
+                    { label:"98s is a bad candidate because it has equity (it can win at showdown with completed draws)", correct:false, explanation:"The opposite: that 98s has equity is exactly why it's chosen as a bluff-raise. The chapter doesn't use 98s because it's 'pure air' — its high equity as a draw makes the raise far stronger than a zero-equity bluff." },
+                    { label:"With 17 value combos, Hero can't bluff-raise because he'd need exactly 17 bluff combos and doesn't have them available", correct:false, explanation:"17 bluffs (for a 1:1 ratio) is not a hard minimum — the book says 'slightly fewer bluffs than value'. Even with few candidates, 98s (and potentially one more hand) is enough to build a believable and balanced raising range." },
+                  ],
+                },
+              ]},
+            ],
+          },
+        ],
+      },
 
     ],
   },
@@ -5250,6 +6056,15 @@ const CTX = {
   threebet_squeeze_6: { es: "MP abre y BTN paga. Estás en la SB con 87s — decides si hacer squeeze, pagar o foldear.", en: "MP opens and BTN calls. You're in the SB with 87s — decide whether to squeeze, call, or fold." },
   fourbet_value: { es: "Hiciste 3-bet por valor y el rival ha respondido con un 4-bet. Decide si esta mano tiene suficiente valor para ir a por todo (5-bet all-in), si es mejor pagar el 4-bet y ver un flop, o si debes foldear.", en: "You made a value 3-bet and villain has responded with a 4-bet. Decide whether this hand has enough value to go all-in (5-bet), whether it's better to call the 4-bet and see a flop, or whether you should fold." },
   fourbet_bluff: { es: "Tu 3-bet era un farol y el rival ha respondido con un 4-bet. Decide si esta mano tiene los bloqueadores y la equity necesarios para continuar (pagar o ir all-in), o si lo correcto es foldear.", en: "Your 3-bet was a bluff and villain has responded with a 4-bet. Decide whether this hand has the blockers and equity needed to continue (call or go all-in), or whether the correct play is to fold." },
+  // ── Defending vs 3-bet (Capítulo 10) ───────────────────────────────────────
+  defending3bet_4bet:  { es: "Abriste y el rival te ha hecho un 3-bet. Decide si esta mano tiene suficiente valor o los bloqueadores adecuados para hacer un 4-bet, pagar o foldear.", en: "You opened and villain has 3-bet you. Decide whether this hand has enough value or the right blockers to 4-bet, call, or fold." },
+  defending3bet_call:  { es: "Abriste y el rival te ha hecho un 3-bet. Con esta mano en posición, decide si pagar el 3-bet, hacer un 4-bet o foldear.", en: "You opened and villain has 3-bet you. With this hand in position, decide whether to call the 3-bet, 4-bet, or fold." },
+  defending3bet_fold:  { es: "Abriste y el rival te ha hecho un 3-bet. Evalúa si esta mano merece continuar (pagar o 4-bet) o si foldear es la jugada más disciplinada.", en: "You opened and villain has 3-bet you. Evaluate whether this hand is worth continuing with (call or 4-bet) or whether folding is the most disciplined play." },
+  // ── Bluffing turn / river (Capítulo 11) ────────────────────────────────────
+  bluff_turn:    { es: "Apostaste el flop y te pagaron. En el turn, decides si disparar el segundo barrel (semi-farol o farol puro) o checkear.", en: "You bet the flop and got called. On the turn, decide whether to fire the second barrel (semi-bluff or pure bluff) or check." },
+  bluff_river:   { es: "Has apostado flop y turn. En el river, decides si disparar el tercer barrel como farol o ceder checkeando.", en: "You bet the flop and turn. On the river, decide whether to fire the third barrel as a bluff or give up by checking." },
+  bluff_delayed: { es: "Checkeaste el flop (sin c-bet). Ambos checkean. En el turn, decides si apostar como c-bet retrasada o seguir checkeando.", en: "You checked the flop (no c-bet). Both check. On the turn, decide whether to bet as a delayed c-bet or continue checking." },
+  bluff_raise:   { es: "El rival ha apostado y decides si hacer un raise como farol (semi-bluff raise) con tu draw, o simplemente pagar o foldear.", en: "Villain has bet and you decide whether to raise as a bluff (semi-bluff raise) with your draw, or simply call or fold." },
 };
 
 // { id, pos, hand, code, open, size, ctx, es, en }
@@ -5632,6 +6447,34 @@ function buildOptions(sit, p, lang) {
   const correctExp = lang === "es" ? sit.es : sit.en;
 
   if (sit.type === "3bet") {
+    // ── Defending vs 3-bet (héroe abrió, rival 3-beteó) ─────────────────────
+    if (sit.defending3bet) {
+      const fourBetLabel = lang === "es" ? "4-Bet" : "4-Bet";
+      const callLabel    = lang === "es" ? "Pagar (call)" : "Call";
+      if (sit.open) {
+        // correct = 4-bet (value or bluff)
+        return [
+          { id:"correct", label: fourBetLabel, correct: true,  explanation: correctExp },
+          { id:"call",    label: callLabel,     correct: false, explanation: lang==="es" ? "Pagar el 3-bet con esta mano cede valor y posición — el 4-bet es la línea superior." : "Calling the 3-bet with this hand gives up value and position — 4-betting is the superior line." },
+          { id:"fold",    label: p.optFold,     correct: false, explanation: lang==="es" ? "Foldear aquí es demasiado pasivo — esta mano merece el 4-bet." : "Folding here is too passive — this hand deserves the 4-bet." },
+        ].sort(() => Math.random() - 0.5);
+      } else if (sit.size === "call") {
+        // correct = call the 3-bet (IP, good hand)
+        return [
+          { id:"correct", label: callLabel,     correct: true,  explanation: correctExp },
+          { id:"4bet",    label: fourBetLabel,   correct: false, explanation: lang==="es" ? "El 4-bet con esta mano es demasiado fino — pagar y ver un flop en posición es superior." : "4-betting with this hand is too thin — calling and seeing a flop in position is superior." },
+          { id:"fold",    label: p.optFold,      correct: false, explanation: lang==="es" ? "Esta mano tiene suficiente equity e implied odds para pagar el 3-bet en posición." : "This hand has enough equity and implied odds to call the 3-bet in position." },
+        ].sort(() => Math.random() - 0.5);
+      } else {
+        // correct = fold the 3-bet (OOP, dominated, etc.)
+        return [
+          { id:"correct", label: p.optFold,     correct: true,  explanation: correctExp },
+          { id:"4bet",    label: fourBetLabel,   correct: false, explanation: lang==="es" ? "El 4-bet con esta mano no tiene suficiente valor ni bloqueadores para ser rentable aquí." : "4-betting with this hand doesn't have enough value or blockers to be profitable here." },
+          { id:"call",    label: callLabel,      correct: false, explanation: lang==="es" ? "Pagar el 3-bet con esta mano OOP o dominada tiene EV negativo." : "Calling the 3-bet with this hand OOP or dominated has negative EV." },
+        ].sort(() => Math.random() - 0.5);
+      }
+    }
+    // ── Standard 3-bet / squeeze ──────────────────────────────────────────────
     const raiseLabel = sit.facing4bet ? (lang==="es" ? "5-Bet (all-in)" : "5-Bet (all-in)") : "3-Bet";
     const callLabel = lang === "es" ? "Pagar (call)" : "Call";
     if (sit.open) {
@@ -5714,6 +6557,25 @@ function buildOptions(sit, p, lang) {
   }
 
   if (sit.type === "vbet") {
+    // ── Bluff barrel decision (bluff:true) ────────────────────────────────────
+    if (sit.bluff) {
+      const betLabel  = lang === "es" ? "Apostar (farol)" : "Bet (bluff)";
+      const checkLabel = lang === "es" ? "Checkear (ceder)" : "Check (give up)";
+      if (sit.open) {
+        // correct = fire the bluff barrel
+        return [
+          { id:"correct", label: betLabel,   correct: true,  explanation: correctExp },
+          { id:"check",   label: checkLabel, correct: false, explanation: lang==="es" ? "Checkear aquí cede demasiado valor — tienes suficiente equity y fold equity para disparar el barrel." : "Checking here gives up too much — you have enough equity and fold equity to fire the barrel." },
+        ].sort(() => Math.random() - 0.5);
+      } else {
+        // correct = check / give up
+        return [
+          { id:"correct", label: checkLabel, correct: true,  explanation: correctExp },
+          { id:"bet",     label: betLabel,   correct: false, explanation: lang==="es" ? "Apostar aquí como farol no tiene suficiente fold equity o la mano tiene showdown value — checkear es la línea correcta." : "Betting here as a bluff doesn't have enough fold equity or the hand has showdown value — checking is the correct line." },
+        ].sort(() => Math.random() - 0.5);
+      }
+    }
+    // ── Standard value bet ────────────────────────────────────────────────────
     if (sit.open) {
       const allSizes = [
         { id:"small",  label: p.optCbetSmall  },
@@ -5762,19 +6624,23 @@ function buildOptions(sit, p, lang) {
   if (sit.type === "facing") {
     const callLabel  = lang === "es" ? "Pagar (call)" : "Call";
     const raiseLabel = lang === "es" ? "Resubir (raise)" : "Raise";
+    const isAllIn = sit.ctx === "facing_allin";
+    const checkOpt = { id:"check", label: lang==="es" ? "Checkear" : "Check", correct: false, explanation: lang==="es" ? "El rival ya apostó — no puedes checkear. Debes pagar o foldear." : "Villain already bet — you can't check. You must call or fold." };
+    const raiseOptOpen = { id:"raise", label: raiseLabel, correct: false, explanation: lang==="es" ? "Resubir aquí no tiene sentido estratégico. La decisión es call o fold." : "Raising here makes no strategic sense. The decision is call or fold." };
+    const raiseOptClosed = { id:"raise", label: raiseLabel, correct: false, explanation: lang==="es" ? "Bluffear con un raise aquí no tiene sentido — el rango del rival está cargado de valor." : "Bluff-raising here makes no sense — villain's range is value-heavy." };
     if (sit.open) {
       return [
         { id:"correct", label: callLabel,  correct: true,  explanation: correctExp },
         { id:"fold",    label: p.optFold,  correct: false, explanation: lang==="es" ? "Con la equidad que tienes vs el rango del rival, pagar tiene más EV que foldear." : "With your equity vs villain's range, calling has more EV than folding." },
-        { id:"raise",   label: raiseLabel, correct: false, explanation: lang==="es" ? "Resubir aquí no tiene sentido estratégico. La decisión es call o fold." : "Raising here makes no strategic sense. The decision is call or fold." },
-        { id:"check",   label: lang==="es" ? "Checkear" : "Check", correct: false, explanation: lang==="es" ? "El rival ya apostó — no puedes checkear. Debes pagar o foldear." : "Villain already bet — you can't check. You must call or fold." },
+        ...(isAllIn ? [] : [raiseOptOpen]),
+        checkOpt,
       ].sort(() => Math.random() - 0.5);
     } else {
       return [
         { id:"correct", label: p.optFold,  correct: true,  explanation: correctExp },
         { id:"call",    label: callLabel,   correct: false, explanation: lang==="es" ? "No tienes la equidad necesaria para justificar el call contra el rango probable del rival." : "You don't have the required equity to justify the call vs villain's likely range." },
-        { id:"raise",   label: raiseLabel,  correct: false, explanation: lang==="es" ? "Bluffear con un raise aquí no tiene sentido — el rango del rival está cargado de valor." : "Bluff-raising here makes no sense — villain's range is value-heavy." },
-        { id:"check",   label: lang==="es" ? "Checkear" : "Check", correct: false, explanation: lang==="es" ? "El rival ya apostó — tienes que call o fold, no puedes checkear." : "Villain already bet — you have to call or fold, you can't check." },
+        ...(isAllIn ? [] : [raiseOptClosed]),
+        checkOpt,
       ].sort(() => Math.random() - 0.5);
     }
   }
@@ -5839,17 +6705,19 @@ function correctActionOptions(sit, p, lang) {
   ];
 }
 
-// Aplica un override aprobado por la comunidad (si existe) sobre una situación.
-// `overrides` es un mapa { "type_id": { open, size, es, en } }.
+// Aplica un override aprobado por la comunidad (o editado por el admin) sobre una situación.
+// `overrides` es un mapa { "type_id": { open, size, es, en, hand, board, pos, callPos, ctx,
+// descEs, descEn, players, street, limpers, facing4bet } }. Las propuestas de la comunidad
+// solo suelen rellenar open/size/es/en; el editor de admin puede ajustar cualquier campo.
 function applyOverride(sit, overrides) {
   if (!overrides || !sit) return sit;
   const ov = overrides[`${sit.type}_${sit.id}`];
   if (!ov) return sit;
   const merged = { ...sit };
-  if (ov.open !== null && ov.open !== undefined) merged.open = ov.open;
-  if (ov.size !== null && ov.size !== undefined) merged.size = ov.size;
-  if (ov.es) merged.es = ov.es;
-  if (ov.en) merged.en = ov.en;
+  const FIELDS = ["open","size","es","en","hand","board","pos","callPos","ctx","descEs","descEn","players","street","limpers","facing4bet"];
+  FIELDS.forEach((f) => {
+    if (ov[f] !== null && ov[f] !== undefined) merged[f] = ov[f];
+  });
   return merged;
 }
 
@@ -6190,7 +7058,7 @@ function StatsPage({ t, lang, xpData, completed, totalLessons, user }) {
       <div style={{ background:"linear-gradient(135deg,#120f04,#0d0f1a)", border:"1px solid #c9a84c44", borderRadius:14, padding:"20px 24px", marginBottom:16 }}>
         <div style={{ display:"flex", alignItems:"center", gap:16, marginBottom:16 }}>
           <div style={{ width:52, height:52, borderRadius:14, background:"#c9a84c22", border:"1px solid #c9a84c44", display:"flex", alignItems:"center", justifyContent:"center", fontSize:26 }}>
-            {xpData.level >= 6 ? "🏆" : xpData.level >= 4 ? "⭐" : xpData.level >= 2 ? "📈" : "🐟"}
+            {xpData.level >= 6 ? "👑" : xpData.level >= 5 ? "💪" : xpData.level >= 4 ? "🦈" : xpData.level >= 3 ? "🎯" : xpData.level >= 2 ? "🌱" : "🐟"}
           </div>
           <div>
             <div style={{ fontSize:13, color:"#8b8fa8" }}>{es?"Nivel":"Level"} {xpData.level}</div>
@@ -6619,189 +7487,6 @@ function isOOP(sit) {
   return false;
 }
 
-// ─── Mesa visual (mesa de poker con posiciones, mano del héroe y board) ─────────
-// Compartida entre el Test (PracticePage) y Supervivencia (SurvivalPage), vía SituationCard.
-function PokerTableMiniCard({ rank, suit, size = 26 }) {
-  const suitColors = { "♠": "#16181f", "♣": "#16181f", "♥": "#dc2626", "♦": "#2563eb" };
-  return (
-    <div style={{
-      width: size, height: size * 1.38, background: "#f4f1e8", borderRadius: size * 0.14,
-      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-      boxShadow: "0 2px 5px #00000066", border: "1px solid #00000022", flexShrink: 0, gap: 1,
-    }}>
-      <div style={{ fontSize: size * 0.5, fontWeight: 800, color: suitColors[suit] || "#16181f", lineHeight: 1 }}>{rank}</div>
-      <div style={{ fontSize: size * 0.5, color: suitColors[suit] || "#16181f", lineHeight: 1 }}>{suit}</div>
-    </div>
-  );
-}
-
-// Carta boca abajo (otro jugador activo en la mano, sin revelar su mano).
-function PokerTableCardBack({ size = 26 }) {
-  return (
-    <div style={{
-      width: size, height: size * 1.38, borderRadius: size * 0.14,
-      background: "repeating-linear-gradient(135deg, #5b3a8a 0px, #5b3a8a 4px, #432a66 4px, #432a66 8px)",
-      boxShadow: "0 2px 5px #00000066", border: "1px solid #00000044", flexShrink: 0,
-      display: "flex", alignItems: "center", justifyContent: "center",
-    }}>
-      <div style={{ width: "60%", height: "70%", border: "1px solid #ffffff44", borderRadius: size * 0.08 }} />
-    </div>
-  );
-}
-
-// Ficha de apuesta — bote en el centro o apuesta delante de un jugador.
-function PokerChip({ amount, label }) {
-  return (
-    <div style={{
-      display: "flex", alignItems: "center", gap: 4, padding: "2px 8px", borderRadius: 20,
-      background: "#0a0c14cc", border: "1px solid #c9a84c66", fontSize: 10, fontWeight: 800,
-      color: "#e8c96a", whiteSpace: "nowrap", boxShadow: "0 2px 4px #00000066",
-    }}>
-      <span style={{
-        display: "inline-block", width: 9, height: 9, borderRadius: "50%", flexShrink: 0,
-        background: "repeating-conic-gradient(#e8c96a 0deg 45deg, #8b1e1e 45deg 90deg)",
-        border: "1px solid #ffffff88",
-      }} />
-      {label ? `${label}: ` : ""}{amount}BB
-    </div>
-  );
-}
-
-// Calcula el bote y las apuestas en mesa a partir de los campos existentes de la situación
-// (type, size, players, street, open, limpers) — convenciones estándar usadas en toda la app:
-// ciegas 0.5/1BB (bote inicial 1.5BB), apertura estándar 2.5BB, c-bet/v-bet "small"=33%,
-// "medium"/"large"=66-67%, "pot"=100%, e ISO = 3BB base + 1BB por limper.
-// Línea estándar postflop (apertura + call, bote single-raised): flop 5.5BB, turn 12.5BB, river 28.5BB
-// (la misma que usan las descripciones de mano de las situaciones "facing").
-function computeTableMoney(sit) {
-  const BLINDS_POT = 1.5;
-  const OPEN_SIZE = 2.5;
-  const SIZE_PCT = { small: 0.33, medium: 0.66, large: 0.67, pot: 1 };
-
-  switch (sit.type) {
-    case "open":
-      return { pot: BLINDS_POT };
-    case "iso": {
-      const limpers = sit.limpers || 1;
-      return { pot: BLINDS_POT + limpers, heroBet: 3 + limpers };
-    }
-    case "call":
-    case "3bet":
-      return { pot: BLINDS_POT + OPEN_SIZE, villainBet: OPEN_SIZE };
-    case "cbet": {
-      const potPre = sit.players === 2 ? 8 : 5.5;
-      const pct = SIZE_PCT[sit.size];
-      return pct ? { pot: potPre, heroBet: Math.round(potPre * pct * 10) / 10 } : { pot: potPre };
-    }
-    case "vbet": {
-      const streetPot = { flop: 5.5, turn: 12.5, river: 28.5 };
-      const pot = streetPot[sit.street] || 5.5;
-      const pct = SIZE_PCT[sit.size] || 0.66;
-      return { pot, heroBet: Math.round(pot * pct * 10) / 10 };
-    }
-    case "facing": {
-      const streetData = { flop: { pot: 5.5, bet: 3.5 }, turn: { pot: 12.5, bet: 8 }, river: { pot: 28.5, bet: 18 } };
-      const d = streetData[sit.street] || streetData.flop;
-      return { pot: d.pot, villainBet: d.bet };
-    }
-    default:
-      return { pot: BLINDS_POT };
-  }
-}
-
-// Coloca los 6 puestos alrededor de una mesa ovalada (orden = POSITIONS, sentido horario empezando arriba).
-const TABLE_SEAT_POS = {
-  UTG: { top: "4%",  left: "50%" },
-  MP:  { top: "26%", left: "94%" },
-  CO:  { top: "76%", left: "85%" },
-  BTN: { top: "96%", left: "50%" },
-  SB:  { top: "76%", left: "15%" },
-  BB:  { top: "26%", left: "6%" },
-};
-
-function PokerTable({ sit, lang }) {
-  // Solo tiene sentido si conocemos la posición del héroe.
-  if (!sit.pos) return null;
-
-  const parseCards = (str) => {
-    if (!str) return [];
-    const clean = str.replace(/\s+/g, "");
-    const cards = [];
-    for (let i = 0; i < clean.length; i += 2) {
-      const rank = clean[i];
-      const suit = clean[i + 1];
-      if (rank && suit) cards.push({ rank, suit });
-    }
-    return cards;
-  };
-
-  const heroCards = parseCards(sit.hand);
-  const boardCards = parseCards(sit.board);
-  const money = computeTableMoney(sit);
-
-  return (
-    <div style={{ position: "relative", width: "100%", maxWidth: 380, aspectRatio: "16/10", margin: "0 auto 16px" }}>
-      {/* Tapete */}
-      <div style={{
-        position: "absolute", inset: "14% 8%", borderRadius: "50%",
-        background: "radial-gradient(ellipse at 50% 40%, #1c4d34 0%, #0e2e1f 100%)",
-        border: "5px solid #4a3320", boxShadow: "inset 0 0 24px #00000099",
-      }} />
-
-      {/* Centro: cartas del board y bote */}
-      <div style={{
-        position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
-        display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
-      }}>
-        {boardCards.length > 0 && (
-          <div style={{ display: "flex", gap: 3 }}>
-            {boardCards.map((c, i) => <PokerTableMiniCard key={i} rank={c.rank} suit={c.suit} size={24} />)}
-          </div>
-        )}
-        {money.pot != null && (
-          <PokerChip amount={money.pot} label={lang === "es" ? "Bote" : "Pot"} />
-        )}
-      </div>
-
-      {/* Puestos */}
-      {POSITIONS.map(posKey => {
-        const isHero = posKey === sit.pos;
-        const isVillain = !isHero && posKey === sit.callPos;
-        const seat = TABLE_SEAT_POS[posKey];
-        const betAmount = isHero ? money.heroBet : isVillain ? money.villainBet : null;
-        return (
-          <div key={posKey} style={{
-            position: "absolute", top: seat.top, left: seat.left, transform: "translate(-50%, -50%)",
-            display: "flex", flexDirection: "column", alignItems: "center", gap: 4, zIndex: isHero ? 2 : 1,
-          }}>
-            {isHero && heroCards.length > 0 && (
-              <div style={{ display: "flex", gap: 2 }}>
-                {heroCards.map((c, i) => <PokerTableMiniCard key={i} rank={c.rank} suit={c.suit} size={26} />)}
-              </div>
-            )}
-            {isVillain && (
-              <div style={{ display: "flex", gap: 2 }}>
-                <PokerTableCardBack size={26} />
-                <PokerTableCardBack size={26} />
-              </div>
-            )}
-            {betAmount != null && <PokerChip amount={betAmount} />}
-            <div style={{
-              padding: "3px 9px", borderRadius: 8, fontSize: 11, fontWeight: 800, whiteSpace: "nowrap",
-              background: isHero ? (posColors[posKey] || "#c9a84c") : isVillain ? "#ef444433" : "#161823",
-              color: isHero ? "#0a0c14" : isVillain ? "#fca5a5" : (posColors[posKey] || "#8b8fa8"),
-              border: isHero ? "1px solid #fff5" : isVillain ? "1px solid #ef4444" : "1px solid #1e2235",
-              boxShadow: isHero ? "0 0 10px #c9a84c66" : "none",
-            }}>
-              {posKey}{posKey === "BTN" ? " 🔘" : ""}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
 // ─── Tarjeta de situación (mano, posición, board, contexto) ─────────────────────
 // Compartida entre el Test (PracticePage) y Supervivencia (SurvivalPage).
 function SituationCard({ sit, lang, p }) {
@@ -6813,8 +7498,7 @@ function SituationCard({ sit, lang, p }) {
           👥 {lang === "es" ? "Mano de la comunidad" : "Community hand"}
         </div>
       )}
-      <PokerTable sit={sit} lang={lang} />
-      {((sit.type === "vbet" || sit.type === "facing") && sit.descEs) || (sit.community && (sit.descEs || sit.descEn)) ? (
+      {((sit.type === "vbet" || sit.type === "facing" || sit.bluff || sit.defending3bet) && sit.descEs) || (sit.community && (sit.descEs || sit.descEn)) ? (
         <div style={{ background:"#0a0c14", border:"1px solid #1e2235", borderRadius:10, padding:"12px 14px", marginBottom:14 }}>
           <div style={{ fontSize:11, fontWeight:700, color:"#c9a84c", textTransform:"uppercase", letterSpacing:1, marginBottom:6 }}>
             {lang==="es" ? "Historia de la mano" : "Hand history"}
@@ -7139,14 +7823,7 @@ function ProposeSituationModal({ onClose, lang, user, p, defaultCategory }) {
   const [card2Rank, setCard2Rank] = useState("K");
   const [card2Suit, setCard2Suit] = useState("♦");
   const hand = `${card1Rank}${card1Suit}${card2Rank}${card2Suit}`;
-  const [boardCards, setBoardCards] = useState([
-    { rank: "A", suit: "♦" },
-    { rank: "7", suit: "♣" },
-    { rank: "2", suit: "♥" },
-    { rank: "K", suit: "♠" },
-    { rank: "Q", suit: "♣" },
-  ]);
-  const setBoardCard = (i, field, val) => setBoardCards(prev => prev.map((c, idx) => idx === i ? { ...c, [field]: val } : c));
+  const [board, setBoard] = useState("");
   const [callPos, setCallPos] = useState("BB");
   const [players, setPlayers] = useState(1); // 1 = HU, 2 = 3-way
   const [street, setStreet] = useState("flop");
@@ -7159,12 +7836,6 @@ function ProposeSituationModal({ onClose, lang, user, p, defaultCategory }) {
   const [wrongExplain, setWrongExplain] = useState("");
   const [comment, setComment] = useState("");
   const [status, setStatus] = useState("idle"); // idle | sending | success | error | invalid
-  const [validationMsg, setValidationMsg] = useState("");
-
-  const needsBoard = category === "cbet" || category === "vbet" || category === "facing";
-  const boardCount = category === "facing" ? (street === "flop" ? 3 : street === "turn" ? 4 : 5) : 3;
-  const activeBoardCards = boardCards.slice(0, boardCount);
-  const board = activeBoardCards.map(c => `${c.rank}${c.suit}`).join("");
 
   // Versión opcional en el otro idioma
   const otherLang = lang === "es" ? "en" : "es";
@@ -7181,19 +7852,6 @@ function ProposeSituationModal({ onClose, lang, user, p, defaultCategory }) {
     if (!user) return;
     const filledOptions = options.map(o => o.trim());
     if (!hand.trim() || filledOptions.some(o => !o) || !correctExplain.trim()) {
-      setValidationMsg(p.proposeValidation);
-      setStatus("invalid");
-      return;
-    }
-    // Cada carta (mano + board) solo puede aparecer una vez
-    const allCards = [
-      { rank: card1Rank, suit: card1Suit },
-      { rank: card2Rank, suit: card2Suit },
-      ...(needsBoard ? activeBoardCards : []),
-    ];
-    const cardKeys = allCards.map(c => `${c.rank}${c.suit}`);
-    if (new Set(cardKeys).size !== cardKeys.length) {
-      setValidationMsg(p.proposeValidationDuplicate);
       setStatus("invalid");
       return;
     }
@@ -7239,8 +7897,8 @@ function ProposeSituationModal({ onClose, lang, user, p, defaultCategory }) {
         }
       }
 
-      if (needsBoard) {
-        data.board = board || null;
+      if (category === "cbet" || category === "vbet" || category === "facing") {
+        data.board = board.trim() || null;
       }
       if (category === "cbet" || category === "vbet" || category === "call" || category === "facing") {
         data.callPos = callPos;
@@ -7300,17 +7958,10 @@ function ProposeSituationModal({ onClose, lang, user, p, defaultCategory }) {
               <CardSelect rank={card2Rank} suit={card2Suit} onRankChange={setCard2Rank} onSuitChange={setCard2Suit} style={{ flex: 1 }} />
             </div>
 
-            {needsBoard && (
+            {(category === "cbet" || category === "vbet" || category === "facing") && (
               <>
                 <div style={labelStyle}>{p.proposeBoardLabel}</div>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  {Array.from({ length: boardCount }).map((_, i) => (
-                    <CardSelect key={i} rank={boardCards[i].rank} suit={boardCards[i].suit}
-                      onRankChange={r => setBoardCard(i, "rank", r)}
-                      onSuitChange={s => setBoardCard(i, "suit", s)}
-                      style={{ flex: "1 0 30%", minWidth: 90 }} />
-                  ))}
-                </div>
+                <input type="text" value={board} onChange={e => setBoard(e.target.value)} placeholder="A♦ 7♣ 2♥" style={inputStyle} />
               </>
             )}
 
@@ -7417,7 +8068,7 @@ function ProposeSituationModal({ onClose, lang, user, p, defaultCategory }) {
             <div style={labelStyle}>{p.proposeCommentLabel}</div>
             <textarea value={comment} onChange={e => setComment(e.target.value)} rows={2} style={{ ...inputStyle, resize: "vertical" }} />
 
-            {status === "invalid" && <div style={{ color: "#ef4444", fontSize: 12, marginTop: 10 }}>{validationMsg || p.proposeValidation}</div>}
+            {status === "invalid" && <div style={{ color: "#ef4444", fontSize: 12, marginTop: 10 }}>{p.proposeValidation}</div>}
             {status === "error" && <div style={{ color: "#ef4444", fontSize: 12, marginTop: 10 }}>{p.proposeError}</div>}
           </>
         )}
@@ -7451,6 +8102,7 @@ function PracticePage({ t, lang, onSessionComplete, user, overrides, communityHa
   const [byType, setByType] = useState({});
   const [xpEarned, setXpEarned] = useState(0);
   const [selected, setSelected] = useState([]);
+  const [topicFilter, setTopicFilter] = useState(null); // null | "ch10" | "ch11"
   const [reportOpen, setReportOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
 
@@ -7459,7 +8111,24 @@ function PracticePage({ t, lang, onSessionComplete, user, overrides, communityHa
   const startSession = () => {
     const pick = (arr, n) => [...arr].sort(() => Math.random() - 0.5).slice(0, n);
     let hands;
-    if (selected.length === 0) {
+    // Apply topic filter if set
+    const applyTopic = (pool) => {
+      if (topicFilter === "ch10") return pool.filter(s => s.defending3bet);
+      if (topicFilter === "ch11") return pool.filter(s => s.bluff);
+      return pool;
+    };
+    if (topicFilter) {
+      // Topic filter: pull from the two relevant pools
+      const ch10Pool = applyTopic(CATEGORIES["3bet"]);
+      const ch11Pool = applyTopic(CATEGORIES.vbet);
+      if (topicFilter === "ch10") {
+        hands = pick(ch10Pool, Math.min(10, ch10Pool.length));
+      } else if (topicFilter === "ch11") {
+        hands = pick(ch11Pool, Math.min(10, ch11Pool.length));
+      } else {
+        hands = pick([...ch10Pool, ...ch11Pool], 10);
+      }
+    } else if (selected.length === 0) {
       // Sin filtro: sesión estratificada de 12 manos (2 por categoría)
       hands = [
         ...pick(CATEGORIES.open,   2),
@@ -7471,7 +8140,7 @@ function PracticePage({ t, lang, onSessionComplete, user, overrides, communityHa
         ...pick(CATEGORIES["3bet"], 2),
       ];
     } else {
-      // Con filtro: 10 manos repartidas entre las categorías elegidas
+      // Con filtro de categoría: 10 manos repartidas entre las categorías elegidas
       const n = selected.length;
       const base = Math.floor(10 / n);
       const extra = 10 % n;
@@ -7547,6 +8216,31 @@ function PracticePage({ t, lang, onSessionComplete, user, overrides, communityHa
               </button>
             );
           })}
+        </div>
+
+        {/* ── Topic filter (recent lessons) ── */}
+        <div style={{ marginBottom: 24 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "#c9a84c", textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>
+            {p.topicFilterTitle}
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
+            {[
+              { key: null,   label: p.topicFilterAll },
+              { key: "ch10", label: p.topicFilterCh10 },
+              { key: "ch11", label: p.topicFilterCh11 },
+            ].map(({ key, label }) => {
+              const active = topicFilter === key;
+              return (
+                <button
+                  key={String(key)}
+                  onClick={() => { setTopicFilter(key); if (key !== null) setSelected([]); }}
+                  style={{ padding: "8px 16px", borderRadius: 20, border: active ? "1px solid #7c6fd4" : "1px solid #1e2235", background: active ? "#7c6fd422" : "transparent", color: active ? "#a89fe8" : "#8b8fa8", fontSize: 13, fontWeight: 600, cursor: "pointer" }}
+                >
+                  {key === "ch10" ? "⚔️ " : key === "ch11" ? "🃏 " : "📚 "}{label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <button onClick={startSession} style={{ background: "linear-gradient(135deg, #e8c96a 0%, #c9a84c 100%)", border: "none", borderRadius: 12, padding: "14px 36px", color: "#0a0c14", fontSize: 16, fontWeight: 800, cursor: "pointer", letterSpacing: 0.3 }}>
