@@ -5969,23 +5969,7 @@ function seededShuffle(arr, prng) {
   return a;
 }
 
-// Build a 10-hand session from a numeric seed (same output for both players)
-function buildSeededSession(seed, communityHands, overrides) {
-  const CATEGORIES = buildCategoryPools(communityHands);
-  const prng = makePrng(seed);
-  const pick = (arr, n) => seededShuffle(arr, prng).slice(0, n);
-  let hands = [
-    ...pick(CATEGORIES.open,    2),
-    ...pick(CATEGORIES.iso,     2),
-    ...pick(CATEGORIES.cbet,    2),
-    ...pick(CATEGORIES.vbet,    2),
-    ...pick(CATEGORIES.call,    2),
-    ...pick(CATEGORIES.facing,  2),
-    ...pick(CATEGORIES["3bet"], 2),
-  ];
-  hands = seededShuffle(hands, prng).slice(0, 10);
-  return hands.map(h => applyOverride(h, overrides));
-}
+// buildSeededSession is defined inline in startRoomSession (needs buildCategoryPools/applyOverride)
 
 // Generate a room code: 6 uppercase alphanumeric chars (no O/0/I/1 to avoid confusion)
 function genRoomCode() {
@@ -5995,30 +5979,27 @@ function genRoomCode() {
 
 function RoomPage({ t, lang, user, overrides, communityHands, onNavigate }) {
   const p = t.practice;
-  const d = t.duel;
+  const d = t.practice?.duel || {};  // duel strings live inside practice section
 
-  // ── States ───────────────────────────────────────────────────────────────────
-  const [view, setView]         = useState("lobby");   // lobby | waiting | playing | done
-  const [codeInput, setCodeInput] = useState("");
-  const [roomCode, setRoomCode] = useState(null);
-  const [roomData, setRoomData] = useState(null);
-  const [isHost, setIsHost]     = useState(false);
-  const [error, setError]       = useState(null);
-  const [creating, setCreating] = useState(false);
-  const [joining, setJoining]   = useState(false);
-  const [copied, setCopied]     = useState(false);
-
-  // Session state (mirrors PracticePage)
-  const [session, setSession]   = useState(null);
-  const [idx, setIdx]           = useState(0);
-  const [picked, setPicked]     = useState(null);
-  const [score, setScore]       = useState(0);
-  const [byType, setByType]     = useState({});
-  const [currentOpts, setCurrentOpts] = useState([]);
-
-  // Guard: need username
-  if (!user?.displayName && !user?.email) return null;
+  // username derived from user (user is guaranteed non-null by parent route guard)
   const username = user?.displayName || user?.email?.split("@")[0] || "Player";
+
+  // ── States (ALL hooks before any conditional return) ─────────────────────────
+  const [view, setView]           = useState("lobby");
+  const [codeInput, setCodeInput] = useState("");
+  const [roomCode, setRoomCode]   = useState(null);
+  const [roomData, setRoomData]   = useState(null);
+  const [isHost, setIsHost]       = useState(false);
+  const [error, setError]         = useState(null);
+  const [creating, setCreating]   = useState(false);
+  const [joining, setJoining]     = useState(false);
+  const [copied, setCopied]       = useState(false);
+  const [session, setSession]     = useState(null);
+  const [idx, setIdx]             = useState(0);
+  const [picked, setPicked]       = useState(null);
+  const [score, setScore]         = useState(0);
+  const [byType, setByType]       = useState({});
+  const [currentOpts, setCurrentOpts] = useState([]);
 
   // ── Firestore listener ───────────────────────────────────────────────────────
   useEffect(() => {
@@ -6089,7 +6070,19 @@ function RoomPage({ t, lang, user, overrides, communityHands, onNavigate }) {
 
   // ── Start playing (called for guest on join; for host when guest joins) ──────
   const startRoomSession = (seed) => {
-    const hands = buildSeededSession(seed, communityHands, overrides);
+    const CATEGORIES = buildCategoryPools(communityHands);
+    const prng = makePrng(seed);
+    const pickS = (arr, n) => seededShuffle(arr, prng).slice(0, n);
+    let hands = [
+      ...pickS(CATEGORIES.open,    2),
+      ...pickS(CATEGORIES.iso,     2),
+      ...pickS(CATEGORIES.cbet,    2),
+      ...pickS(CATEGORIES.vbet,    2),
+      ...pickS(CATEGORIES.call,    2),
+      ...pickS(CATEGORIES.facing,  2),
+      ...pickS(CATEGORIES["3bet"], 2),
+    ];
+    hands = seededShuffle(hands, prng).slice(0, 10).map(h => applyOverride(h, overrides));
     setSession(hands);
     setIdx(0); setPicked(null); setScore(0); setByType({});
     setCurrentOpts(buildOptions(hands[0], p, lang));
@@ -6125,12 +6118,12 @@ function RoomPage({ t, lang, user, overrides, communityHands, onNavigate }) {
       setCurrentOpts(buildOptions(session[nextIdx], p, lang));
     } else {
       // Session finished — write result to Firestore
-      const finalScore = score + (picked?.correct ? 0 : 0); // already counted
+      const finalScore = score; // already updated by handlePick
       const field = isHost ? "host" : "guest";
-      const finalByType = byType;
       await updateDoc(doc(db, "rooms", roomCode), {
         [`${field}.score`]:  finalScore,
-        [`${field}.byType`]: finalByType,
+        [`${field}.byType`]: byType,
+        status: "finished",
       });
     }
     setPicked(null);
@@ -6239,7 +6232,7 @@ function RoomPage({ t, lang, user, overrides, communityHands, onNavigate }) {
           )}
         </div>
 
-        <SituationCard sit={sit} lang={lang} t={t} />
+        <SituationCard sit={sit} lang={lang} p={p} />
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 12 }}>
           {currentOpts.map((opt, i) => {
