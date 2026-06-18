@@ -145,7 +145,7 @@ const content = {
   es: {
     nav: { title: "Poker Cash Academy", back: "Inicio" },
     home: { welcome: "Poker Cash Academy", subtitle: "Domina el cash game. Un concepto a la vez." },
-    menu: { academia: "Academy", academiaSubtitle: "Lecciones estructuradas paso a paso", stats: "Estadísticas", statsSubtitle: "Tu progreso, nivel y precisión por categoría", survival: "Supervivencia", survivalSubtitle: "Una racha al día. Compite por el Top 10 mensual", profile: "Perfil", profileSubtitle: "Tu nombre de usuario y datos públicos", glossary: "Glosario", glossarySubtitle: "Más de 70 términos de poker explicados" },
+    menu: { academia: "Academy", academiaSubtitle: "Lecciones estructuradas paso a paso", stats: "Estadísticas", statsSubtitle: "Tu progreso, nivel y precisión por categoría", survival: "Supervivencia", survivalSubtitle: "Una racha al día. Compite por el Top 10 mensual", duel: "Duelo vs Amigo", duelSubtitle: "Mismas preguntas, distintos resultados. ¿Quién gana?", profile: "Perfil", profileSubtitle: "Tu nombre de usuario y datos públicos", glossary: "Glosario", glossarySubtitle: "Más de 70 términos de poker explicados" },
     glossary: {
       title: "Glosario",
       subtitle: "Los términos esenciales del poker, explicados de forma sencilla.",
@@ -183,6 +183,36 @@ const content = {
       posLabel: "Posición",
       handLabel: "Tu mano",
       contextLabel: "Contexto",
+      duel: {
+        title: "Duelo vs Amigo",
+        subtitle: "Comparte el código con tu amigo y responded las mismas 10 preguntas. Gana el que más acierte.",
+        createBtn: "Crear sala",
+        joinBtn: "Unirse con código",
+        codeLabel: "Código de sala",
+        codePlaceholder: "Ej: K7PX2M",
+        joinAction: "Entrar a la sala",
+        waitingTitle: "¡Sala creada!",
+        waitingMsg: "Comparte este código con tu amigo:",
+        waitingSubMsg: "Esperando a que tu amigo se una...",
+        playing: "¡El duelo ha comenzado!",
+        opponentPlaying: "Tu amigo está jugando...",
+        opponentDone: "¡Tu amigo ha terminado!",
+        resultsTitle: "Resultados del duelo",
+        you: "Tú",
+        friend: "Amigo",
+        win: "🏆 ¡Ganaste!",
+        lose: "📚 Perdiste",
+        draw: "🤝 Empate",
+        playAgain: "Nuevo duelo",
+        backHome: "Volver al inicio",
+        errorNotFound: "Sala no encontrada. Comprueba el código.",
+        errorFull: "La sala ya está completa.",
+        errorExpired: "Esta sala ha expirado.",
+        copyCode: "Copiar código",
+        copied: "¡Copiado!",
+        needUsername: "Necesitas un nombre de usuario para jugar. Ve a tu Perfil.",
+        goProfile: "Ir al Perfil",
+      },
       filterTitle: "Elige las categorías a practicar",
       filterRandom: "Aleatorio (todas)",
       topicFilterTitle: "Filtrar por tema (lecciones recientes)",
@@ -2672,7 +2702,7 @@ const content = {
   en: {
     nav: { title: "Poker Cash Academy", back: "Home" },
     home: { welcome: "Poker Cash Academy", subtitle: "Master cash game. One concept at a time." },
-    menu: { academia: "Academy", academiaSubtitle: "Structured lessons step by step", stats: "Statistics", statsSubtitle: "Your progress, level and accuracy by category", survival: "Survival", survivalSubtitle: "One run per day. Compete for the monthly Top 10", profile: "Profile", profileSubtitle: "Your username and public info", glossary: "Glossary", glossarySubtitle: "70+ poker terms explained" },
+    menu: { academia: "Academy", academiaSubtitle: "Structured lessons step by step", stats: "Statistics", statsSubtitle: "Your progress, level and accuracy by category", survival: "Survival", survivalSubtitle: "One run per day. Compete for the monthly Top 10", duel: "Duel vs Friend", duelSubtitle: "Same questions, different results. Who wins?", profile: "Profile", profileSubtitle: "Your username and public info", glossary: "Glossary", glossarySubtitle: "70+ poker terms explained" },
     glossary: {
       title: "Glossary",
       subtitle: "The essential poker terms, explained simply.",
@@ -2710,6 +2740,36 @@ const content = {
       posLabel: "Position",
       handLabel: "Your hand",
       contextLabel: "Context",
+      duel: {
+        title: "Duel vs Friend",
+        subtitle: "Share the code with your friend and answer the same 10 questions. Highest score wins.",
+        createBtn: "Create room",
+        joinBtn: "Join with code",
+        codeLabel: "Room code",
+        codePlaceholder: "e.g. K7PX2M",
+        joinAction: "Join room",
+        waitingTitle: "Room created!",
+        waitingMsg: "Share this code with your friend:",
+        waitingSubMsg: "Waiting for your friend to join...",
+        playing: "The duel has started!",
+        opponentPlaying: "Your friend is playing...",
+        opponentDone: "Your friend has finished!",
+        resultsTitle: "Duel results",
+        you: "You",
+        friend: "Friend",
+        win: "🏆 You won!",
+        lose: "📚 You lost",
+        draw: "🤝 Draw",
+        playAgain: "New duel",
+        backHome: "Back to home",
+        errorNotFound: "Room not found. Check the code.",
+        errorFull: "This room is already full.",
+        errorExpired: "This room has expired.",
+        copyCode: "Copy code",
+        copied: "Copied!",
+        needUsername: "You need a username to play. Go to your Profile.",
+        goProfile: "Go to Profile",
+      },
       filterTitle: "Choose categories to practice",
       filterRandom: "Random (all)",
       topicFilterTitle: "Filter by topic (recent lessons)",
@@ -5886,6 +5946,387 @@ function AcademiaPage({ t, completed, onComplete, lang }) {
   );
 }
 
+// ─── DUEL (ROOM) PAGE ─────────────────────────────────────────────────────────
+
+// Seeded PRNG — mulberry32. Returns a function that yields [0,1) deterministically.
+function makePrng(seed) {
+  let s = seed >>> 0;
+  return () => {
+    s |= 0; s = s + 0x6d2b79f5 | 0;
+    let t = Math.imul(s ^ s >>> 15, 1 | s);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+// Seeded shuffle — Fisher-Yates with prng
+function seededShuffle(arr, prng) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(prng() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Build a 10-hand session from a numeric seed (same output for both players)
+function buildSeededSession(seed, communityHands, overrides) {
+  const CATEGORIES = buildCategoryPools(communityHands);
+  const prng = makePrng(seed);
+  const pick = (arr, n) => seededShuffle(arr, prng).slice(0, n);
+  let hands = [
+    ...pick(CATEGORIES.open,    2),
+    ...pick(CATEGORIES.iso,     2),
+    ...pick(CATEGORIES.cbet,    2),
+    ...pick(CATEGORIES.vbet,    2),
+    ...pick(CATEGORIES.call,    2),
+    ...pick(CATEGORIES.facing,  2),
+    ...pick(CATEGORIES["3bet"], 2),
+  ];
+  hands = seededShuffle(hands, prng).slice(0, 10);
+  return hands.map(h => applyOverride(h, overrides));
+}
+
+// Generate a room code: 6 uppercase alphanumeric chars (no O/0/I/1 to avoid confusion)
+function genRoomCode() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  return Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+}
+
+function RoomPage({ t, lang, user, overrides, communityHands, onNavigate }) {
+  const p = t.practice;
+  const d = t.duel;
+
+  // ── States ───────────────────────────────────────────────────────────────────
+  const [view, setView]         = useState("lobby");   // lobby | waiting | playing | done
+  const [codeInput, setCodeInput] = useState("");
+  const [roomCode, setRoomCode] = useState(null);
+  const [roomData, setRoomData] = useState(null);
+  const [isHost, setIsHost]     = useState(false);
+  const [error, setError]       = useState(null);
+  const [creating, setCreating] = useState(false);
+  const [joining, setJoining]   = useState(false);
+  const [copied, setCopied]     = useState(false);
+
+  // Session state (mirrors PracticePage)
+  const [session, setSession]   = useState(null);
+  const [idx, setIdx]           = useState(0);
+  const [picked, setPicked]     = useState(null);
+  const [score, setScore]       = useState(0);
+  const [byType, setByType]     = useState({});
+  const [currentOpts, setCurrentOpts] = useState([]);
+
+  // Guard: need username
+  if (!user?.displayName && !user?.email) return null;
+  const username = user?.displayName || user?.email?.split("@")[0] || "Player";
+
+  // ── Firestore listener ───────────────────────────────────────────────────────
+  useEffect(() => {
+    if (!roomCode) return;
+    const unsub = onSnapshot(doc(db, "rooms", roomCode), (snap) => {
+      if (!snap.exists()) { setError(d.errorNotFound); return; }
+      const data = snap.data();
+      setRoomData(data);
+
+      // Both players done → results
+      if (data.host?.score !== null && data.guest?.score !== null && data.guest !== null) {
+        setView("done");
+      }
+    });
+    return unsub;
+  }, [roomCode]);
+
+  // ── Create room ──────────────────────────────────────────────────────────────
+  const handleCreate = async () => {
+    setCreating(true); setError(null);
+    const code = genRoomCode();
+    const seed = Math.floor(Math.random() * 1e9);
+    const now  = new Date();
+    const exp  = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+    try {
+      await setDoc(doc(db, "rooms", code), {
+        seed,
+        status:    "waiting",
+        createdAt: serverTimestamp(),
+        expiresAt: exp.toISOString(),
+        host: { uid: user.uid, username, score: null, byType: null },
+        guest: null,
+      });
+      setRoomCode(code);
+      setIsHost(true);
+      setView("waiting");
+    } catch (e) {
+      setError(e.message);
+    }
+    setCreating(false);
+  };
+
+  // ── Join room ────────────────────────────────────────────────────────────────
+  const handleJoin = async () => {
+    const code = codeInput.trim().toUpperCase();
+    if (code.length !== 6) { setError(d.errorNotFound); return; }
+    setJoining(true); setError(null);
+    try {
+      const snap = await getDoc(doc(db, "rooms", code));
+      if (!snap.exists()) { setError(d.errorNotFound); setJoining(false); return; }
+      const data = snap.data();
+      if (data.guest !== null) { setError(d.errorFull); setJoining(false); return; }
+      if (data.expiresAt && new Date(data.expiresAt) < new Date()) { setError(d.errorExpired); setJoining(false); return; }
+      await updateDoc(doc(db, "rooms", code), {
+        guest: { uid: user.uid, username, score: null, byType: null },
+        status: "playing",
+      });
+      setRoomCode(code);
+      setIsHost(false);
+      // Start playing immediately
+      startRoomSession(data.seed);
+      setView("playing");
+    } catch (e) {
+      setError(e.message);
+    }
+    setJoining(false);
+  };
+
+  // ── Start playing (called for guest on join; for host when guest joins) ──────
+  const startRoomSession = (seed) => {
+    const hands = buildSeededSession(seed, communityHands, overrides);
+    setSession(hands);
+    setIdx(0); setPicked(null); setScore(0); setByType({});
+    setCurrentOpts(buildOptions(hands[0], p, lang));
+  };
+
+  // Watch for guest joining (host side) to start playing
+  useEffect(() => {
+    if (!isHost || !roomData || view !== "waiting") return;
+    if (roomData.guest !== null && roomData.status === "playing") {
+      startRoomSession(roomData.seed);
+      setView("playing");
+    }
+  }, [roomData, isHost, view]);
+
+  // ── Handle answer ─────────────────────────────────────────────────────────────
+  const handlePick = (opt) => {
+    if (picked !== null) return;
+    setPicked(opt);
+    const sit = session[idx];
+    const typ = sit.type || "open";
+    const newByType = { ...byType };
+    const e = newByType[typ] || { correct: 0, total: 0 };
+    newByType[typ] = { correct: e.correct + (opt.correct ? 1 : 0), total: e.total + 1 };
+    setByType(newByType);
+    if (opt.correct) setScore(s => s + 1);
+  };
+
+  const handleNext = async () => {
+    const nextIdx = idx + 1;
+    if (nextIdx < session.length) {
+      setIdx(nextIdx);
+      setPicked(null);
+      setCurrentOpts(buildOptions(session[nextIdx], p, lang));
+    } else {
+      // Session finished — write result to Firestore
+      const finalScore = score + (picked?.correct ? 0 : 0); // already counted
+      const field = isHost ? "host" : "guest";
+      const finalByType = byType;
+      await updateDoc(doc(db, "rooms", roomCode), {
+        [`${field}.score`]:  finalScore,
+        [`${field}.byType`]: finalByType,
+      });
+    }
+    setPicked(null);
+  };
+
+  // ── Copy code helper ──────────────────────────────────────────────────────────
+  const copyCode = () => {
+    navigator.clipboard?.writeText(roomCode).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // RENDER
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  const cardStyle = { maxWidth: 480, margin: "0 auto", padding: "40px 20px", textAlign: "center" };
+
+  // ── Lobby ────────────────────────────────────────────────────────────────────
+  if (view === "lobby") {
+    return (
+      <div style={cardStyle}>
+        <div style={{ fontSize: 44, marginBottom: 12 }}>⚔️</div>
+        <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", marginBottom: 8 }}>{d.title}</div>
+        <div style={{ fontSize: 14, color: "#8b8fa8", marginBottom: 36, lineHeight: 1.6 }}>{d.subtitle}</div>
+
+        {error && <div style={{ background: "#ef444422", border: "1px solid #ef4444", borderRadius: 10, padding: "10px 16px", color: "#ef4444", fontSize: 13, marginBottom: 20 }}>{error}</div>}
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <button
+            onClick={handleCreate}
+            disabled={creating}
+            style={{ background: "linear-gradient(135deg, #e8c96a, #c9a84c)", border: "none", borderRadius: 12, padding: "16px 24px", color: "#0a0c14", fontSize: 16, fontWeight: 800, cursor: "pointer" }}
+          >
+            {creating ? "..." : `✚ ${d.createBtn}`}
+          </button>
+
+          <div style={{ color: "#8b8fa8", fontSize: 13, margin: "4px 0" }}>─── {lang === "es" ? "o" : "or"} ───</div>
+
+          <div style={{ display: "flex", gap: 8 }}>
+            <input
+              value={codeInput}
+              onChange={e => setCodeInput(e.target.value.toUpperCase().slice(0, 6))}
+              placeholder={d.codePlaceholder}
+              style={{ flex: 1, background: "#111320", border: "1px solid #1e2235", borderRadius: 10, padding: "12px 14px", color: "#fff", fontSize: 16, fontWeight: 700, textAlign: "center", letterSpacing: 4, outline: "none" }}
+            />
+            <button
+              onClick={handleJoin}
+              disabled={joining || codeInput.length !== 6}
+              style={{ background: codeInput.length === 6 ? "#10b981" : "#1e2235", border: "none", borderRadius: 10, padding: "12px 20px", color: codeInput.length === 6 ? "#fff" : "#8b8fa8", fontSize: 14, fontWeight: 700, cursor: codeInput.length === 6 ? "pointer" : "default" }}
+            >
+              {joining ? "..." : d.joinAction}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Waiting (host created room, waiting for guest) ───────────────────────────
+  if (view === "waiting") {
+    return (
+      <div style={cardStyle}>
+        <div style={{ fontSize: 44, marginBottom: 12 }}>🎴</div>
+        <div style={{ fontSize: 20, fontWeight: 800, color: "#fff", marginBottom: 8 }}>{d.waitingTitle}</div>
+        <div style={{ fontSize: 13, color: "#8b8fa8", marginBottom: 28 }}>{d.waitingMsg}</div>
+
+        <div style={{ background: "#111320", border: "2px solid #c9a84c", borderRadius: 16, padding: "28px 24px", marginBottom: 24 }}>
+          <div style={{ fontSize: 42, fontWeight: 900, letterSpacing: 10, color: "#e8c96a", fontFamily: "monospace" }}>{roomCode}</div>
+          <button
+            onClick={copyCode}
+            style={{ marginTop: 16, background: "transparent", border: "1px solid #c9a84c44", borderRadius: 8, padding: "8px 20px", color: "#c9a84c", fontSize: 13, cursor: "pointer" }}
+          >
+            {copied ? d.copied : d.copyCode}
+          </button>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: "center", color: "#8b8fa8", fontSize: 14 }}>
+          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#c9a84c", animation: "pulse 1.5s infinite" }} />
+          {d.waitingSubMsg}
+        </div>
+      </div>
+    );
+  }
+
+  // ── Playing ───────────────────────────────────────────────────────────────────
+  if (view === "playing" && session) {
+    const sit = session[idx];
+    const isLast = idx === session.length - 1;
+    const opponentKey = isHost ? "guest" : "host";
+    const opponentDone = roomData?.[opponentKey]?.score !== null;
+
+    return (
+      <div style={{ maxWidth: 600, margin: "0 auto", padding: "16px" }}>
+        {/* Progress bar */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+          <div style={{ flex: 1, height: 4, background: "#1e2235", borderRadius: 4, overflow: "hidden" }}>
+            <div style={{ height: "100%", width: `${((idx + 1) / session.length) * 100}%`, background: "linear-gradient(90deg, #c9a84c, #e8c96a)", borderRadius: 4, transition: "width 0.3s" }} />
+          </div>
+          <div style={{ fontSize: 12, color: "#8b8fa8", whiteSpace: "nowrap" }}>{idx + 1}/{session.length}</div>
+          {opponentDone && (
+            <div style={{ fontSize: 11, color: "#10b981", background: "#10b98122", borderRadius: 6, padding: "2px 8px" }}>
+              {d.opponentDone}
+            </div>
+          )}
+        </div>
+
+        <SituationCard sit={sit} lang={lang} t={t} />
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 12 }}>
+          {currentOpts.map((opt, i) => {
+            const isCorrect = opt.correct;
+            const isPicked  = picked?.id === opt.id;
+            const revealed  = picked !== null;
+            let bg = "#111320", border = "1px solid #1e2235", color = "#c9d0e8";
+            if (revealed && isPicked  &&  isCorrect) { bg = "#10b98122"; border = "1px solid #10b981"; color = "#10b981"; }
+            if (revealed && isPicked  && !isCorrect) { bg = "#ef444422"; border = "1px solid #ef4444"; color = "#ef4444"; }
+            if (revealed && !isPicked &&  isCorrect) { bg = "#10b98111"; border = "1px solid #10b98188"; color = "#10b981"; }
+            return (
+              <button key={opt.id || i} onClick={() => handlePick(opt)} disabled={picked !== null}
+                style={{ background: bg, border, borderRadius: 12, padding: "14px 18px", color, fontSize: 14, fontWeight: 600, cursor: picked ? "default" : "pointer", textAlign: "left", transition: "all 0.15s" }}>
+                {opt.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {picked && (
+          <div style={{ marginTop: 14 }}>
+            <div style={{ background: "#0a0c14", border: "1px solid #1e2235", borderRadius: 12, padding: "14px 16px", fontSize: 13, color: "#b0b4cc", lineHeight: 1.6, marginBottom: 12 }}>
+              {picked.explanation}
+            </div>
+            <button
+              onClick={handleNext}
+              style={{ width: "100%", background: isLast ? "linear-gradient(135deg,#e8c96a,#c9a84c)" : "#1e2235", border: "none", borderRadius: 12, padding: "14px", color: isLast ? "#0a0c14" : "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer" }}
+            >
+              {isLast ? (lang === "es" ? "Ver resultados →" : "See results →") : (lang === "es" ? "Siguiente →" : "Next →")}
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // ── Results ───────────────────────────────────────────────────────────────────
+  if (view === "done" && roomData) {
+    const me       = isHost ? roomData.host   : roomData.guest;
+    const opponent = isHost ? roomData.guest  : roomData.host;
+    const myScore  = me?.score      ?? 0;
+    const opScore  = opponent?.score ?? 0;
+    const total    = 10;
+    const verdict  = myScore > opScore ? d.win : myScore < opScore ? d.lose : d.draw;
+    const verdictColor = myScore > opScore ? "#10b981" : myScore < opScore ? "#ef4444" : "#c9a84c";
+
+    const ScoreCol = ({ label, username: uname, score: s, highlight }) => (
+      <div style={{ flex: 1, background: highlight ? "#c9a84c11" : "#111320", border: `1px solid ${highlight ? "#c9a84c" : "#1e2235"}`, borderRadius: 14, padding: "20px 12px", textAlign: "center" }}>
+        <div style={{ fontSize: 11, color: "#8b8fa8", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>{label}</div>
+        <div style={{ fontSize: 13, color: "#c9d0e8", fontWeight: 700, marginBottom: 10 }}>{uname}</div>
+        <div style={{ fontSize: 40, fontWeight: 900, color: highlight ? "#e8c96a" : "#c9d0e8" }}>{s}</div>
+        <div style={{ fontSize: 12, color: "#8b8fa8" }}>/{total}</div>
+      </div>
+    );
+
+    return (
+      <div style={{ maxWidth: 480, margin: "0 auto", padding: "32px 16px", textAlign: "center" }}>
+        <div style={{ fontSize: 40, marginBottom: 10 }}>{myScore > opScore ? "🏆" : myScore < opScore ? "📚" : "🤝"}</div>
+        <div style={{ fontSize: 24, fontWeight: 800, color: verdictColor, marginBottom: 24 }}>{verdict}</div>
+
+        <div style={{ display: "flex", gap: 12, marginBottom: 28 }}>
+          <ScoreCol label={d.you}    username={me?.username || "?"} score={myScore} highlight={myScore >= opScore} />
+          <div style={{ display: "flex", alignItems: "center", color: "#8b8fa8", fontSize: 20, fontWeight: 700 }}>vs</div>
+          <ScoreCol label={d.friend} username={opponent?.username || "?"} score={opScore} highlight={opScore > myScore} />
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <button
+            onClick={() => { setView("lobby"); setRoomCode(null); setRoomData(null); setSession(null); setError(null); setCodeInput(""); }}
+            style={{ background: "linear-gradient(135deg,#e8c96a,#c9a84c)", border: "none", borderRadius: 12, padding: "14px", color: "#0a0c14", fontSize: 15, fontWeight: 800, cursor: "pointer" }}
+          >
+            ⚔️ {d.playAgain}
+          </button>
+          <button
+            onClick={() => onNavigate("home")}
+            style={{ background: "transparent", border: "1px solid #1e2235", borderRadius: 12, padding: "12px", color: "#8b8fa8", fontSize: 14, cursor: "pointer" }}
+          >
+            {d.backHome}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return <div style={{ padding: 40, textAlign: "center", color: "#8b8fa8" }}>...</div>;
+}
+
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
 
 function HomePage({ t, onNavigate, onPropose }) {
@@ -5957,6 +6398,20 @@ function HomePage({ t, onNavigate, onPropose }) {
             <div style={{ fontSize: 12, color: "#8b8fa8", marginTop: 2 }}>{t.menu.survivalSubtitle}</div>
           </div>
           <span style={{ marginLeft: "auto", color: "#ef4444", fontSize: 20 }}>→</span>
+        </button>
+
+        <button
+          onClick={() => onNavigate("duel")}
+          style={{ display: "flex", alignItems: "center", gap: 16, background: "linear-gradient(135deg, #111320 0%, #0d0f1a 100%)", border: "1px solid #f97316" + "44", borderRadius: 16, padding: "20px 24px", color: "#f0f0f5", cursor: "pointer", fontSize: 16, fontWeight: 700, width: "100%", transition: "border-color 0.2s, box-shadow 0.2s", boxShadow: "0 4px 24px #00000066" }}
+          onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#f97316"; e.currentTarget.style.boxShadow = "0 4px 32px #f9731622"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#f9731644"; e.currentTarget.style.boxShadow = "0 4px 24px #00000066"; }}
+        >
+          <div style={{ width: 44, height: 44, borderRadius: 12, background: "linear-gradient(135deg, #f9731622, #f9731611)", border: "1px solid #f9731644", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>⚔️</div>
+          <div style={{ textAlign: "left" }}>
+            <div style={{ fontSize: 16, fontWeight: 700, color: "#f0f0f5" }}>{t.menu.duel}</div>
+            <div style={{ fontSize: 12, color: "#8b8fa8", marginTop: 2 }}>{t.menu.duelSubtitle}</div>
+          </div>
+          <span style={{ marginLeft: "auto", color: "#f97316", fontSize: 20 }}>→</span>
         </button>
 
         <button
@@ -9950,6 +10405,7 @@ export default function App() {
       {page === "practice" && <PracticePage t={t} lang={lang} onSessionComplete={handleSessionComplete} user={user} overrides={overrides} communityHands={communityHands} />}
       {page === "survival" && <SurvivalPage t={t} lang={lang} user={user} overrides={overrides} communityHands={communityHands} xpData={xpData} onSurvivalComplete={handleSurvivalComplete} onNavigate={setPage} />}
       {page === "profile" && <ProfilePage t={t} lang={lang} user={user} xpData={xpData} onProfileSaved={(data) => setXpData(prev => ({ ...prev, ...data }))} />}
+      {page === "duel" && user && <RoomPage t={t} lang={lang} user={user} overrides={overrides} communityHands={communityHands} onNavigate={setPage} />}
       {page === "community" && user && <CommunityPage t={t} lang={lang} user={user} />}
       {page === "admin" && ADMIN_EMAILS.includes(user?.email) && <AdminReportsPage lang={lang} />}
 
